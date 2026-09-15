@@ -58,16 +58,17 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Mobile Search and Marquee Row -->
-      <div class="search-box-container mobile-search-row d-xl-none">
-        <div class="search-box">
-          <input type="search" placeholder="Search here" class="form-control" value="">
-          <a href="javascript:void(0)"><i class="fas fa-search-plus"></i></a>
-        </div>
-        <div class="news">
-          <marquee scrollamount="3">Newly Launched Matka Market In Our Exchange</marquee>
+        <!-- Mobile Search and Marquee Row inside header-top -->
+        <div class="search-box-container d-xl-none">
+          <div class="search-box">
+            <input type="search" placeholder="Search here" class="form-control" id="mobileSearchInput" value="">
+            <a id="mobileSearchBtn" href="javascript:void(0)"><i class="fas fa-search-plus"></i></a>
+          </div>
+          <div class="news">
+            <marquee scrollamount="3">Newly Launched Matka Market In Our Exchange</marquee>
+          </div>
+          <div class="depowith"></div>
         </div>
       </div>
 
@@ -97,30 +98,46 @@
           </ul>
         </nav>
       </div>
-
-      <!-- Mobile Category Nav Bar -->
-      <div class="mobile-category-bar d-xl-none">
-        <ul class="mobile-cat-nav">
-          <li class="active">
-            <a href="javascript:void(0)">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 457.6 277.4" style="height: 12px; fill: #e40539; vertical-align: middle; margin-right: 4px;">
-                <path d="M61.85,273.4c-1.8-3.5-2.3-3.9-4-3-3.2,1.7-5.5,1.1-9-2.5l-3.3-3.4,4.4-1.9c2.4-1.1,8-2.2,12.4-2.6,27.1-2.5,84.1-19.2,161-47.1,32.1-11.7,80.4-30.1,81.3-31,1.2-1.2-1-1.5-11.9-1.7-10.6-.2-11.7,0-16.5,2.4-13.1,6.8-74.6,31.2-92.8,36.7l-6.9,2.1-6.4-5-6.5-4.9-3.6,1.5c-21.3,9-88,36.4-89.2,36.6-1,.2-1.6-.6-1.8-2.3-.3-2.4.5-3,7.8-6.9,4.5-2.3,7.9-4.5,7.5-4.8-.3-.4-4.3-.9-8.9-1.3-9.7-.8-17.3-4-28.2-11.9-4.8-3.5-7.8-5-10-5-4.3,0-6.4.9-6.4,2.7,0,.8,6.8,8.7,15.1,17.6,13,13.7,14.9,16.2,13.3,16.8-3.7,1.5-4.8.8-16.3-10.3-6.4-6.2-14.6-14.2-18.3-17.7l-6.7-6.5-8.8,4.2-8.8,4.2-.3-3.4c-.2-2,.2-4.4.8-5.5s6.5-4.8,13.1-8.2c11.8-6,14.2-8,12.2-10-.7-.7-4.1.5-10.2,3.5l-9.1,4.6v-2.5c0-2,1.4-3.3,7.7-7"/>
-              </svg>
-              CRASH
-            </a>
-          </li>
-          <li><a href="javascript:void(0)">LOTTERY</a></li>
-          <li><a href="javascript:void(0)">SPORTS</a></li>
-          <li><a href="javascript:void(0)">OUR CASINO</a></li>
-          <li><a href="javascript:void(0)">LIVE CASINO</a></li>
-          <li><a href="javascript:void(0)">SLOTS</a></li>
-          <li><a href="javascript:void(0)">FANTASY</a></li>
-        </ul>
-      </div>
     </section>
 
-    <!-- Main Container -->
+    <!-- Main Content Container -->
     <div class="main-container">
+      <!-- Mobile Event Ticker (Placed right below header on mobile) -->
+      <div class="latest-event d-xl-none">
+        <div class="latest-event-item">
+          <a href="javascript:void(0)"><i class="fas fa-baseball-bat-ball"></i><span>England v Sri Lanka</span></a>
+        </div>
+        <div class="latest-event-item">
+          <a href="javascript:void(0)"><i class="fas fa-futbol"></i><span>Alaves v Valencia</span></a>
+        </div>
+        <div class="latest-event-item">
+          <a href="javascript:void(0)"><i class="fas fa-baseball-bat-ball"></i><span>Afghanistan v India</span></a>
+        </div>
+        <div class="latest-event-item">
+          <a href="javascript:void(0)"><i class="fas fa-baseball-bat-ball"></i><span>J Riera v El Avanesyan</span></a>
+        </div>
+        <div class="latest-event-item">
+          <a href="javascript:void(0)"><i class="fas fa-futbol"></i><span>Rayo Vallecano v Espanyol</span></a>
+        </div>
+      </div>
+
+      <!-- Mobile Category Menu Tabs (CRASH, LOTTERY, SPORTS, OUR CASINO, LIVE CASINO, SLOTS, FANTASY) -->
+      <ul class="nav nav-tabs d-xl-none menu-tabs">
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 457.6 277.4" style="height: 12px; fill: #e40539; vertical-align: middle; margin-right: 4px;">
+              <path d="M61.85,273.4c-1.8-3.5-2.3-3.9-4-3-3.2,1.7-5.5,1.1-9-2.5l-3.3-3.4,4.4-1.9c2.4-1.1,8-2.2,12.4-2.6,27.1-2.5,84.1-19.2,161-47.1,32.1-11.7,80.4-30.1,81.3-31,1.2-1.2-1-1.5-11.9-1.7-10.6-.2-11.7,0-16.5,2.4-13.1,6.8-74.6,31.2-92.8,36.7l-6.9,2.1-6.4-5-6.5-4.9-3.6,1.5c-21.3,9-88,36.4-89.2,36.6-1,.2-1.6-.6-1.8-2.3-.3-2.4.5-3,7.8-6.9,4.5-2.3,7.9-4.5,7.5-4.8-.3-.4-4.3-.9-8.9-1.3-9.7-.8-17.3-4-28.2-11.9-4.8-3.5-7.8-5-10-5-4.3,0-6.4.9-6.4,2.7,0,.8,6.8,8.7,15.1,17.6,13,13.7,14.9,16.2,13.3,16.8-3.7,1.5-4.8.8-16.3-10.3-6.4-6.2-14.6-14.2-18.3-17.7l-6.7-6.5-8.8,4.2-8.8,4.2-.3-3.4c-.2-2,.2-4.4.8-5.5s6.5-4.8,13.1-8.2c11.8-6,14.2-8,12.2-10-.7-.7-4.1.5-10.2,3.5l-9.1,4.6v-2.5c0-2,1.4-3.3,7.7-7"/>
+            </svg>
+            <span class="ms-1">Crash</span>
+          </a>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Lottery</a></li>
+        <li class="nav-item"><a class="nav-link active" href="javascript:void(0)">Sports</a></li>
+        <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Our Casino</a></li>
+        <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Live Casino</a></li>
+        <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Slots</a></li>
+        <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Fantasy</a></li>
+      </ul>
       <!-- Left Sidebar (155px width on desktop, drawer on mobile) -->
       <div class="sidebar left-sidebar" id="mainSidebar">
         <div class="close-sidebar d-xl-none">
@@ -188,9 +205,10 @@
       </div>
 
       <!-- Center Container -->
-      <div class="center-main-container">
-        <!-- 5 Cards Event Ticker -->
-        <div class="latest-event">
+      <div class="center-main-container home-page">
+        <div class="center-container">
+        <!-- 5 Cards Event Ticker (Desktop only, mobile has it above) -->
+        <div class="latest-event d-none d-xl-flex">
           <div class="latest-event-item">
             <a href="javascript:void(0)"><i class="fas fa-baseball-ball"></i><span>Afghanistan v India</span></a>
           </div>
@@ -209,19 +227,19 @@
         </div>
 
         <!-- Sports Sub Tabs -->
-        <ul class="sports-tab">
-          <li class="nav-item"><a class="nav-link active" href="javascript:void(0)">Cricket</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Football</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Tennis</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Table Tennis</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Horse Racing</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Greyhound Racing</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Basketball</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Wrestling</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Volleyball</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Badminton</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Snooker</a></li>
-          <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Boxing</a></li>
+        <ul class="nav nav-pills sports-tab">
+          <li class="nav-item"><a class="nav-link active" href="javascript:void(0)"><div class="d-xl-none"><i class="fas fa-baseball-bat-ball"></i></div><span>Cricket</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="javascript:void(0)"><div class="d-xl-none"><i class="fas fa-futbol"></i></div><span>Football</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="javascript:void(0)"><div class="d-xl-none"><i class="fas fa-baseball-ball"></i></div><span>Tennis</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="javascript:void(0)"><div class="d-xl-none"><i class="fas fa-table-tennis-paddle-ball"></i></div><span>Table Tennis</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="javascript:void(0)"><div class="d-xl-none"><i class="fas fa-horse"></i></div><span>Horse Racing</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="javascript:void(0)"><div class="d-xl-none"><i class="fas fa-dog"></i></div><span>Greyhound Racing</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="javascript:void(0)"><div class="d-xl-none"><i class="fas fa-basketball"></i></div><span>Basketball</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="javascript:void(0)"><div class="d-xl-none"><i class="fas fa-hand-rock"></i></div><span>Wrestling</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="javascript:void(0)"><div class="d-xl-none"><i class="fas fa-volleyball"></i></div><span>Volleyball</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="javascript:void(0)"><div class="d-xl-none"><i class="fas fa-feather"></i></div><span>Badminton</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="javascript:void(0)"><div class="d-xl-none"><i class="fas fa-bullseye"></i></div><span>Snooker</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="javascript:void(0)"><div class="d-xl-none"><i class="fas fa-hand-fist"></i></div><span>Boxing</span></a></li>
         </ul>
 
         <!-- Bet Table -->
@@ -237,7 +255,7 @@
             <!-- Row 1: Super Over2 -->
             <div class="bet-table-row">
               <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">Super Over2</a>
+                <a class="bet-nation-game-name" href="javascript:void(0)"><span>Super Over2</span></a>
                 <div class="game-icons">
                   <span class="game-icon-dot"></span>
                   <i class="fas fa-tv game-icon-tv"></i>
@@ -252,254 +270,426 @@
 
             <!-- Row 2: Sunrisers Hyderabad (e) - Delhi Capitals (e) -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">Sunrisers Hyderabad (e) - Delhi Capitals (e) / 15/09/2026 09:54:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>Sunrisers Hyderabad (e) - Delhi Capitals (e)</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>15/09/2026 09:54:00</span>
+    </a>
                 <div class="game-icons">
                   <span class="game-icon-dot"></span>
                   <i class="fas fa-tv game-icon-tv"></i>
                   <span class="game-icon-e">e</span>
                 </div>
-              </div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-              <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-            </div>
+</div>
 
             <!-- Row 3: Kolkata Knight Riders (e) - Sunrisers Hyderabad (e) -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">Kolkata Knight Riders (e) - Sunrisers Hyderabad (e) / 15/09/2026 09:54:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>Kolkata Knight Riders (e) - Sunrisers Hyderabad (e)</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>15/09/2026 09:54:00</span>
+    </a>
                 <div class="game-icons">
                   <span class="game-icon-dot"></span>
                   <i class="fas fa-tv game-icon-tv"></i>
                   <span class="game-icon-e">e</span>
                 </div>
-              </div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-              <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-            </div>
+</div>
 
             <!-- Row 4: Kolkata Knight Riders (e) - Chennai Super Kings (e) -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">Kolkata Knight Riders (e) - Chennai Super Kings (e) / 15/09/2026 09:57:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>Kolkata Knight Riders (e) - Chennai Super Kings (e)</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>15/09/2026 09:57:00</span>
+    </a>
                 <div class="game-icons">
                   <span class="game-icon-dot"></span>
                   <i class="fas fa-tv game-icon-tv"></i>
                   <span class="game-icon-e">e</span>
                 </div>
-              </div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-              <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-            </div>
+</div>
 
             <!-- Row 5: Surrey v Glamorgan -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">Surrey v Glamorgan / 15/09/2026 02:30:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>Surrey v Glamorgan</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>15/09/2026 02:30:00</span>
+    </a>
                 <div class="game-icons">
                   <span class="game-icon-dot"></span>
                   <i class="fas fa-tv game-icon-tv"></i>
                   <img src="assets/images/ic_fancy.png" class="game-icon-img" alt="f">
                 </div>
-              </div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-              <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-            </div>
+</div>
 
             <!-- Row 6: Leicestershire v Hampshire -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">Leicestershire v Hampshire / 15/09/2026 02:30:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>Leicestershire v Hampshire</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>15/09/2026 02:30:00</span>
+    </a>
                 <div class="game-icons">
                   <span class="game-icon-dot"></span>
                   <i class="fas fa-tv game-icon-tv"></i>
                   <img src="assets/images/ic_fancy.png" class="game-icon-img" alt="f">
                 </div>
-              </div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-              <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-            </div>
+</div>
 
             <!-- Row 7: Edinburgh Castle Rockers v Rotterdam Dockers -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">Edinburgh Castle Rockers v Rotterdam Dockers / 15/09/2026 06:15:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>Edinburgh Castle Rockers v Rotterdam Dockers</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>15/09/2026 06:15:00</span>
+    </a>
                 <div class="game-icons">
                   <span class="game-icon-dot"></span>
                   <i class="fas fa-tv game-icon-tv"></i>
                   <img src="assets/images/ic_fancy.png" class="game-icon-img" alt="f">
                   <img src="assets/images/ic_bm.png" class="game-icon-img" alt="BM">
                 </div>
-              </div>
-              <div class="bet-nation-odd"><div class="odd-box back">1000</div><div class="odd-box lay">-</div></div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">1000</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">1.01</div></div>
-            </div>
+</div>
 
             <!-- Row 8: SNP XI v JT XI -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">SNP XI v JT XI / 15/09/2026 08:50:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>SNP XI v JT XI</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>15/09/2026 08:50:00</span>
+    </a>
                 <div class="game-icons">
                   <span class="game-icon-dot"></span>
                   <img src="assets/images/ic_fancy.png" class="game-icon-img" alt="f">
                   <img src="assets/images/ic_bm.png" class="game-icon-img" alt="BM">
                   <i class="fas fa-ellipsis-v ms-1" style="font-size: 10px; color: #dc3545;"></i>
                 </div>
-              </div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-              <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-            </div>
+</div>
 
             <!-- Row 9: Royal Challengers T10 v Delhi Capitals T10 -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">Royal Challengers T10 v Delhi Capitals T10 / 15/09/2026 09:30:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>Royal Challengers T10 v Delhi Capitals T10</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>15/09/2026 09:30:00</span>
+    </a>
                 <div class="game-icons">
                   <span class="game-icon-dot"></span>
                   <i class="fas fa-tv game-icon-tv"></i>
                   <img src="assets/images/ic_fancy.png" class="game-icon-img" alt="f">
                   <i class="fas fa-gamepad" style="font-size: 10px;"></i>
                 </div>
-              </div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-              <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-            </div>
+</div>
 
             <!-- Row 10: Caribbean Premier League -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">Caribbean Premier League / 04/08/2020 18:00:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>Caribbean Premier League</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>04/08/2020 18:00:00</span>
+    </a>
                 <div class="game-icons">
                   <img src="assets/images/ic_bm.png" class="game-icon-img" alt="BM">
                 </div>
-              </div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-              <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-            </div>
+</div>
 
             <!-- Row 11: Punjab Kings (e) - Gujarat Titans (e) -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">Punjab Kings (e) - Gujarat Titans (e) / 15/09/2026 10:00:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>Punjab Kings (e) - Gujarat Titans (e)</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>15/09/2026 10:00:00</span>
+    </a>
                 <div class="game-icons">
                   <i class="fas fa-tv game-icon-tv"></i>
                   <span class="game-icon-e">e</span>
                 </div>
-              </div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-              <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-            </div>
+</div>
 
             <!-- Row 12: Punjab Kings (e) - Rajasthan Royals (e) -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">Punjab Kings (e) - Rajasthan Royals (e) / 15/09/2026 10:00:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>Punjab Kings (e) - Rajasthan Royals (e)</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>15/09/2026 10:00:00</span>
+    </a>
                 <div class="game-icons">
                   <i class="fas fa-tv game-icon-tv"></i>
                   <span class="game-icon-e">e</span>
                 </div>
-              </div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-              <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-            </div>
+</div>
 
             <!-- Row 13: Sydney Sixers XI v Adelaide Strikers XI -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">Sydney Sixers XI v Adelaide Strikers XI / 15/09/2026 10:15:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>Sydney Sixers XI v Adelaide Strikers XI</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>15/09/2026 10:15:00</span>
+    </a>
                 <div class="game-icons">
                   <img src="assets/images/ic_fancy.png" class="game-icon-img" alt="f">
                   <i class="fas fa-ellipsis-v ms-1" style="font-size: 10px; color: #dc3545;"></i>
                 </div>
-              </div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-              <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-            </div>
+</div>
 
             <!-- Row 14: England v Sri Lanka -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">England v Sri Lanka / 15/09/2026 10:30:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>England v Sri Lanka</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>15/09/2026 10:30:00</span>
+    </a>
                 <div class="game-icons">
                   <img src="assets/images/ic_fancy.png" class="game-icon-img" alt="f">
                   <img src="assets/images/ic_bm.png" class="game-icon-img" alt="BM">
                 </div>
-              </div>
-              <div class="bet-nation-odd"><div class="odd-box back">1.22</div><div class="odd-box lay">1.23</div></div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">1.22</div><div class="odd-box lay">1.23</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">5.4</div><div class="odd-box lay">5.5</div></div>
-            </div>
+</div>
 
             <!-- Row 15: India T10 v New Zealand T10 -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">India T10 v New Zealand T10 / 15/09/2026 10:45:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>India T10 v New Zealand T10</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>15/09/2026 10:45:00</span>
+    </a>
                 <div class="game-icons">
                   <img src="assets/images/ic_fancy.png" class="game-icon-img" alt="f">
                   <i class="fas fa-gamepad" style="font-size: 10px;"></i>
                 </div>
-              </div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-              <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-            </div>
+</div>
 
             <!-- Row 16: England U19 v Pakistan U19 -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">England U19 v Pakistan U19 / 16/09/2026 02:30:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>England U19 v Pakistan U19</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>16/09/2026 02:30:00</span>
+    </a>
                 <div class="game-icons">
                   <img src="assets/images/ic_fancy.png" class="game-icon-img" alt="f">
                 </div>
-              </div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-              <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-            </div>
+</div>
 
             <!-- Row 17: Hampshire W v Surrey W -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">Hampshire W v Surrey W / 16/09/2026 04:30:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>Hampshire W v Surrey W</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>16/09/2026 04:30:00</span>
+    </a>
                 <div class="game-icons">
                   <img src="assets/images/ic_fancy.png" class="game-icon-img" alt="f">
                 </div>
-              </div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-              <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
-            </div>
+</div>
 
             <!-- Row 18: Glasgow Cosmic v Amsterdam Flames -->
             <div class="bet-table-row">
-              <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)">Glasgow Cosmic v Amsterdam Flames / 16/09/2026 06:15:00</a>
+  <div class="bet-nation-name">
+    <a class="bet-nation-game-name" href="javascript:void(0)">
+      <span>Glasgow Cosmic v Amsterdam Flames</span>
+      <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
+      <span>16/09/2026 06:15:00</span>
+    </a>
                 <div class="game-icons">
                   <img src="assets/images/ic_fancy.png" class="game-icon-img" alt="f">
                 </div>
-              </div>
-              <div class="bet-nation-odd"><div class="odd-box back">2.38</div><div class="odd-box lay">2.48</div></div>
+                </div>
+  <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+  <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+  <div class="bet-nation-odd"><div class="odd-box back">2.38</div><div class="odd-box lay">2.48</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">-</div><div class="odd-box lay">-</div></div>
               <div class="bet-nation-odd"><div class="odd-box back">1.68</div><div class="odd-box lay">1.73</div></div>
-            </div>
+</div>
 
           </div>
-        </div>
+                </div>
 
+        <!-- Casino Grid -->
+        <div class="casino-list mt-2">
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/goal2.jpg');"></div><div class="casino-list-name">Goal 2</div></a></div>
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/worli3.gif');"></div><div class="casino-list-name">Matka</div></a></div>
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/teen62.gif');"></div><div class="casino-list-name">V VIP Teenpatti 1-day</div></a></div>
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/dolidana.gif');"></div><div class="casino-list-name">Dolidana</div></a></div>
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/mogambo.gif');"></div><div class="casino-list-name">Mogambo</div></a></div>
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/teen20v1.jpg');"></div><div class="casino-list-name">20-20 Teenpatti VIP1</div></a></div>
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/lucky5.jpg');"></div><div class="casino-list-name">Lucky 6</div></a></div>
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/roulette12.jpg');"></div><div class="casino-list-name">Beach Roulette</div></a></div>
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/roulette13.jpg');"></div><div class="casino-list-name">Roulette</div></a></div>
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/roulette11.jpg');"></div><div class="casino-list-name">VIP Roulette</div></a></div>
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/poison.jpg');"></div><div class="casino-list-name">Teenpatti Poison One Day</div></a></div>
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/teenunique.jpg');"></div><div class="casino-list-name">Unique Teenpatti</div></a></div>
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/poison20.jpg');"></div><div class="casino-list-name">Teenpatti Poison 20-20</div></a></div>
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/joker120.jpg');"></div><div class="casino-list-name">Unlimited Joker 20-20</div></a></div>
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/joker20.jpg');"></div><div class="casino-list-name">Teenpatti Joker 20-20</div></a></div>
+          <div class="casino-list-item"><a href="javascript:void(0)"><div class="casino-list-item-banner" style="background-image: url('https://dataobj.ecoassetsservice.com/casino-icons/lc/btable2.jpg');"></div><div class="casino-list-name">Bollywood Casino 2</div></a></div>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- Footer -->
+  <section class="footer">
+    <div class="footer-top">
+      <div class="footer-links">
+        <nav class="navbar navbar-expand-sm">
+          <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="javascript:void(0)"> Terms and Conditions </a></li>
+            <li class="nav-item"><a class="nav-link" href="javascript:void(0)"> Responsible Gaming </a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="support-detail">
+        <h2>24X7 Support</h2>
+        <p></p>
+      </div>
+      <div class="social-icons-box"></div>
+    </div>
+  </section>
+  <div class="footer-bottom">
+    <div class="secure-logo">
+      <div><img src="https://wver.sprintstaticdata.com/v3/static/front/img/ssl.png" alt="SSL"></div>
+      <div class="ml-2"><b>100% SAFE</b><div>Protected connection and encrypted data.</div></div>
+    </div>
+    <div class="d-inline-block">
+      <button class="btn p-0" type="button"><img src="https://versionobj.ecoassetsservice.com/v106/static/front/img/18plus.png" alt="18+"></button>
+      <a href="https://www.gamcare.org.uk/" target="_blank"><img src="https://versionobj.ecoassetsservice.com/v106/static/front/img/gamecare.png" alt="GamCare"></a>
+      <a href="https://www.gamblingtherapy.org/" target="_blank"><img src="https://versionobj.ecoassetsservice.com/v106/static/front/img/gt.png" alt="Gambling Therapy"></a>
+    </div>
+  </div>
+  <div class="footer-text">
+    <p></p>
+    <p class="text-center">© Copyright 2026. All Rights Reserved. Powered by BESTBET9.</p>
   </div>
 
   <!-- Mobile Sidebar Backdrop Overlay -->

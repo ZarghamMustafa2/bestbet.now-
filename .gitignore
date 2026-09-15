@@ -1,0 +1,14 @@
+node_modules/
+package-lock.json
+assets/images/casino/
+assets/images/footer/
+/*.png
+run_*.js
+inspect_*.js
+capture_*.js
+test_*.js
+debug_*.js
+click_demo.js
+scratch_*.json
+scratch/
+.system_generated/
