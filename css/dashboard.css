@@ -327,6 +327,59 @@ body {
   white-space: nowrap;
 }
 
+/* ==========================================================================
+   ANIMATIONS & BLINKING EFFECTS (STRICT REFERENCE REPRODUCTION)
+   ========================================================================== */
+.blink_me {
+  -webkit-animation: blinker 1s linear infinite;
+  -moz-animation: blinker 1s linear infinite;
+  -ms-animation: blinker 1s linear infinite;
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Aviator / Crash Blinking SVG Icon */
+.header-bottom .navbar-expand .navbar-nav .nav-link svg .cls-1,
+.main-container .nav-tabs .nav-item .nav-link svg .cls-1,
+.menu-tabs .nav-link svg .cls-1,
+.aviator .nav-link svg .cls-1 {
+  -webkit-animation: blinkmenu normal 1s infinite ease-in-out;
+  -moz-animation: blinkmenu normal 1s infinite ease-in-out;
+  -ms-animation: blinkmenu normal 1s infinite ease-in-out;
+  animation: blinkmenu normal 1s infinite ease-in-out;
+}
+
+@keyframes blinkmenu {
+  0% {
+    fill: #e40539;
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+
+@-webkit-keyframes blinkmenu {
+  0% {
+    fill: #e40539;
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+
 /* SPORTS SUB TABS */
 .sports-tab {
   display: flex;
