@@ -1,0 +1,61 @@
+{
+  "headerHtml": "<section class=\"header\"><div class=\"header-top\"><div class=\"logo-header\"><a class=\"d-xl-none\" href=\"/home\"><i class=\"fas fa-bars me-2\"></i></a><a href=\"/home\"><img src=\"https://sitethemedata.com/sitethemes/bestbet9.live/front/logo.png\"></a></div><div class=\"user-details\"><div class=\"search-box-container d-none d-xl-block\"><div class=\"search-box\"><input type=\"search\" placeholder=\"Search here\" class=\"form-control\" value=\"\"><a><i class=\"fas fa-search-plus\"></i></a></div></div><div class=\"header-rules ms-3 \"><div><a class=\"rules-link pointer\"><b>Rules</b></a></div></div><div class=\"user-balance ms-1 ms-xl-3\"><div><span>Balance:</span><b>1500</b></div><div><span>Exp:</span><b class=\"pointer\">0</b><div class=\"dropdown\"><a class=\"user-name ms-1 ms-xl-3 d-inline-block d-xl-none dropdown-toggle\" id=\"react-aria5997875581-:r0:\" aria-expanded=\"false\">Demo<i class=\"fas fa-chevron-down ms-1\"></i></a></div></div></div><div class=\"dropdown\"><a class=\"user-name ms-3 d-none d-xl-block dropdown-toggle\" i",
+  "bodyClasses": "",
+  "mainClasses": [
+    {
+      "tag": "DIV",
+      "class": "",
+      "id": "root"
+    },
+    {
+      "tag": "SCRIPT",
+      "class": "",
+      "id": ""
+    },
+    {
+      "tag": "SCRIPT",
+      "class": "",
+      "id": ""
+    },
+    {
+      "tag": "SCRIPT",
+      "class": "",
+      "id": ""
+    },
+    {
+      "tag": "SCRIPT",
+      "class": "",
+      "id": ""
+    },
+    {
+      "tag": "SCRIPT",
+      "class": "",
+      "id": ""
+    },
+    {
+      "tag": "SCRIPT",
+      "class": "",
+      "id": ""
+    },
+    {
+      "tag": "SCRIPT",
+      "class": "",
+      "id": ""
+    },
+    {
+      "tag": "SCRIPT",
+      "class": "",
+      "id": ""
+    },
+    {
+      "tag": "SCRIPT",
+      "class": "",
+      "id": ""
+    },
+    {
+      "tag": "IFRAME",
+      "class": "",
+      "id": ""
+    }
+  ]
+}

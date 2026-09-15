@@ -1,0 +1,7013 @@
+[
+  {
+    "tag": "BODY",
+    "id": "",
+    "className": "",
+    "text": "          ",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "width": 1009,
+      "height": 3276.7
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Balance:",
+    "rect": {
+      "x": 898.5,
+      "y": 7,
+      "width": 54.1,
+      "height": 19
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "lineHeight": "normal",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1500",
+    "rect": {
+      "x": 952.7,
+      "y": 7,
+      "width": 32.3,
+      "height": 19
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "normal",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Exp:",
+    "rect": {
+      "x": 892.9,
+      "y": 35,
+      "width": 26.6,
+      "height": 19
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "lineHeight": "normal",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "pointer",
+    "text": "0",
+    "rect": {
+      "x": 919.5,
+      "y": 35,
+      "width": 8.1,
+      "height": 19
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "normal",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "A",
+    "id": "react-aria5997875581-:r0:",
+    "className": "user-name ms-1 ms-xl-3 d-inline-block d-xl-none dropdown-toggle",
+    "text": "Demo",
+    "rect": {
+      "x": 936.6,
+      "y": 37,
+      "width": 48.4,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "normal",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "MARQUEE",
+    "id": "",
+    "className": "",
+    "text": "Newly Launched Matka Market In Our Exchange",
+    "rect": {
+      "x": 35,
+      "y": 64,
+      "width": 946,
+      "height": 18
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "England v Sri Lanka",
+    "rect": {
+      "x": 39.5,
+      "y": 94,
+      "width": 442,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Alaves v Valencia",
+    "rect": {
+      "x": 535.5,
+      "y": 94,
+      "width": 442,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Elche v Real Madrid",
+    "rect": {
+      "x": 1031.5,
+      "y": 94,
+      "width": 442,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Bristol City v Lincoln",
+    "rect": {
+      "x": 1527.5,
+      "y": 94,
+      "width": 442,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Bucsa v P Udvardy",
+    "rect": {
+      "x": 2023.5,
+      "y": 94,
+      "width": 442,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "style",
+    "id": "",
+    "className": "",
+    "text": ".cls-1 { fill: #e40539; }",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "ms-1",
+    "text": "Crash",
+    "rect": {
+      "x": 80.6,
+      "y": 159,
+      "width": 46,
+      "height": 24
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "id": "",
+    "className": "nav-link",
+    "text": "Lottery",
+    "rect": {
+      "x": 130.6,
+      "y": 149,
+      "width": 139.3,
+      "height": 44
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "id": "",
+    "className": "nav-link active",
+    "text": "Sports",
+    "rect": {
+      "x": 269.8,
+      "y": 149,
+      "width": 133.6,
+      "height": 44
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "id": "",
+    "className": "nav-link",
+    "text": "Our Casino",
+    "rect": {
+      "x": 403.5,
+      "y": 149,
+      "width": 163,
+      "height": 44
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "id": "",
+    "className": "nav-link",
+    "text": "Live Casino",
+    "rect": {
+      "x": 566.5,
+      "y": 149,
+      "width": 164.5,
+      "height": 44
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "id": "",
+    "className": "nav-link",
+    "text": "Slots",
+    "rect": {
+      "x": 730.9,
+      "y": 149,
+      "width": 122.6,
+      "height": 44
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "id": "",
+    "className": "nav-link",
+    "text": "Fantasy",
+    "rect": {
+      "x": 853.5,
+      "y": 149,
+      "width": 140.5,
+      "height": 44
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Cricket",
+    "rect": {
+      "x": 16,
+      "y": 229,
+      "width": 42.7,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Football",
+    "rect": {
+      "x": 91.7,
+      "y": 229,
+      "width": 51.6,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Tennis",
+    "rect": {
+      "x": 176.3,
+      "y": 229,
+      "width": 36.8,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Table Tennis",
+    "rect": {
+      "x": 246.1,
+      "y": 229,
+      "width": 70.6,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Horse Racing",
+    "rect": {
+      "x": 349.7,
+      "y": 229,
+      "width": 74.5,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Greyhound Racing",
+    "rect": {
+      "x": 457.2,
+      "y": 229,
+      "width": 102.5,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Basketball",
+    "rect": {
+      "x": 592.8,
+      "y": 229,
+      "width": 64.9,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Wrestling",
+    "rect": {
+      "x": 690.7,
+      "y": 229,
+      "width": 57.9,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Volleyball",
+    "rect": {
+      "x": 781.6,
+      "y": 229,
+      "width": 63.4,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Badminton",
+    "rect": {
+      "x": 878,
+      "y": 229,
+      "width": 61.1,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Snooker",
+    "rect": {
+      "x": 972.1,
+      "y": 229,
+      "width": 47.5,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Boxing",
+    "rect": {
+      "x": 1052.6,
+      "y": 229,
+      "width": 38.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Mixed Martial Arts",
+    "rect": {
+      "x": 1123.8,
+      "y": 229,
+      "width": 109.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "American Football",
+    "rect": {
+      "x": 1266,
+      "y": 229,
+      "width": 107.8,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "E Games",
+    "rect": {
+      "x": 1406.8,
+      "y": 229,
+      "width": 44.3,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Ice Hockey",
+    "rect": {
+      "x": 1484.1,
+      "y": 229,
+      "width": 59.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Futsal",
+    "rect": {
+      "x": 1576.3,
+      "y": 229,
+      "width": 38.4,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Motor Sports",
+    "rect": {
+      "x": 1647.7,
+      "y": 229,
+      "width": 78.6,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Kabaddi",
+    "rect": {
+      "x": 1759.3,
+      "y": 229,
+      "width": 44.5,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Politics",
+    "rect": {
+      "x": 1836.8,
+      "y": 229,
+      "width": 45.9,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Darts",
+    "rect": {
+      "x": 1915.7,
+      "y": 229,
+      "width": 33.1,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Esoccer",
+    "rect": {
+      "x": 1981.8,
+      "y": 229,
+      "width": 45.8,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Boat Racing",
+    "rect": {
+      "x": 2060.6,
+      "y": 229,
+      "width": 67.4,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "12px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Super Over2",
+    "rect": {
+      "x": 9,
+      "y": 277,
+      "width": 59.1,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "700",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 82.4,
+      "y": 297,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 244.2,
+      "y": 297,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 297,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 297,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 729.6,
+      "y": 297,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 891.4,
+      "y": 297,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Royal Challengers Bengaluru (e) - Gujarat Titans (e)",
+    "rect": {
+      "x": 9,
+      "y": 325,
+      "width": 289.2,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 298.2,
+      "y": 323,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "15/09/2026 12:48:00",
+    "rect": {
+      "x": 309.8,
+      "y": 327,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "e",
+    "rect": {
+      "x": 950,
+      "y": 323.5,
+      "width": 20,
+      "height": 20
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(32, 32, 32)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 344,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 344,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 344,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 82.4,
+      "y": 368,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 244.2,
+      "y": 368,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 368,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 368,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 729.6,
+      "y": 368,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 891.4,
+      "y": 368,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Sunrisers Hyderabad (e) - Chennai Super Kings (e)",
+    "rect": {
+      "x": 9,
+      "y": 396,
+      "width": 282.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 291.3,
+      "y": 394,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "15/09/2026 12:48:00",
+    "rect": {
+      "x": 302.9,
+      "y": 398,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "e",
+    "rect": {
+      "x": 950,
+      "y": 394.5,
+      "width": 20,
+      "height": 20
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(32, 32, 32)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 415,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 415,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 415,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 82.4,
+      "y": 439,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 244.2,
+      "y": 439,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 439,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 439,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 729.6,
+      "y": 439,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 891.4,
+      "y": 439,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Surrey v Glamorgan",
+    "rect": {
+      "x": 9,
+      "y": 467,
+      "width": 109.9,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 118.9,
+      "y": 465,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "15/09/2026 02:30:00",
+    "rect": {
+      "x": 130.5,
+      "y": 469,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 486,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 486,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 486,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 82.4,
+      "y": 510,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 244.2,
+      "y": 510,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 510,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 510,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 729.6,
+      "y": 510,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 891.4,
+      "y": 510,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Leicestershire v Hampshire",
+    "rect": {
+      "x": 9,
+      "y": 538,
+      "width": 153.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 162.3,
+      "y": 536,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "15/09/2026 02:30:00",
+    "rect": {
+      "x": 173.9,
+      "y": 540,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 557,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 557,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 557,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 82.4,
+      "y": 581,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 244.2,
+      "y": 581,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 581,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 581,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 729.6,
+      "y": 581,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 891.4,
+      "y": 581,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "England v Sri Lanka",
+    "rect": {
+      "x": 9,
+      "y": 609,
+      "width": 109.9,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 118.9,
+      "y": 607,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "15/09/2026 10:30:00",
+    "rect": {
+      "x": 130.5,
+      "y": 611,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 628,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 628,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 628,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 82.4,
+      "y": 652,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1.01",
+    "rect": {
+      "x": 234.1,
+      "y": 652,
+      "width": 25.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 652,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 652,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1000",
+    "rect": {
+      "x": 718,
+      "y": 652,
+      "width": 28.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 891.4,
+      "y": 652,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Perth Scorchers XI v Hobart Hurricanes XI",
+    "rect": {
+      "x": 9,
+      "y": 680,
+      "width": 235.7,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 244.7,
+      "y": 678,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "15/09/2026 12:10:00",
+    "rect": {
+      "x": 256.3,
+      "y": 682,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 699,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 699,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 699,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 82.4,
+      "y": 723,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 244.2,
+      "y": 723,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 723,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 723,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 729.6,
+      "y": 723,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 891.4,
+      "y": 723,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Pakistan T10 v Sri Lanka T10",
+    "rect": {
+      "x": 9,
+      "y": 751,
+      "width": 163.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 172.1,
+      "y": 749,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "15/09/2026 12:15:00",
+    "rect": {
+      "x": 183.8,
+      "y": 753,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 770,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 770,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 770,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 82.4,
+      "y": 794,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 244.2,
+      "y": 794,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 794,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 794,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 729.6,
+      "y": 794,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 891.4,
+      "y": 794,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Caribbean Premier League",
+    "rect": {
+      "x": 9,
+      "y": 822,
+      "width": 148.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 157.3,
+      "y": 820,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "04/08/2020 18:00:00",
+    "rect": {
+      "x": 168.9,
+      "y": 824,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 841,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 841,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 841,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 82.4,
+      "y": 865,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 244.2,
+      "y": 865,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 865,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 865,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 729.6,
+      "y": 865,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 891.4,
+      "y": 865,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Lucknow Super Giants (e) - Gujarat Titans (e)",
+    "rect": {
+      "x": 9,
+      "y": 893,
+      "width": 252.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 261.3,
+      "y": 891,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "15/09/2026 12:51:00",
+    "rect": {
+      "x": 273,
+      "y": 895,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "e",
+    "rect": {
+      "x": 950,
+      "y": 891.5,
+      "width": 20,
+      "height": 20
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(32, 32, 32)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 912,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 912,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 912,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 82.4,
+      "y": 936,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 244.2,
+      "y": 936,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 936,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 936,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 729.6,
+      "y": 936,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 891.4,
+      "y": 936,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Mumbai Indians (e) - Lucknow Super Giants (e)",
+    "rect": {
+      "x": 9,
+      "y": 964,
+      "width": 263,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 272,
+      "y": 962,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "15/09/2026 12:51:00",
+    "rect": {
+      "x": 283.6,
+      "y": 966,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "e",
+    "rect": {
+      "x": 950,
+      "y": 962.5,
+      "width": 20,
+      "height": 20
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(32, 32, 32)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 983,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 983,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 983,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 82.4,
+      "y": 1007,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 244.2,
+      "y": 1007,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 1007,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 1007,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 729.6,
+      "y": 1007,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 891.4,
+      "y": 1007,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "JT XI  v TKR XI",
+    "rect": {
+      "x": 9,
+      "y": 1035,
+      "width": 82.4,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 91.4,
+      "y": 1033,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "15/09/2026 13:00:00",
+    "rect": {
+      "x": 103,
+      "y": 1037,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 1054,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 1054,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 1054,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 82.4,
+      "y": 1078,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 244.2,
+      "y": 1078,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 1078,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 1078,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 729.6,
+      "y": 1078,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 891.4,
+      "y": 1078,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "South Africa T10 v India T10",
+    "rect": {
+      "x": 9,
+      "y": 1106,
+      "width": 159.6,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 168.6,
+      "y": 1104,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "15/09/2026 13:30:00",
+    "rect": {
+      "x": 180.2,
+      "y": 1108,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 1125,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 1125,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 1125,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 82.4,
+      "y": 1149,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 244.2,
+      "y": 1149,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 1149,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 1149,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 729.6,
+      "y": 1149,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 891.4,
+      "y": 1149,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "England U19 v Pakistan U19",
+    "rect": {
+      "x": 9,
+      "y": 1177,
+      "width": 157.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 166.1,
+      "y": 1175,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "16/09/2026 02:30:00",
+    "rect": {
+      "x": 177.7,
+      "y": 1179,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 1196,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 1196,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 1196,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 82.4,
+      "y": 1220,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 244.2,
+      "y": 1220,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 1220,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 1220,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 729.6,
+      "y": 1220,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 891.4,
+      "y": 1220,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Hampshire W v Surrey W",
+    "rect": {
+      "x": 9,
+      "y": 1248,
+      "width": 137.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 146.1,
+      "y": 1246,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "16/09/2026 04:30:00",
+    "rect": {
+      "x": 157.7,
+      "y": 1250,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 1267,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 1267,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 1267,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 82.4,
+      "y": 1291,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 244.2,
+      "y": 1291,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 1291,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 1291,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 729.6,
+      "y": 1291,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 891.4,
+      "y": 1291,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Glasgow Cosmic v Amsterdam Flames",
+    "rect": {
+      "x": 9,
+      "y": 1319,
+      "width": 212.8,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 221.8,
+      "y": 1317,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "16/09/2026 06:15:00",
+    "rect": {
+      "x": 233.5,
+      "y": 1321,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 1338,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 1338,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 1338,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2.38",
+    "rect": {
+      "x": 72.3,
+      "y": 1362,
+      "width": 25.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2.48",
+    "rect": {
+      "x": 234.1,
+      "y": 1362,
+      "width": 25.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 1362,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 1362,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1.68",
+    "rect": {
+      "x": 719.5,
+      "y": 1362,
+      "width": 25.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1.73",
+    "rect": {
+      "x": 881.3,
+      "y": 1362,
+      "width": 25.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Barbados Tridents W v Guyana Amazon Warriors W",
+    "rect": {
+      "x": 9,
+      "y": 1390,
+      "width": 282.8,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 291.8,
+      "y": 1388,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "16/09/2026 07:00:00",
+    "rect": {
+      "x": 303.5,
+      "y": 1392,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 1409,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 1409,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 1409,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1.92",
+    "rect": {
+      "x": 72.3,
+      "y": 1433,
+      "width": 25.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1.95",
+    "rect": {
+      "x": 234.1,
+      "y": 1433,
+      "width": 25.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 1433,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 1433,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2.06",
+    "rect": {
+      "x": 719.5,
+      "y": 1433,
+      "width": 25.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2.1",
+    "rect": {
+      "x": 884.9,
+      "y": 1433,
+      "width": 18.2,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Barbados Tridents v Jamaica Kingsmen",
+    "rect": {
+      "x": 9,
+      "y": 1461,
+      "width": 220.7,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 229.7,
+      "y": 1459,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "16/09/2026 16:00:00",
+    "rect": {
+      "x": 241.3,
+      "y": 1463,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 1480,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 1480,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 1480,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1.76",
+    "rect": {
+      "x": 72.3,
+      "y": 1504,
+      "width": 25.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1.79",
+    "rect": {
+      "x": 234.1,
+      "y": 1504,
+      "width": 25.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 1504,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 1504,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2.28",
+    "rect": {
+      "x": 719.5,
+      "y": 1504,
+      "width": 25.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2.32",
+    "rect": {
+      "x": 881.3,
+      "y": 1504,
+      "width": 25.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Zimbabwe W v South Africa W",
+    "rect": {
+      "x": 9,
+      "y": 1532,
+      "width": 167.5,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 176.5,
+      "y": 1530,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "17/09/2026 04:30:00",
+    "rect": {
+      "x": 188.1,
+      "y": 1534,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 1551,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 1551,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 1551,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "29",
+    "rect": {
+      "x": 77.8,
+      "y": 1575,
+      "width": 14.2,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "55",
+    "rect": {
+      "x": 239.6,
+      "y": 1575,
+      "width": 14.2,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 1575,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 1575,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1.02",
+    "rect": {
+      "x": 719.5,
+      "y": 1575,
+      "width": 25.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1.04",
+    "rect": {
+      "x": 881.3,
+      "y": 1575,
+      "width": 25.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "Zimbabwe v Australia",
+    "rect": {
+      "x": 9,
+      "y": 1603,
+      "width": 120.6,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "d-none d-md-inline-block",
+    "text": "/",
+    "rect": {
+      "x": 129.6,
+      "y": 1601,
+      "width": 11.6,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "id": "",
+    "className": "",
+    "text": "18/09/2026 00:30:00",
+    "rect": {
+      "x": 141.2,
+      "y": 1605,
+      "width": 100.2,
+      "height": 14
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "12px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "normal",
+    "color": "rgb(51, 51, 51)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1",
+    "rect": {
+      "x": 162.3,
+      "y": 1622,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "X",
+    "rect": {
+      "x": 485.5,
+      "y": 1622,
+      "width": 7.8,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "2",
+    "rect": {
+      "x": 809.5,
+      "y": 1622,
+      "width": 7.1,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "7.6",
+    "rect": {
+      "x": 75.8,
+      "y": 1646,
+      "width": 18.2,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "11",
+    "rect": {
+      "x": 239.6,
+      "y": 1646,
+      "width": 14.2,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 406,
+      "y": 1646,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "-",
+    "rect": {
+      "x": 567.8,
+      "y": 1646,
+      "width": 5.1,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1.1",
+    "rect": {
+      "x": 723,
+      "y": 1646,
+      "width": 18.2,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "1.11",
+    "rect": {
+      "x": 881.3,
+      "y": 1646,
+      "width": 25.3,
+      "height": 17
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(39, 58, 71)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Goal 2",
+    "rect": {
+      "x": 4,
+      "y": 689.7,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Matka",
+    "rect": {
+      "x": 168.7,
+      "y": 689.7,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "V VIP Teenpatti 1-day",
+    "rect": {
+      "x": 333.3,
+      "y": 689.7,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Dolidana",
+    "rect": {
+      "x": 498,
+      "y": 689.7,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Mogambo",
+    "rect": {
+      "x": 662.6,
+      "y": 689.7,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "20-20 Teenpatti VIP1",
+    "rect": {
+      "x": 827.3,
+      "y": 689.7,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Lucky 6",
+    "rect": {
+      "x": 4,
+      "y": 876.8,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Beach Roulette",
+    "rect": {
+      "x": 168.7,
+      "y": 876.8,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Roulette",
+    "rect": {
+      "x": 333.3,
+      "y": 876.8,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "VIP Roulette",
+    "rect": {
+      "x": 498,
+      "y": 876.8,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Teenpatti Poison One Day",
+    "rect": {
+      "x": 662.6,
+      "y": 876.8,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Unique Teenpatti",
+    "rect": {
+      "x": 827.3,
+      "y": 876.8,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Teenpatti Poison 20-20",
+    "rect": {
+      "x": 4,
+      "y": 1064,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Unlimited Joker 20-20",
+    "rect": {
+      "x": 168.7,
+      "y": 1064,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Teenpatti Joker 20-20",
+    "rect": {
+      "x": 333.3,
+      "y": 1064,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Unlimited Joker Oneday",
+    "rect": {
+      "x": 498,
+      "y": 1064,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "20-20 Teenpatti C",
+    "rect": {
+      "x": 662.6,
+      "y": 1064,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Bollywood Casino 2",
+    "rect": {
+      "x": 827.3,
+      "y": 1064,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Unique Roulette",
+    "rect": {
+      "x": 4,
+      "y": 1251.1,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Mini Superover",
+    "rect": {
+      "x": 168.7,
+      "y": 1251.1,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Goal",
+    "rect": {
+      "x": 333.3,
+      "y": 1251.1,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "ANDAR BAHAR 150 cards",
+    "rect": {
+      "x": 498,
+      "y": 1251.1,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Lucky 15",
+    "rect": {
+      "x": 662.6,
+      "y": 1251.1,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Super Over2",
+    "rect": {
+      "x": 827.3,
+      "y": 1251.1,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Queen Top Open Teenpatti",
+    "rect": {
+      "x": 4,
+      "y": 1438.3,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Jack Top Open Teenpatti",
+    "rect": {
+      "x": 168.7,
+      "y": 1438.3,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Sic Bo2",
+    "rect": {
+      "x": 333.3,
+      "y": 1438.3,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Instant Teenpatti 3.0",
+    "rect": {
+      "x": 498,
+      "y": 1438.3,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Sic Bo",
+    "rect": {
+      "x": 662.6,
+      "y": 1438.3,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Ball by Ball",
+    "rect": {
+      "x": 827.3,
+      "y": 1438.3,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Instant Teenpatti 2.0",
+    "rect": {
+      "x": 4,
+      "y": 1625.4,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Teenpatti 1-day",
+    "rect": {
+      "x": 168.7,
+      "y": 1625.4,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "20-20 Teenpatti",
+    "rect": {
+      "x": 333.3,
+      "y": 1625.4,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Teenpatti Test",
+    "rect": {
+      "x": 498,
+      "y": 1625.4,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Teenpatti Open",
+    "rect": {
+      "x": 662.6,
+      "y": 1625.4,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Poker 1-Day",
+    "rect": {
+      "x": 827.3,
+      "y": 1625.4,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "20-20 Poker",
+    "rect": {
+      "x": 4,
+      "y": 1812.6,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Poker 6 Players",
+    "rect": {
+      "x": 168.7,
+      "y": 1812.6,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Baccarat",
+    "rect": {
+      "x": 333.3,
+      "y": 1812.6,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Baccarat 2",
+    "rect": {
+      "x": 498,
+      "y": 1812.6,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "20-20 Dragon Tiger",
+    "rect": {
+      "x": 662.6,
+      "y": 1812.6,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "1 Day Dragon Tiger",
+    "rect": {
+      "x": 827.3,
+      "y": 1812.6,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "20-20 D T L",
+    "rect": {
+      "x": 4,
+      "y": 1999.8,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "20-20 Dragon Tiger 2",
+    "rect": {
+      "x": 168.7,
+      "y": 1999.8,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "32 Cards A",
+    "rect": {
+      "x": 333.3,
+      "y": 1999.8,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "32 Cards B",
+    "rect": {
+      "x": 498,
+      "y": 1999.8,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Andar Bahar",
+    "rect": {
+      "x": 662.6,
+      "y": 1999.8,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Andar Bahar 2",
+    "rect": {
+      "x": 827.3,
+      "y": 1999.8,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Lucky 7 - A",
+    "rect": {
+      "x": 4,
+      "y": 2186.9,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Lucky 7 - B",
+    "rect": {
+      "x": 168.7,
+      "y": 2186.9,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "3 Cards Judgement",
+    "rect": {
+      "x": 333.3,
+      "y": 2186.9,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Casino War",
+    "rect": {
+      "x": 498,
+      "y": 2186.9,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Worli Matka",
+    "rect": {
+      "x": 662.6,
+      "y": 2186.9,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Instant Worli",
+    "rect": {
+      "x": 827.3,
+      "y": 2186.9,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Amar Akbar Anthony",
+    "rect": {
+      "x": 4,
+      "y": 2374.1,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Bollywood Casino",
+    "rect": {
+      "x": 168.7,
+      "y": 2374.1,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Lottery",
+    "rect": {
+      "x": 333.3,
+      "y": 2374.1,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "5Five Cricket",
+    "rect": {
+      "x": 498,
+      "y": 2374.1,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Cricket Match 20-20",
+    "rect": {
+      "x": 662.6,
+      "y": 2374.1,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Casino Meter",
+    "rect": {
+      "x": 827.3,
+      "y": 2374.1,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Teenpatti - 2.0",
+    "rect": {
+      "x": 4,
+      "y": 2561.2,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Queen",
+    "rect": {
+      "x": 168.7,
+      "y": 2561.2,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Race20",
+    "rect": {
+      "x": 333.3,
+      "y": 2561.2,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Lucky 7 - C",
+    "rect": {
+      "x": 498,
+      "y": 2561.2,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Super Over",
+    "rect": {
+      "x": 662.6,
+      "y": 2561.2,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "The Trap",
+    "rect": {
+      "x": 827.3,
+      "y": 2561.2,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "2 Cards Teenpatti",
+    "rect": {
+      "x": 4,
+      "y": 2748.4,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "29Card Baccarat",
+    "rect": {
+      "x": 168.7,
+      "y": 2748.4,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Muflis Teenpatti",
+    "rect": {
+      "x": 333.3,
+      "y": 2748.4,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Race To 17",
+    "rect": {
+      "x": 498,
+      "y": 2748.4,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "20-20 Teenpatti B",
+    "rect": {
+      "x": 662.6,
+      "y": 2748.4,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Trio",
+    "rect": {
+      "x": 827.3,
+      "y": 2748.4,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Note Number",
+    "rect": {
+      "x": 4,
+      "y": 2935.5,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "1 CARD 20-20",
+    "rect": {
+      "x": 168.7,
+      "y": 2935.5,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "1 CARD ONE-DAY",
+    "rect": {
+      "x": 333.3,
+      "y": 2935.5,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "ANDAR BAHAR 50 cards",
+    "rect": {
+      "x": 498,
+      "y": 2935.5,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Amar Akbar Anthony 2",
+    "rect": {
+      "x": 662.6,
+      "y": 2935.5,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Race to 2nd",
+    "rect": {
+      "x": 827.3,
+      "y": 2935.5,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Instant Teenpatti",
+    "rect": {
+      "x": 4,
+      "y": 3122.7,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "Dus ka Dum",
+    "rect": {
+      "x": 168.7,
+      "y": 3122.7,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "casino-list-name",
+    "text": "1 Card Meter",
+    "rect": {
+      "x": 333.3,
+      "y": 3122.7,
+      "width": 162.7,
+      "height": 22.5
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "11px",
+    "fontWeight": "700",
+    "lineHeight": "16.5px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "id": "",
+    "className": "nav-link",
+    "text": " Terms and Conditions ",
+    "rect": {
+      "x": 8,
+      "y": 3151.2,
+      "width": 155.8,
+      "height": 40
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "A",
+    "id": "",
+    "className": "nav-link",
+    "text": " Responsible Gaming ",
+    "rect": {
+      "x": 163.8,
+      "y": 3151.2,
+      "width": 146.9,
+      "height": 40
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "H2",
+    "id": "",
+    "className": "",
+    "text": "24X7 Support",
+    "rect": {
+      "x": 431.1,
+      "y": 3156.8,
+      "width": 131.7,
+      "height": 28.8
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "24px",
+    "fontWeight": "700",
+    "lineHeight": "28.8px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "id": "",
+    "className": "",
+    "text": "100% SAFE",
+    "rect": {
+      "x": 112,
+      "y": 3204.9,
+      "width": 71.8,
+      "height": 19
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "normal",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "DIV",
+    "id": "",
+    "className": "",
+    "text": "Protected connection and encrypted data.",
+    "rect": {
+      "x": 112,
+      "y": 3223.9,
+      "width": 264.1,
+      "height": 19
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "lineHeight": "normal",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "P",
+    "id": "",
+    "className": "text-center",
+    "text": "© Copyright 2026 . All Rights Reserved. Powered by BESTBET9 ",
+    "rect": {
+      "x": 0,
+      "y": 3252.7,
+      "width": 994,
+      "height": 24
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "color": "rgb(0, 0, 0)",
+    "textTransform": "none"
+  }
+]

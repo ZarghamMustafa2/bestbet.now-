@@ -1,0 +1,362 @@
+[
+  {
+    "tag": "B",
+    "className": "",
+    "text": "Rules",
+    "rect": {
+      "x": 1048.2,
+      "y": 22,
+      "width": 35.7,
+      "height": 19
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "normal",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "className": "",
+    "text": "Balance:",
+    "rect": {
+      "x": 1099.8,
+      "y": 12.5,
+      "width": 54.1,
+      "height": 19
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "lineHeight": "normal",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "className": "",
+    "text": "1500",
+    "rect": {
+      "x": 1153.9,
+      "y": 12.5,
+      "width": 32.3,
+      "height": 19
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "normal",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "SPAN",
+    "className": "",
+    "text": "Exp:",
+    "rect": {
+      "x": 1099.8,
+      "y": 31.5,
+      "width": 26.6,
+      "height": 19
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "lineHeight": "normal",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "B",
+    "className": "pointer",
+    "text": "0",
+    "rect": {
+      "x": 1126.4,
+      "y": 31.5,
+      "width": 8.1,
+      "height": 19
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "normal",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "MARQUEE",
+    "className": "",
+    "text": "Newly Launched Matka Market In Our Exchange",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "A",
+    "className": "nav-link",
+    "text": "HOME",
+    "rect": {
+      "x": 15,
+      "y": 78,
+      "width": 49.5,
+      "height": 31
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "className": "nav-link",
+    "text": "LOTTERY",
+    "rect": {
+      "x": 64.5,
+      "y": 78,
+      "width": 81.3,
+      "height": 31
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "className": "nav-link",
+    "text": "CRICKET",
+    "rect": {
+      "x": 145.9,
+      "y": 78,
+      "width": 79.8,
+      "height": 31
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "className": "nav-link",
+    "text": "TENNIS",
+    "rect": {
+      "x": 225.7,
+      "y": 78,
+      "width": 73,
+      "height": 31
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "className": "nav-link",
+    "text": "FOOTBALL",
+    "rect": {
+      "x": 298.6,
+      "y": 78,
+      "width": 90.2,
+      "height": 31
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "className": "nav-link",
+    "text": "TABLE TENNIS",
+    "rect": {
+      "x": 388.8,
+      "y": 78,
+      "width": 112.3,
+      "height": 31
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "className": "nav-link",
+    "text": "BACCARAT",
+    "rect": {
+      "x": 501.2,
+      "y": 78,
+      "width": 93.3,
+      "height": 31
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "className": "nav-link",
+    "text": "32 CARDS",
+    "rect": {
+      "x": 594.5,
+      "y": 78,
+      "width": 86.9,
+      "height": 31
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "className": "nav-link",
+    "text": "TEENPATTI",
+    "rect": {
+      "x": 681.4,
+      "y": 78,
+      "width": 93.3,
+      "height": 31
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "className": "nav-link",
+    "text": "POKER",
+    "rect": {
+      "x": 774.7,
+      "y": 78,
+      "width": 68.8,
+      "height": 31
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "className": "nav-link",
+    "text": "LUCKY 7",
+    "rect": {
+      "x": 843.5,
+      "y": 78,
+      "width": 78.1,
+      "height": 31
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "SPAN",
+    "className": "ms-1",
+    "text": "CRASH",
+    "rect": {
+      "x": 981.8,
+      "y": 83,
+      "width": 40.2,
+      "height": 21
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "700",
+    "lineHeight": "21px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "uppercase"
+  },
+  {
+    "tag": "A",
+    "className": "nav-link",
+    "text": "Terms and Conditions",
+    "rect": {
+      "x": 8,
+      "y": 1880.7,
+      "width": 155.8,
+      "height": 40
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  },
+  {
+    "tag": "A",
+    "className": "nav-link",
+    "text": "Responsible Gaming",
+    "rect": {
+      "x": 163.8,
+      "y": 1880.7,
+      "width": 146.9,
+      "height": 40
+    },
+    "fontFamily": "\"Roboto Condensed\", sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "700",
+    "lineHeight": "24px",
+    "letterSpacing": "normal",
+    "color": "rgb(255, 255, 255)",
+    "textTransform": "none"
+  }
+]

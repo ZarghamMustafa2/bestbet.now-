@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BESTBET9</title>
+  <!-- Font Awesome 4.7 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Exact Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="login-wrapper">
+    <!-- BESTBET9 Logo -->
+    <div class="logo-container">
+      <img src="assets/images/bestbet9_logo.png" alt="BESTBET9" class="logo-image">
+    </div>
+
+    <!-- Login Card -->
+    <div class="login-card">
+      <div class="card-header-title">
+        Login <img src="assets/images/hand_icon.png" alt="" class="heading-icon">
+      </div>
+
+      <form id="loginForm" autocomplete="off" onsubmit="return handleLogin(event)">
+        <!-- Username Field -->
+        <div class="form-group">
+          <div class="input-group">
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              class="form-control" 
+              placeholder="Username"
+              required
+            >
+            <span class="input-group-addon">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <div class="input-group">
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              class="form-control" 
+              placeholder="Password"
+              required
+            >
+            <span class="input-group-addon">
+              <i class="fa fa-key"></i>
+            </span>
+          </div>
+        </div>
+
+        <!-- Login Button -->
+        <button type="submit" id="btnLogin" class="btn btn-primary">
+          Login
+          <i class="fa fa-sign-in btn-icon-right"></i>
+        </button>
+
+        <!-- Login with demo ID Button -->
+        <button type="button" id="btnDemoLogin" class="btn btn-demo" onclick="handleDemoLogin()">
+          Login with demo ID
+          <i class="fa fa-sign-in btn-icon-right"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bottom Footer -->
+  <footer class="footer">
+    <div class="footer-left">
+      <a href="javascript:void(0)" class="footer-link">Terms and Conditions</a>
+      <a href="javascript:void(0)" class="footer-link">Responsible Gaming</a>
+    </div>
+    <div class="footer-center">
+      24X7 Support
+    </div>
+  </footer>
+
+  <script src="js/login.js"></script>
+</body>
+</html>
