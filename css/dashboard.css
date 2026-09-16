@@ -363,8 +363,32 @@ body {
   }
 }
 
+/* Aviator / Crash Navigation Styling */
+.header-bottom .navbar-nav .aviator .nav-link,
+.header-bottom .aviator .nav-link {
+  padding-top: 0;
+  padding-bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.header-bottom .navbar-nav .nav-link svg,
+.header-bottom .aviator .nav-link svg {
+  height: 25px;
+  width: auto;
+  transform: rotate(10deg);
+  -webkit-transform: rotate(10deg);
+  display: block;
+}
+
+.cls-1 {
+  fill: #e40539;
+}
+
 /* Aviator / Crash Blinking SVG Icon */
 .header-bottom .navbar-expand .navbar-nav .nav-link svg .cls-1,
+.header-bottom .navbar-nav .nav-link svg .cls-1,
+.header-bottom .aviator .nav-link svg .cls-1,
 .main-container .nav-tabs .nav-item .nav-link svg .cls-1,
 .menu-tabs .nav-link svg .cls-1,
 .aviator .nav-link svg .cls-1 {
@@ -898,6 +922,20 @@ body {
     display: flex;
     align-items: center;
     text-decoration: none;
+  }
+
+  .menu-tabs.d-xl-none .nav-item:first-child .nav-link {
+    padding: 0 4px;
+    height: 36px;
+  }
+
+  .menu-tabs.d-xl-none .nav-link svg,
+  .main-container .nav-tabs .nav-item .nav-link svg {
+    height: 24px;
+    width: auto;
+    transform: rotate(10deg);
+    -webkit-transform: rotate(10deg);
+    display: block;
   }
 
   .menu-tabs.d-xl-none .nav-link.active {
