@@ -9,6 +9,7 @@
   <!-- FontAwesome 5 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/interactions.css">
 </head>
 <body>
 
@@ -31,7 +32,7 @@
             </a>
           </div>
           <div class="header-rules d-none d-xl-block">
-            <a class="rules-link" href="javascript:void(0)"><b>Rules</b></a>
+            <a class="rules-link" href="javascript:void(0)" onclick="openRulesModal()"><b>Rules</b></a>
           </div>
           <div class="user-balance">
             <div><span>Balance:</span><b id="userBalance">1500</b></div>
@@ -49,10 +50,11 @@
               Demo <i class="fas fa-chevron-down ms-1"></i>
             </a>
             <div class="dropdown-menu" id="userDropdownMenu">
-              <a class="dropdown-item" href="javascript:void(0)">Account Statement</a>
-              <a class="dropdown-item" href="javascript:void(0)">Current Bet</a>
-              <a class="dropdown-item" href="javascript:void(0)">Casino Results</a>
-              <a class="dropdown-item" href="javascript:void(0)">Set Button Values</a>
+              <a class="dropdown-item" href="account-statement.html">Account Statement</a>
+              <a class="dropdown-item" href="current-bet.html">Current Bet</a>
+              <a class="dropdown-item" href="casino-results.html">Casino Results</a>
+              <a class="dropdown-item" href="javascript:void(0)" onclick="openSetButtonValuesModal()">Set Button Values</a>
+              <a class="dropdown-item" href="javascript:void(0)" onclick="openRulesModal()">Rules</a>
               <div style="border-top: 1px solid #e9ecef; margin: 4px 0;"></div>
               <a class="dropdown-item" style="color: #dc3545;" href="javascript:void(0)" onclick="handleSignOut()">SignOut</a>
             </div>
@@ -82,13 +84,13 @@
             <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Tennis</a></li>
             <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Football</a></li>
             <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Table Tennis</a></li>
-            <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Baccarat</a></li>
-            <li class="nav-item"><a class="nav-link" href="javascript:void(0)">32 Cards</a></li>
-            <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Teenpatti</a></li>
-            <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Poker</a></li>
-            <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Lucky 7</a></li>
+            <li class="nav-item"><a class="nav-link" href="casino.html">Baccarat</a></li>
+            <li class="nav-item"><a class="nav-link" href="casino.html">32 Cards</a></li>
+            <li class="nav-item"><a class="nav-link" href="casino.html">Teenpatti</a></li>
+            <li class="nav-item"><a class="nav-link" href="casino.html">Poker</a></li>
+            <li class="nav-item"><a class="nav-link" href="casino.html">Lucky 7</a></li>
             <li class="nav-item aviator">
-              <a class="nav-link" href="javascript:void(0)">
+              <a class="nav-link" href="aviator.html">
                 <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 457.6 277.4">
                   <defs><style>.cls-1 { fill: #e40539; }</style></defs>
                   <g id="Layer_1-2" data-name="Layer 1">
@@ -115,26 +117,26 @@
       <!-- Mobile Event Ticker (Placed right below header on mobile) -->
       <div class="latest-event d-xl-none">
         <div class="latest-event-item">
-          <a class="blink_me" href="javascript:void(0)"><i class="fas fa-baseball-bat-ball"></i><span>England v Sri Lanka</span></a>
+          <a class="blink_me" href="game-details.html"><i class="fas fa-baseball-bat-ball"></i><span>England v Sri Lanka</span></a>
         </div>
         <div class="latest-event-item">
-          <a class="blink_me" href="javascript:void(0)"><i class="fas fa-futbol"></i><span>Alaves v Valencia</span></a>
+          <a class="blink_me" href="game-details.html"><i class="fas fa-futbol"></i><span>Alaves v Valencia</span></a>
         </div>
         <div class="latest-event-item">
-          <a class="blink_me" href="javascript:void(0)"><i class="fas fa-baseball-bat-ball"></i><span>Afghanistan v India</span></a>
+          <a class="blink_me" href="game-details.html"><i class="fas fa-baseball-bat-ball"></i><span>Afghanistan v India</span></a>
         </div>
         <div class="latest-event-item">
-          <a class="blink_me" href="javascript:void(0)"><i class="fas fa-baseball-bat-ball"></i><span>J Riera v El Avanesyan</span></a>
+          <a class="blink_me" href="game-details.html"><i class="fas fa-baseball-bat-ball"></i><span>J Riera v El Avanesyan</span></a>
         </div>
         <div class="latest-event-item">
-          <a class="blink_me" href="javascript:void(0)"><i class="fas fa-futbol"></i><span>Rayo Vallecano v Espanyol</span></a>
+          <a class="blink_me" href="game-details.html"><i class="fas fa-futbol"></i><span>Rayo Vallecano v Espanyol</span></a>
         </div>
       </div>
 
       <!-- Mobile Category Menu Tabs (CRASH, LOTTERY, SPORTS, OUR CASINO, LIVE CASINO, SLOTS, FANTASY) -->
       <ul class="nav nav-tabs d-xl-none menu-tabs">
         <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)">
+          <a class="nav-link" href="aviator.html">
             <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 457.6 277.4">
               <defs><style>.cls-1 { fill: #e40539; }</style></defs>
               <g id="Layer_1-2" data-name="Layer 1">
@@ -151,12 +153,12 @@
             <span class="ms-1">Crash</span>
           </a>
         </li>
-        <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Lottery</a></li>
-        <li class="nav-item"><a class="nav-link active" href="javascript:void(0)">Sports</a></li>
-        <li class="nav-item"><a class="nav-link" href="javascript:void(0)"><span class="blink_me">Our Casino</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Live Casino</a></li>
-        <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Slots</a></li>
-        <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Fantasy</a></li>
+        <li class="nav-item"><a class="nav-link" href="home.html">Lottery</a></li>
+        <li class="nav-item"><a class="nav-link active" href="home.html">Sports</a></li>
+        <li class="nav-item"><a class="nav-link" href="casino.html"><span class="blink_me">Our Casino</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="casino.html">Live Casino</a></li>
+        <li class="nav-item"><a class="nav-link" href="casino.html">Slots</a></li>
+        <li class="nav-item"><a class="nav-link" href="casino.html">Fantasy</a></li>
       </ul>
       <!-- Left Sidebar (155px width on desktop, drawer on mobile) -->
       <div class="sidebar left-sidebar" id="mainSidebar">
@@ -185,13 +187,13 @@
             <i class="fas fa-chevron-up"></i>
           </div>
           <div class="sidebar-body" id="others-body">
-            <a class="sidebar-link" href="javascript:void(0)" style="color: #999;"><span class="blink_me">Our Casino</span></a>
-            <a class="sidebar-link" href="javascript:void(0)" style="color: #999;"><span class="blink_me">Our VIP Casino</span></a>
-            <a class="sidebar-link" href="javascript:void(0)" style="color: #999;"><span class="blink_me">Our Premium Casino</span></a>
-            <a class="sidebar-link" href="javascript:void(0)" style="color: #999;"><span class="blink_me">Our Virtual</span></a>
-            <a class="sidebar-link" href="javascript:void(0)">Live Casino</a>
-            <a class="sidebar-link" href="javascript:void(0)">Slot Game</a>
-            <a class="sidebar-link" href="javascript:void(0)">Fantasy Game</a>
+            <a class="sidebar-link" href="casino.html" style="color: #999;"><span class="blink_me">Our Casino</span></a>
+            <a class="sidebar-link" href="casino.html" style="color: #999;"><span class="blink_me">Our VIP Casino</span></a>
+            <a class="sidebar-link" href="casino.html" style="color: #999;"><span class="blink_me">Our Premium Casino</span></a>
+            <a class="sidebar-link" href="casino.html" style="color: #999;"><span class="blink_me">Our Virtual</span></a>
+            <a class="sidebar-link" href="casino.html">Live Casino</a>
+            <a class="sidebar-link" href="casino.html">Slot Game</a>
+            <a class="sidebar-link" href="casino.html">Fantasy Game</a>
           </div>
         </div>
 
@@ -230,19 +232,19 @@
         <!-- 5 Cards Event Ticker (Desktop only, mobile has it above) -->
         <div class="latest-event d-none d-xl-flex">
           <div class="latest-event-item">
-            <a class="blink_me" href="javascript:void(0)"><i class="fas fa-baseball-ball"></i><span>Afghanistan v India</span></a>
+            <a class="blink_me" href="game-details.html"><i class="fas fa-baseball-ball"></i><span>Afghanistan v India</span></a>
           </div>
           <div class="latest-event-item">
-            <a class="blink_me" href="javascript:void(0)"><i class="fas fa-baseball-ball"></i><span>Edinburgh Castle Rockers v ...</span></a>
+            <a class="blink_me" href="game-details.html"><i class="fas fa-baseball-ball"></i><span>Edinburgh Castle Rockers v ...</span></a>
           </div>
           <div class="latest-event-item">
-            <a class="blink_me" href="javascript:void(0)"><i class="fas fa-circle"></i><span>J Riera v El Avanesyan</span></a>
+            <a class="blink_me" href="game-details.html"><i class="fas fa-circle"></i><span>J Riera v El Avanesyan</span></a>
           </div>
           <div class="latest-event-item">
-            <a class="blink_me" href="javascript:void(0)"><i class="fas fa-circle"></i><span>You v Ali Charaeva</span></a>
+            <a class="blink_me" href="game-details.html"><i class="fas fa-circle"></i><span>You v Ali Charaeva</span></a>
           </div>
           <div class="latest-event-item">
-            <a class="blink_me" href="javascript:void(0)"><i class="fas fa-futbol"></i><span>Rayo Vallecano v Espanyol</span></a>
+            <a class="blink_me" href="game-details.html"><i class="fas fa-futbol"></i><span>Rayo Vallecano v Espanyol</span></a>
           </div>
         </div>
 
@@ -275,7 +277,7 @@
             <!-- Row 1: Super Over2 -->
             <div class="bet-table-row">
               <div class="bet-nation-name">
-                <a class="bet-nation-game-name" href="javascript:void(0)"><span>Super Over2</span></a>
+                <a class="bet-nation-game-name" href="game-details.html"><span>Super Over2</span></a>
                 <div class="game-icons">
                   <span class="game-icon-dot"></span>
                   <i class="fas fa-tv game-icon-tv"></i>
@@ -291,7 +293,7 @@
             <!-- Row 2: Sunrisers Hyderabad (e) - Delhi Capitals (e) -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>Sunrisers Hyderabad (e) - Delhi Capitals (e)</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>15/09/2026 09:54:00</span>
@@ -313,7 +315,7 @@
             <!-- Row 3: Kolkata Knight Riders (e) - Sunrisers Hyderabad (e) -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>Kolkata Knight Riders (e) - Sunrisers Hyderabad (e)</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>15/09/2026 09:54:00</span>
@@ -335,7 +337,7 @@
             <!-- Row 4: Kolkata Knight Riders (e) - Chennai Super Kings (e) -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>Kolkata Knight Riders (e) - Chennai Super Kings (e)</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>15/09/2026 09:57:00</span>
@@ -357,7 +359,7 @@
             <!-- Row 5: Surrey v Glamorgan -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>Surrey v Glamorgan</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>15/09/2026 02:30:00</span>
@@ -379,7 +381,7 @@
             <!-- Row 6: Leicestershire v Hampshire -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>Leicestershire v Hampshire</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>15/09/2026 02:30:00</span>
@@ -401,7 +403,7 @@
             <!-- Row 7: Edinburgh Castle Rockers v Rotterdam Dockers -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>Edinburgh Castle Rockers v Rotterdam Dockers</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>15/09/2026 06:15:00</span>
@@ -424,7 +426,7 @@
             <!-- Row 8: SNP XI v JT XI -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>SNP XI v JT XI</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>15/09/2026 08:50:00</span>
@@ -447,7 +449,7 @@
             <!-- Row 9: Royal Challengers T10 v Delhi Capitals T10 -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>Royal Challengers T10 v Delhi Capitals T10</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>15/09/2026 09:30:00</span>
@@ -470,7 +472,7 @@
             <!-- Row 10: Caribbean Premier League -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>Caribbean Premier League</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>04/08/2020 18:00:00</span>
@@ -490,7 +492,7 @@
             <!-- Row 11: Punjab Kings (e) - Gujarat Titans (e) -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>Punjab Kings (e) - Gujarat Titans (e)</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>15/09/2026 10:00:00</span>
@@ -511,7 +513,7 @@
             <!-- Row 12: Punjab Kings (e) - Rajasthan Royals (e) -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>Punjab Kings (e) - Rajasthan Royals (e)</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>15/09/2026 10:00:00</span>
@@ -532,7 +534,7 @@
             <!-- Row 13: Sydney Sixers XI v Adelaide Strikers XI -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>Sydney Sixers XI v Adelaide Strikers XI</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>15/09/2026 10:15:00</span>
@@ -553,7 +555,7 @@
             <!-- Row 14: England v Sri Lanka -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>England v Sri Lanka</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>15/09/2026 10:30:00</span>
@@ -574,7 +576,7 @@
             <!-- Row 15: India T10 v New Zealand T10 -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>India T10 v New Zealand T10</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>15/09/2026 10:45:00</span>
@@ -595,7 +597,7 @@
             <!-- Row 16: England U19 v Pakistan U19 -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>England U19 v Pakistan U19</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>16/09/2026 02:30:00</span>
@@ -615,7 +617,7 @@
             <!-- Row 17: Hampshire W v Surrey W -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>Hampshire W v Surrey W</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>16/09/2026 04:30:00</span>
@@ -635,7 +637,7 @@
             <!-- Row 18: Glasgow Cosmic v Amsterdam Flames -->
             <div class="bet-table-row">
   <div class="bet-nation-name">
-    <a class="bet-nation-game-name" href="javascript:void(0)">
+    <a class="bet-nation-game-name" href="game-details.html">
       <span>Glasgow Cosmic v Amsterdam Flames</span>
       <span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span>
       <span>16/09/2026 06:15:00</span>
@@ -715,6 +717,8 @@
   <!-- Mobile Sidebar Backdrop Overlay -->
   <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
+  <script src="js/modals.js"></script>
+  <script src="js/betslip.js"></script>
   <script src="js/dashboard.js"></script>
 </body>
 </html>
