@@ -2,8 +2,11 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
+    { "source": "/admin/css/:path*", "destination": "/admin/css/:path*" },
+    { "source": "/admin/js/:path*", "destination": "/admin/js/:path*" },
+    { "source": "/admin/images/:path*", "destination": "/admin/images/:path*" },
     { "source": "/admin", "destination": "/admin/index.html" },
-    { "source": "/admin/((?!css|js|images|assets).*$)", "destination": "/admin/index.html" },
+    { "source": "/admin/:path*", "destination": "/admin/index.html" },
     { "source": "/all-sports/:path*", "destination": "/home" },
     { "source": "/all-sports", "destination": "/home" },
     { "source": "/sports/:path*", "destination": "/home" },
