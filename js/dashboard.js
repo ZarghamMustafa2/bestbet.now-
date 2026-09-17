@@ -195,29 +195,11 @@ function initSportsTabs() {
     // Filter table rows
     if (tableRows.length) {
       tableRows.forEach(row => {
-        const gameName = (row.querySelector('.bet-nation-game-name')?.innerText || '').toLowerCase();
-        if (sName === 'cricket') {
-          // Show cricket matches
-          if (gameName.includes('valencia') || gameName.includes('espanyol') || gameName.includes('riera') || gameName.includes('charaeva')) {
-            row.style.display = 'none';
-          } else {
-            row.style.display = 'flex';
-          }
-        } else if (sName === 'football') {
-          if (gameName.includes('valencia') || gameName.includes('espanyol') || gameName.includes('alaves') || gameName.includes('rayo')) {
-            row.style.display = 'flex';
-          } else {
-            row.style.display = 'none';
-          }
-        } else if (sName === 'tennis') {
-          if (gameName.includes('riera') || gameName.includes('avanesyan') || gameName.includes('charaeva') || gameName.includes('you v')) {
-            row.style.display = 'flex';
-          } else {
-            row.style.display = 'none';
-          }
-        } else {
-          // Show all for other tabs or keep visible
+        const rowSport = (row.getAttribute('data-sport') || 'cricket').toLowerCase();
+        if (rowSport === sName || (sName === 'cricket' && rowSport === 'cricket')) {
           row.style.display = 'flex';
+        } else {
+          row.style.display = 'none';
         }
       });
     }
