@@ -44,6 +44,15 @@
                 <a class="user-name ms-1 dropdown-toggle" id="mobileUserDropdownBtn" href="javascript:void(0)">
                   Demo <i class="fas fa-chevron-down ms-1"></i>
                 </a>
+                <div class="dropdown-menu dropdown-menu-end" id="mobileUserDropdownMenu">
+                  <a class="dropdown-item" href="/account-statement">Account Statement</a>
+                  <a class="dropdown-item" href="/current-bet">Current Bet</a>
+                  <a class="dropdown-item" href="/casino-results">Casino Results</a>
+                  <a class="dropdown-item" href="javascript:void(0)" onclick="openSetButtonValuesModal()">Set Button Values</a>
+                  <a class="dropdown-item" href="javascript:void(0)" onclick="openRulesModal()">Rules</a>
+                  <div style="border-top: 1px solid #e9ecef; margin: 4px 0;"></div>
+                  <a class="dropdown-item" style="color: #dc3545;" href="javascript:void(0)" onclick="handleSignOut()">SignOut</a>
+                </div>
               </div>
             </div>
           </div>

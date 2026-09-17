@@ -58,27 +58,32 @@ function initDropdown() {
   const userBtn = document.getElementById('userDropdownBtn');
   const mobileUserBtn = document.getElementById('mobileUserDropdownBtn');
   const dropdownMenu = document.getElementById('userDropdownMenu');
+  const mobileDropdownMenu = document.getElementById('mobileUserDropdownMenu');
 
-  if (dropdownMenu) {
-    if (userBtn) {
-      userBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        dropdownMenu.classList.toggle('show');
-      });
-    }
-    if (mobileUserBtn) {
-      mobileUserBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        dropdownMenu.classList.toggle('show');
-      });
-    }
-
-    document.addEventListener('click', (e) => {
-      if (!dropdownMenu.contains(e.target) && e.target !== userBtn && e.target !== mobileUserBtn) {
-        dropdownMenu.classList.remove('show');
-      }
+  if (userBtn && dropdownMenu) {
+    userBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdownMenu.classList.toggle('show');
+      if (mobileDropdownMenu) mobileDropdownMenu.classList.remove('show');
     });
   }
+
+  if (mobileUserBtn && mobileDropdownMenu) {
+    mobileUserBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      mobileDropdownMenu.classList.toggle('show');
+      if (dropdownMenu) dropdownMenu.classList.remove('show');
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    if (dropdownMenu && !dropdownMenu.contains(e.target) && e.target !== userBtn) {
+      dropdownMenu.classList.remove('show');
+    }
+    if (mobileDropdownMenu && !mobileDropdownMenu.contains(e.target) && e.target !== mobileUserBtn) {
+      mobileDropdownMenu.classList.remove('show');
+    }
+  });
 }
 
 function initMobileSidebar() {
@@ -230,6 +235,29 @@ function initSportsTabs() {
       const text = tab.innerText.toLowerCase().trim();
       const sportId = sportIdMap[text] || '4';
       filterSport(text, sportId, true);
+    });
+  });
+
+  // Intercept header nav & sidebar links pointing to /all-sports/:id
+  const sportsNavLinks = document.querySelectorAll('a[href^="/all-sports/"]');
+  sportsNavLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      const parts = href.split('/');
+      const sportId = parts[2];
+      const idToName = {
+        '1': 'football',
+        '2': 'tennis',
+        '4': 'cricket',
+        '7': 'horse racing',
+        '8': 'table tennis',
+        '43': 'greyhound racing'
+      };
+      const sName = idToName[sportId];
+      if (sName && tableRows.length) {
+        e.preventDefault();
+        filterSport(sName, sportId, true);
+      }
     });
   });
 

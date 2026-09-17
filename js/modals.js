@@ -40,7 +40,7 @@ function openWelcomeModal() {
             <button type="button" class="btn-close" aria-label="Close" onclick="closeWelcomeModal()"></button>
           </div>
           <div class="p-0 modal-body">
-            <img src="assets/images/welcome_banner.png" class="img-fluid" alt="Announcement">
+            <img src="/assets/images/welcome_banner.png" class="img-fluid" alt="Announcement">
           </div>
         </div>
       </div>
@@ -342,7 +342,7 @@ function openRulesModal() {
           <div class="modal-title h4">Rules</div>
           <div class="rules-langualge">
             <button type="button" class="btn">
-              <img src="assets/images/flag_english.png" alt="English"> English
+              <img src="/assets/images/flag_english.png" alt="English"> English
             </button>
           </div>
           <button type="button" class="btn-close" aria-label="Close" onclick="closeRulesModal()"></button>
