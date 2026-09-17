@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Responsible Gaming - BESTBET9</title>
+  <link rel="icon" type="image/png" href="/assets/images/bestbet9_logo_hd.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/ref_style.css">
+  <link rel="stylesheet" href="/css/ref_responsive.css">
+  <link rel="stylesheet" href="/css/ref_custom.css">
+  <link rel="stylesheet" href="/css/interactions.css">
+  <style>
+    .about-us-container {
+      padding: 30px 15px;
+      color: #fff;
+      background: #111417;
+      min-height: 80vh;
+    }
+    .about-us-container .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      background: #1e2429;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .about-us-container .logo img {
+      max-height: 50px;
+      margin-bottom: 20px;
+    }
+    .about-us-container .page-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: #72bbef;
+      border-bottom: 2px solid #2c3e50;
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+    }
+    .about-us-container h4 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #f7b731;
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+    .about-us-container h5 {
+      font-size: 14px;
+      font-weight: 400;
+      color: #ccc;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .about-us-container ul {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+    .about-us-container ul li {
+      font-size: 14px;
+      color: #bbb;
+      line-height: 1.6;
+      margin-bottom: 6px;
+      list-style-type: disc;
+    }
+    .about-us-container a {
+      color: #72bbef;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Top Header -->
+    <section class="header">
+      <div class="header-top">
+        <div class="logo-header">
+          <a class="hamburger-btn d-xl-none" id="mobileMenuBtn" href="javascript:void(0)">
+            <i class="fas fa-bars me-2"></i>
+          </a>
+          <a href="/home">
+            <img src="/assets/images/bestbet9_logo_hd.png" alt="BESTBET9">
+          </a>
+        </div>
+        <div class="user-details">
+          <div class="search-box-container d-none d-xl-block">
+            <a class="search-icon-btn" href="javascript:void(0)" title="Search">
+              <i class="fas fa-search-plus"></i>
+            </a>
+          </div>
+          <div class="header-rules d-none d-xl-block">
+            <a class="rules-link" href="javascript:void(0)" onclick="openRulesModal()"><b>Rules</b></a>
+          </div>
+          <div class="user-balance">
+            <div><span>Balance:</span><b id="userBalance">1500</b></div>
+            <div>
+              <span>Exp:</span><b id="userExposure">0</b>
+              <div class="dropdown d-inline-block d-xl-none">
+                <a class="user-name ms-1 dropdown-toggle" id="mobileUserDropdownBtn" href="javascript:void(0)">
+                  Demo <i class="fas fa-chevron-down ms-1"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="user-dropdown d-none d-xl-block">
+            <a class="user-name" id="userDropdownBtn" href="javascript:void(0)">
+              Demo <i class="fas fa-chevron-down ms-1"></i>
+            </a>
+            <div class="dropdown-menu" id="userDropdownMenu">
+              <a class="dropdown-item" href="/account-statement">Account Statement</a>
+              <a class="dropdown-item" href="/current-bet">Current Bet</a>
+              <a class="dropdown-item" href="/casino-results">Casino Results</a>
+              <a class="dropdown-item" href="javascript:void(0)" onclick="openSetButtonValuesModal()">Set Button Values</a>
+              <a class="dropdown-item" href="javascript:void(0)" onclick="openRulesModal()">Rules</a>
+              <div style="border-top: 1px solid #e9ecef; margin: 4px 0;"></div>
+              <a class="dropdown-item" style="color: #dc3545;" href="javascript:void(0)" onclick="handleSignOut()">SignOut</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop Category Nav -->
+      <div class="header-bottom d-none d-xl-block">
+        <nav>
+          <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/sports-book/33">Lottery</a></li>
+            <li class="nav-item"><a class="nav-link" href="/all-sports/4">Cricket</a></li>
+            <li class="nav-item"><a class="nav-link" href="/all-sports/2">Tennis</a></li>
+            <li class="nav-item"><a class="nav-link" href="/all-sports/1">Football</a></li>
+            <li class="nav-item"><a class="nav-link" href="/all-sports/8">Table Tennis</a></li>
+            <li class="nav-item"><a class="nav-link" href="/casino-list/LC/4/22">Baccarat</a></li>
+            <li class="nav-item"><a class="nav-link" href="/casino-list/LC/4/24">32 Cards</a></li>
+            <li class="nav-item"><a class="nav-link" href="/casino-list/LC/4/20">Teenpatti</a></li>
+            <li class="nav-item"><a class="nav-link" href="/casino-list/LC/4/21">Poker</a></li>
+            <li class="nav-item"><a class="nav-link" href="/casino-list/LC/4/27">Lucky 7</a></li>
+            <li class="nav-item aviator">
+              <a class="nav-link" href="/aviator-list">
+                <span class="ms-1">Crash</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="about-us-container"><div class="container"><div class="text-center logo"><img src="https://sitethemedata.com/sitethemes/jsk2468.com/front/logo.png"></div><div><h2 class="page-title">Responsible Gaming and Player Protection Information Policy</h2><h5>Website is committed to endorsing responsible wagering as well as promoting the awareness of problem gambling and improving prevention, intervention and treatment. Responsible Gambling Policy sets out its commitment to minimising the negative effects of problem gambling and to promoting responsible gambling practices. We consider it as our responsibility to you, our customers, to ensure that you will keep on enjoying your wagering experience on our site, remaining at the same time fully aware of the social and financial harms associated with problematic gambling. In order to help our customers in gambling responsibly, we ensure that all our staff receive responsible gambling awareness training, while we also provide the following information and features on our site.</h5><h4>Customer-driven loss limits;</h4><h5>Self-exclusion option by contacting Customer Service;</h5><h5>Links to SICAD, GamCare, Gambling Therapy and other organisations;</h5><h5>Self protection and awareness information;</h5><h5>Information and tools to protect player’s account and prevent underage gaming.</h5><h4>Temporary Account Closure/ Self-exclusion</h4><h5>You may at Your discretion choose to restrict your access to your account and/or exclude Yourself from playing any Games on the website, temporarily or permanently. In order to restrict Your access to the Games or Self-exclude You must visit the relevant section at your Account (Profile &gt; Player Protection) or email Customer Support. Account blocking and Self-Exclusion requests take effect immediately. To revoke a restriction of your account, contact Customer Support. For your protection, it is possible that revocation of such restrictions will take effect seven days after the receipt of your request, provided that the time period that You have chosen has elapsed.</h5><h4>Maintaining control</h4><h5>Whilst the majority of our customers gamble within their means for some it can be more difficult. In order to maintain control of your gambling habits, we would like you to bear in mind the following points:</h5><h5>Gambling should be done in moderation and undertaken as a form of entertainment and not as a way of making a living;</h5><h5>Avoid chasing losses;</h5><h5>Keep track of the time and monitor the amount of money you spend;</h5><h5>If you need help, use the loss limits functionality to help you control the amount you can spend. These can be accessed from within the "Settings" panel, from the "Profile" menu, under "Account" or you can contact our Customer Support for help.</h5><h5>Should you need a break from gambling, Self-Exclusion can be set by contacting our Customer Support;</h5><h5>If you need to talk to someone about any concerns you may have with your gambling, please contact one of the organisations detailed below.</h5><h5>In case you would like to monitor your account activity regarding any transactions (deposit/ withdrawals/ Sportsbook bets, Casino bets) please visit the relevant section at your account (History &gt; Transactions). In the case that you notice that any of the transactions made at your account was not initiated by You, then you should immediately notify Customer Support through email and change your password. As part of the registration process, You will have to choose Your username and password for logging into the website. It is Your sole and exclusive responsibility to ensure that Your login details are kept securely. You must not disclose or share Your login details with anyone. website is not responsible for any abuse or misuse of Your Account by third parties due to Your disclosure, whether intentional or accidental, whether active or passive, of Your login details to any third party.</h5><h4>You think you have a problem?</h4><h5>If you are concerned that gambling has had a negative impact on your or someone else's life, then the following questions may help you find out more about your gambling behaviour and whether it is problematic or not.</h5><h5>Have you ever neglected your studies or work due to gambling?</h5><h5>Do you gamble to pass time or out of boredom?</h5><h5>Do you play alone and for long periods of time?</h5><h5>Have others ever criticised your gambling?</h5><h5>Have you ever lost interest in family, friends or hobbies due to gambling?</h5><h5>Has it ever happened to you to lie, borrow or even steal money to cover gambling losses?</h5><h5>Has it ever happened to you to lie, borrow or even steal money for gambling?</h5><h5>Are you reluctant to spend money allocated for gambling on other goals?</h5><h5>Do you gamble until you lose all your money?</h5><h5>After losing, do you feel the need to play as soon as possible to cover losses?</h5><h5>Are there times that gambling follows after arguments, frustrations or disappointments?</h5><h5>Does gambling cause you depression or suicidal thoughts?</h5><h5>The more questions that you answer 'yes' to, the more likely it is that you are having gambling issues. To speak with someone who can give you professional advice and support, please contact one of the organisations detailed below:</h5><div><a href="https://www.gamcare.org.uk" target="_blank">www.gamcare.org.uk</a></div><div><a href="https://www.gamblingtherapy.org" target="_blank">www.gamblingtherapy.org</a></div><div><a href="https://www.gamblersanonymous.org.uk" target="_blank">www.gamblersanonymous.org.uk</a></div><h4>Underage gambling</h4><h5>It is illegal for anyone under the age of 18 to open an account or to gamble on website. It takes very serious measures in this direction. We carry out age verification checks on all customers who use payment methods which are available to under 18's. Αdditionally, we randomly perform age verification checks on customers using other payment methods.</h5><h5><b>PLEASE NOTE THAT ANYONE UNDER THE AGE OF 18 FOUND TO BE USING THIS SITE WILL HAVE ANY WINNINGS FORFEITED AND MAY ALSO BE REPORTED TO THE POLICE.</b></h5></div></div></div></div>
+
+    <!-- Footer -->
+    <section class="footer">
+      <div class="footer-top">
+        <div class="footer-links">
+          <nav class="navbar navbar-expand-sm">
+            <ul class="navbar-nav">
+              <li class="nav-item"><a class="nav-link" href="/terms-and-conditions"> Terms and Conditions </a></li>
+              <li class="nav-item"><a class="nav-link" href="/responsible-gaming"> Responsible Gaming </a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="support-detail">
+          <h2>24X7 Support</h2>
+          <p></p>
+        </div>
+        <div class="social-icons-box"></div>
+      </div>
+    </section>
+    <div class="footer-bottom">
+      <div class="secure-logo">
+        <div><img src="https://wver.sprintstaticdata.com/v3/static/front/img/ssl.png" alt="SSL"></div>
+        <div class="ml-2"><b>100% SAFE</b><div>Protected connection and encrypted data.</div></div>
+      </div>
+      <div class="d-inline-block">
+        <button class="btn p-0" type="button"><img src="https://versionobj.ecoassetsservice.com/v106/static/front/img/18plus.png" alt="18+"></button>
+        <a href="https://www.gamcare.org.uk/" target="_blank"><img src="https://versionobj.ecoassetsservice.com/v106/static/front/img/gamecare.png" alt="GamCare"></a>
+        <a href="https://www.gamblingtherapy.org/" target="_blank"><img src="https://versionobj.ecoassetsservice.com/v106/static/front/img/gt.png" alt="Gambling Therapy"></a>
+      </div>
+    </div>
+    <div class="footer-text">
+      <p></p>
+      <p class="text-center">© Copyright 2026. All Rights Reserved. Powered by BESTBET9.</p>
+    </div>
+  </div>
+
+  <script src="/js/modals.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

@@ -55,7 +55,7 @@ function handleLogin(e) {
   }
 
   // Navigate to Dashboard
-  window.location.href = 'home.html';
+  window.location.href = '/home';
   return false;
 }
 
@@ -96,5 +96,5 @@ function handleDemoLogin() {
   }
 
   // Transition to demo dashboard
-  window.location.href = 'home.html';
+  window.location.href = '/home';
 }
