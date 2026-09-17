@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/admin/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>BestBet9 - Management System</title>
+  <link rel="icon" type="image/png" href="/admin/images/logo.png">
+
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <!-- Admin Stylesheets from Reference -->
+  <link rel="stylesheet" href="/admin/css/app.css">
+  <link rel="stylesheet" href="/admin/css/style.css">
+  <link rel="stylesheet" href="/admin/css/custom.css">
+  <link rel="stylesheet" href="/admin/css/responsive.css">
+
+  <style>
+    /* Clean fallback overrides to guarantee 100% pixel fidelity */
+    body {
+      font-family: 'Roboto Condensed', 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8fb;
+    }
+    .login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0b689e 0%, #15395b 100%);
+      padding: 20px;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      padding: 30px 35px;
+      text-align: center;
+    }
+    .login-logo img {
+      max-width: 220px;
+      max-height: 80px;
+      object-fit: contain;
+      margin-bottom: 20px;
+    }
+    .login-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #333333;
+      margin-bottom: 25px;
+      position: relative;
+    }
+    .login-title:before, .login-title:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 60px;
+      height: 1px;
+      background: #dcdcdc;
+    }
+    .login-title:before { left: 20px; }
+    .login-title:after { right: 20px; }
+    .btn-login-submit {
+      background-color: #0088cc;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 4px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .btn-login-submit:hover {
+      background-color: #0077b3;
+      color: #fff;
+    }
+
+    /* Modal Backdrop & Z-Index */
+    .modal-backdrop.show {
+      opacity: 0.5;
+    }
+    .admin-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      outline: 0;
+      z-index: 1050;
+      background: rgba(0,0,0,0.5);
+    }
+    .admin-modal.show {
+      display: block;
+    }
+
+    /* Table & Action Badges */
+    .btn-action-icon {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      margin: 0 2px;
+      font-size: 13px;
+    }
+    .badge-master {
+      background-color: #556ee6;
+      color: #fff;
+    }
+    .badge-agent {
+      background-color: #34c38f;
+      color: #fff;
+    }
+    .badge-client {
+      background-color: #50a5f1;
+      color: #fff;
+    }
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 99999;
+    }
+
+    /* Top Bar Polish */
+    .site-logo {
+      height: 38px;
+      object-fit: contain;
+    }
+    .bal-pill {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 4px;
+      padding: 6px 14px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .bal-pill .pts-val {
+      color: #50a5f1;
+      font-weight: 700;
+    }
+    .bal-pill .exp-val {
+      color: #f46a6a;
+      font-weight: 700;
+    }
+
+    /* Sidebar Tree */
+    .tree-nav {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    .tree-nav li {
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .tree-nav li a, .tree-nav li .tree-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      color: #a6b0cf;
+      text-decoration: none;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .tree-nav li a:hover, .tree-nav li .tree-toggle:hover {
+      color: #ffffff;
+      background: rgba(255,255,255,0.04);
+    }
+    .tree-sub {
+      list-style: none;
+      padding-left: 15px;
+      display: none;
+      background: #222736;
+    }
+    .tree-sub.open {
+      display: block;
+    }
+    .tree-sub li a {
+      padding: 8px 15px;
+      font-size: 13px;
+    }
+    .tree-sub li a:hover {
+      color: #50a5f1;
+    }
+
+    /* Odds Display */
+    .odds-box-back {
+      background-color: #72bbef !important;
+      color: #111 !important;
+      font-weight: 700;
+      text-align: center;
+      padding: 8px 12px;
+      border-radius: 3px;
+      display: inline-block;
+      min-width: 60px;
+      cursor: pointer;
+    }
+    .odds-box-lay {
+      background-color: #faa9ba !important;
+      color: #111 !important;
+      font-weight: 700;
+      text-align: center;
+      padding: 8px 12px;
+      border-radius: 3px;
+      display: inline-block;
+      min-width: 60px;
+      cursor: pointer;
+    }
+    body.sidebar-enable .vertical-menu,
+    body.vertical-collpsed.sidebar-enable .vertical-menu {
+      display: block !important;
+      position: fixed !important;
+      z-index: 1050 !important;
+      width: 260px !important;
+      top: 70px;
+      bottom: 0;
+      left: 0;
+      background: #2a3042 !important;
+      box-shadow: 3px 0 16px rgba(0,0,0,0.6);
+    }
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      top: 70px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1040;
+    }
+    body.sidebar-enable .sidebar-backdrop {
+      display: block;
+    }
+  </style>
+</head>
+<body class="vertical-collpsed" data-sidebar="dark">
+
+  <!-- Toast Notification -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- 1. LOGIN SECTION -->
+  <section id="loginSection" class="login-wrapper">
+    <div class="login-card">
+      <div class="login-logo">
+        <img src="/admin/images/logo.png" alt="BestBet9">
+      </div>
+      <div class="login-title">Sign In</div>
+
+      <div id="loginErrorAlert" class="alert alert-danger" style="display:none;" role="alert"></div>
+
+      <form id="adminLoginForm" autocomplete="off">
+        <div class="form-group mb-3 text-left">
+          <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+        </div>
+        <div class="form-group mb-4 text-left">
+          <input type="password" id="inputPassword" class="form-control" placeholder="password" required>
+        </div>
+        <button type="submit" class="btn btn-login-submit">
+          Login <i class="fas fa-sign-in-alt ml-1"></i>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 2. AUTHENTICATED DASHBOARD SECTION -->
+  <div id="dashboardSection" style="display:none;">
+    <div id="layout-wrapper">
+      <div class="sidebar-backdrop" onclick="document.body.classList.remove('sidebar-enable')"></div>
+
+      <!-- TOP HEADER BAR -->
+      <header id="page-topbar">
+        <div class="navbar-header d-flex justify-content-between align-items-center w-100">
+          
+          <!-- Top Left: Logo & Navigation -->
+          <div class="d-flex align-items-center">
+            <div class="navbar-brand-box mr-3">
+              <a href="/admin/home" class="logo logo-light nav-route-link">
+                <span class="logo-lg">
+                  <img src="/admin/images/logo.png" alt="BestBet9" class="site-logo">
+                </span>
+              </a>
+            </div>
+
+            <button type="button" class="btn btn-sm px-3 font-size-16 header-item mr-3" id="verticalMenuBtn">
+              <i class="fa fa-fw fa-bars"></i>
+            </button>
+
+            <!-- Main Menu Links -->
+            <ul class="nav align-items-center main-menu d-none d-lg-flex">
+              <li class="nav-item">
+                <a class="nav-link nav-route-link" href="/admin/users" data-route="/admin/users">
+                  List of Clients
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link nav-route-link" href="/admin/market-analysis" data-route="/admin/market-analysis">
+                  Market Analysis
+                </a>
+              </li>
+              
+              <!-- Reports Dropdown -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="reportsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Reports <i class="fa fa-caret-down ml-1"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="reportsDropdown">
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/accountstatement" data-route="/admin/reports/accountstatement">Account Statement</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/currentbets" data-route="/admin/reports/currentbets">Current Bets</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/profitloss" data-route="/admin/reports/profitloss">Profit And Loss</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/casinoresult" data-route="/admin/reports/casinoresult">Casino Result Report</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/livecasinoreport" data-route="/admin/reports/livecasinoreport">Casino Report</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/turnover" data-route="/admin/reports/turnover">Turnover</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/userhistory" data-route="/admin/reports/userhistory">User History</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/generalreport" data-route="/admin/reports/generalreport">General Report</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/gamereport" data-route="/admin/reports/gamereport">Game Report</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/userregisterdetail" data-route="/admin/reports/userregisterdetail">User Register Detail</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/totalprofitloss" data-route="/admin/reports/totalprofitloss">Total Profit Loss</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/userwinloss" data-route="/admin/reports/userwinloss">User Win Loss</a>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link nav-route-link" href="/admin/reports/bank" data-route="/admin/reports/bank">
+                  Bank
+                </a>
+              </li>
+
+              <!-- Settings Dropdown -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Settings <i class="fa fa-caret-down ml-1"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="settingsDropdown">
+                  <a class="dropdown-item nav-route-link" href="/admin/settings/userlock" data-route="/admin/settings/userlock">General Lock</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/setbutton" data-route="/admin/setbutton">Set Button</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/createaccount" data-route="/admin/createaccount">Multi Login</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Top Right: Balance & User Menu -->
+          <div class="d-flex align-items-center">
+            
+            <!-- Balance / Pts Box -->
+            <div class="bal-pill mr-3 d-none d-sm-block">
+              <span>Pts: </span><span id="topAdminBalance" class="pts-val">500,000.00</span>
+              <span class="mx-2">|</span>
+              <span>Exp: </span><span id="topAdminExposure" class="exp-val">12,500.00</span>
+            </div>
+
+            <!-- User Dropdown Menu -->
+            <div class="dropdown user-dropdown">
+              <button class="btn btn-dark dropdown-toggle header-item text-white" type="button" id="userMenuBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user-circle mr-1"></i>
+                <span id="topAdminUsername">Faazan50 (Master)</span>
+                <i class="fa fa-caret-down ml-1"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenuBtn">
+                <a class="dropdown-item" href="javascript:void(0)" id="openRulesBtn"><i class="fas fa-info-circle mr-2"></i> Rules</a>
+                <a class="dropdown-item nav-route-link" href="/admin/secureauth" data-route="/admin/secureauth"><i class="fas fa-shield-alt mr-2"></i> Secure Auth Verification</a>
+                <a class="dropdown-item" href="javascript:void(0)" id="openAdminPasswordBtn"><i class="fas fa-key mr-2"></i> Change Password</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-danger" href="javascript:void(0)" id="adminLogoutBtn"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </header>
+
+      <!-- SIDEBAR MENU -->
+      <div class="vertical-menu" id="adminSidebar">
+        <div class="h-100" style="overflow-y:auto;">
+          <div id="sidebar-menu">
+            <ul class="tree-nav" id="sideMenuSportsTree">
+              
+              <!-- Cricket Category -->
+              <li>
+                <div class="tree-toggle" onclick="toggleSidebarSection('treeCricket')">
+                  <span><i class="fas fa-baseball-ball mr-2 text-warning"></i> Cricket</span>
+                  <i class="fas fa-chevron-right arrow-icon"></i>
+                </div>
+                <ul class="tree-sub" id="treeCricket">
+                  <li>
+                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                      South Africa v Pakistan
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                      India v Australia
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                      England v New Zealand
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- Football Category -->
+              <li>
+                <div class="tree-toggle" onclick="toggleSidebarSection('treeFootball')">
+                  <span><i class="fas fa-futbol mr-2 text-info"></i> Football</span>
+                  <i class="fas fa-chevron-right arrow-icon"></i>
+                </div>
+                <ul class="tree-sub" id="treeFootball">
+                  <li>
+                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                      Manchester City v Arsenal
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                      Real Madrid v Barcelona
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                      Bayern Munich v Dortmund
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- Tennis Category -->
+              <li>
+                <div class="tree-toggle" onclick="toggleSidebarSection('treeTennis')">
+                  <span><i class="fas fa-table-tennis mr-2 text-success"></i> Tennis</span>
+                  <i class="fas fa-chevron-right arrow-icon"></i>
+                </div>
+                <ul class="tree-sub" id="treeTennis">
+                  <li>
+                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                      Novak Djokovic v Carlos Alcaraz
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                      Jannik Sinner v Daniil Medvedev
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- Quick Navigation Shortcuts -->
+              <li class="mt-3">
+                <a href="/admin/users" class="nav-route-link" data-route="/admin/users">
+                  <span><i class="fas fa-users mr-2 text-primary"></i> Client List</span>
+                </a>
+              </li>
+              <li>
+                <a href="/admin/users/insertuser" class="nav-route-link" data-route="/admin/users/insertuser">
+                  <span><i class="fas fa-user-plus mr-2 text-success"></i> Add Account</span>
+                </a>
+              </li>
+              <li>
+                <a href="/admin/reports/accountstatement" class="nav-route-link" data-route="/admin/reports/accountstatement">
+                  <span><i class="fas fa-file-invoice-dollar mr-2 text-warning"></i> Account Statement</span>
+                </a>
+              </li>
+              <li>
+                <a href="/admin/reports/currentbets" class="nav-route-link" data-route="/admin/reports/currentbets">
+                  <span><i class="fas fa-list-alt mr-2 text-info"></i> Current Bets</span>
+                </a>
+              </li>
+              <li>
+                <a href="/admin/reports/bank" class="nav-route-link" data-route="/admin/reports/bank">
+                  <span><i class="fas fa-university mr-2 text-light"></i> Bank / Settlement</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT WRAPPER -->
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid" id="adminMainContainer">
+            <!-- DYNAMIC VIEW CONTENT INJECTED HERE VIA admin-app.js -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== MODAL DIALOGS ==================== -->
+
+  <!-- 1. BANKING MODAL (DEPOSIT / WITHDRAW) -->
+  <div class="admin-modal" id="bankingModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title" id="bankingModalTitle">Banking - Deposit / Withdraw</h5>
+          <button type="button" class="close text-white" onclick="closeModal('bankingModal')">&times;</button>
+        </div>
+        <form id="bankingForm">
+          <input type="hidden" id="bankingUserId">
+          <div class="modal-body">
+            <div class="form-group row mb-2">
+              <label class="col-sm-4 col-form-label font-weight-bold">Client / Agent:</label>
+              <div class="col-sm-8 col-form-label" id="bankingUserName">Client_001</div>
+            </div>
+            <div class="form-group row mb-2">
+              <label class="col-sm-4 col-form-label font-weight-bold">Current Balance:</label>
+              <div class="col-sm-8 col-form-label text-primary font-weight-bold" id="bankingUserBalance">48,000.00</div>
+            </div>
+            <div class="form-group row mb-2">
+              <label class="col-sm-4 col-form-label font-weight-bold">Master Balance:</label>
+              <div class="col-sm-8 col-form-label text-success font-weight-bold" id="bankingMasterBalance">500,000.00</div>
+            </div>
+            <hr>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">Action Type:</label>
+              <div class="col-sm-8">
+                <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
+                  <label class="btn btn-outline-success active">
+                    <input type="radio" name="bankingType" value="Deposit" checked> Deposit (D)
+                  </label>
+                  <label class="btn btn-outline-danger">
+                    <input type="radio" name="bankingType" value="Withdraw"> Withdraw (W)
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">Amount:</label>
+              <div class="col-sm-8">
+                <input type="number" id="bankingAmount" class="form-control" placeholder="Enter amount" min="1" required>
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">Remarks:</label>
+              <div class="col-sm-8">
+                <input type="text" id="bankingRemarks" class="form-control" placeholder="Transaction remarks (optional)">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('bankingModal')">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="btnSubmitBanking">Execute Transaction</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. STATUS / USER LOCK MODAL -->
+  <div class="admin-modal" id="statusModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title">Change Account Status</h5>
+          <button type="button" class="close text-white" onclick="closeModal('statusModal')">&times;</button>
+        </div>
+        <form id="statusForm">
+          <input type="hidden" id="statusUserId">
+          <div class="modal-body">
+            <div class="form-group row mb-2">
+              <label class="col-sm-4 col-form-label font-weight-bold">User:</label>
+              <div class="col-sm-8 col-form-label" id="statusUserName">Client_001</div>
+            </div>
+            <hr>
+            <div class="form-group mb-3">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="switchUserActive" checked>
+                <label class="custom-control-label font-weight-bold" for="switchUserActive">User Active (Allow Login)</label>
+              </div>
+              <small class="form-text text-muted">When unchecked, this account is locked from logging into the portal.</small>
+            </div>
+            <div class="form-group mb-3">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="switchBetActive" checked>
+                <label class="custom-control-label font-weight-bold" for="switchBetActive">Betting Active (Allow Placing Bets)</label>
+              </div>
+              <small class="form-text text-muted">When unchecked, user cannot place new bets.</small>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('statusModal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Status</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. CREDIT REFERENCE MODAL -->
+  <div class="admin-modal" id="creditRefModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title">Update Credit Reference</h5>
+          <button type="button" class="close text-white" onclick="closeModal('creditRefModal')">&times;</button>
+        </div>
+        <form id="creditRefForm">
+          <input type="hidden" id="creditRefUserId">
+          <div class="modal-body">
+            <div class="form-group row mb-2">
+              <label class="col-sm-4 col-form-label font-weight-bold">User:</label>
+              <div class="col-sm-8 col-form-label" id="creditRefUserName">Client_001</div>
+            </div>
+            <div class="form-group row mb-2">
+              <label class="col-sm-4 col-form-label font-weight-bold">Current Limit:</label>
+              <div class="col-sm-8 col-form-label text-info font-weight-bold" id="creditRefCurrent">50,000.00</div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">New Limit:</label>
+              <div class="col-sm-8">
+                <input type="number" id="creditRefNew" class="form-control" placeholder="Enter new limit" min="0" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('creditRefModal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Update Credit Limit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. CHANGE PASSWORD MODAL -->
+  <div class="admin-modal" id="changePasswordModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title" id="changePasswordTitle">Change Password</h5>
+          <button type="button" class="close text-white" onclick="closeModal('changePasswordModal')">&times;</button>
+        </div>
+        <form id="changePasswordForm">
+          <input type="hidden" id="changePasswordUserId">
+          <div class="modal-body">
+            <div class="form-group mb-3">
+              <label class="font-weight-bold">Account:</label>
+              <input type="text" id="changePasswordUserName" class="form-control" readonly>
+            </div>
+            <div class="form-group mb-3">
+              <label class="font-weight-bold">New Password:</label>
+              <input type="password" id="inputNewPassword" class="form-control" placeholder="Enter new password" required minlength="6">
+            </div>
+            <div class="form-group mb-3">
+              <label class="font-weight-bold">Confirm New Password:</label>
+              <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Confirm new password" required minlength="6">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('changePasswordModal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Update Password</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. SETTLEMENT EXECUTION MODAL -->
+  <div class="admin-modal" id="settlementModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title">Clear Balance / Execute Settlement</h5>
+          <button type="button" class="close text-white" onclick="closeModal('settlementModal')">&times;</button>
+        </div>
+        <form id="settlementForm">
+          <input type="hidden" id="settlementUserId">
+          <div class="modal-body">
+            <div class="alert alert-info py-2 mb-3">
+              <strong>Settlement Rule:</strong> <code>(Total P/L &times; Partnership %) + Commission</code>
+            </div>
+            <div class="form-group row mb-2">
+              <label class="col-sm-5 col-form-label font-weight-bold">Target Account:</label>
+              <div class="col-sm-7 col-form-label" id="settlementAccount">Agent_Alpha</div>
+            </div>
+            <div class="form-group row mb-2">
+              <label class="col-sm-5 col-form-label font-weight-bold">Gross Client P/L:</label>
+              <div class="col-sm-7 col-form-label font-weight-bold" id="settlementGrossPL">-12,000.00</div>
+            </div>
+            <div class="form-group row mb-2">
+              <label class="col-sm-5 col-form-label font-weight-bold">Partnership Share:</label>
+              <div class="col-sm-7 col-form-label font-weight-bold" id="settlementShare">80%</div>
+            </div>
+            <div class="form-group row mb-2">
+              <label class="col-sm-5 col-form-label font-weight-bold">Net Settlement Due:</label>
+              <div class="col-sm-7 col-form-label font-weight-bold text-success" id="settlementNetDue">+9,600.00 (Admin Receives)</div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-5 col-form-label font-weight-bold">Remarks:</label>
+              <div class="col-sm-7">
+                <input type="text" id="settlementRemarks" class="form-control" value="Weekly settlement cleared">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('settlementModal')">Cancel</button>
+            <button type="submit" class="btn btn-success font-weight-bold">Clear Balance & Settle</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. MARKET BOOK MODAL -->
+  <div class="admin-modal" id="marketBookModal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title" id="marketBookModalTitle">Market Book Details</h5>
+          <button type="button" class="close text-white" onclick="closeModal('marketBookModal')">&times;</button>
+        </div>
+        <div class="modal-body" id="marketBookContent">
+          <!-- Populated dynamically -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('marketBookModal')">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/admin/js/admin-data.js"></script>
+  <script src="/admin/js/admin-app.js"></script>
+
+</body>
+</html>
