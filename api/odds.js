@@ -98,6 +98,13 @@ function sanitizeMarketBooks(raw) {
   return sanitized;
 }
 
+function setNoCacheHeaders(res) {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  res.setHeader('Surrogate-Control', 'no-store');
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -106,6 +113,8 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
+
+  setNoCacheHeaders(res);
 
   const apiKey = process.env.SPORTBEX_API_KEY;
 
@@ -120,7 +129,6 @@ module.exports = async function handler(req, res) {
     }
 
     if (!apiKey) {
-      res.setHeader('Cache-Control', 'public, s-maxage=1, stale-while-revalidate=2');
       res.setHeader('X-Data-Source', 'fallback');
       return res.status(200).json(FALLBACK_ODDS);
     }
@@ -151,7 +159,6 @@ module.exports = async function handler(req, res) {
 
       const data = await response.json();
       const sanitized = sanitizeMarketBooks(data);
-      res.setHeader('Cache-Control', 'public, s-maxage=1, stale-while-revalidate=2');
       res.setHeader('X-Data-Source', 'live-sportbex');
       return res.status(200).json(sanitized);
 
@@ -172,7 +179,6 @@ module.exports = async function handler(req, res) {
     if (marketIds) {
       // Proxy to listMarketBook via POST
       if (!apiKey) {
-        res.setHeader('Cache-Control', 'public, s-maxage=1, stale-while-revalidate=2');
         res.setHeader('X-Data-Source', 'fallback');
         return res.status(200).json(FALLBACK_ODDS);
       }
@@ -203,7 +209,6 @@ module.exports = async function handler(req, res) {
 
         const data = await response.json();
         const sanitized = sanitizeMarketBooks(data);
-        res.setHeader('Cache-Control', 'public, s-maxage=1, stale-while-revalidate=2');
         res.setHeader('X-Data-Source', 'live-sportbex');
         return res.status(200).json(sanitized);
 
@@ -218,7 +223,6 @@ module.exports = async function handler(req, res) {
     }
 
     if (!apiKey) {
-      res.setHeader('Cache-Control', 'public, s-maxage=1, stale-while-revalidate=2');
       res.setHeader('X-Data-Source', 'fallback');
       return res.status(200).json(FALLBACK_ODDS);
     }
@@ -247,7 +251,6 @@ module.exports = async function handler(req, res) {
 
       const data = await response.json();
       const sanitized = sanitizeMarketBooks(data);
-      res.setHeader('Cache-Control', 'public, s-maxage=1, stale-while-revalidate=2');
       res.setHeader('X-Data-Source', 'live-sportbex');
       return res.status(200).json(sanitized);
 

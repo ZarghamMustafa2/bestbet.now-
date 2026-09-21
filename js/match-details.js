@@ -64,7 +64,7 @@
 
     try {
       // 1. Fetch market list
-      const res = await fetch(`/api/markets?eventId=${encodeURIComponent(activeEventId)}`);
+      const res = await fetch(`/api/markets?eventId=${encodeURIComponent(activeEventId)}`, { cache: 'no-store' });
       if (!res.ok) {
         throw new Error(`Markets status ${res.status}`);
       }
@@ -141,7 +141,7 @@
 
   async function loadCricketFancyData() {
     try {
-      const res = await fetch(`/api/fancy?eventId=${encodeURIComponent(activeEventId)}`);
+      const res = await fetch(`/api/fancy?eventId=${encodeURIComponent(activeEventId)}`, { cache: 'no-store' });
       if (!res.ok) return;
       const data = await res.json();
       if (!data) return;
@@ -332,7 +332,7 @@
     if (!activeEventId || !activeMatchOddsMarketId) return;
 
     try {
-      const res = await fetch(`/api/odds?eventId=${encodeURIComponent(activeEventId)}&marketId=${encodeURIComponent(activeMatchOddsMarketId)}`);
+      const res = await fetch(`/api/odds?eventId=${encodeURIComponent(activeEventId)}&marketId=${encodeURIComponent(activeMatchOddsMarketId)}`, { cache: 'no-store' });
       if (!res.ok) return;
       const data = await res.json();
       const marketBooks = Array.isArray(data) ? data : (data ? [data] : []);
