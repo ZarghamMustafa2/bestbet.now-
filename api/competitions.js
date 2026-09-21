@@ -83,7 +83,7 @@ module.exports = async function handler(req, res) {
   }
 
   const apiKey = process.env.SPORTBEX_API_KEY;
-  const eventTypeId = (req.query && req.query.eventTypeId) || '4'; // Default 4 = Cricket
+  const eventTypeId = (req.query && (req.query.sportId || req.query.eventTypeId)) || '4'; // Default 4 = Cricket
 
   // If no API key configured (e.g. initial dev or unconfigured Vercel environment), return fallback
   if (!apiKey) {
@@ -112,18 +112,23 @@ module.exports = async function handler(req, res) {
       // Upstream error - log securely server-side without leaking the API key
       console.warn(`[SportBex API] Upstream returned status ${response.status}`);
       res.setHeader('Cache-Control', 'no-cache');
-      res.setHeader('X-Data-Source', 'fallback');
-      return res.status(200).json(FALLBACK_COMPETITIONS);
+      return res.status(response.status).json({ error: `Upstream error ${response.status}` });
     }
 
     const data = await response.json();
+    if (Array.isArray(data) && data.length === 0) {
+      // Empty array is valid response according to SportBex specification
+      res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60');
+      res.setHeader('X-Data-Source', 'live-sportbex');
+      return res.status(200).json([]);
+    }
+
     const sanitized = sanitizeCompetitions(data);
 
     if (!sanitized) {
-      console.warn('[SportBex API] Received empty or invalid schema from upstream');
+      console.warn('[SportBex API] Received invalid schema from upstream');
       res.setHeader('Cache-Control', 'no-cache');
-      res.setHeader('X-Data-Source', 'fallback');
-      return res.status(200).json(FALLBACK_COMPETITIONS);
+      return res.status(200).json([]);
     }
 
     // Success: return sanitized live competition list

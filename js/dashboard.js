@@ -392,6 +392,16 @@ function renderCricketCompetitions(competitions) {
       </a>
     `;
   }).join('');
+
+  // Check URL params for competitionId
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetCompId = urlParams.get('competitionId');
+    if (targetCompId) {
+      const matchingItem = competitions.find(c => String(c.competition?.id || c.id) === String(targetCompId));
+      handleCompetitionClick(null, targetCompId, matchingItem?.competition?.name || '');
+    }
+  } catch (e) {}
 }
 
 function toggleCricketAccordion(forceState) {
@@ -412,7 +422,9 @@ function toggleCricketAccordion(forceState) {
   }
 }
 
-function handleCompetitionClick(event, competitionId, competitionName) {
+let cachedEventsByCompetition = {};
+
+async function handleCompetitionClick(event, competitionId, competitionName) {
   if (event) {
     event.preventDefault();
   }
@@ -437,17 +449,96 @@ function handleCompetitionClick(event, competitionId, competitionName) {
     }
   });
 
-  // Filter table rows if matching matches exist
-  const tableRows = document.querySelectorAll('.bet-table-body .bet-table-row');
-  if (tableRows.length) {
-    tableRows.forEach(row => {
-      const rowSport = (row.getAttribute('data-sport') || 'cricket').toLowerCase();
-      if (rowSport === 'cricket') {
-        row.style.display = 'flex';
-      } else {
-        row.style.display = 'none';
-      }
-    });
+  // Load and render events for this competition
+  await loadEventsForCompetition(competitionId, competitionName);
+}
+
+async function loadEventsForCompetition(competitionId, competitionName) {
+  const tableBody = document.querySelector('.bet-table-body');
+  if (!tableBody) return;
+
+  // Check cache
+  if (cachedEventsByCompetition[competitionId]) {
+    renderEventsTable(cachedEventsByCompetition[competitionId], competitionName);
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/events?sportId=4&competitionId=${encodeURIComponent(competitionId)}`);
+    if (!res.ok) {
+      throw new Error(`Events status ${res.status}`);
+    }
+    const data = await res.json();
+    const events = Array.isArray(data) ? data : [];
+    cachedEventsByCompetition[competitionId] = events;
+    renderEventsTable(events, competitionName);
+  } catch (err) {
+    console.warn('Error loading events:', err.message);
+    tableBody.innerHTML = `
+      <div class="p-4 text-center text-muted" style="background: #fff; font-size: 13px;">
+        No active matches currently available.
+      </div>
+    `;
+  }
+}
+
+function renderEventsTable(events, competitionName) {
+  const tableBody = document.querySelector('.bet-table-body');
+  if (!tableBody) return;
+
+  if (!Array.isArray(events) || events.length === 0) {
+    tableBody.innerHTML = `
+      <div class="p-4 text-center text-muted" style="background: #fff; font-size: 13px;">
+        No active matches currently scheduled for ${escapeHtml(competitionName || 'this competition')}.
+      </div>
+    `;
+    return;
+  }
+
+  tableBody.innerHTML = events.map(item => {
+    const evt = item.event || item;
+    const id = evt.id || '';
+    const name = evt.name || 'Unknown Match';
+    const openDate = evt.openDate ? formatDate(evt.openDate) : '';
+
+    return `
+      <div class="bet-table-row" data-sport="cricket" data-event-id="${escapeHtml(String(id))}">
+        <div class="bet-nation-name">
+          <a class="bet-nation-game-name" href="/game-details/4/${escapeHtml(String(id))}">
+            <span>${escapeHtml(name)}</span>
+            ${openDate ? `<span class="d-none d-md-inline-block">&nbsp;/&nbsp;</span><span>${escapeHtml(openDate)}</span>` : ''}
+          </a>
+          <div class="game-icons">
+            <span class="game-icon-dot"></span>
+            <i class="fas fa-tv game-icon-tv"></i>
+            <img src="/assets/images/ic_fancy.png" class="game-icon-img" alt="f">
+            <img src="/assets/images/ic_bm.png" class="game-icon-img" alt="BM">
+          </div>
+        </div>
+        <div class="bet-nation-odd d-xl-none"><b>1</b></div>
+        <div class="bet-nation-odd d-xl-none"><b>X</b></div>
+        <div class="bet-nation-odd d-xl-none"><b>2</b></div>
+        <div class="bet-nation-odd"><div class="odd-box back" data-odd-type="back">-</div><div class="odd-box lay" data-odd-type="lay">-</div></div>
+        <div class="bet-nation-odd"><div class="odd-box back" data-odd-type="back">-</div><div class="odd-box lay" data-odd-type="lay">-</div></div>
+        <div class="bet-nation-odd"><div class="odd-box back" data-odd-type="back">-</div><div class="odd-box lay" data-odd-type="lay">-</div></div>
+      </div>
+    `;
+  }).join('');
+}
+
+function formatDate(isoStr) {
+  try {
+    const d = new Date(isoStr);
+    if (isNaN(d.getTime())) return isoStr;
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    const seconds = String(d.getSeconds()).padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  } catch (e) {
+    return isoStr;
   }
 }
 
@@ -463,4 +554,6 @@ function escapeHtml(str) {
 window.toggleCricketAccordion = toggleCricketAccordion;
 window.handleCompetitionClick = handleCompetitionClick;
 window.loadCricketCompetitions = loadCricketCompetitions;
+window.loadEventsForCompetition = loadEventsForCompetition;
+
 
