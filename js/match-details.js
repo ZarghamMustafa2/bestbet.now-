@@ -167,6 +167,14 @@
     const bmBody = bmContainer.querySelector('.market-body');
     if (!bmBody || !Array.isArray(bmMarket.runners) || bmMarket.runners.length === 0) return;
 
+    // If rows already exist, update in-place without rebuilding DOM
+    const existingRows = bmBody.querySelectorAll('.market-row[data-selection-id]');
+    if (existingRows.length > 0) {
+      updateBookmakerInPlace(bmBody, bmMarket);
+      return;
+    }
+
+    // Initial render only
     bmBody.innerHTML = bmMarket.runners.map(runner => {
       const selId = runner.selectionId || '';
       const rName = runner.runnerName || activeRunnersMap[selId] || 'Selection';
@@ -190,12 +198,54 @@
     }).join('');
   }
 
+  function updateBookmakerInPlace(bmBody, bmMarket) {
+    if (bmMarket.status) {
+      bmBody.setAttribute('data-title', bmMarket.status);
+    }
+
+    bmMarket.runners.forEach(runner => {
+      const selId = String(runner.selectionId || '');
+      const row = bmBody.querySelector(`.market-row[data-selection-id="${selId}"]`);
+      if (!row) return;
+
+      const isSuspended = runner.status === 'SUSPENDED' || bmMarket.status === 'SUSPENDED';
+      if (isSuspended) {
+        row.classList.add('suspended-row');
+        row.setAttribute('data-title', 'SUSPENDED');
+      } else {
+        row.classList.remove('suspended-row');
+        row.setAttribute('data-title', runner.status || 'ACTIVE');
+      }
+
+      const backPrice = runner.backPrice ? Number(runner.backPrice).toFixed(2) : '-';
+      const layPrice = runner.layPrice ? Number(runner.layPrice).toFixed(2) : '-';
+
+      const backOddSpan = row.querySelector('.market-odd-box.back .market-odd');
+      const layOddSpan = row.querySelector('.market-odd-box.lay .market-odd');
+
+      if (backOddSpan && backOddSpan.textContent !== backPrice) {
+        backOddSpan.textContent = backPrice;
+      }
+      if (layOddSpan && layOddSpan.textContent !== layPrice) {
+        layOddSpan.textContent = layPrice;
+      }
+    });
+  }
+
   function renderFancyUI(fancyList) {
     const fancyContainer = document.querySelector('.game-market.market-6');
     if (!fancyContainer) return;
     const fancyBody = fancyContainer.querySelector('.market-body');
     if (!fancyBody) return;
 
+    // If rows already exist, update in-place without rebuilding DOM
+    const existingFancyMarkets = fancyBody.querySelectorAll('.fancy-market');
+    if (existingFancyMarkets.length > 0) {
+      updateFancyInPlace(fancyBody, fancyList);
+      return;
+    }
+
+    // Initial render only
     fancyBody.innerHTML = `
       <div class="row row10">
         <div class="col-md-12">
@@ -226,6 +276,56 @@
         </div>
       </div>
     `;
+  }
+
+  function updateFancyInPlace(fancyBody, fancyList) {
+    fancyList.forEach(item => {
+      const mId = String(item.marketId || '');
+      const name = item.marketName || '';
+
+      let el = mId ? fancyBody.querySelector(`.fancy-market[data-market-id="${mId}"]`) : null;
+      if (!el && name) {
+        const allNationNames = fancyBody.querySelectorAll('.fancy-market .market-nation-name');
+        for (const span of allNationNames) {
+          if (span.textContent.trim() === name.trim()) {
+            el = span.closest('.fancy-market');
+            break;
+          }
+        }
+      }
+      if (!el) return;
+
+      const isSuspended = item.status === 'SUSPENDED';
+      if (isSuspended) {
+        el.classList.add('suspended-row');
+        el.setAttribute('data-title', 'SUSPENDED');
+      } else {
+        el.classList.remove('suspended-row');
+        el.setAttribute('data-title', item.status || 'OPEN');
+      }
+
+      const runsNo = item.runsNo !== undefined ? String(item.runsNo) : (item.noPrice !== undefined ? String(item.noPrice) : '-');
+      const runsYes = item.runsYes !== undefined ? String(item.runsYes) : (item.yesPrice !== undefined ? String(item.yesPrice) : '-');
+
+      const noOddSpan = el.querySelector('.market-odd-box.lay .market-odd');
+      const yesOddSpan = el.querySelector('.market-odd-box.back .market-odd');
+
+      if (noOddSpan && noOddSpan.textContent !== runsNo) {
+        noOddSpan.textContent = runsNo;
+      }
+      if (yesOddSpan && yesOddSpan.textContent !== runsYes) {
+        yesOddSpan.textContent = runsYes;
+      }
+
+      if (item.min !== undefined || item.max !== undefined) {
+        const minSpan = el.querySelector('.fancy-min-max span:first-child');
+        const maxSpan = el.querySelector('.fancy-min-max span:last-child');
+        const minText = `Min: ${item.min || 100}`;
+        const maxText = `Max: ${item.max ? (item.max >= 1000 ? (item.max / 1000) + 'K' : item.max) : '25K'}`;
+        if (minSpan && minSpan.textContent !== minText) minSpan.textContent = minText;
+        if (maxSpan && maxSpan.textContent !== maxText) maxSpan.textContent = maxText;
+      }
+    });
   }
 
   async function refreshLiveOdds() {
