@@ -267,9 +267,34 @@ body {
   color: #000000;
 }
 
-.sidebar-link i.fa-plus-square {
+.sidebar-link i.fa-plus-square,
+.sidebar-link i.fa-minus-square {
   margin-right: 5px;
   font-size: 10.5px;
+}
+
+.sidebar-sub-link {
+  padding-left: 20px !important;
+  background-color: #eaedf1;
+  font-size: 13px;
+}
+
+.sidebar-sub-link:hover {
+  background-color: #dce1e7;
+}
+
+.competition-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.competition-market-count {
+  font-size: 11px;
+  color: #6c757d;
+  margin-left: 6px;
+  font-weight: 500;
 }
 
 /* CENTER CONTAINER */

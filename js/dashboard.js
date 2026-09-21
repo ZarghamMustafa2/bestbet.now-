@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initOddsInteraction();
   initSportsTabs();
   initCasinoInteractions();
+  loadCricketCompetitions();
 });
 
 function initMobileSearch() {
@@ -224,7 +225,7 @@ function initSportsTabs() {
   const sportsNavLinks = document.querySelectorAll('a[href^="/all-sports/"]');
   sportsNavLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-      const href = link.getAttribute('href');
+      const href = link.getAttribute('href') || '';
       const parts = href.split('/');
       const sportId = parts[2];
       const idToName = {
@@ -236,9 +237,14 @@ function initSportsTabs() {
         '43': 'greyhound racing'
       };
       const sName = idToName[sportId];
-      if (sName && tableRows.length) {
+      if (sName) {
         e.preventDefault();
         filterSport(sName, sportId, true);
+        if (sportId === '4') {
+          toggleCricketAccordion();
+        } else {
+          toggleCricketAccordion(false);
+        }
       }
     });
   });
@@ -247,16 +253,22 @@ function initSportsTabs() {
   const path = window.location.pathname;
   if (path.includes('/all-sports/1')) {
     filterSport('football', '1', false);
+    toggleCricketAccordion(false);
   } else if (path.includes('/all-sports/2')) {
     filterSport('tennis', '2', false);
+    toggleCricketAccordion(false);
   } else if (path.includes('/all-sports/4')) {
     filterSport('cricket', '4', false);
+    toggleCricketAccordion(true);
   } else if (path.includes('/all-sports/7')) {
     filterSport('horse racing', '7', false);
+    toggleCricketAccordion(false);
   } else if (path.includes('/all-sports/8')) {
     filterSport('table tennis', '8', false);
+    toggleCricketAccordion(false);
   } else if (path.includes('/sports-book/33')) {
     filterSport('lottery', '33', false);
+    toggleCricketAccordion(false);
   }
 }
 
@@ -327,3 +339,128 @@ function initCasinoInteractions() {
     });
   });
 }
+
+// SportBex Gaming API: Cricket Competitions Integration
+let cachedCricketCompetitions = null;
+
+async function loadCricketCompetitions() {
+  const container = document.getElementById('cricketCompetitionsList');
+  if (!container) return;
+
+  try {
+    if (cachedCricketCompetitions && cachedCricketCompetitions.length > 0) {
+      renderCricketCompetitions(cachedCricketCompetitions);
+      return;
+    }
+
+    const res = await fetch('/api/competitions?eventTypeId=4');
+    if (!res.ok) {
+      throw new Error(`Status ${res.status}`);
+    }
+    const data = await res.json();
+    if (Array.isArray(data) && data.length > 0) {
+      cachedCricketCompetitions = data;
+      renderCricketCompetitions(data);
+    }
+  } catch (e) {
+    console.warn('SportBex competition fallback active:', e.message);
+  }
+}
+
+function renderCricketCompetitions(competitions) {
+  const container = document.getElementById('cricketCompetitionsList');
+  if (!container || !Array.isArray(competitions)) return;
+
+  container.innerHTML = competitions.map(item => {
+    const comp = item.competition || {};
+    const id = comp.id || '';
+    const name = comp.name || 'Unknown Competition';
+    const region = item.competitionRegion || 'International';
+    const marketCount = item.marketCount !== undefined ? item.marketCount : 1;
+
+    return `
+      <a class="sidebar-link sidebar-sub-link competition-item" 
+         href="/all-sports/4?competitionId=${escapeHtml(String(id))}" 
+         data-competition-id="${escapeHtml(String(id))}" 
+         data-region="${escapeHtml(String(region))}" 
+         data-market-count="${escapeHtml(String(marketCount))}" 
+         title="${escapeHtml(name)} (${escapeHtml(region)})"
+         onclick="handleCompetitionClick(event, '${escapeHtml(String(id))}', '${escapeHtml(name)}')">
+        <i class="far fa-plus-square"></i>
+        <span class="competition-name">${escapeHtml(name)}</span>
+        <span class="competition-market-count">(${escapeHtml(String(marketCount))})</span>
+      </a>
+    `;
+  }).join('');
+}
+
+function toggleCricketAccordion(forceState) {
+  const container = document.getElementById('cricketCompetitionsList');
+  const icon = document.getElementById('cricketTreeIcon');
+  if (!container) return;
+
+  const isCurrentlyHidden = container.style.display === 'none' || !container.style.display;
+  const shouldOpen = (typeof forceState === 'boolean') ? forceState : isCurrentlyHidden;
+
+  container.style.display = shouldOpen ? 'block' : 'none';
+  if (icon) {
+    icon.className = shouldOpen ? 'far fa-minus-square' : 'far fa-plus-square';
+  }
+
+  if (shouldOpen && (!container.children || container.children.length === 0)) {
+    loadCricketCompetitions();
+  }
+}
+
+function handleCompetitionClick(event, competitionId, competitionName) {
+  if (event) {
+    event.preventDefault();
+  }
+  const allItems = document.querySelectorAll('.competition-item');
+  allItems.forEach(item => {
+    if (item.getAttribute('data-competition-id') === competitionId) {
+      item.style.backgroundColor = '#d5dae0';
+      item.style.fontWeight = 'bold';
+    } else {
+      item.style.backgroundColor = '';
+      item.style.fontWeight = '';
+    }
+  });
+
+  // Ensure cricket sports tab is active
+  const sportTabs = document.querySelectorAll('.sports-tab .nav-link');
+  sportTabs.forEach(tab => {
+    if (tab.innerText.toLowerCase().includes('cricket')) {
+      tab.classList.add('active');
+    } else {
+      tab.classList.remove('active');
+    }
+  });
+
+  // Filter table rows if matching matches exist
+  const tableRows = document.querySelectorAll('.bet-table-body .bet-table-row');
+  if (tableRows.length) {
+    tableRows.forEach(row => {
+      const rowSport = (row.getAttribute('data-sport') || 'cricket').toLowerCase();
+      if (rowSport === 'cricket') {
+        row.style.display = 'flex';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+window.toggleCricketAccordion = toggleCricketAccordion;
+window.handleCompetitionClick = handleCompetitionClick;
+window.loadCricketCompetitions = loadCricketCompetitions;
+

@@ -12,3 +12,6 @@ click_demo.js
 scratch_*.json
 scratch/
 .system_generated/
+.env
+.env.*
+.env.local
