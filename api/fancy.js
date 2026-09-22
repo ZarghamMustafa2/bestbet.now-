@@ -48,6 +48,31 @@ function setNoCacheHeaders(res) {
   res.setHeader('Surrogate-Control', 'no-store');
 }
 
+function normalizeFancyData(data) {
+  if (!data) return { bookmaker: [], fancy: [] };
+
+  let bookmaker = [];
+  let fancy = [];
+
+  if (Array.isArray(data.bookmaker)) {
+    bookmaker = data.bookmaker;
+  } else if (Array.isArray(data.bm)) {
+    bookmaker = data.bm;
+  } else if (Array.isArray(data)) {
+    bookmaker = data.filter(m => (m.marketType || m.type || '').toUpperCase() === 'BOOKMAKER');
+  }
+
+  if (Array.isArray(data.fancy)) {
+    fancy = data.fancy;
+  } else if (Array.isArray(data.session)) {
+    fancy = data.session;
+  } else if (Array.isArray(data)) {
+    fancy = data.filter(m => (m.marketType || m.type || '').toUpperCase() !== 'BOOKMAKER');
+  }
+
+  return { bookmaker, fancy };
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -79,8 +104,9 @@ module.exports = async function handler(req, res) {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 8000);
 
+    // Primary: GET /betfair/fancy-bookmaker-odds/{eventId}
     const apiUrl = `https://trial-api.sportbex.com/api/betfair/fancy-bookmaker-odds/${eventId}`;
-    const response = await fetch(apiUrl, {
+    let response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
         'sportbex-api-key': apiKey,
@@ -88,6 +114,22 @@ module.exports = async function handler(req, res) {
       },
       signal: controller.signal
     });
+
+    // If V1 returns 404 or empty, attempt V2
+    if (!response.ok && response.status === 404) {
+      const v2Url = `https://trial-api.sportbex.com/api/betfair/fancy-all-bookmaker-odds-v2/${eventId}`;
+      const v2Response = await fetch(v2Url, {
+        method: 'GET',
+        headers: {
+          'sportbex-api-key': apiKey,
+          'Accept': 'application/json'
+        },
+        signal: controller.signal
+      });
+      if (v2Response.ok) {
+        response = v2Response;
+      }
+    }
 
     clearTimeout(timeout);
 
@@ -98,8 +140,9 @@ module.exports = async function handler(req, res) {
     }
 
     const data = await response.json();
+    const normalized = normalizeFancyData(data);
     res.setHeader('X-Data-Source', 'live-sportbex');
-    return res.status(200).json(data || {});
+    return res.status(200).json(normalized);
 
   } catch (err) {
     const isTimeout = err.name === 'AbortError';

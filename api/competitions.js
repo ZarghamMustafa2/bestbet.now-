@@ -68,6 +68,13 @@ function sanitizeCompetitions(rawList) {
   return sanitized.length > 0 ? sanitized : null;
 }
 
+function setNoCacheHeaders(res) {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  res.setHeader('Surrogate-Control', 'no-store');
+}
+
 module.exports = async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -78,6 +85,8 @@ module.exports = async function handler(req, res) {
     return res.status(200).end();
   }
 
+  setNoCacheHeaders(res);
+
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -87,7 +96,6 @@ module.exports = async function handler(req, res) {
 
   // If no API key configured (e.g. initial dev or unconfigured Vercel environment), return fallback
   if (!apiKey) {
-    res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60');
     res.setHeader('X-Data-Source', 'fallback');
     return res.status(200).json(FALLBACK_COMPETITIONS);
   }
@@ -118,7 +126,6 @@ module.exports = async function handler(req, res) {
     const data = await response.json();
     if (Array.isArray(data) && data.length === 0) {
       // Empty array is valid response according to SportBex specification
-      res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60');
       res.setHeader('X-Data-Source', 'live-sportbex');
       return res.status(200).json([]);
     }
@@ -132,7 +139,6 @@ module.exports = async function handler(req, res) {
     }
 
     // Success: return sanitized live competition list
-    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=120');
     res.setHeader('X-Data-Source', 'live-sportbex');
     return res.status(200).json(sanitized);
 

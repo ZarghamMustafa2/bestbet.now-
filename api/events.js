@@ -49,6 +49,13 @@ function sanitizeEvents(rawList) {
   return sanitized;
 }
 
+function setNoCacheHeaders(res) {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  res.setHeader('Surrogate-Control', 'no-store');
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -57,6 +64,8 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
+
+  setNoCacheHeaders(res);
 
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -71,7 +80,6 @@ module.exports = async function handler(req, res) {
   }
 
   if (!apiKey) {
-    res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60');
     res.setHeader('X-Data-Source', 'fallback');
     return res.status(200).json(FALLBACK_EVENTS);
   }
@@ -107,13 +115,11 @@ module.exports = async function handler(req, res) {
 
     const data = await response.json();
     if (Array.isArray(data) && data.length === 0) {
-      res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60');
       res.setHeader('X-Data-Source', 'live-sportbex');
       return res.status(200).json([]);
     }
 
     const sanitized = sanitizeEvents(data);
-    res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60');
     res.setHeader('X-Data-Source', 'live-sportbex');
     return res.status(200).json(sanitized);
 
