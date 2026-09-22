@@ -357,11 +357,20 @@
       const marketBody = marketContainer.querySelector('.market-body');
       if (marketBody && marketBook.status) {
         marketBody.setAttribute('data-title', marketBook.status);
+        if (marketBook.status === 'SUSPENDED') {
+          marketBody.classList.add('suspended-table');
+        } else {
+          marketBody.classList.remove('suspended-table');
+        }
       }
     }
 
-    marketBook.runners.forEach(runner => {
-      const row = document.querySelector(`.market-row[data-selection-id="${runner.selectionId}"]`);
+    marketBook.runners.forEach((runner, idx) => {
+      let row = document.querySelector(`.game-market.market-4 .market-row[data-selection-id="${runner.selectionId}"]`);
+      if (!row) {
+        const rows = document.querySelectorAll('.game-market.market-4 .market-body .market-row');
+        if (rows[idx]) row = rows[idx];
+      }
       if (!row) return;
 
       // Handle suspended status
