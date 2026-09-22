@@ -10,6 +10,8 @@
  * - Treats empty array [] as a valid 200 OK response.
  */
 
+const { getSportBexApiKey, setNoCacheHeaders, setCorsHeaders } = require('./_sportbex');
+
 const FALLBACK_MARKETS = [
   {
     marketId: "1.22941031",
@@ -49,17 +51,8 @@ function sanitizeMarkets(rawList) {
   return sanitized;
 }
 
-function setNoCacheHeaders(res) {
-  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-  res.setHeader('Pragma', 'no-cache');
-  res.setHeader('Expires', '0');
-  res.setHeader('Surrogate-Control', 'no-store');
-}
-
 module.exports = async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  setCorsHeaders(res);
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -71,7 +64,7 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const apiKey = process.env.SPORTBEX_API_KEY;
+  const apiKey = getSportBexApiKey();
   const eventId = String(req.query?.eventId || '');
 
   if (!eventId) {
@@ -101,8 +94,7 @@ module.exports = async function handler(req, res) {
 
     if (!response.ok) {
       console.warn(`[SportBex Markets API] Upstream returned status ${response.status}`);
-      res.setHeader('Cache-Control', 'no-cache');
-      return res.status(response.status).json({ error: `Upstream error ${response.status}` });
+      return res.status(response.status).json({ error: `SportBex upstream error ${response.status}` });
     }
 
     const data = await response.json();
@@ -118,7 +110,6 @@ module.exports = async function handler(req, res) {
   } catch (err) {
     const isTimeout = err.name === 'AbortError';
     console.warn(`[SportBex Markets API] ${isTimeout ? 'Request timed out' : 'Network error'}`);
-    res.setHeader('Cache-Control', 'no-cache');
-    return res.status(500).json({ error: 'Failed to fetch markets from SportBex' });
+    return res.status(502).json({ error: 'SportBex API network timeout or connection failure' });
   }
 };

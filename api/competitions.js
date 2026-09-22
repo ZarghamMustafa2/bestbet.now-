@@ -8,8 +8,9 @@
  * - Reads SPORTBEX_API_KEY exclusively from server-side environment variables.
  * - Never returns or leaks the API key to the client or in error payloads.
  * - Validates and sanitizes outgoing data according to the Betfair Competition schema.
- * - Provides reliable fallback data if the key is missing or the external API is unreachable.
  */
+
+const { getSportBexApiKey, setNoCacheHeaders, setCorsHeaders } = require('./_sportbex');
 
 const FALLBACK_COMPETITIONS = [
   {
@@ -68,18 +69,8 @@ function sanitizeCompetitions(rawList) {
   return sanitized.length > 0 ? sanitized : null;
 }
 
-function setNoCacheHeaders(res) {
-  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-  res.setHeader('Pragma', 'no-cache');
-  res.setHeader('Expires', '0');
-  res.setHeader('Surrogate-Control', 'no-store');
-}
-
 module.exports = async function handler(req, res) {
-  // Set CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  setCorsHeaders(res);
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -91,10 +82,10 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const apiKey = process.env.SPORTBEX_API_KEY;
+  const apiKey = getSportBexApiKey();
   const eventTypeId = (req.query && (req.query.sportId || req.query.eventTypeId)) || '4'; // Default 4 = Cricket
 
-  // If no API key configured (e.g. initial dev or unconfigured Vercel environment), return fallback
+  // If no API key configured in environment, return fallback with indicator
   if (!apiKey) {
     res.setHeader('X-Data-Source', 'fallback');
     return res.status(200).json(FALLBACK_COMPETITIONS);
@@ -117,15 +108,12 @@ module.exports = async function handler(req, res) {
     clearTimeout(timeout);
 
     if (!response.ok) {
-      // Upstream error - log securely server-side without leaking the API key
       console.warn(`[SportBex API] Upstream returned status ${response.status}`);
-      res.setHeader('Cache-Control', 'no-cache');
-      return res.status(response.status).json({ error: `Upstream error ${response.status}` });
+      return res.status(response.status).json({ error: `SportBex upstream error ${response.status}` });
     }
 
     const data = await response.json();
     if (Array.isArray(data) && data.length === 0) {
-      // Empty array is valid response according to SportBex specification
       res.setHeader('X-Data-Source', 'live-sportbex');
       return res.status(200).json([]);
     }
@@ -134,20 +122,16 @@ module.exports = async function handler(req, res) {
 
     if (!sanitized) {
       console.warn('[SportBex API] Received invalid schema from upstream');
-      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('X-Data-Source', 'live-sportbex');
       return res.status(200).json([]);
     }
 
-    // Success: return sanitized live competition list
     res.setHeader('X-Data-Source', 'live-sportbex');
     return res.status(200).json(sanitized);
 
   } catch (err) {
-    // Timeout or network failure
     const isTimeout = err.name === 'AbortError';
     console.warn(`[SportBex API] ${isTimeout ? 'Request timed out' : 'Network error'}`);
-    res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('X-Data-Source', 'fallback');
-    return res.status(200).json(FALLBACK_COMPETITIONS);
+    return res.status(502).json({ error: 'SportBex API network timeout or connection failure' });
   }
 };
