@@ -415,13 +415,13 @@
 
   function startOddsPolling() {
     stopOddsPolling();
-    // 2.5 second polling interval as required (between 2 and 3 seconds)
+    // 500ms (0.5 seconds) polling interval
     pollingTimer = setInterval(async () => {
       await refreshLiveOdds();
       if (activeSportId === '4') {
         loadCricketFancyData();
       }
-    }, 2500);
+    }, 500);
   }
 
   function stopOddsPolling() {
