@@ -19,7 +19,15 @@
   <link rel="stylesheet" href="/admin/css/responsive.css">
 
   <style>
-    /* Clean fallback overrides to guarantee 100% pixel fidelity */
+    :root {
+      --bg-primary: #0088cc;
+      --bg-primary90: #0088cce6;
+      --text-primary: #ffffff;
+      --bg-secondary: #2c3e50;
+      --bg-secondary70: #2c3e50b3;
+      --bg-secondary85: #2c3e50d9;
+      --text-secondary: #ffffff;
+    }
     body {
       font-family: 'Roboto Condensed', 'Poppins', sans-serif;
       margin: 0;
@@ -31,56 +39,72 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #0b689e 0%, #15395b 100%);
+      background: linear-gradient(180deg, #0088cc 0%, #174266 50%, #15273b 100%);
       padding: 20px;
     }
-    .login-card {
+    .login-mn {
       width: 100%;
-      max-width: 440px;
-      background: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-      padding: 30px 35px;
-      text-align: center;
+      max-width: 420px;
+      margin: 0 auto;
     }
-    .login-logo img {
-      max-width: 220px;
-      max-height: 80px;
-      object-fit: contain;
+    .log-logo {
+      width: 100%;
+      text-align: center;
       margin-bottom: 20px;
     }
-    .login-title {
-      font-size: 24px;
-      font-weight: 600;
-      color: #333333;
-      margin-bottom: 25px;
+    .log-logo img {
+      max-width: 250px;
+      max-height: 100px;
+      object-fit: contain;
+    }
+    .log-fld {
+      width: 100%;
+      padding: 35px 30px 20px;
+      background: #eee;
+      border-radius: 4px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .log-fld h2 {
+      color: #000;
       position: relative;
+      margin-bottom: 30px;
+      font-size: 2rem;
+      font-weight: 500;
+      text-align: center;
     }
-    .login-title:before, .login-title:after {
+    .log-fld h2::before,
+    .log-fld h2::after {
       content: "";
-      position: absolute;
-      top: 50%;
-      width: 60px;
       height: 1px;
-      background: #dcdcdc;
+      position: absolute;
+      top: 18px;
+      width: 22%;
+      background: #000;
     }
-    .login-title:before { left: 20px; }
-    .login-title:after { right: 20px; }
-    .btn-login-submit {
-      background-color: #0088cc;
-      color: #fff;
+    .log-fld h2::before {
+      left: 0;
+    }
+    .log-fld h2::after {
+      right: 0;
+    }
+    .btn-login {
+      background-color: #0088cc !important;
+      border-color: #0088cc !important;
+      color: #fff !important;
       font-weight: 600;
-      border: none;
       padding: 10px 24px;
       border-radius: 4px;
       width: 100%;
-      font-size: 16px;
+      font-size: 15px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: background-color 0.2s ease;
     }
-    .btn-login-submit:hover {
-      background-color: #0077b3;
-      color: #fff;
+    .btn-login:hover {
+      background-color: #0077b3 !important;
+      color: #fff !important;
     }
 
     /* Modal Backdrop & Z-Index */
@@ -255,25 +279,31 @@
 
   <!-- 1. LOGIN SECTION -->
   <section id="loginSection" class="login-wrapper">
-    <div class="login-card">
-      <div class="login-logo">
+    <div class="login-mn">
+      <div class="log-logo">
         <img src="/admin/images/logo.png" alt="BestBet9">
       </div>
-      <div class="login-title">Sign In</div>
+      <div class="log-fld">
+        <h2 class="text-center">Sign In</h2>
 
-      <div id="loginErrorAlert" class="alert alert-danger" style="display:none;" role="alert"></div>
+        <div id="loginErrorAlert" class="alert alert-danger" style="display:none;" role="alert"></div>
 
-      <form id="adminLoginForm" autocomplete="off">
-        <div class="form-group mb-3 text-left">
-          <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-        </div>
-        <div class="form-group mb-4 text-left">
-          <input type="password" id="inputPassword" class="form-control" placeholder="password" required>
-        </div>
-        <button type="submit" class="btn btn-login-submit">
-          Login <i class="fas fa-sign-in-alt ml-1"></i>
-        </button>
-      </form>
+        <form id="adminLoginForm" autocomplete="off" class="form-horizontal">
+          <div id="input-group-1" role="group" class="form-group mb-3 text-left">
+            <div>
+              <input id="input-1" name="username" type="text" class="form-control" placeholder="Username" required autofocus>
+            </div>
+          </div>
+          <div id="input-group-2" role="group" class="form-group mb-4 text-left">
+            <div>
+              <input id="input-2" name="password" type="password" class="form-control" placeholder="password" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-submit btn-login btn-secondary">
+            Login <i class="fas fa-sign-in-alt ml-1"></i>
+          </button>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -366,7 +396,7 @@
 
             <!-- User Dropdown Menu -->
             <div class="dropdown user-dropdown">
-              <button class="btn btn-dark dropdown-toggle header-item text-white" type="button" id="userMenuBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button class="btn dropdown-toggle header-item text-white border-0" type="button" id="userMenuBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background: transparent;">
                 <i class="fas fa-user-circle mr-1"></i>
                 <span id="topAdminUsername">Faazan50 (Master)</span>
                 <i class="fa fa-caret-down ml-1"></i>

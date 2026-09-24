@@ -77,8 +77,8 @@
       if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
           e.preventDefault();
-          const uInput = document.getElementById('inputUsername');
-          const pInput = document.getElementById('inputPassword');
+          const uInput = document.getElementById('input-1') || document.getElementById('inputUsername');
+          const pInput = document.getElementById('input-2') || document.getElementById('inputPassword');
           const errAlert = document.getElementById('loginErrorAlert');
 
           const uVal = (uInput.value || '').trim();
