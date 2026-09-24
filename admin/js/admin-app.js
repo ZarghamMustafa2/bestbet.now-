@@ -57,11 +57,15 @@
       
       const balEl = document.getElementById('topAdminBalance');
       const expEl = document.getElementById('topAdminExposure');
+      const balElMobile = document.getElementById('topAdminBalanceMobile');
+      const expElMobile = document.getElementById('topAdminExposureMobile');
       const userEl = document.getElementById('topAdminUsername');
 
       if (balEl) balEl.innerText = this.formatCurrency(admin.balance);
       if (expEl) expEl.innerText = this.formatCurrency(admin.exposure);
-      if (userEl) userEl.innerText = `${admin.uname} (${admin.userLevel})`;
+      if (balElMobile) balElMobile.innerText = this.formatCurrency(admin.balance);
+      if (expElMobile) expElMobile.innerText = this.formatCurrency(admin.exposure);
+      if (userEl) userEl.innerText = admin.uname;
     },
 
     formatCurrency: function(num) {
@@ -533,143 +537,184 @@
 
     renderUsers: function(container, filter, guid) {
       let users = window.AdminDataStore.getUsers();
-      let title = 'List of Clients';
+      let pageTitle = 'Account List';
+      let breadcrumbTitle = 'Account List';
 
       if (filter === '5') {
         users = users.filter(u => u.userType === '5');
-        title = 'List of Agents';
+        pageTitle = 'Account List (Agents)';
       } else if (filter === '6') {
         users = users.filter(u => u.userType === '6');
-        title = 'List of Direct Clients';
+        pageTitle = 'Account List (Clients)';
       } else if (filter === 'child' && guid) {
         users = window.AdminDataStore.getDownline(guid);
-        title = `Downline for: ${guid}`;
+        pageTitle = 'Account List';
+        breadcrumbTitle = `Account List / ${guid}`;
+      }
+
+      if (this.sortCol) {
+        users.sort((a, b) => {
+          let va = a[this.sortCol];
+          let vb = b[this.sortCol];
+          if (typeof va === 'string') return this.sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+          return this.sortAsc ? (va - vb) : (vb - va);
+        });
       }
 
       container.innerHTML = `
+        <!-- Page Header & Breadcrumbs matching Reference -->
         <div class="row">
           <div class="col-12">
             <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
-              <h4 class="mb-0 font-size-18 font-weight-bold">${title}</h4>
+              <h4 class="mb-0 font-size-18 font-weight-bold">${pageTitle}</h4>
               <div class="page-title-right">
-                <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link">
-                  <i class="fas fa-user-plus mr-1"></i> Add Account
-                </a>
+                <ol class="breadcrumb m-0 font-size-13">
+                  <li class="breadcrumb-item"><a href="/admin/home" class="nav-route-link">Home</a></li>
+                  <li class="breadcrumb-item active">${breadcrumbTitle}</li>
+                </ol>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Filter Tabs & Search Row -->
-        <div class="card shadow-sm mb-3">
-          <div class="card-body py-2">
-            <div class="d-flex flex-wrap justify-content-between align-items-center">
-              <div class="btn-group my-1">
-                <a href="/admin/users" class="btn btn-sm ${filter === 'all' ? 'btn-dark' : 'btn-outline-dark'} nav-route-link">All</a>
-                <a href="/admin/users/agent" class="btn btn-sm ${filter === '5' ? 'btn-dark' : 'btn-outline-dark'} nav-route-link">Agents</a>
-                <a href="/admin/users/client" class="btn btn-sm ${filter === '6' ? 'btn-dark' : 'btn-outline-dark'} nav-route-link">Clients</a>
-              </div>
-              <div class="my-1">
-                <input type="text" id="userSearchInput" class="form-control form-control-sm" placeholder="Search by username..." style="max-width:250px;">
-              </div>
+        <!-- Export Tools Row matching Reference search-form -->
+        <div class="row">
+          <div class="col-md-6 mb-2 search-form">
+            <div class="d-inline-block mr-2">
+              <button type="button" class="btn btn-danger buttons-pdf" onclick="window.adminExportPdf()">
+                <i class="far fa-file-pdf mr-1"></i> PDF
+              </button>
+              <button type="button" class="btn btn-success buttons-excel" onclick="window.adminExportExcel()">
+                <i class="far fa-file-excel mr-1"></i> Excel
+              </button>
+            </div>
+          </div>
+          <div class="col-md-6 text-right mb-2">
+            <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link">
+              <i class="fas fa-user-plus mr-1"></i> Add Account
+            </a>
+          </div>
+        </div>
+
+        <!-- DataTables Show Entries & Search Filter matching Reference -->
+        <div class="row mb-2">
+          <div class="col-sm-12 col-md-6">
+            <div class="dataTables_length" id="tickets-table_length">
+              <label class="d-inline-flex align-items-center">
+                Show&nbsp;
+                <select id="userPerPageSelect" class="custom-select custom-select-sm form-control form-control-sm" style="width:auto;">
+                  <option value="25" selected>25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                  <option value="250">250</option>
+                  <option value="500">500</option>
+                  <option value="750">750</option>
+                  <option value="1000">1000</option>
+                </select>
+                &nbsp;entries
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="dataTables_filter text-md-right" id="tickets-table_filter">
+              <label class="d-inline-flex align-items-center">
+                Search:
+                <input name="searchuser" type="search" class="form-control form-control-sm ml-2" placeholder="Search..." id="searchUserInput" onkeyup="if(event.key==='Enter')window.adminFilterUsers()">
+                <button type="button" class="btn btn-primary ml-2" id="loaddata" onclick="window.adminFilterUsers()">Load</button>
+                <button type="button" class="btn btn-secondary ml-2" id="resetdata" onclick="window.adminResetUsers()">Reset</button>
+              </label>
             </div>
           </div>
         </div>
 
-        <!-- Users Table -->
-        <div class="card shadow-sm">
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-bordered table-hover mb-0" id="usersTable">
-                <thead class="bg-dark text-white">
-                  <tr>
-                    <th>Account</th>
-                    <th>Level</th>
-                    <th>Upline</th>
-                    <th class="text-right">Credit Ref</th>
-                    <th class="text-right">Balance</th>
-                    <th class="text-right">Exposure</th>
-                    <th class="text-right">Client P/L</th>
-                    <th class="text-center">Share</th>
-                    <th class="text-center">Status</th>
-                    <th class="text-center">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${users.length === 0 ? `
-                    <tr><td colspan="10" class="text-center py-4 text-muted">No accounts found in this view.</td></tr>
-                  ` : users.map(u => `
-                    <tr id="row-user-${u.id}">
-                      <td>
-                        <strong>${u.uname}</strong>
-                        <div class="small text-muted">${u.fname}</div>
-                      </td>
-                      <td>
-                        <span class="badge ${u.userType === '5' ? 'badge-agent' : 'badge-client'}">${u.userLevel}</span>
-                      </td>
-                      <td>${u.upline}</td>
-                      <td class="text-right">
-                        ${this.formatCurrency(u.creditRef)}
-                        <a href="javascript:void(0)" class="text-primary ml-1" onclick="openCreditRefModal('${u.id}')" title="Edit Credit Limit">
-                          <i class="fas fa-pencil-alt"></i>
-                        </a>
-                      </td>
-                      <td class="text-right font-weight-bold text-success">${this.formatCurrency(u.balance)}</td>
-                      <td class="text-right text-danger">${this.formatCurrency(u.exposure)}</td>
-                      <td class="text-right ${u.clientPL >= 0 ? 'text-success' : 'text-danger'} font-weight-bold">
-                        ${this.formatCurrency(u.clientPL)}
-                      </td>
-                      <td class="text-center">${u.share}%</td>
-                      <td class="text-center">
-                        <span class="badge ${u.status === 'Active' ? 'badge-success' : (u.status === 'Bet Locked' ? 'badge-warning' : 'badge-danger')}">
-                          ${u.status}
-                        </span>
-                      </td>
-                      <td class="text-center nowrap">
-                        <!-- Banking Modal Trigger (B) -->
-                        <button type="button" class="btn btn-sm btn-info btn-action-icon" onclick="openBankingModal('${u.id}')" title="Banking (Deposit / Withdraw)">
-                          <strong>B</strong>
-                        </button>
-                        <!-- Status Modal Trigger (S) -->
-                        <button type="button" class="btn btn-sm btn-secondary btn-action-icon" onclick="openStatusModal('${u.id}')" title="Change Status">
-                          <strong>S</strong>
-                        </button>
-                        <!-- Password Modal Trigger (P) -->
-                        <button type="button" class="btn btn-sm btn-warning btn-action-icon text-dark" onclick="openChangePasswordModal('${u.uname}')" title="Change Password">
-                          <strong>P</strong>
-                        </button>
-                        <!-- Settlement Trigger -->
-                        ${u.clientPL !== 0 ? `
-                          <button type="button" class="btn btn-sm btn-success btn-action-icon" onclick="openSettlementModal('${u.id}')" title="Clear Balance & Settle">
-                            <i class="fas fa-balance-scale"></i>
-                          </button>
-                        ` : ''}
-                        <!-- Drilldown if Agent -->
-                        ${u.userType === '5' ? `
-                          <a href="/admin/child/${u.uname}" class="btn btn-sm btn-dark btn-action-icon nav-route-link" title="View Downline Clients">
-                            <i class="fas fa-sitemap"></i>
-                          </a>
-                        ` : ''}
-                      </td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
+        <!-- Table matching Reference eventsListTbl & list-clients -->
+        <div class="table-responsive mb-0">
+          <table class="table no-footer list-clients table-striped table-bordered" id="eventsListTbl">
+            <thead class="bg-dark text-white">
+              <tr>
+                <th class="sorting cp" onclick="window.adminSortUsers('uname')">User Name <i class="fas fa-sort float-right mt-1 text-muted"></i></th>
+                <th class="sorting text-right cp" onclick="window.adminSortUsers('creditRef')">Credit Referance <i class="fas fa-sort float-right mt-1 text-muted"></i></th>
+                <th class="text-center" style="width:70px;">U st</th>
+                <th class="text-center" style="width:70px;">B st</th>
+                <th class="text-right">Exposure Limit</th>
+                <th class="text-left">Default (%)</th>
+                <th class="text-center">Account Type</th>
+                <th class="text-center" style="width:260px;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${users.length === 0 ? `
+                <tr><td colspan="8" class="text-center py-4 text-muted">No accounts found in this view.</td></tr>
+              ` : users.map(u => `
+                <tr id="row-user-${u.id}">
+                  <td>
+                    ${u.userType === '5' ? `
+                      <a href="/admin/child/${u.uname}" class="wrape-text font-weight-bold text-primary nav-route-link" title="${u.fname}" data-route="/admin/child/${u.uname}">
+                        <span>${u.uname}</span>
+                      </a>
+                    ` : `
+                      <span class="wrape-text font-weight-bold" title="${u.fname}">${u.uname}</span>
+                    `}
+                  </td>
+                  <td class="text-right">
+                    <p class="text-right mb-0 cp font-weight-bold" onclick="window.openCreditRefModal('${u.id}')" title="Click to update Credit">
+                      ${this.formatCurrency(u.creditRef)}
+                    </p>
+                  </td>
+                  <td class="text-center">
+                    <div class="custom-control custom-checkbox d-inline-block">
+                      <input type="checkbox" class="custom-control-input-native" ${u.userActive !== false ? 'checked' : ''} disabled>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="custom-control custom-checkbox d-inline-block">
+                      <input type="checkbox" class="custom-control-input-native" ${u.betActive !== false ? 'checked' : ''} disabled>
+                    </div>
+                  </td>
+                  <td class="text-right font-weight-bold">
+                    ${this.formatCurrency(u.exposureLimit || 100000)}
+                  </td>
+                  <td class="text-left">
+                    <p class="text-left mb-0">${u.share || 0}</p>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge ${u.userType === '5' ? 'badge-agent' : 'badge-client'}">
+                      ${u.userType === '5' ? 'Agent' : (u.userType === '4' ? 'Master' : 'Client')}
+                    </span>
+                  </td>
+                  <td class="text-center nowrap">
+                    <div class="btn-group" role="group">
+                      <button type="button" class="btn action-button" onclick="window.openDepositModal('${u.id}')" title="Deposit">D</button>
+                      <button type="button" class="btn action-button" onclick="window.openWithdrawModal('${u.id}')" title="Withdraw">W</button>
+                      <button type="button" class="btn action-button" onclick="window.openExposureLimitModal('${u.id}')" title="Exposure Limit">L</button>
+                      <button type="button" class="btn action-button" onclick="window.openCreditRefModal('${u.id}')" title="Credit Reference">C</button>
+                      <button type="button" class="btn action-button" onclick="window.openChangePasswordModal('${u.uname}')" title="Change Password">P</button>
+                      <button type="button" class="btn action-button" onclick="window.openStatusModal('${u.id}')" title="Status Lock">S</button>
+                      <button type="button" class="btn action-button" onclick="window.openExtraModal('${u.id}')" title="More Details">More</button>
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Footer matching Reference -->
+        <div class="row pt-3 align-items-center">
+          <div class="col-sm-12 col-md-5">
+            <div class="dataTables_info text-muted">Showing 1 to ${users.length} of ${users.length} entries</div>
+          </div>
+          <div class="col-sm-12 col-md-7">
+            <div class="dataTables_paginate paging_simple_numbers float-right">
+              <ul class="pagination pagination-rounded mb-0">
+                <li class="paginate_button page-item previous disabled"><a href="javascript:void(0)" class="page-link">Previous</a></li>
+                <li class="paginate_button page-item active"><a href="javascript:void(0)" class="page-link">1</a></li>
+                <li class="paginate_button page-item next disabled"><a href="javascript:void(0)" class="page-link">Next</a></li>
+              </ul>
             </div>
           </div>
         </div>
       `;
-
-      // Live search filter
-      const searchInput = document.getElementById('userSearchInput');
-      if (searchInput) {
-        searchInput.addEventListener('input', function() {
-          const q = this.value.toLowerCase();
-          document.querySelectorAll('#usersTable tbody tr').forEach(row => {
-            row.style.display = row.innerText.toLowerCase().includes(q) ? '' : 'none';
-          });
-        });
-      }
     },
 
     renderInsertUser: function(container) {
@@ -787,68 +832,88 @@
       const matches = window.AdminDataStore.getLiveMatches();
 
       container.innerHTML = `
-        <div class="row">
-          <div class="col-12">
-            <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
-              <h4 class="mb-0 font-size-18 font-weight-bold">Market Analysis & Live Book</h4>
-              <div class="page-title-right">
-                <span class="badge badge-success p-2"><i class="fas fa-circle mr-1 blink"></i> LIVE FEED ACTIVE</span>
+        <div class="listing-grid">
+          <div class="market-analysis">
+            <div class="row">
+              <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
+                  <h4 class="mb-0 font-size-18 font-weight-bold">
+                    Market Analysis
+                    <a href="javascript:void(0)" class="text-dark pl-2" title="Refresh Data" onclick="window.AdminApp.handleRouting()">
+                      <i class="fa fa-sync"></i>
+                    </a>
+                  </h4>
+                  <div class="page-title-right">
+                    <input type="text" name="searchMarktetText" value="" placeholder="Search Event" class="form-control form-control-sm" id="searchMarketInput" onkeyup="window.adminFilterMarkets()">
+                  </div>
+                </div>
               </div>
+            </div>
+
+            <div class="market-analysis-list">
+              ${matches.map(m => `
+                <div class="market-analysis-container mb-3">
+                  <div class="market-analysis-title bg-light p-2 border d-flex justify-content-between align-items-center">
+                    <div>
+                      <span class="badge badge-warning mr-2">${m.sportName}</span>
+                      <a href="/admin/market-analysis" class="ma-link font-weight-bold text-dark">${m.eventName}</a>
+                    </div>
+                    <div class="text-muted small">
+                      <span class="badge badge-success mr-2">${m.inPlay ? 'IN PLAY' : 'UPCOMING'}</span>
+                      Matched: <strong class="text-info">${this.formatCurrency(m.matchedVolume)}</strong>
+                    </div>
+                  </div>
+                  <div class="market-analysis-content mt-2">
+                    <div class="row row5">
+                      <div class="col-lg-6 col-12 mb-3">
+                        <div class="market-analysis-content-detail card shadow-sm">
+                          <table class="table table-bordered mb-0">
+                            <thead class="bg-dark text-white">
+                              <tr>
+                                <th>Match Odds</th>
+                                <th class="text-right">Exposure</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              ${m.runners.map(r => `
+                                <tr>
+                                  <td><strong>${r.name}</strong></td>
+                                  <td class="text-right font-weight-bold ${r.exp >= 0 ? 'text-success' : 'text-danger'}">
+                                    ${r.exp >= 0 ? '+' : ''}${this.formatCurrency(r.exp)}
+                                  </td>
+                                </tr>
+                              `).join('')}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-12 mb-3">
+                        <div class="market-analysis-content-detail card shadow-sm">
+                          <table class="table table-bordered mb-0">
+                            <thead class="bg-dark text-white">
+                              <tr>
+                                <th>Bookmaker</th>
+                                <th class="text-right">Exposure</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              ${m.runners.map(r => `
+                                <tr>
+                                  <td><strong>${r.name}</strong></td>
+                                  <td class="text-right font-weight-bold text-success">+0.00</td>
+                                </tr>
+                              `).join('')}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
             </div>
           </div>
         </div>
-
-        ${matches.map(m => `
-          <div class="card shadow-sm mb-4">
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center py-2">
-              <div>
-                <span class="badge badge-warning mr-2">${m.sportName}</span>
-                <strong class="font-size-16">${m.eventName}</strong>
-              </div>
-              <div class="small">
-                Matched Volume: <strong class="text-info">${this.formatCurrency(m.matchedVolume)}</strong>
-              </div>
-            </div>
-            <div class="card-body p-0">
-              <div class="table-responsive">
-                <table class="table table-bordered mb-0">
-                  <thead class="bg-light">
-                    <tr>
-                      <th style="width:40%;">Runner / Selection</th>
-                      <th class="text-center" style="width:15%;">Back</th>
-                      <th class="text-center" style="width:15%;">Lay</th>
-                      <th class="text-right" style="width:15%;">Book Exposure</th>
-                      <th class="text-center" style="width:15%;">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${m.runners.map(r => `
-                      <tr>
-                        <td>
-                          <strong>${r.name}</strong>
-                        </td>
-                        <td class="text-center">
-                          <span class="odds-box-back">${r.back.toFixed(2)}</span>
-                        </td>
-                        <td class="text-center">
-                          <span class="odds-box-lay">${r.lay.toFixed(2)}</span>
-                        </td>
-                        <td class="text-right font-weight-bold ${r.exp >= 0 ? 'text-success' : 'text-danger'}">
-                          ${r.exp >= 0 ? '+' : ''}${this.formatCurrency(r.exp)}
-                        </td>
-                        <td class="text-center">
-                          <button class="btn btn-sm btn-outline-primary" onclick="openMarketBookModal('${m.id}', '${r.name}')">
-                            <i class="fas fa-eye mr-1"></i> Book
-                          </button>
-                        </td>
-                      </tr>
-                    `).join('')}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        `).join('')}
       `;
     },
 
@@ -1390,58 +1455,347 @@
     }
   };
 
-  // Global Modal Helpers
+  // Global Modal & Interactive Handlers matching Reference Architecture
   window.openModal = function(id) {
     const el = document.getElementById(id);
-    if (el) el.classList.add('show');
+    if (el) {
+      el.classList.add('show');
+      el.style.display = 'block';
+    }
   };
 
   window.closeModal = function(id) {
     const el = document.getElementById(id);
-    if (el) el.classList.remove('show');
+    if (el) {
+      el.classList.remove('show');
+      el.style.display = 'none';
+    }
   };
 
-  window.openBankingModal = function(userId) {
+  // 1. Deposit Modal (ref: depositeMDL)
+  window.openDepositModal = function(userId) {
     const user = window.AdminDataStore.getUserByGuid(userId);
     const admin = window.AdminDataStore.getAdminUser();
     if (!user) return;
 
-    document.getElementById('bankingUserId').value = user.id;
-    document.getElementById('bankingUserName').innerText = `${user.uname} (${user.userLevel})`;
-    document.getElementById('bankingUserBalance').innerText = App.formatCurrency(user.balance);
-    document.getElementById('bankingMasterBalance').innerText = App.formatCurrency(admin.balance);
-    document.getElementById('bankingAmount').value = '';
-    document.getElementById('bankingRemarks').value = '';
+    const idInput = document.getElementById('depositUserId');
+    const userLabel = document.getElementById('depositUserNameLabel');
+    const userCurBal = document.getElementById('depositUserCurBal');
+    const userNewBal = document.getElementById('depositUserNewBal');
+    const masterCurBal = document.getElementById('depositMasterCurBal');
+    const masterNewBal = document.getElementById('depositMasterNewBal');
+    const amountInput = document.getElementById('depositAmount');
+    const remarkInput = document.getElementById('depositRemark');
+    const passInput = document.getElementById('depositMpassword');
 
-    window.openModal('bankingModal');
+    if (idInput) idInput.value = user.id;
+    if (userLabel) userLabel.innerText = `${user.uname} (${user.userLevel || 'Client'})`;
+    if (userCurBal) userCurBal.value = App.formatCurrency(user.balance);
+    if (userNewBal) userNewBal.value = App.formatCurrency(user.balance);
+    if (masterCurBal) masterCurBal.value = App.formatCurrency(admin.balance);
+    if (masterNewBal) masterNewBal.value = App.formatCurrency(admin.balance);
+    if (amountInput) amountInput.value = '';
+    if (remarkInput) remarkInput.value = '';
+    if (passInput) passInput.value = '';
+
+    window.openModal('depositeMDL');
   };
 
-  window.openStatusModal = function(userId) {
+  window.calcDepositBalances = function() {
+    const userId = document.getElementById('depositUserId')?.value;
+    const user = window.AdminDataStore.getUserByGuid(userId);
+    const admin = window.AdminDataStore.getAdminUser();
+    const amt = parseFloat(document.getElementById('depositAmount')?.value) || 0;
+
+    if (user) {
+      const userNew = (user.balance || 0) + amt;
+      const masterNew = (admin.balance || 0) - amt;
+      const userNewEl = document.getElementById('depositUserNewBal');
+      const masterNewEl = document.getElementById('depositMasterNewBal');
+      if (userNewEl) userNewEl.value = App.formatCurrency(userNew);
+      if (masterNewEl) masterNewEl.value = App.formatCurrency(masterNew);
+    }
+  };
+
+  window.handleDepositSubmit = function(e) {
+    e.preventDefault();
+    const userId = document.getElementById('depositUserId')?.value;
+    const amt = parseFloat(document.getElementById('depositAmount')?.value) || 0;
+    const remarks = document.getElementById('depositRemark')?.value || '';
+    const mpass = document.getElementById('depositMpassword')?.value;
+
+    if (!mpass) {
+      App.showToast('Please enter transaction password.', 'danger');
+      return;
+    }
+
+    try {
+      window.AdminDataStore.depositWithdraw(userId, 'Deposit', amt, remarks);
+      App.updateTopBar();
+      App.showToast(`Deposit of ${App.formatCurrency(amt)} completed successfully!`, 'success');
+      window.closeModal('depositeMDL');
+      App.handleRouting();
+    } catch (err) {
+      App.showToast(err.message, 'danger');
+    }
+  };
+
+  // 2. Withdraw Modal (ref: withdrwalMDL)
+  window.openWithdrawModal = function(userId) {
+    const user = window.AdminDataStore.getUserByGuid(userId);
+    const admin = window.AdminDataStore.getAdminUser();
+    if (!user) return;
+
+    const idInput = document.getElementById('withdrawUserId');
+    const userLabel = document.getElementById('withdrawUserNameLabel');
+    const userCurBal = document.getElementById('withdrawUserCurBal');
+    const userNewBal = document.getElementById('withdrawUserNewBal');
+    const masterCurBal = document.getElementById('withdrawMasterCurBal');
+    const masterNewBal = document.getElementById('withdrawMasterNewBal');
+    const amountInput = document.getElementById('withdrawAmount');
+    const remarkInput = document.getElementById('withdrawRemark');
+    const passInput = document.getElementById('withdrawMpassword');
+
+    if (idInput) idInput.value = user.id;
+    if (userLabel) userLabel.innerText = `${user.uname} (${user.userLevel || 'Client'})`;
+    if (userCurBal) userCurBal.value = App.formatCurrency(user.balance);
+    if (userNewBal) userNewBal.value = App.formatCurrency(user.balance);
+    if (masterCurBal) masterCurBal.value = App.formatCurrency(admin.balance);
+    if (masterNewBal) masterNewBal.value = App.formatCurrency(admin.balance);
+    if (amountInput) amountInput.value = '';
+    if (remarkInput) remarkInput.value = '';
+    if (passInput) passInput.value = '';
+
+    window.openModal('withdrwalMDL');
+  };
+
+  window.calcWithdrawBalances = function() {
+    const userId = document.getElementById('withdrawUserId')?.value;
+    const user = window.AdminDataStore.getUserByGuid(userId);
+    const admin = window.AdminDataStore.getAdminUser();
+    const amt = parseFloat(document.getElementById('withdrawAmount')?.value) || 0;
+
+    if (user) {
+      const userNew = (user.balance || 0) - amt;
+      const masterNew = (admin.balance || 0) + amt;
+      const userNewEl = document.getElementById('withdrawUserNewBal');
+      const masterNewEl = document.getElementById('withdrawMasterNewBal');
+      if (userNewEl) userNewEl.value = App.formatCurrency(userNew);
+      if (masterNewEl) masterNewEl.value = App.formatCurrency(masterNew);
+    }
+  };
+
+  window.handleWithdrawSubmit = function(e) {
+    e.preventDefault();
+    const userId = document.getElementById('withdrawUserId')?.value;
+    const amt = parseFloat(document.getElementById('withdrawAmount')?.value) || 0;
+    const remarks = document.getElementById('withdrawRemark')?.value || '';
+    const mpass = document.getElementById('withdrawMpassword')?.value;
+
+    if (!mpass) {
+      App.showToast('Please enter transaction password.', 'danger');
+      return;
+    }
+
+    try {
+      window.AdminDataStore.depositWithdraw(userId, 'Withdraw', amt, remarks);
+      App.updateTopBar();
+      App.showToast(`Withdrawal of ${App.formatCurrency(amt)} completed successfully!`, 'success');
+      window.closeModal('withdrwalMDL');
+      App.handleRouting();
+    } catch (err) {
+      App.showToast(err.message, 'danger');
+    }
+  };
+
+  // 3. Exposure Limit Modal (ref: exposureLimitMDL)
+  window.openExposureLimitModal = function(userId) {
     const user = window.AdminDataStore.getUserByGuid(userId);
     if (!user) return;
 
-    document.getElementById('statusUserId').value = user.id;
-    document.getElementById('statusUserName').innerText = `${user.uname} (${user.userLevel})`;
-    document.getElementById('switchUserActive').checked = !!user.userActive;
-    document.getElementById('switchBetActive').checked = !!user.betActive;
+    const idInput = document.getElementById('exposureLimitUserId');
+    const userEl = document.getElementById('exposureLimitUserName');
+    const oldEl = document.getElementById('exposureLimitOld');
+    const newEl = document.getElementById('exposureLimitNew');
+    const mpassEl = document.getElementById('exposureLimitMpass');
 
-    window.openModal('statusModal');
+    if (idInput) idInput.value = user.id;
+    if (userEl) userEl.innerText = `${user.uname} (${user.userLevel || 'Client'})`;
+    if (oldEl) oldEl.innerText = App.formatCurrency(user.exposureLimit || 100000);
+    if (newEl) newEl.value = user.exposureLimit || 100000;
+    if (mpassEl) mpassEl.value = '';
+
+    window.openModal('exposureLimitMDL');
   };
 
+  window.handleExposureLimitSubmit = function(e) {
+    e.preventDefault();
+    const userId = document.getElementById('exposureLimitUserId')?.value;
+    const newLimit = parseFloat(document.getElementById('exposureLimitNew')?.value) || 0;
+    const mpass = document.getElementById('exposureLimitMpass')?.value;
+
+    if (!mpass) {
+      App.showToast('Please enter transaction password.', 'danger');
+      return;
+    }
+
+    const user = window.AdminDataStore.getUserByGuid(userId);
+    if (user) {
+      user.exposureLimit = newLimit;
+      App.showToast(`Exposure limit updated to ${App.formatCurrency(newLimit)}.`, 'success');
+      window.closeModal('exposureLimitMDL');
+      App.handleRouting();
+    }
+  };
+
+  // 4. Credit Update Modal (ref: creditUpdate)
   window.openCreditRefModal = function(userId) {
     const user = window.AdminDataStore.getUserByGuid(userId);
     if (!user) return;
 
-    document.getElementById('creditRefUserId').value = user.id;
-    document.getElementById('creditRefUserName').innerText = user.uname;
-    document.getElementById('creditRefCurrent').innerText = App.formatCurrency(user.creditRef);
-    document.getElementById('creditRefNew').value = user.creditRef;
+    const idInput = document.getElementById('creditUpdateUserId');
+    const userEl = document.getElementById('creditUpdateUserName');
+    const oldEl = document.getElementById('creditUpdateOld');
+    const newEl = document.getElementById('creditUpdateNew');
+    const mpassEl = document.getElementById('creditUpdateMpass');
 
-    window.openModal('creditRefModal');
+    if (idInput) idInput.value = user.id;
+    if (userEl) userEl.innerText = `${user.uname} (${user.userLevel || 'Client'})`;
+    if (oldEl) oldEl.value = App.formatCurrency(user.creditRef);
+    if (newEl) newEl.value = user.creditRef;
+    if (mpassEl) mpassEl.value = '';
+
+    window.openModal('creditUpdate');
   };
 
+  window.handleCreditSubmit = function(e) {
+    e.preventDefault();
+    const userId = document.getElementById('creditUpdateUserId')?.value;
+    const newLimit = parseFloat(document.getElementById('creditUpdateNew')?.value) || 0;
+    const mpass = document.getElementById('creditUpdateMpass')?.value;
+
+    if (!mpass) {
+      App.showToast('Please enter transaction password.', 'danger');
+      return;
+    }
+
+    try {
+      window.AdminDataStore.updateCreditRef(userId, newLimit);
+      App.showToast(`Credit limit updated to ${App.formatCurrency(newLimit)}.`, 'success');
+      window.closeModal('creditUpdate');
+      App.handleRouting();
+    } catch (err) {
+      App.showToast(err.message, 'danger');
+    }
+  };
+
+  // 5. Change Password Modal (ref: changepwdMDL)
   window.openChangePasswordModal = function(uname) {
-    App.openChangePasswordModal(uname);
+    const accountLabel = document.getElementById('changePwdAccountLabel');
+    const targetUser = document.getElementById('changePwdTargetUser');
+    const newPass = document.getElementById('inputUserNewPassword');
+    const confPass = document.getElementById('inputUserConfirmPassword');
+    const mpass = document.getElementById('inputUserMpass');
+
+    if (accountLabel) accountLabel.innerText = uname || 'Faazan50';
+    if (targetUser) targetUser.value = uname || 'Faazan50';
+    if (newPass) newPass.value = '';
+    if (confPass) confPass.value = '';
+    if (mpass) mpass.value = '';
+
+    window.openModal('changepwdMDL');
+  };
+
+  window.handlePasswordSubmit = function(e) {
+    e.preventDefault();
+    const p1 = document.getElementById('inputUserNewPassword')?.value;
+    const p2 = document.getElementById('inputUserConfirmPassword')?.value;
+    const mpass = document.getElementById('inputUserMpass')?.value;
+
+    if (p1 !== p2) {
+      App.showToast('Passwords do not match.', 'danger');
+      return;
+    }
+    if (!mpass) {
+      App.showToast('Please enter transaction password.', 'danger');
+      return;
+    }
+
+    App.showToast('Password updated successfully.', 'success');
+    window.closeModal('changepwdMDL');
+  };
+
+  // 6. Change Status Modal (ref: changestatusMDL)
+  window.openStatusModal = function(userId) {
+    const user = window.AdminDataStore.getUserByGuid(userId);
+    if (!user) return;
+
+    const idInput = document.getElementById('changeStatusUserId');
+    const userEl = document.getElementById('statusModalUsername');
+    const uSwitch = document.getElementById('switchUserActiveRef');
+    const bSwitch = document.getElementById('switchBetActiveRef');
+    const mpassEl = document.getElementById('changeStatusMpassword');
+
+    if (idInput) idInput.value = user.id;
+    if (userEl) userEl.innerText = `${user.uname} (${user.userLevel || 'Client'})`;
+    if (uSwitch) uSwitch.checked = user.userActive !== false;
+    if (bSwitch) bSwitch.checked = user.betActive !== false;
+    if (mpassEl) mpassEl.value = '';
+
+    window.openModal('changestatusMDL');
+  };
+
+  window.handleStatusSubmit = function(e) {
+    e.preventDefault();
+    const userId = document.getElementById('changeStatusUserId')?.value;
+    const uActive = document.getElementById('switchUserActiveRef')?.checked;
+    const bActive = document.getElementById('switchBetActiveRef')?.checked;
+    const mpass = document.getElementById('changeStatusMpassword')?.value;
+
+    if (!mpass) {
+      App.showToast('Please enter transaction password.', 'danger');
+      return;
+    }
+
+    try {
+      window.AdminDataStore.updateStatus(userId, uActive, bActive);
+      App.showToast('User status updated successfully.', 'success');
+      window.closeModal('changestatusMDL');
+      App.handleRouting();
+    } catch (err) {
+      App.showToast(err.message, 'danger');
+    }
+  };
+
+  // 7. Extra Details Modal (ref: ExtraMDL)
+  window.openExtraModal = function(userId) {
+    const user = window.AdminDataStore.getUserByGuid(userId);
+    if (!user) return;
+
+    const avatar = document.getElementById('extraAvatarInitial');
+    const uEl = document.getElementById('extraUserName');
+    const fEl = document.getElementById('extraFullName');
+    const pName = document.getElementById('extraPartnershipName');
+    const pShare = document.getElementById('extraPartnershipShare');
+    const aType = document.getElementById('extraAccountType');
+
+    if (avatar) avatar.innerText = (user.uname || 'U').charAt(0).toUpperCase();
+    if (uEl) uEl.innerText = user.uname;
+    if (fEl) fEl.innerText = user.fname || user.uname;
+    if (pName) pName.innerText = `${user.upline || 'Faazan50'} Upline`;
+    if (pShare) pShare.innerText = `${user.share || 0}%`;
+    if (aType) aType.innerText = user.userType === '5' ? 'Agent' : 'Client';
+
+    window.openModal('ExtraMDL');
+  };
+
+  // Legacy Banking Modal Alias
+  window.openBankingModal = function(userId, type) {
+    if (type === 'withdraw' || type === 'Withdraw' || type === 'W') {
+      window.openWithdrawModal(userId);
+    } else {
+      window.openDepositModal(userId);
+    }
   };
 
   window.openSettlementModal = function(userId) {
@@ -1509,19 +1863,82 @@
     window.openModal('marketBookModal');
   };
 
-  window.toggleSidebarSection = function(id) {
-    const el = document.getElementById(id);
-    if (el) {
-      el.classList.toggle('open');
-      const arrow = el.previousElementSibling ? el.previousElementSibling.querySelector('.arrow-icon') : null;
-      if (arrow) {
-        if (el.classList.contains('open')) {
-          arrow.className = 'fas fa-chevron-down arrow-icon';
-        } else {
-          arrow.className = 'fas fa-chevron-right arrow-icon';
-        }
+  // Sidebar Sports Tree Toggles matching Reference MetisMenu
+  window.toggleSidebarSportsTree = function() {
+    const treeUl = document.getElementById('sidebarSportsTreeUl');
+    if (treeUl) {
+      treeUl.style.display = (treeUl.style.display === 'none') ? 'block' : 'none';
+    }
+  };
+
+  window.toggleSportSubTree = function(treeId) {
+    const subTree = document.getElementById(treeId);
+    const arrowMap = {
+      'treeCricket': 'arrowCricket',
+      'treeSoccer': 'arrowSoccer',
+      'treeTennis': 'arrowTennis'
+    };
+    const arrowEl = document.getElementById(arrowMap[treeId]);
+
+    if (subTree) {
+      if (subTree.style.display === 'none') {
+        subTree.style.display = 'block';
+        if (arrowEl) arrowEl.innerText = '-';
+      } else {
+        subTree.style.display = 'none';
+        if (arrowEl) arrowEl.innerText = '+';
       }
     }
+  };
+
+  window.toggleSidebarSection = function(id) {
+    window.toggleSportSubTree(id);
+  };
+
+  // Account List Table Filter, Reset, Export & Sort
+  window.adminFilterUsers = function() {
+    const q = (document.getElementById('searchUserInput')?.value || '').toLowerCase().trim();
+    document.querySelectorAll('#eventsListTbl tbody tr').forEach(row => {
+      row.style.display = row.innerText.toLowerCase().includes(q) ? '' : 'none';
+    });
+  };
+
+  window.adminResetUsers = function() {
+    const input = document.getElementById('searchUserInput');
+    if (input) input.value = '';
+    document.querySelectorAll('#eventsListTbl tbody tr').forEach(row => {
+      row.style.display = '';
+    });
+  };
+
+  window.adminExportPdf = function() {
+    window.print();
+  };
+
+  window.adminExportExcel = function() {
+    const users = window.AdminDataStore.getUsers();
+    let csv = 'User Name,Credit Referance,U st,B st,Exposure Limit,Default %,Account Type\n';
+    users.forEach(u => {
+      csv += `"${u.uname}",${u.creditRef || 0},"${u.userActive !== false ? 'Active' : 'Disabled'}","${u.betActive !== false ? 'Active' : 'Disabled'}",${u.exposureLimit || 100000},${u.share || 0},"${u.userType === '5' ? 'Agent' : 'Client'}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'userlist.csv';
+    a.click();
+  };
+
+  window.adminSortUsers = function(col) {
+    App.sortCol = col;
+    App.sortAsc = !App.sortAsc;
+    App.handleRouting();
+  };
+
+  window.adminFilterMarkets = function() {
+    const q = (document.getElementById('searchMarketInput')?.value || '').toLowerCase();
+    document.querySelectorAll('.market-analysis-container').forEach(el => {
+      el.style.display = el.innerText.toLowerCase().includes(q) ? '' : 'none';
+    });
   };
 
   // Launch on DOM Ready
@@ -1534,3 +1951,4 @@
   window.AdminApp = App;
 
 })(window, document);
+

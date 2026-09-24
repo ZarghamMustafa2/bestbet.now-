@@ -128,18 +128,74 @@
       display: block;
     }
 
-    /* Table & Action Badges */
-    .btn-action-icon {
-      width: 32px;
-      height: 32px;
-      padding: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 4px;
-      margin: 0 2px;
-      font-size: 13px;
+    /* Action Buttons matching Reference style.css */
+    .action-button {
+      cursor: pointer;
+      background: #444 !important;
+      border-color: #444 !important;
+      padding: 4px 8px !important;
+      text-decoration: none !important;
+      color: #fff !important;
+      border-radius: 3px !important;
+      margin-right: 4px !important;
+      margin-left: 0 !important;
+      text-transform: uppercase;
+      display: inline-block;
+      font-size: 12px !important;
+      line-height: 1.2 !important;
+      font-weight: 600;
+      min-width: 24px;
+      text-align: center;
     }
+    .action-button:hover,
+    .action-button:focus {
+      color: #fff !important;
+      background: #2b2b2b !important;
+      border-color: #2b2b2b !important;
+    }
+
+    /* Export buttons */
+    .buttons-pdf {
+      background-color: #f46a6a !important;
+      border-color: #f46a6a !important;
+      color: #fff !important;
+      padding: 4px 12px;
+      font-size: 13px;
+      border-radius: 4px;
+      margin-right: 6px;
+    }
+    .buttons-excel {
+      background-color: #34c38f !important;
+      border-color: #34c38f !important;
+      color: #fff !important;
+      padding: 4px 12px;
+      font-size: 13px;
+      border-radius: 4px;
+    }
+    .btn-back {
+      background-color: #74788d !important;
+      border-color: #74788d !important;
+      color: #fff !important;
+    }
+
+    /* DataTables controls matching Reference */
+    .dataTables_length label,
+    .dataTables_filter label {
+      font-size: 13px;
+      font-weight: 400;
+      color: #495057;
+      margin-bottom: 0;
+    }
+    .dataTables_filter input {
+      display: inline-block;
+      width: auto;
+      vertical-align: middle;
+    }
+    .dataTables_paginate .pagination {
+      margin-bottom: 0;
+    }
+
+    /* Account Type Badges */
     .badge-master {
       background-color: #556ee6;
       color: #fff;
@@ -164,62 +220,16 @@
       height: 38px;
       object-fit: contain;
     }
-    .bal-pill {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
+    .bal-box {
+      padding: 6px 12px;
+      background: #2a3042;
       border-radius: 4px;
-      padding: 6px 14px;
       color: #fff;
-      font-size: 14px;
-      font-weight: 500;
-    }
-    .bal-pill .pts-val {
-      color: #50a5f1;
-      font-weight: 700;
-    }
-    .bal-pill .exp-val {
-      color: #f46a6a;
-      font-weight: 700;
-    }
-
-    /* Sidebar Tree */
-    .tree-nav {
-      list-style: none;
-      padding-left: 0;
-      margin: 0;
-    }
-    .tree-nav li {
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .tree-nav li a, .tree-nav li .tree-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 20px;
-      color: #a6b0cf;
-      text-decoration: none;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    .tree-nav li a:hover, .tree-nav li .tree-toggle:hover {
-      color: #ffffff;
-      background: rgba(255,255,255,0.04);
-    }
-    .tree-sub {
-      list-style: none;
-      padding-left: 15px;
-      display: none;
-      background: #222736;
-    }
-    .tree-sub.open {
-      display: block;
-    }
-    .tree-sub li a {
-      padding: 8px 15px;
       font-size: 13px;
+      display: inline-block;
     }
-    .tree-sub li a:hover {
-      color: #50a5f1;
+    .balance-value {
+      font-weight: 700;
     }
 
     /* Odds Display */
@@ -245,6 +255,8 @@
       min-width: 60px;
       cursor: pointer;
     }
+
+    /* Sidebar Mobile Overlay */
     body.sidebar-enable .vertical-menu,
     body.vertical-collpsed.sidebar-enable .vertical-menu {
       display: block !important;
@@ -269,6 +281,74 @@
     }
     body.sidebar-enable .sidebar-backdrop {
       display: block;
+    }
+    body.sidebar-enable .vertical-menu #sidebar-menu ul li a span,
+    body.sidebar-enable .vertical-menu #sidebar-menu ul li span,
+    body.sidebar-enable .vertical-menu #sidebar-menu ul li b,
+    body.sidebar-enable .vertical-menu #sidebar-menu ul li i {
+      display: inline-block !important;
+    }
+    body.sidebar-enable .vertical-menu #sidebar-menu ul.sub-menu,
+    body.sidebar-enable .vertical-menu #sidebar-menu > ul > li > ul {
+      display: block !important;
+    }
+
+    /* Tree menu styles matching reference dark theme */
+    #sidebar-menu,
+    .vertical-menu {
+      background: #16191c !important;
+    }
+    #sidebar-menu #event-tree > a {
+      color: #ffffff !important;
+      font-weight: 600;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #222736;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      text-decoration: none;
+    }
+    #sidebar-menu #event-tree ul.sub-menu {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+      background: #1a1e24;
+    }
+    #sidebar-menu #event-tree ul.sub-menu li {
+      padding: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    #sidebar-menu #event-tree ul.sub-menu li a,
+    #sidebar-menu #event-tree ul.sub-menu li .tree-sport-item {
+      color: #aaafb5 !important;
+      text-decoration: none;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      padding: 10px 20px;
+    }
+    #sidebar-menu #event-tree ul.sub-menu li a:hover,
+    #sidebar-menu #event-tree ul.sub-menu li .tree-sport-item:hover {
+      color: #ffffff !important;
+      background: rgba(255,255,255,0.05);
+    }
+    #sidebar-menu .nav-route-link {
+      color: #aaafb5 !important;
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-size: 13px;
+    }
+    #sidebar-menu .nav-route-link:hover {
+      color: #ffffff !important;
+      background: rgba(255,255,255,0.05);
+    }
+    .cp {
+      cursor: pointer;
     }
   </style>
 </head>
@@ -330,7 +410,7 @@
               <i class="fa fa-fw fa-bars"></i>
             </button>
 
-            <!-- Main Menu Links -->
+            <!-- Main Menu Links matching Reference app.js -->
             <ul class="nav align-items-center main-menu d-none d-lg-flex">
               <li class="nav-item">
                 <a class="nav-link nav-route-link" href="/admin/users" data-route="/admin/users">
@@ -351,13 +431,14 @@
                 <div class="dropdown-menu" aria-labelledby="reportsDropdown">
                   <a class="dropdown-item nav-route-link" href="/admin/reports/accountstatement" data-route="/admin/reports/accountstatement">Account Statement</a>
                   <a class="dropdown-item nav-route-link" href="/admin/reports/currentbets" data-route="/admin/reports/currentbets">Current Bets</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/profitloss" data-route="/admin/reports/profitloss">Profit And Loss</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/casinoresult" data-route="/admin/reports/casinoresult">Casino Result Report</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/livecasinoreport" data-route="/admin/reports/livecasinoreport">Casino Report</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/turnover" data-route="/admin/reports/turnover">Turnover</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/userhistory" data-route="/admin/reports/userhistory">User History</a>
                   <a class="dropdown-item nav-route-link" href="/admin/reports/generalreport" data-route="/admin/reports/generalreport">General Report</a>
                   <a class="dropdown-item nav-route-link" href="/admin/reports/gamereport" data-route="/admin/reports/gamereport">Game Report</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/livecasinoreport" data-route="/admin/reports/livecasinoreport">Casino Report</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/profitloss" data-route="/admin/reports/profitloss">Profit And Loss</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/casinoresult" data-route="/admin/reports/casinoresult">Casino Result Report</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/settings/userlock" data-route="/admin/settings/userlock">General Lock</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/userhistory" data-route="/admin/reports/userhistory">User History</a>
+                  <a class="dropdown-item nav-route-link" href="/admin/reports/turnover" data-route="/admin/reports/turnover">Turnover</a>
                   <a class="dropdown-item nav-route-link" href="/admin/reports/userregisterdetail" data-route="/admin/reports/userregisterdetail">User Register Detail</a>
                   <a class="dropdown-item nav-route-link" href="/admin/reports/totalprofitloss" data-route="/admin/reports/totalprofitloss">Total Profit Loss</a>
                   <a class="dropdown-item nav-route-link" href="/admin/reports/userwinloss" data-route="/admin/reports/userwinloss">User Win Loss</a>
@@ -370,41 +451,39 @@
                 </a>
               </li>
 
-              <!-- Settings Dropdown -->
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Settings <i class="fa fa-caret-down ml-1"></i>
+              <!-- Settings / Multi Login -->
+              <li class="nav-item">
+                <a class="nav-link nav-route-link" href="/admin/createaccount" data-route="/admin/createaccount">
+                  Multi Login
                 </a>
-                <div class="dropdown-menu" aria-labelledby="settingsDropdown">
-                  <a class="dropdown-item nav-route-link" href="/admin/settings/userlock" data-route="/admin/settings/userlock">General Lock</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/setbutton" data-route="/admin/setbutton">Set Button</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/createaccount" data-route="/admin/createaccount">Multi Login</a>
-                </div>
               </li>
             </ul>
           </div>
 
-          <!-- Top Right: Balance & User Menu -->
-          <div class="d-flex align-items-center">
+          <!-- Top Right: User Menu (Desktop has NO balance pill, exactly matching Reference) -->
+          <div class="d-flex align-items-center user-menu">
             
-            <!-- Balance / Pts Box -->
-            <div class="bal-pill mr-3 d-none d-sm-block">
-              <span>Pts: </span><span id="topAdminBalance" class="pts-val">500,000.00</span>
-              <span class="mx-2">|</span>
-              <span>Exp: </span><span id="topAdminExposure" class="exp-val">12,500.00</span>
-            </div>
-
             <!-- User Dropdown Menu -->
             <div class="dropdown user-dropdown">
               <button class="btn dropdown-toggle header-item text-white border-0" type="button" id="userMenuBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background: transparent;">
-                <i class="fas fa-user-circle mr-1"></i>
-                <span id="topAdminUsername">Faazan50 (Master)</span>
+                <span class="ml-1" id="topAdminUsername">Faazan50</span>
                 <i class="fa fa-caret-down ml-1"></i>
               </button>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenuBtn">
-                <a class="dropdown-item" href="javascript:void(0)" id="openRulesBtn"><i class="fas fa-info-circle mr-2"></i> Rules</a>
+                
+                <!-- Balance Box (Mobile only d-sm-none, matching Reference .bal-box) -->
+                <div class="dropdown d-sm-none ml-1 mr-1 px-3 py-2 text-white bg-dark rounded mb-2">
+                  <div class="bal-box">
+                    <span class="balance nowrap">
+                      Pts: <span class="balance-value text-info font-weight-bold" id="topAdminBalanceMobile">500,000.00</span> | <span class="balance-value text-danger font-weight-bold" id="topAdminExposureMobile">12,500.00</span>
+                    </span>
+                  </div>
+                </div>
+
+                <a class="dropdown-item d-sm-none" href="javascript:void(0)" id="openRulesBtn"><i class="fas fa-info-circle mr-2"></i> Rules</a>
                 <a class="dropdown-item nav-route-link" href="/admin/secureauth" data-route="/admin/secureauth"><i class="fas fa-shield-alt mr-2"></i> Secure Auth Verification</a>
                 <a class="dropdown-item" href="javascript:void(0)" id="openAdminPasswordBtn"><i class="fas fa-key mr-2"></i> Change Password</a>
+                <a class="dropdown-item nav-route-link" href="/admin/setbutton" data-route="/admin/setbutton"><i class="fas fa-cog mr-2"></i> Set Buttons</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item text-danger" href="javascript:void(0)" id="adminLogoutBtn"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
               </div>
@@ -414,79 +493,92 @@
         </div>
       </header>
 
-      <!-- SIDEBAR MENU -->
+      <!-- SIDEBAR MENU matching Reference SideBar Component -->
       <div class="vertical-menu" id="adminSidebar">
         <div class="h-100" style="overflow-y:auto;">
           <div id="sidebar-menu">
-            <ul class="tree-nav" id="sideMenuSportsTree">
+            <ul class="metismenu list-unstyled" id="side-menu">
               
-              <!-- Cricket Category -->
-              <li>
-                <div class="tree-toggle" onclick="toggleSidebarSection('treeCricket')">
-                  <span><i class="fas fa-baseball-ball mr-2 text-warning"></i> Cricket</span>
-                  <i class="fas fa-chevron-right arrow-icon"></i>
-                </div>
-                <ul class="tree-sub" id="treeCricket">
+              <!-- Sports Tree Header -->
+              <li class="menu-box" id="event-tree">
+                <a href="javascript:void(0);" onclick="window.toggleSidebarSportsTree()">
+                  <span>Sports</span>
+                  <i class="fa fa-times float-right d-lg-none" onclick="document.body.classList.remove('sidebar-enable')"></i>
+                </a>
+                
+                <!-- Collapsible Sports Sub-Menu -->
+                <ul class="sub-menu mm-collapse mm-show" id="sidebarSportsTreeUl">
+                  
+                  <!-- Cricket Category -->
                   <li>
-                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                      South Africa v Pakistan
-                    </a>
+                    <span class="tree-sport-item" onclick="window.toggleSportSubTree('treeCricket')">
+                      <span><i class="fas fa-baseball-ball mr-2 text-warning"></i> Cricket</span>
+                      <b class="ml-1" id="arrowCricket">-</b>
+                    </span>
+                    <ul class="sub-menu" id="treeCricket" style="display:block;">
+                      <li>
+                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                          South Africa v Pakistan
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                          India v Australia
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                          England v New Zealand
+                        </a>
+                      </li>
+                    </ul>
                   </li>
-                  <li>
-                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                      India v Australia
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                      England v New Zealand
-                    </a>
-                  </li>
-                </ul>
-              </li>
 
-              <!-- Football Category -->
-              <li>
-                <div class="tree-toggle" onclick="toggleSidebarSection('treeFootball')">
-                  <span><i class="fas fa-futbol mr-2 text-info"></i> Football</span>
-                  <i class="fas fa-chevron-right arrow-icon"></i>
-                </div>
-                <ul class="tree-sub" id="treeFootball">
+                  <!-- Soccer Category -->
                   <li>
-                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                      Manchester City v Arsenal
-                    </a>
+                    <span class="tree-sport-item" onclick="window.toggleSportSubTree('treeSoccer')">
+                      <span><i class="fas fa-futbol mr-2 text-info"></i> Soccer</span>
+                      <b class="ml-1" id="arrowSoccer">+</b>
+                    </span>
+                    <ul class="sub-menu" id="treeSoccer" style="display:none;">
+                      <li>
+                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                          Manchester City v Arsenal
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                          Real Madrid v Barcelona
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                          Bayern Munich v Dortmund
+                        </a>
+                      </li>
+                    </ul>
                   </li>
-                  <li>
-                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                      Real Madrid v Barcelona
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                      Bayern Munich v Dortmund
-                    </a>
-                  </li>
-                </ul>
-              </li>
 
-              <!-- Tennis Category -->
-              <li>
-                <div class="tree-toggle" onclick="toggleSidebarSection('treeTennis')">
-                  <span><i class="fas fa-table-tennis mr-2 text-success"></i> Tennis</span>
-                  <i class="fas fa-chevron-right arrow-icon"></i>
-                </div>
-                <ul class="tree-sub" id="treeTennis">
+                  <!-- Tennis Category -->
                   <li>
-                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                      Novak Djokovic v Carlos Alcaraz
-                    </a>
+                    <span class="tree-sport-item" onclick="window.toggleSportSubTree('treeTennis')">
+                      <span><i class="fas fa-table-tennis mr-2 text-success"></i> Tennis</span>
+                      <b class="ml-1" id="arrowTennis">+</b>
+                    </span>
+                    <ul class="sub-menu" id="treeTennis" style="display:none;">
+                      <li>
+                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                          Novak Djokovic v Carlos Alcaraz
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
+                          Jannik Sinner v Daniil Medvedev
+                        </a>
+                      </li>
+                    </ul>
                   </li>
-                  <li>
-                    <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                      Jannik Sinner v Daniil Medvedev
-                    </a>
-                  </li>
+
                 </ul>
               </li>
 
@@ -533,182 +625,399 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL DIALOGS ==================== -->
+  <!-- ==================== MODAL DIALOGS MATCHING REFERENCE ==================== -->
 
-  <!-- 1. BANKING MODAL (DEPOSIT / WITHDRAW) -->
-  <div class="admin-modal" id="bankingModal">
+  <!-- 1. DEPOSIT MODAL (ref: depositeMDL, Triggered by 'D') -->
+  <div class="admin-modal" id="depositeMDL">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-dark text-white">
-          <h5 class="modal-title" id="bankingModalTitle">Banking - Deposit / Withdraw</h5>
-          <button type="button" class="close text-white" onclick="closeModal('bankingModal')">&times;</button>
+          <h4 class="modal-title">Deposit</h4>
+          <button type="button" class="close text-white" onclick="window.closeModal('depositeMDL')">&times;</button>
         </div>
-        <form id="bankingForm">
-          <input type="hidden" id="bankingUserId">
+        <form id="depositForm" onsubmit="window.handleDepositSubmit(event)">
+          <input type="hidden" id="depositUserId">
           <div class="modal-body">
             <div class="form-group row mb-2">
-              <label class="col-sm-4 col-form-label font-weight-bold">Client / Agent:</label>
-              <div class="col-sm-8 col-form-label" id="bankingUserName">Client_001</div>
-            </div>
-            <div class="form-group row mb-2">
-              <label class="col-sm-4 col-form-label font-weight-bold">Current Balance:</label>
-              <div class="col-sm-8 col-form-label text-primary font-weight-bold" id="bankingUserBalance">48,000.00</div>
-            </div>
-            <div class="form-group row mb-2">
-              <label class="col-sm-4 col-form-label font-weight-bold">Master Balance:</label>
-              <div class="col-sm-8 col-form-label text-success font-weight-bold" id="bankingMasterBalance">500,000.00</div>
-            </div>
-            <hr>
-            <div class="form-group row mb-3">
-              <label class="col-sm-4 col-form-label font-weight-bold">Action Type:</label>
+              <label class="col-sm-4 col-form-label font-weight-bold" id="depositUserNameLabel">Client_001</label>
               <div class="col-sm-8">
-                <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
-                  <label class="btn btn-outline-success active">
-                    <input type="radio" name="bankingType" value="Deposit" checked> Deposit (D)
-                  </label>
-                  <label class="btn btn-outline-danger">
-                    <input type="radio" name="bankingType" value="Withdraw"> Withdraw (W)
-                  </label>
+                <div class="row">
+                  <div class="col-6">
+                    <input type="text" id="depositUserCurBal" class="form-control text-right" readonly placeholder="Cur Bal">
+                  </div>
+                  <div class="col-6">
+                    <input type="text" id="depositUserNewBal" class="form-control text-right font-weight-bold text-success" readonly placeholder="New Bal">
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="form-group row mb-3">
-              <label class="col-sm-4 col-form-label font-weight-bold">Amount:</label>
-              <div class="col-sm-8">
-                <input type="number" id="bankingAmount" class="form-control" placeholder="Enter amount" min="1" required>
-              </div>
-            </div>
-            <div class="form-group row mb-3">
-              <label class="col-sm-4 col-form-label font-weight-bold">Remarks:</label>
-              <div class="col-sm-8">
-                <input type="text" id="bankingRemarks" class="form-control" placeholder="Transaction remarks (optional)">
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" onclick="closeModal('bankingModal')">Cancel</button>
-            <button type="submit" class="btn btn-primary" id="btnSubmitBanking">Execute Transaction</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- 2. STATUS / USER LOCK MODAL -->
-  <div class="admin-modal" id="statusModal">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header bg-dark text-white">
-          <h5 class="modal-title">Change Account Status</h5>
-          <button type="button" class="close text-white" onclick="closeModal('statusModal')">&times;</button>
-        </div>
-        <form id="statusForm">
-          <input type="hidden" id="statusUserId">
-          <div class="modal-body">
             <div class="form-group row mb-2">
-              <label class="col-sm-4 col-form-label font-weight-bold">User:</label>
-              <div class="col-sm-8 col-form-label" id="statusUserName">Client_001</div>
+              <label class="col-sm-4 col-form-label font-weight-bold">Faazan50 (Master)</label>
+              <div class="col-sm-8">
+                <div class="row">
+                  <div class="col-6">
+                    <input type="text" id="depositMasterCurBal" class="form-control text-right" readonly value="500,000.00">
+                  </div>
+                  <div class="col-6">
+                    <input type="text" id="depositMasterNewBal" class="form-control text-right font-weight-bold text-danger" readonly value="500,000.00">
+                  </div>
+                </div>
+              </div>
             </div>
             <hr>
-            <div class="form-group mb-3">
-              <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="switchUserActive" checked>
-                <label class="custom-control-label font-weight-bold" for="switchUserActive">User Active (Allow Login)</label>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">Amount</label>
+              <div class="col-sm-8">
+                <input type="number" id="depositAmount" class="form-control text-right" placeholder="0" min="1" required oninput="window.calcDepositBalances()">
               </div>
-              <small class="form-text text-muted">When unchecked, this account is locked from logging into the portal.</small>
             </div>
-            <div class="form-group mb-3">
-              <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="switchBetActive" checked>
-                <label class="custom-control-label font-weight-bold" for="switchBetActive">Betting Active (Allow Placing Bets)</label>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">Remark</label>
+              <div class="col-sm-8">
+                <input type="text" id="depositRemark" class="form-control" placeholder="Remarks (optional)">
               </div>
-              <small class="form-text text-muted">When unchecked, user cannot place new bets.</small>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">Transaction Password</label>
+              <div class="col-sm-8">
+                <input type="password" id="depositMpassword" class="form-control" placeholder="Transaction Password" required>
+              </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" onclick="closeModal('statusModal')">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save Status</button>
+            <button type="button" class="btn btn-back mr-2" onclick="window.closeModal('depositeMDL')">
+              <i class="fas fa-undo mr-1"></i> Back
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Submit <i class="fas fa-sign-in-alt ml-1"></i>
+            </button>
           </div>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- 3. CREDIT REFERENCE MODAL -->
-  <div class="admin-modal" id="creditRefModal">
+  <!-- 2. WITHDRAW MODAL (ref: withdrwalMDL, Triggered by 'W') -->
+  <div class="admin-modal" id="withdrwalMDL">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-dark text-white">
-          <h5 class="modal-title">Update Credit Reference</h5>
-          <button type="button" class="close text-white" onclick="closeModal('creditRefModal')">&times;</button>
+          <h4 class="modal-title">Withdraw</h4>
+          <button type="button" class="close text-white" onclick="window.closeModal('withdrwalMDL')">&times;</button>
         </div>
-        <form id="creditRefForm">
-          <input type="hidden" id="creditRefUserId">
+        <form id="withdrawForm" onsubmit="window.handleWithdrawSubmit(event)">
+          <input type="hidden" id="withdrawUserId">
+          <div class="modal-body">
+            <div class="form-group row mb-2">
+              <label class="col-sm-4 col-form-label font-weight-bold" id="withdrawUserNameLabel">Client_001</label>
+              <div class="col-sm-8">
+                <div class="row">
+                  <div class="col-6">
+                    <input type="text" id="withdrawUserCurBal" class="form-control text-right" readonly placeholder="Cur Bal">
+                  </div>
+                  <div class="col-6">
+                    <input type="text" id="withdrawUserNewBal" class="form-control text-right font-weight-bold text-danger" readonly placeholder="New Bal">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row mb-2">
+              <label class="col-sm-4 col-form-label font-weight-bold">Faazan50 (Master)</label>
+              <div class="col-sm-8">
+                <div class="row">
+                  <div class="col-6">
+                    <input type="text" id="withdrawMasterCurBal" class="form-control text-right" readonly value="500,000.00">
+                  </div>
+                  <div class="col-6">
+                    <input type="text" id="withdrawMasterNewBal" class="form-control text-right font-weight-bold text-success" readonly value="500,000.00">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">Amount</label>
+              <div class="col-sm-8">
+                <input type="number" id="withdrawAmount" class="form-control text-right" placeholder="0" min="1" required oninput="window.calcWithdrawBalances()">
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">Remark</label>
+              <div class="col-sm-8">
+                <input type="text" id="withdrawRemark" class="form-control" placeholder="Remarks (optional)">
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">Transaction Password</label>
+              <div class="col-sm-8">
+                <input type="password" id="withdrawMpassword" class="form-control" placeholder="Transaction Password" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-back mr-2" onclick="window.closeModal('withdrwalMDL')">
+              <i class="fas fa-undo mr-1"></i> Back
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Submit <i class="fas fa-sign-in-alt ml-1"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. EXPOSURE LIMIT MODAL (ref: exposureLimitMDL, Triggered by 'L') -->
+  <div class="admin-modal" id="exposureLimitMDL">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title">Exposure Limit</h5>
+          <button type="button" class="close text-white" onclick="window.closeModal('exposureLimitMDL')">&times;</button>
+        </div>
+        <form id="exposureLimitForm" onsubmit="window.handleExposureLimitSubmit(event)">
+          <input type="hidden" id="exposureLimitUserId">
           <div class="modal-body">
             <div class="form-group row mb-2">
               <label class="col-sm-4 col-form-label font-weight-bold">User:</label>
-              <div class="col-sm-8 col-form-label" id="creditRefUserName">Client_001</div>
+              <div class="col-sm-8 col-form-label font-weight-bold text-primary" id="exposureLimitUserName">Client_001</div>
             </div>
             <div class="form-group row mb-2">
               <label class="col-sm-4 col-form-label font-weight-bold">Current Limit:</label>
-              <div class="col-sm-8 col-form-label text-info font-weight-bold" id="creditRefCurrent">50,000.00</div>
+              <div class="col-sm-8 col-form-label font-weight-bold text-info" id="exposureLimitOld">100,000.00</div>
             </div>
             <div class="form-group row mb-3">
               <label class="col-sm-4 col-form-label font-weight-bold">New Limit:</label>
               <div class="col-sm-8">
-                <input type="number" id="creditRefNew" class="form-control" placeholder="Enter new limit" min="0" required>
+                <input type="number" id="exposureLimitNew" class="form-control text-right" placeholder="New Limit" min="0" required>
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">Transaction Password:</label>
+              <div class="col-sm-8">
+                <input type="password" id="exposureLimitMpass" class="form-control" placeholder="Transaction Password" required>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" onclick="closeModal('creditRefModal')">Cancel</button>
-            <button type="submit" class="btn btn-primary">Update Credit Limit</button>
+            <button type="button" class="btn btn-back mr-2" onclick="window.closeModal('exposureLimitMDL')">
+              <i class="fas fa-undo mr-1"></i> Back
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Submit <i class="fas fa-sign-in-alt ml-1"></i>
+            </button>
           </div>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- 4. CHANGE PASSWORD MODAL -->
-  <div class="admin-modal" id="changePasswordModal">
+  <!-- 4. CREDIT UPDATE MODAL (ref: creditUpdate, Triggered by 'C' or clicking Credit Referance) -->
+  <div class="admin-modal" id="creditUpdate">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-dark text-white">
-          <h5 class="modal-title" id="changePasswordTitle">Change Password</h5>
-          <button type="button" class="close text-white" onclick="closeModal('changePasswordModal')">&times;</button>
+          <h5 class="modal-title">Credit</h5>
+          <button type="button" class="close text-white" onclick="window.closeModal('creditUpdate')">&times;</button>
         </div>
-        <form id="changePasswordForm">
-          <input type="hidden" id="changePasswordUserId">
+        <form id="creditUpdateForm" onsubmit="window.handleCreditSubmit(event)">
+          <input type="hidden" id="creditUpdateUserId">
           <div class="modal-body">
-            <div class="form-group mb-3">
-              <label class="font-weight-bold">Account:</label>
-              <input type="text" id="changePasswordUserName" class="form-control" readonly>
+            <div class="form-group row mb-2">
+              <label class="col-sm-4 col-form-label font-weight-bold">User:</label>
+              <div class="col-sm-8 col-form-label font-weight-bold text-primary" id="creditUpdateUserName">Client_001</div>
             </div>
-            <div class="form-group mb-3">
-              <label class="font-weight-bold">New Password:</label>
-              <input type="password" id="inputNewPassword" class="form-control" placeholder="Enter new password" required minlength="6">
+            <div class="form-group row mb-2">
+              <label class="col-sm-4 col-form-label font-weight-bold">Old Credit:</label>
+              <div class="col-sm-8">
+                <input type="text" id="creditUpdateOld" class="form-control text-right" readonly placeholder="Old Credit">
+              </div>
             </div>
-            <div class="form-group mb-3">
-              <label class="font-weight-bold">Confirm New Password:</label>
-              <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Confirm new password" required minlength="6">
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">New Credit:</label>
+              <div class="col-sm-8">
+                <input type="number" id="creditUpdateNew" class="form-control text-right" placeholder="New Credit" min="0" required>
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">Transaction Password:</label>
+              <div class="col-sm-8">
+                <input type="password" id="creditUpdateMpass" class="form-control" placeholder="Transaction Password" required>
+              </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" onclick="closeModal('changePasswordModal')">Cancel</button>
-            <button type="submit" class="btn btn-primary">Update Password</button>
+            <button type="button" class="btn btn-back mr-2" onclick="window.closeModal('creditUpdate')">
+              <i class="fas fa-undo mr-1"></i> Back
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Submit <i class="fas fa-sign-in-alt ml-1"></i>
+            </button>
           </div>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- 5. SETTLEMENT EXECUTION MODAL -->
+  <!-- 5. CHANGE PASSWORD MODAL (ref: changepwdMDL, Triggered by 'P') -->
+  <div class="admin-modal" id="changepwdMDL">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h4 class="modal-title">Password</h4>
+          <button type="button" class="close text-white" onclick="window.closeModal('changepwdMDL')">&times;</button>
+        </div>
+        <form id="changePasswordRefForm" onsubmit="window.handlePasswordSubmit(event)">
+          <input type="hidden" id="changePwdTargetUser">
+          <div class="modal-body">
+            <div class="form-group row mb-2">
+              <label class="col-sm-4 col-form-label font-weight-bold">Account:</label>
+              <div class="col-sm-8 col-form-label font-weight-bold text-primary" id="changePwdAccountLabel">Client_001</div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">New Password:</label>
+              <div class="col-sm-8">
+                <input type="password" id="inputUserNewPassword" class="form-control" placeholder="Enter new password" minlength="6" required>
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">Confirm Password:</label>
+              <div class="col-sm-8">
+                <input type="password" id="inputUserConfirmPassword" class="form-control" placeholder="Confirm new password" minlength="6" required>
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">Transaction Password:</label>
+              <div class="col-sm-8">
+                <input type="password" id="inputUserMpass" class="form-control" placeholder="Transaction Password" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-back mr-2" onclick="window.closeModal('changepwdMDL')">
+              <i class="fas fa-undo mr-1"></i> Back
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Submit <i class="fas fa-sign-in-alt ml-1"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. CHANGE STATUS / USER LOCK MODAL (ref: changestatusMDL, Triggered by 'S') -->
+  <div class="admin-modal" id="changestatusMDL">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h4 class="modal-title">Change Status</h4>
+          <button type="button" class="close text-white" onclick="window.closeModal('changestatusMDL')">&times;</button>
+        </div>
+        <form id="changeStatusRefForm" onsubmit="window.handleStatusSubmit(event)">
+          <input type="hidden" id="changeStatusUserId">
+          <div class="modal-body">
+            <div class="m-t-20 mb-3">
+              <div class="row">
+                <div class="col-12 text-left">
+                  <p class="text-warning font-weight-bold font-size-16 mb-1" id="statusModalUsername">Client_001</p>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <div class="col-6 text-center">
+                <label class="col-form-label d-block font-weight-bold">User Active</label>
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="switchUserActiveRef" checked>
+                  <label class="custom-control-label" for="switchUserActiveRef"></label>
+                </div>
+              </div>
+              <div class="col-6 text-center">
+                <label class="col-form-label d-block font-weight-bold">Bet Active</label>
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="switchBetActiveRef" checked>
+                  <label class="custom-control-label" for="switchBetActiveRef"></label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-4 col-form-label font-weight-bold">Transaction Password</label>
+              <div class="col-sm-8">
+                <input type="password" id="changeStatusMpassword" class="form-control" placeholder="Transaction Password" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-back mr-2" onclick="window.closeModal('changestatusMDL')">
+              <i class="fas fa-undo mr-1"></i> Back
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Submit <i class="fas fa-sign-in-alt ml-1"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. EXTRA DETAILS MODAL (ref: ExtraMDL, Triggered by 'More') -->
+  <div class="admin-modal" id="ExtraMDL">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title text-white" id="extraModalTitle">Account Profile Details</h5>
+          <button type="button" class="close text-white" onclick="window.closeModal('ExtraMDL')">&times;</button>
+        </div>
+        <div class="modal-body p-3">
+          <div class="card text-center mb-3">
+            <div class="card-body p-3">
+              <div class="avatar-sm mx-auto mb-2" style="width:48px;height:48px;line-height:48px;background:rgba(80,165,241,0.15);border-radius:50%;">
+                <span class="text-primary font-weight-bold font-size-18" id="extraAvatarInitial">C</span>
+              </div>
+              <h5 class="font-size-16 mb-1" id="extraUserName">Client_001</h5>
+              <p class="text-muted mb-2" id="extraFullName">Ravi Sharma</p>
+              <div class="d-flex justify-content-center text-muted font-size-14">
+                <span class="mr-3"><i class="fas fa-phone mr-1"></i> <span id="extraMobile">+92 300 1234567</span></span>
+                <span><i class="fas fa-city mr-1"></i> <span id="extraCity">Lahore</span></span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body p-3">
+              <h6 class="card-title font-weight-bold mb-3">Partnership Information</h6>
+              <table class="table table-bordered mb-0">
+                <tbody>
+                  <tr>
+                    <th style="width:40%;">Partnership Name:</th>
+                    <td id="extraPartnershipName">Faazan50 Upline</td>
+                  </tr>
+                  <tr>
+                    <th>Partnership Share:</th>
+                    <td id="extraPartnershipShare">0%</td>
+                  </tr>
+                  <tr>
+                    <th>Account Type:</th>
+                    <td id="extraAccountType">Client</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="window.closeModal('ExtraMDL')">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. SETTLEMENT MODAL (Settlement Ledger Execution) -->
   <div class="admin-modal" id="settlementModal">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-dark text-white">
           <h5 class="modal-title">Clear Balance / Execute Settlement</h5>
-          <button type="button" class="close text-white" onclick="closeModal('settlementModal')">&times;</button>
+          <button type="button" class="close text-white" onclick="window.closeModal('settlementModal')">&times;</button>
         </div>
         <form id="settlementForm">
           <input type="hidden" id="settlementUserId">
@@ -740,7 +1049,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" onclick="closeModal('settlementModal')">Cancel</button>
+            <button type="button" class="btn btn-secondary" onclick="window.closeModal('settlementModal')">Cancel</button>
             <button type="submit" class="btn btn-success font-weight-bold">Clear Balance & Settle</button>
           </div>
         </form>
@@ -748,23 +1057,29 @@
     </div>
   </div>
 
-  <!-- 6. MARKET BOOK MODAL -->
+  <!-- 9. MARKET BOOK MODAL -->
   <div class="admin-modal" id="marketBookModal">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-dark text-white">
           <h5 class="modal-title" id="marketBookModalTitle">Market Book Details</h5>
-          <button type="button" class="close text-white" onclick="closeModal('marketBookModal')">&times;</button>
+          <button type="button" class="close text-white" onclick="window.closeModal('marketBookModal')">&times;</button>
         </div>
         <div class="modal-body" id="marketBookContent">
           <!-- Populated dynamically -->
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" onclick="closeModal('marketBookModal')">Close</button>
+          <button type="button" class="btn btn-secondary" onclick="window.closeModal('marketBookModal')">Close</button>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Legacy Aliases Support -->
+  <div id="bankingModal" style="display:none;"></div>
+  <div id="statusModal" style="display:none;"></div>
+  <div id="creditRefModal" style="display:none;"></div>
+  <div id="changePasswordModal" style="display:none;"></div>
 
   <!-- Scripts -->
   <script src="/admin/js/admin-data.js"></script>
