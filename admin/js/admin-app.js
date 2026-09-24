@@ -140,7 +140,58 @@
         });
       }
 
-      // 3. SPA Route Navigation Interceptor
+      // 3. Dropdown Toggle and Click Outside Handler
+      document.addEventListener('click', function(e) {
+        const toggleBtn = e.target.closest('[data-toggle="dropdown"], .dropdown-toggle');
+        
+        if (toggleBtn) {
+          e.preventDefault();
+          e.stopPropagation();
+          const parentDropdown = toggleBtn.closest('.dropdown');
+          if (!parentDropdown) return;
+          
+          const menu = parentDropdown.querySelector('.dropdown-menu');
+          const wasOpen = menu && (menu.classList.contains('show') || menu.style.display === 'block');
+          
+          // Close other open dropdowns
+          document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+            m.classList.remove('show');
+            m.style.display = '';
+            const p = m.closest('.dropdown');
+            if (p) p.classList.remove('show');
+          });
+          
+          if (!wasOpen && menu) {
+            parentDropdown.classList.add('show');
+            menu.classList.add('show');
+            menu.style.display = 'block';
+          }
+          return;
+        }
+
+        // Close dropdown when clicking a dropdown-item
+        const item = e.target.closest('.dropdown-item');
+        if (item) {
+          document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+            m.classList.remove('show');
+            m.style.display = '';
+            const p = m.closest('.dropdown');
+            if (p) p.classList.remove('show');
+          });
+        }
+
+        // Close when clicking anywhere outside
+        if (!e.target.closest('.dropdown-menu') && !e.target.closest('.dropdown')) {
+          document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+            m.classList.remove('show');
+            m.style.display = '';
+            const p = m.closest('.dropdown');
+            if (p) p.classList.remove('show');
+          });
+        }
+      });
+
+      // 4. SPA Route Navigation Interceptor
       document.addEventListener('click', function(e) {
         const link = e.target.closest('a.nav-route-link');
         if (link && link.getAttribute('href')) {
@@ -156,12 +207,12 @@
         }
       });
 
-      // 4. Popstate (Browser Back/Forward)
+      // 5. Popstate (Browser Back/Forward)
       window.addEventListener('popstate', function() {
         self.handleRouting();
       });
 
-      // 5. Sidebar Toggle Button
+      // 6. Sidebar Toggle Button
       const menuBtn = document.getElementById('verticalMenuBtn');
       if (menuBtn) {
         menuBtn.addEventListener('click', function(e) {
@@ -174,7 +225,7 @@
         });
       }
 
-      // 6. Rules Modal Handler
+      // 7. Rules Modal Handler
       const rulesBtn = document.getElementById('openRulesBtn');
       if (rulesBtn) {
         rulesBtn.addEventListener('click', function(e) {
@@ -538,18 +589,20 @@
     renderUsers: function(container, filter, guid) {
       let users = window.AdminDataStore.getUsers();
       let pageTitle = 'Account List';
-      let breadcrumbTitle = 'Account List';
+      let breadcrumbHtml = `<li class="breadcrumb-item"><a href="/admin/home" class="nav-route-link">Home</a></li><li class="breadcrumb-item active">Account List</li>`;
 
       if (filter === '5') {
         users = users.filter(u => u.userType === '5');
         pageTitle = 'Account List (Agents)';
+        breadcrumbHtml = `<li class="breadcrumb-item"><a href="/admin/home" class="nav-route-link">Home</a></li><li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Account List</a></li><li class="breadcrumb-item active">Agents</li>`;
       } else if (filter === '6') {
         users = users.filter(u => u.userType === '6');
         pageTitle = 'Account List (Clients)';
+        breadcrumbHtml = `<li class="breadcrumb-item"><a href="/admin/home" class="nav-route-link">Home</a></li><li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Account List</a></li><li class="breadcrumb-item active">Clients</li>`;
       } else if (filter === 'child' && guid) {
         users = window.AdminDataStore.getDownline(guid);
-        pageTitle = 'Account List';
-        breadcrumbTitle = `Account List / ${guid}`;
+        pageTitle = `Account List — Downline of ${guid}`;
+        breadcrumbHtml = `<li class="breadcrumb-item"><a href="/admin/home" class="nav-route-link">Home</a></li><li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Account List</a></li><li class="breadcrumb-item active">${guid}</li>`;
       }
 
       if (this.sortCol) {
@@ -561,6 +614,13 @@
         });
       }
 
+      const totalCount = users.length;
+      const perPage = this.perPage || 25;
+      const currentPage = this.currentPage || 1;
+      const startIdx = (currentPage - 1) * perPage;
+      const pagedUsers = users.slice(startIdx, startIdx + perPage);
+      const totalPages = Math.ceil(totalCount / perPage) || 1;
+
       container.innerHTML = `
         <!-- Page Header & Breadcrumbs matching Reference -->
         <div class="row">
@@ -569,13 +629,31 @@
               <h4 class="mb-0 font-size-18 font-weight-bold">${pageTitle}</h4>
               <div class="page-title-right">
                 <ol class="breadcrumb m-0 font-size-13">
-                  <li class="breadcrumb-item"><a href="/admin/home" class="nav-route-link">Home</a></li>
-                  <li class="breadcrumb-item active">${breadcrumbTitle}</li>
+                  ${breadcrumbHtml}
                 </ol>
               </div>
             </div>
           </div>
         </div>
+
+        <!-- Account List Navigation Tabs (All, Agent, Client) matching Reference -->
+        <ul class="nav nav-tabs nav-tabs-custom mb-3">
+          <li class="nav-item">
+            <a class="nav-link ${filter === 'all' || !filter ? 'active' : ''} nav-route-link" href="/admin/users" data-route="/admin/users">
+              <i class="fas fa-users mr-1"></i> All Accounts
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link ${filter === '5' ? 'active' : ''} nav-route-link" href="/admin/users/agent" data-route="/admin/users/agent">
+              <i class="fas fa-user-tie mr-1"></i> Agents
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link ${filter === '6' ? 'active' : ''} nav-route-link" href="/admin/users/client" data-route="/admin/users/client">
+              <i class="fas fa-user mr-1"></i> Clients
+            </a>
+          </li>
+        </ul>
 
         <!-- Export Tools Row matching Reference search-form -->
         <div class="row">
@@ -603,13 +681,11 @@
               <label class="d-inline-flex align-items-center">
                 Show&nbsp;
                 <select id="userPerPageSelect" class="custom-select custom-select-sm form-control form-control-sm" style="width:auto;">
-                  <option value="25" selected>25</option>
-                  <option value="50">50</option>
-                  <option value="100">100</option>
-                  <option value="250">250</option>
-                  <option value="500">500</option>
-                  <option value="750">750</option>
-                  <option value="1000">1000</option>
+                  <option value="25" ${perPage === 25 ? 'selected' : ''}>25</option>
+                  <option value="50" ${perPage === 50 ? 'selected' : ''}>50</option>
+                  <option value="100" ${perPage === 100 ? 'selected' : ''}>100</option>
+                  <option value="250" ${perPage === 250 ? 'selected' : ''}>250</option>
+                  <option value="500" ${perPage === 500 ? 'selected' : ''}>500</option>
                 </select>
                 &nbsp;entries
               </label>
@@ -636,28 +712,28 @@
                 <th class="sorting text-right cp" onclick="window.adminSortUsers('creditRef')">Credit Referance <i class="fas fa-sort float-right mt-1 text-muted"></i></th>
                 <th class="text-center" style="width:70px;">U st</th>
                 <th class="text-center" style="width:70px;">B st</th>
-                <th class="text-right">Exposure Limit</th>
+                <th class="text-right cp" onclick="window.adminSortUsers('exposureLimit')">Exposure Limit <i class="fas fa-sort float-right mt-1 text-muted"></i></th>
                 <th class="text-left">Default (%)</th>
                 <th class="text-center">Account Type</th>
                 <th class="text-center" style="width:260px;">Action</th>
               </tr>
             </thead>
             <tbody>
-              ${users.length === 0 ? `
+              ${pagedUsers.length === 0 ? `
                 <tr><td colspan="8" class="text-center py-4 text-muted">No accounts found in this view.</td></tr>
-              ` : users.map(u => `
+              ` : pagedUsers.map(u => `
                 <tr id="row-user-${u.id}">
                   <td>
                     ${u.userType === '5' ? `
-                      <a href="/admin/child/${u.uname}" class="wrape-text font-weight-bold text-primary nav-route-link" title="${u.fname}" data-route="/admin/child/${u.uname}">
+                      <a href="/admin/child/${u.uname}" class="wrape-text font-weight-bold text-primary nav-route-link" title="Click to view Downline" data-route="/admin/child/${u.uname}">
                         <span>${u.uname}</span>
                       </a>
                     ` : `
-                      <span class="wrape-text font-weight-bold" title="${u.fname}">${u.uname}</span>
+                      <span class="wrape-text font-weight-bold text-dark cp" onclick="window.openExtraModal('${u.id}')" title="Click to view profile">${u.uname}</span>
                     `}
                   </td>
                   <td class="text-right">
-                    <p class="text-right mb-0 cp font-weight-bold" onclick="window.openCreditRefModal('${u.id}')" title="Click to update Credit">
+                    <p class="text-right mb-0 cp font-weight-bold text-info" onclick="window.openCreditRefModal('${u.id}')" title="Click to update Credit">
                       ${this.formatCurrency(u.creditRef)}
                     </p>
                   </td>
@@ -702,19 +778,39 @@
         <!-- Pagination Footer matching Reference -->
         <div class="row pt-3 align-items-center">
           <div class="col-sm-12 col-md-5">
-            <div class="dataTables_info text-muted">Showing 1 to ${users.length} of ${users.length} entries</div>
+            <div class="dataTables_info text-muted">Showing ${totalCount === 0 ? 0 : startIdx + 1} to ${Math.min(startIdx + perPage, totalCount)} of ${totalCount} entries</div>
           </div>
           <div class="col-sm-12 col-md-7">
             <div class="dataTables_paginate paging_simple_numbers float-right">
               <ul class="pagination pagination-rounded mb-0">
-                <li class="paginate_button page-item previous disabled"><a href="javascript:void(0)" class="page-link">Previous</a></li>
-                <li class="paginate_button page-item active"><a href="javascript:void(0)" class="page-link">1</a></li>
-                <li class="paginate_button page-item next disabled"><a href="javascript:void(0)" class="page-link">Next</a></li>
+                <li class="paginate_button page-item previous ${currentPage <= 1 ? 'disabled' : ''}">
+                  <a href="javascript:void(0)" class="page-link" onclick="if(${currentPage} > 1) { window.AdminApp.currentPage = ${currentPage - 1}; window.AdminApp.handleRouting(); }">Previous</a>
+                </li>
+                ${Array.from({ length: totalPages }, (_, i) => i + 1).map(p => `
+                  <li class="paginate_button page-item ${p === currentPage ? 'active' : ''}">
+                    <a href="javascript:void(0)" class="page-link" onclick="window.AdminApp.currentPage = ${p}; window.AdminApp.handleRouting();">${p}</a>
+                  </li>
+                `).join('')}
+                <li class="paginate_button page-item next ${currentPage >= totalPages ? 'disabled' : ''}">
+                  <a href="javascript:void(0)" class="page-link" onclick="if(${currentPage} < ${totalPages}) { window.AdminApp.currentPage = ${currentPage + 1}; window.AdminApp.handleRouting(); }">Next</a>
+                </li>
               </ul>
             </div>
           </div>
         </div>
       `;
+
+      const self = this;
+      setTimeout(() => {
+        const perPageSelect = document.getElementById('userPerPageSelect');
+        if (perPageSelect) {
+          perPageSelect.onchange = function() {
+            self.perPage = parseInt(this.value, 10) || 25;
+            self.currentPage = 1;
+            self.handleRouting();
+          };
+        }
+      }, 0);
     },
 
     renderInsertUser: function(container) {
@@ -856,11 +952,14 @@
                   <div class="market-analysis-title bg-light p-2 border d-flex justify-content-between align-items-center">
                     <div>
                       <span class="badge badge-warning mr-2">${m.sportName}</span>
-                      <a href="/admin/market-analysis" class="ma-link font-weight-bold text-dark">${m.eventName}</a>
+                      <a href="javascript:void(0)" onclick="window.openMarketBookModal('${m.id}')" class="ma-link font-weight-bold text-dark">${m.eventName}</a>
                     </div>
-                    <div class="text-muted small">
+                    <div class="text-muted small d-flex align-items-center">
                       <span class="badge badge-success mr-2">${m.inPlay ? 'IN PLAY' : 'UPCOMING'}</span>
-                      Matched: <strong class="text-info">${this.formatCurrency(m.matchedVolume)}</strong>
+                      <span class="mr-2">Matched: <strong class="text-info">${this.formatCurrency(m.matchedVolume)}</strong></span>
+                      <button class="btn btn-sm btn-primary py-0 px-2" onclick="window.openMarketBookModal('${m.id}')" title="Open Detailed Market Book">
+                        <i class="fas fa-book-open mr-1"></i> Book
+                      </button>
                     </div>
                   </div>
                   <div class="market-analysis-content mt-2">
@@ -932,6 +1031,39 @@
           </div>
         </div>
 
+        <!-- Statement Filter Row matching Reference -->
+        <div class="card shadow-sm mb-3">
+          <div class="card-body py-2">
+            <div class="row align-items-center">
+              <div class="col-md-3 mb-2">
+                <label class="small font-weight-bold mb-1">From Date:</label>
+                <input type="date" id="stmtFromDate" class="form-control form-control-sm" value="2026-09-01">
+              </div>
+              <div class="col-md-3 mb-2">
+                <label class="small font-weight-bold mb-1">To Date:</label>
+                <input type="date" id="stmtToDate" class="form-control form-control-sm" value="2026-09-24">
+              </div>
+              <div class="col-md-3 mb-2">
+                <label class="small font-weight-bold mb-1">Transaction Type:</label>
+                <select id="stmtTypeSelect" class="form-control form-control-sm">
+                  <option value="All">All Transactions</option>
+                  <option value="Deposit">Deposit</option>
+                  <option value="Withdraw">Withdraw</option>
+                  <option value="Settlement">Settlement</option>
+                </select>
+              </div>
+              <div class="col-md-3 mb-2 text-md-right mt-md-4">
+                <button type="button" class="btn btn-sm btn-primary" onclick="window.adminFilterStatement()">
+                  <i class="fas fa-filter mr-1"></i> Filter
+                </button>
+                <button type="button" class="btn btn-sm btn-secondary ml-1" onclick="window.adminResetStatement()">
+                  Reset
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="card shadow-sm">
           <div class="card-header bg-dark text-white py-2 d-flex justify-content-between align-items-center">
             <h6 class="mb-0">Transaction Ledger</h6>
@@ -939,7 +1071,7 @@
           </div>
           <div class="card-body p-0">
             <div class="table-responsive">
-              <table class="table table-striped table-hover mb-0">
+              <table class="table table-striped table-hover mb-0" id="statementTbl">
                 <thead class="bg-light">
                   <tr>
                     <th>Date & Time</th>
@@ -955,7 +1087,7 @@
                 </thead>
                 <tbody>
                   ${ledger.map(tx => `
-                    <tr>
+                    <tr data-date="${tx.date.substring(0, 10)}" data-type="${tx.type}">
                       <td>${tx.date}</td>
                       <td><code>${tx.id}</code></td>
                       <td><span class="badge ${tx.type === 'Settlement' ? 'badge-warning' : (tx.type === 'Deposit' ? 'badge-success' : 'badge-danger')}">${tx.type}</span></td>
@@ -1007,10 +1139,13 @@
                     <th class="text-right">Stake</th>
                     <th class="text-right">Profit / Liab</th>
                     <th>Placed Time</th>
+                    <th class="text-center">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  ${bets.map(b => `
+                  ${bets.length === 0 ? `
+                    <tr><td colspan="12" class="text-center py-4 text-muted">No active live bets found.</td></tr>
+                  ` : bets.map(b => `
                     <tr>
                       <td><code>${b.id}</code></td>
                       <td><strong>${b.user}</strong></td>
@@ -1025,6 +1160,9 @@
                       <td class="text-right font-weight-bold">${this.formatCurrency(b.stake)}</td>
                       <td class="text-right text-success font-weight-bold">${this.formatCurrency(b.profit)}</td>
                       <td class="small text-muted">${b.placedAt}</td>
+                      <td class="text-center">
+                        <button class="btn btn-sm btn-outline-danger font-weight-bold" onclick="window.voidBet('${b.id}')" title="Void Bet">Void</button>
+                      </td>
                     </tr>
                   `).join('')}
                 </tbody>
@@ -1241,6 +1379,19 @@
           <div class="col-12">
             <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
               <h4 class="mb-0 font-size-18 font-weight-bold">General Lock & Permissions</h4>
+              <div class="page-title-right">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-danger font-weight-bold" onclick="window.adminMasterLock('lockBets')">
+                    <i class="fas fa-ban mr-1"></i> Lock All Bets
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-warning font-weight-bold" onclick="window.adminMasterLock('lockUsers')">
+                    <i class="fas fa-user-lock mr-1"></i> Lock All Logins
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-success font-weight-bold" onclick="window.adminMasterLock('unlockAll')">
+                    <i class="fas fa-unlock mr-1"></i> Unlock All
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1768,10 +1919,25 @@
   };
 
   // 7. Extra Details Modal (ref: ExtraMDL)
+  window.switchExtraTab = function(tabName) {
+    document.querySelectorAll('#extraNavTabs .nav-link').forEach(link => {
+      link.classList.remove('active');
+    });
+    const activeLink = document.getElementById('tabLink-' + tabName);
+    if (activeLink) activeLink.classList.add('active');
+
+    document.querySelectorAll('.extra-tab-pane').forEach(pane => {
+      pane.style.display = 'none';
+    });
+    const targetPane = document.getElementById('extraPane-' + tabName);
+    if (targetPane) targetPane.style.display = 'block';
+  };
+
   window.openExtraModal = function(userId) {
     const user = window.AdminDataStore.getUserByGuid(userId);
     if (!user) return;
 
+    const titleEl = document.getElementById('extraModalTitle');
     const avatar = document.getElementById('extraAvatarInitial');
     const uEl = document.getElementById('extraUserName');
     const fEl = document.getElementById('extraFullName');
@@ -1779,6 +1945,7 @@
     const pShare = document.getElementById('extraPartnershipShare');
     const aType = document.getElementById('extraAccountType');
 
+    if (titleEl) titleEl.innerText = `${user.uname} - Account Profile`;
     if (avatar) avatar.innerText = (user.uname || 'U').charAt(0).toUpperCase();
     if (uEl) uEl.innerText = user.uname;
     if (fEl) fEl.innerText = user.fname || user.uname;
@@ -1786,6 +1953,44 @@
     if (pShare) pShare.innerText = `${user.share || 0}%`;
     if (aType) aType.innerText = user.userType === '5' ? 'Agent' : 'Client';
 
+    // Populate Tab 2: Login History
+    const loginHistoryBody = document.getElementById('extraLoginHistoryBody');
+    if (loginHistoryBody) {
+      loginHistoryBody.innerHTML = `
+        <tr><td>2026-09-24 03:15:20</td><td>110.38.12.84</td><td>PTCL Broadband / Pakistan</td><td><span class="badge badge-success">Success (Chrome / Win)</span></td></tr>
+        <tr><td>2026-09-23 21:40:12</td><td>110.38.12.84</td><td>PTCL Broadband / Pakistan</td><td><span class="badge badge-success">Success (Chrome / Win)</span></td></tr>
+        <tr><td>2026-09-22 18:05:44</td><td>182.185.10.22</td><td>Nayatel Fiber / Islamabad</td><td><span class="badge badge-success">Success (Mobile / Android)</span></td></tr>
+      `;
+    }
+
+    // Populate Tab 3: Password History
+    const pwdHistoryBody = document.getElementById('extraPasswordHistoryBody');
+    if (pwdHistoryBody) {
+      pwdHistoryBody.innerHTML = `
+        <tr><td>2026-09-20 14:10:00</td><td>Password modified by Master</td><td>110.38.12.84</td><td>Faazan50</td><td>Self update</td></tr>
+        <tr><td>2026-08-18 16:45:00</td><td>Initial password generated</td><td>System</td><td>Faazan50</td><td>Account creation</td></tr>
+      `;
+    }
+
+    // Populate Tab 4: Account History
+    const accHistoryBody = document.getElementById('extraAccountHistoryBody');
+    if (accHistoryBody) {
+      accHistoryBody.innerHTML = `
+        <tr><td>2026-09-23 19:30:00</td><td>Faazan50</td><td class="text-right text-success font-weight-bold">+${App.formatCurrency(user.balance || 0)}</td><td>Weekly balance allocation</td></tr>
+        <tr><td>2026-09-17 12:00:00</td><td>Faazan50</td><td class="text-right text-info font-weight-bold">+${App.formatCurrency(user.creditRef || 50000)}</td><td>Opening credit reference</td></tr>
+      `;
+    }
+
+    // Populate Tab 5: Credit History
+    const creditHistoryBody = document.getElementById('extraCreditHistoryBody');
+    if (creditHistoryBody) {
+      creditHistoryBody.innerHTML = `
+        <tr><td>2026-09-23 19:30:00</td><td>Credit updated by Master</td><td class="text-right font-weight-bold">${App.formatCurrency(user.creditRef || 50000)}</td><td class="text-right">${App.formatCurrency(user.balance || 0)}</td></tr>
+        <tr><td>2026-09-01 11:30:00</td><td>Initial credit assignment</td><td class="text-right font-weight-bold">${App.formatCurrency(user.creditRef || 50000)}</td><td class="text-right">${App.formatCurrency(user.creditRef || 50000)}</td></tr>
+      `;
+    }
+
+    window.switchExtraTab('profile');
     window.openModal('ExtraMDL');
   };
 
@@ -1823,44 +2028,98 @@
   };
 
   window.openMarketBookModal = function(matchId, runnerName) {
+    const matches = window.AdminDataStore.getLiveMatches();
+    const match = matches.find(m => String(m.id) === String(matchId)) || matches[0];
+    if (!match) return;
+
     const modalContent = document.getElementById('marketBookContent');
     const titleEl = document.getElementById('marketBookModalTitle');
-    titleEl.innerText = `Market Book - ${runnerName}`;
+    if (titleEl) titleEl.innerText = `${match.eventName} — Market Book Details`;
 
-    modalContent.innerHTML = `
-      <div class="alert alert-info py-2">
-        Showing placed bets for runner: <strong>${runnerName}</strong>
-      </div>
-      <table class="table table-striped table-bordered mb-0">
-        <thead class="bg-light">
-          <tr>
-            <th>User</th>
-            <th>Type</th>
-            <th class="text-right">Odds</th>
-            <th class="text-right">Stake</th>
-            <th class="text-right">Net Impact</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Client_001</td>
-            <td><span class="badge badge-primary">Back</span></td>
-            <td class="text-right">1.92</td>
-            <td class="text-right">5,000.00</td>
-            <td class="text-right text-success font-weight-bold">+4,600.00</td>
-          </tr>
-          <tr>
-            <td>Client_002</td>
-            <td><span class="badge badge-danger">Lay</span></td>
-            <td class="text-right">2.08</td>
-            <td class="text-right">1,500.00</td>
-            <td class="text-right text-danger font-weight-bold">-1,620.00</td>
-          </tr>
-        </tbody>
-      </table>
-    `;
+    if (modalContent) {
+      modalContent.innerHTML = `
+        <div class="alert alert-dark d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <span class="badge badge-warning mr-2">${match.sportName}</span>
+            <strong class="text-white">${match.eventName}</strong>
+          </div>
+          <div>
+            ${match.inPlay ? '<span class="badge badge-success">IN PLAY</span>' : '<span class="badge badge-secondary">UPCOMING</span>'}
+            Matched: <strong class="text-info">${App.formatCurrency(match.matchedVolume)}</strong>
+          </div>
+        </div>
+
+        <h6 class="font-weight-bold mb-2">Match Odds Market Book</h6>
+        <div class="table-responsive mb-3">
+          <table class="table table-bordered table-striped">
+            <thead class="bg-dark text-white">
+              <tr>
+                <th>Runner</th>
+                <th class="text-center" style="background:#72bbef; color:#111; width:90px;">Back</th>
+                <th class="text-center" style="background:#faa9ba; color:#111; width:90px;">Lay</th>
+                <th class="text-right">Net Downline Exposure</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${match.runners.map(r => `
+                <tr>
+                  <td><strong>${r.name}</strong></td>
+                  <td class="text-center font-weight-bold" style="background:#edf7fe;">${r.back.toFixed(2)}</td>
+                  <td class="text-center font-weight-bold" style="background:#fef0f2;">${r.lay.toFixed(2)}</td>
+                  <td class="text-right font-weight-bold ${r.exp >= 0 ? 'text-success' : 'text-danger'}">
+                    ${r.exp >= 0 ? '+' : ''}${App.formatCurrency(r.exp)}
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <h6 class="font-weight-bold mb-2">Matched Bets on this Event</h6>
+        <div class="table-responsive">
+          <table class="table table-sm table-striped">
+            <thead class="thead-light">
+              <tr>
+                <th>Bet ID</th>
+                <th>Account</th>
+                <th>Selection</th>
+                <th>Type</th>
+                <th class="text-right">Odds</th>
+                <th class="text-right">Stake</th>
+                <th class="text-right">Liab / Win</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${window.AdminDataStore.getCurrentBets().map(b => `
+                <tr>
+                  <td><code>${b.id}</code></td>
+                  <td><strong>${b.user}</strong></td>
+                  <td>${b.runner}</td>
+                  <td><span class="badge ${b.type === 'Back' ? 'badge-primary' : 'badge-danger'}">${b.type}</span></td>
+                  <td class="text-right font-weight-bold">${b.odds.toFixed(2)}</td>
+                  <td class="text-right">${App.formatCurrency(b.stake)}</td>
+                  <td class="text-right text-success font-weight-bold">${App.formatCurrency(b.profit)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
 
     window.openModal('marketBookModal');
+  };
+
+  window.voidBet = function(betId) {
+    if (!confirm(`Are you sure you want to void bet #${betId}? This action will return the stake and reverse exposure.`)) {
+      return;
+    }
+    const res = window.AdminDataStore.voidBet(betId);
+    if (res) {
+      App.showToast(`Bet #${betId} voided successfully! User exposure updated.`, 'success');
+      App.updateTopBar();
+      App.handleRouting();
+    }
   };
 
   // Sidebar Sports Tree Toggles matching Reference MetisMenu
@@ -1939,6 +2198,56 @@
     document.querySelectorAll('.market-analysis-container').forEach(el => {
       el.style.display = el.innerText.toLowerCase().includes(q) ? '' : 'none';
     });
+  };
+
+  window.adminFilterStatement = function() {
+    const fromDate = document.getElementById('statementFromDate')?.value;
+    const toDate = document.getElementById('statementToDate')?.value;
+    const txnType = document.getElementById('statementTxnType')?.value;
+
+    const rows = document.querySelectorAll('#statementTbl tbody tr');
+    rows.forEach(r => {
+      const rowDate = r.getAttribute('data-date');
+      const rowType = r.getAttribute('data-type');
+      let show = true;
+      if (fromDate && rowDate && rowDate < fromDate) show = false;
+      if (toDate && rowDate && rowDate > toDate) show = false;
+      if (txnType && txnType !== 'All' && rowType !== txnType) show = false;
+      r.style.display = show ? '' : 'none';
+    });
+  };
+
+  window.adminResetStatement = function() {
+    const f = document.getElementById('statementFromDate');
+    const t = document.getElementById('statementToDate');
+    const type = document.getElementById('statementTxnType');
+    if (f) f.value = '';
+    if (t) t.value = '';
+    if (type) type.value = 'All';
+    document.querySelectorAll('#statementTbl tbody tr').forEach(r => {
+      r.style.display = '';
+    });
+  };
+
+  window.adminMasterLock = function(action) {
+    if (action === 'lockBets') {
+      window.AdminDataStore.lockAllBets(true);
+      App.showToast('All downline betting has been LOCKED.', 'warning');
+    } else if (action === 'unlockBets') {
+      window.AdminDataStore.lockAllBets(false);
+      App.showToast('All downline betting has been UNLOCKED.', 'success');
+    } else if (action === 'lockUsers') {
+      window.AdminDataStore.lockAllUsers(true);
+      App.showToast('All downline user logins have been LOCKED.', 'warning');
+    } else if (action === 'unlockUsers') {
+      window.AdminDataStore.lockAllUsers(false);
+      App.showToast('All downline user logins have been UNLOCKED.', 'success');
+    } else if (action === 'unlockAll') {
+      window.AdminDataStore.lockAllUsers(false);
+      window.AdminDataStore.lockAllBets(false);
+      App.showToast('All accounts and betting have been UNLOCKED.', 'success');
+    }
+    App.handleRouting();
   };
 
   // Launch on DOM Ready

@@ -481,6 +481,54 @@
       this.state.buttons = buttons;
       this.saveState();
     }
+
+    voidBet(betId) {
+      const idx = this.state.currentBets.findIndex(b => b.id === betId);
+      if (idx !== -1) {
+        const removed = this.state.currentBets.splice(idx, 1)[0];
+        // Reduce user exposure
+        const user = this.state.users.find(u => u.uname === removed.user);
+        if (user && user.exposure > 0) {
+          user.exposure = Math.max(0, user.exposure - (removed.stake || 0));
+        }
+        this.saveState();
+        return removed;
+      }
+      return null;
+    }
+
+    updateExposureLimit(userId, newLimit) {
+      const user = this.state.users.find(u => u.id === String(userId));
+      if (!user) throw new Error('User not found');
+      user.exposureLimit = Number(newLimit);
+      this.saveState();
+      return user;
+    }
+
+    changePassword(userIdOrUname, newPassword) {
+      const user = this.state.users.find(u => u.id === String(userIdOrUname) || u.uname === String(userIdOrUname));
+      if (user) {
+        user.password = newPassword;
+        this.saveState();
+        return user;
+      }
+      return null;
+    }
+
+    lockAllUsers(isLock) {
+      this.state.users.forEach(u => {
+        u.userActive = !isLock;
+        u.status = isLock ? 'Inactive' : 'Active';
+      });
+      this.saveState();
+    }
+
+    lockAllBets(isLock) {
+      this.state.users.forEach(u => {
+        u.betActive = !isLock;
+      });
+      this.saveState();
+    }
   }
 
   window.AdminDataStore = new AdminDataStore();
