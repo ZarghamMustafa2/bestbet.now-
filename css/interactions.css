@@ -637,7 +637,6 @@
   margin-right: 0;
 }
 
-.center-container .nav.sports-tab,
 .center-container .nav.casino-tab,
 .center-container .nav.casino-sub-tab {
   overflow-x: hidden;
@@ -648,7 +647,6 @@
   height: 100%;
 }
 
-.center-container .nav.sports-tab .nav-item,
 .center-container .nav.casino-tab .nav-item,
 .center-container .nav.casino-sub-tab .nav-item {
   width: 100%;

@@ -166,7 +166,7 @@ function initOddsInteraction() {
 // Sports tabs filtering and client-side route sync
 function initSportsTabs() {
   const sportTabs = document.querySelectorAll('.sports-tab .nav-link');
-  const tableRows = document.querySelectorAll('.bet-table-body .bet-table-row');
+  const tbody = document.querySelector('.bet-table-body');
   if (!sportTabs.length) return;
 
   const sportIdMap = {
@@ -177,32 +177,68 @@ function initSportsTabs() {
     'horse racing': '7',
     'greyhound racing': '43',
     'basketball': '5',
-    'lottery': '33'
+    'wrestling': '69',
+    'volleyball': '18',
+    'snooker': '59',
+    'e games': '11',
+    'ice hockey': '19',
+    'futsal': '9',
+    'badminton': '22',
+    'boxing': '6',
+    'mixed martial arts': '3',
+    'american football': '58',
+    'motor sports': '52',
+    'kabaddi': '66',
+    'politics': '40',
+    'darts': '57',
+    'esoccer': '68',
+    'boat racing': '67'
   };
 
-  function filterSport(sportName, sportId, updateUrl = true) {
+  function filterSport(sportName, sportId, updateUrl = false) {
     const sName = (sportName || '').toLowerCase().trim();
     
     // Update active tab state
     sportTabs.forEach(tab => {
       const text = tab.innerText.toLowerCase().trim();
-      if (text.includes(sName) || (sName === 'cricket' && text.includes('cricket'))) {
+      if (text === sName || (sName === 'cricket' && text === 'cricket')) {
         tab.classList.add('active');
+        if (typeof tab.scrollIntoView === 'function') {
+          tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+        }
       } else {
         tab.classList.remove('active');
       }
     });
 
     // Filter table rows
+    const tableRows = document.querySelectorAll('.bet-table-body .bet-table-row:not(#noRecordRow)');
+    let matchCount = 0;
     if (tableRows.length) {
       tableRows.forEach(row => {
         const rowSport = (row.getAttribute('data-sport') || 'cricket').toLowerCase();
         if (rowSport === sName || (sName === 'cricket' && rowSport === 'cricket')) {
           row.style.display = 'flex';
+          matchCount++;
         } else {
           row.style.display = 'none';
         }
       });
+    }
+
+    let noRec = document.getElementById('noRecordRow');
+    if (matchCount === 0) {
+      if (!noRec && tbody) {
+        noRec = document.createElement('div');
+        noRec.id = 'noRecordRow';
+        noRec.className = 'no-record-row';
+        noRec.textContent = 'No Record Found';
+        tbody.appendChild(noRec);
+      } else if (noRec) {
+        noRec.style.display = 'block';
+      }
+    } else if (noRec) {
+      noRec.style.display = 'none';
     }
 
     if (updateUrl && sportId) {
@@ -217,7 +253,7 @@ function initSportsTabs() {
       e.preventDefault();
       const text = tab.innerText.toLowerCase().trim();
       const sportId = sportIdMap[text] || '4';
-      filterSport(text, sportId, true);
+      filterSport(text, sportId, false);
     });
   });
 
