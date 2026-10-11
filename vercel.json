@@ -18,6 +18,8 @@
     { "source": "/cricketv/:path*", "destination": "/game-details" },
     { "source": "/virtual-cricket/:path*", "destination": "/game-details" },
     { "source": "/tp-virtual-cricket/:path*", "destination": "/game-details" },
+    { "source": "/casino-results/:path*", "destination": "/casino-results" },
+    { "source": "/casino-results", "destination": "/casino-results" },
     { "source": "/casino-list/:path*", "destination": "/casino" },
     { "source": "/casino-list", "destination": "/casino" },
     { "source": "/live-casino-list/:path*", "destination": "/casino" },
@@ -30,7 +32,6 @@
     { "source": "/withdraw-statement", "destination": "/account-statement" },
     { "source": "/deposit-statement", "destination": "/account-statement" },
     { "source": "/activity-log", "destination": "/account-statement" },
-    { "source": "/live-casino-bets", "destination": "/current-bet" },
-    { "source": "/casino-results/:path*", "destination": "/casino-results" }
+    { "source": "/live-casino-bets", "destination": "/current-bet" }
   ]
 }

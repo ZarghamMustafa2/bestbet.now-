@@ -28,6 +28,12 @@ body {
   background-color: #ffffff;
   color: #000000;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.wrapper {
+  overflow-x: hidden;
+  width: 100%;
 }
 
 /* TOP HEADER */
