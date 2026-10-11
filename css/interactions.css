@@ -2860,3 +2860,275 @@
     padding-right: 0;
   }
 }
+
+/* ==========================================================================
+   GAME DETAILS - MATCH DETAIL VIEW REPLICATION STYLES (MATCHES REFERENCE)
+   ========================================================================== */
+
+.detail-page .center-container {
+  padding-bottom: 12px;
+}
+
+.detail-page-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 0;
+}
+
+.detail-page .game-header {
+  background-color: var(--bg-secondary, #1a2d3b);
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0 0 4px 0;
+  border-radius: 0;
+}
+
+.detail-page .game-header span.float-right {
+  font-size: 13px;
+  font-weight: 400;
+  color: #cbd5e1;
+}
+
+/* MATCH_ODDS Table */
+.detail-page .game-market.market-4 {
+  width: 100%;
+  margin-bottom: 4px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+}
+
+.detail-page .market-title {
+  background-color: #243a48;
+  color: #fff;
+  padding: 5px 8px;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail-page .market-header {
+  background-color: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.detail-page .market-header .market-nation-detail .market-nation-name {
+  color: #0088cc;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.detail-page .market-row {
+  border-bottom: 1px solid #e2e8f0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  min-height: 38px;
+}
+
+.detail-page .market-nation-detail {
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.detail-page .market-nation-detail .market-nation-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+/* Secondary Markets: 2-column flex grid on desktop */
+.detail-page .game-market.market-2 {
+  flex: 1 1 calc(50% - 4px);
+  min-width: calc(33.33% - 4px);
+  max-width: calc(100% - 4px);
+  margin: 2px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+}
+
+.detail-page .market-2 .market-nation-detail {
+  width: calc(100% - 160px);
+}
+
+.detail-page .market-2 .market-odd-box {
+  width: 80px;
+}
+
+/* 3-column secondary markets on desktop (Row 4 in reference screenshot) */
+.detail-page .game-market.market-3-col {
+  flex: 1 1 calc(33.333% - 4px);
+  min-width: calc(33.333% - 4px);
+  max-width: calc(33.333% - 4px);
+}
+
+/* Suspended Row and Overlay */
+.detail-page .market-row.suspended-row {
+  position: relative;
+}
+
+.detail-page .market-row.suspended-row::after {
+  content: attr(data-title);
+  background-color: rgba(45, 45, 45, 0.88);
+  color: #ff1a1a;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  position: absolute;
+  height: 100%;
+  right: 0;
+  top: 0;
+  cursor: not-allowed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.detail-page .market-2 .market-row.suspended-row::after {
+  width: 160px;
+}
+
+.detail-page .market-4 .market-row.suspended-row::after {
+  width: 480px;
+}
+
+/* Odds Values and Volumes */
+.detail-page .market-odd-box .market-odd {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #0f172a;
+}
+
+.detail-page .market-odd-box .market-volume {
+  font-size: 10.5px;
+  color: #475569;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+/* Market Remarks / Tickers */
+.detail-page .market-remark {
+  padding: 4px 8px;
+  font-size: 11px;
+  color: #0088cc;
+  font-weight: 500;
+  margin: 0;
+  background: #f8fafc;
+  width: 100%;
+}
+
+/* Right Sidebar: Matka Banner, Live Match, My Bet */
+.right-sidebar .blink-message {
+  background: #fff;
+  border: 1px solid #d8dde2;
+  padding: 6px 12px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 2px;
+}
+
+.right-sidebar .blink-message i {
+  color: #0f172a;
+  font-size: 17px;
+  margin-right: 8px;
+}
+
+.right-sidebar .blink-message div {
+  font-size: 15px;
+  font-weight: 700;
+  color: #dc2626;
+  text-decoration: underline;
+}
+
+.right-sidebar .sidebar-box {
+  margin-bottom: 8px;
+  border: 1px solid #d8dde2;
+  background: #fff;
+}
+
+.right-sidebar .sidebar-title {
+  background-color: var(--bg-secondary, #1a2d3b);
+  color: #fff;
+  padding: 6px 10px;
+  margin: 0;
+}
+
+.right-sidebar .sidebar-title h4 {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.right-sidebar .my-bets table {
+  font-size: 12px;
+}
+
+.right-sidebar .my-bets table th {
+  background: #f1f5f9;
+  color: #334155;
+  font-weight: 600;
+  padding: 6px 8px;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.right-sidebar .my-bets table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* Mobile Responsive Adaptations */
+@media (max-width: 1199px) {
+  .detail-page .center-container {
+    width: 100% !important;
+  }
+  .right-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .detail-page .game-market.market-2 {
+    flex: 1 1 100%;
+    min-width: 100%;
+    max-width: 100%;
+    margin: 2px 0;
+  }
+  .detail-page .market-2 .market-nation-detail {
+    width: calc(100% - 110px);
+  }
+  .detail-page .market-2 .market-odd-box {
+    width: 55px;
+  }
+  .detail-page .market-2 .market-row.suspended-row::after {
+    width: 110px;
+    font-size: 11px;
+  }
+  .detail-page .market-4 .market-row.suspended-row::after {
+    width: 220px;
+    font-size: 11px;
+  }
+}

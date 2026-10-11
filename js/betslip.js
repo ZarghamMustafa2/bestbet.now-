@@ -31,7 +31,7 @@ function renderMyBets() {
   } catch (e) {}
 
   if (bets.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted" style="padding: 14px; font-size: 13px;">No bets matched yet</td></tr>';
+    tbody.innerHTML = '';
     return;
   }
 
