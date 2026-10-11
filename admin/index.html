@@ -232,6 +232,46 @@
     .balance-value {
       font-weight: 700;
     }
+    .btn-black.header-item {
+      color: #fff !important;
+      background: transparent !important;
+      border: 0 !important;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 0 15px;
+      height: 70px;
+      display: inline-flex;
+      align-items: center;
+    }
+    .btn-black.header-item:hover,
+    .btn-black.header-item:focus {
+      background: rgba(255,255,255,0.08) !important;
+      color: #fff !important;
+    }
+    #page-topbar .navbar-header {
+      background: #0088cc !important;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0;
+      padding: 0 30px 0 0;
+      height: 70px;
+    }
+    #page-topbar .main-menu .nav-link {
+      color: #fff !important;
+      font-size: 14px;
+      padding: 0 14px;
+      font-weight: 400;
+      line-height: 70px;
+      display: block;
+      white-space: nowrap;
+    }
+    #page-topbar .main-menu .nav-link:hover,
+    #page-topbar .main-menu .nav-link.active,
+    #page-topbar .main-menu .nav-link.router-link-active {
+      color: #fff !important;
+      background: rgba(0, 0, 0, 0.12);
+    }
 
     /* Odds Display */
     .odds-box-back {
@@ -395,101 +435,138 @@
 
       <!-- TOP HEADER BAR -->
       <header id="page-topbar">
-        <div class="navbar-header d-flex justify-content-between align-items-center w-100">
-          
-          <!-- Top Left: Logo & Navigation -->
+        <div class="navbar-header">
           <div class="d-flex align-items-center">
-            <div class="navbar-brand-box mr-3">
-              <a href="/admin/home" class="logo logo-light nav-route-link">
+            <div class="navbar-brand-box mr-2">
+              <a href="/admin/users" class="logo logo-light nav-route-link" data-route="/admin/users">
                 <span class="logo-lg">
-                  <img src="/admin/images/logo.png" alt="BestBet9" class="site-logo">
+                  <img src="https://sitethemedata.com/sitethemes/bestbet9.live/front/logo.png" alt="" class="site-logo">
                 </span>
               </a>
             </div>
 
-            <button type="button" class="btn btn-sm px-3 font-size-16 header-item mr-3" id="verticalMenuBtn">
+            <button id="verticalMenuBtn" type="button" class="btn btn-sm px-3 font-size-16 header-item mr-2">
               <i class="fa fa-fw fa-bars"></i>
             </button>
 
-            <!-- Main Menu Links matching Reference app.js -->
+            <!-- Main Menu Links matching Reference Vue router -->
             <ul class="nav align-items-center main-menu d-none d-lg-flex">
               <li class="nav-item">
-                <a class="nav-link nav-route-link" href="/admin/users" data-route="/admin/users">
+                <a href="/admin/users" class="nav-link nav-route-link" data-route="/admin/users">
                   List of Clients
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link nav-route-link" href="/admin/market-analysis" data-route="/admin/market-analysis">
+                <a href="/admin/assign-agent" class="nav-link nav-route-link" data-route="/admin/assign-agent">
+                  Assign Agent
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/admin/market-analysis" class="nav-link nav-route-link" data-route="/admin/market-analysis">
                   Market Analysis
                 </a>
               </li>
-              
-              <!-- Reports Dropdown -->
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="reportsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a data-toggle="dropdown" href="javascript:void(0)" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+                  Live Market <i class="fa fa-caret-down ml-1"></i>
+                </a>
+                <div class="dropdown-menu">
+                  <a href="/admin/casino/premium-casino" class="dropdown-item nav-route-link" data-route="/admin/casino/premium-casino"><span>Premium Casino</span></a>
+                  <a href="/admin/casino/tembo-casino" class="dropdown-item nav-route-link" data-route="/admin/casino/tembo-casino"><span>Tembo Casino</span></a>
+                  <a href="/admin/casino/vip" class="dropdown-item nav-route-link" data-route="/admin/casino/vip"><span>Vip Casino</span></a>
+                  <a href="/admin/casino/lucky5" class="dropdown-item nav-route-link" data-route="/admin/casino/lucky5"><span>Lucky 6</span></a>
+                  <a href="/admin/casino/mogambo" class="dropdown-item nav-route-link" data-route="/admin/casino/mogambo"><span>Mogambo</span></a>
+                  <a href="/admin/casino/teenunique" class="dropdown-item nav-route-link" data-route="/admin/casino/teenunique"><span>Unique Teenpatti</span></a>
+                  <a href="/admin/casino/roulettelist" class="dropdown-item nav-route-link" data-route="/admin/casino/roulettelist"><span>Roulette</span></a>
+                  <a href="/admin/casino/superover2" class="dropdown-item nav-route-link" data-route="/admin/casino/superover2"><span>Super Over2</span></a>
+                  <a href="/admin/casino/lucky15" class="dropdown-item nav-route-link" data-route="/admin/casino/lucky15"><span>Lucky15</span></a>
+                  <a href="/admin/casino/goal" class="dropdown-item nav-route-link" data-route="/admin/casino/goal"><span>Goal</span></a>
+                  <a href="/admin/casino/goal2" class="dropdown-item nav-route-link" data-route="/admin/casino/goal2"><span>Goal2</span></a>
+                  <a href="/admin/users" class="dropdown-item nav-route-link" data-route="/admin/users"><span>Binary</span></a>
+                  <a href="/admin/casino/race20" class="dropdown-item nav-route-link" data-route="/admin/casino/race20"><span>Race 20-20</span></a>
+                  <a href="/admin/casino/queen" class="dropdown-item nav-route-link" data-route="/admin/casino/queen"><span>Queen</span></a>
+                  <a href="/admin/casino/baccaratlist" class="dropdown-item nav-route-link" data-route="/admin/casino/baccaratlist"><span>Baccarat</span></a>
+                  <a href="/admin/casino/sportscasinolist" class="dropdown-item nav-route-link" data-route="/admin/casino/sportscasinolist"><span>Sport Casino</span></a>
+                  <a href="/admin/casino/war" class="dropdown-item nav-route-link" data-route="/admin/casino/war"><span>Casino War</span></a>
+                  <a href="/admin/casino/worlilist" class="dropdown-item nav-route-link" data-route="/admin/casino/worlilist"><span>Worli</span></a>
+                  <a href="/admin/casino/3cardj" class="dropdown-item nav-route-link" data-route="/admin/casino/3cardj"><span>3 Card Judgement</span></a>
+                  <a href="/admin/casino/cards32list" class="dropdown-item nav-route-link" data-route="/admin/casino/cards32list"><span>32 Card Casino</span></a>
+                  <a href="/admin/casino/liveteenpattilist" class="dropdown-item nav-route-link" data-route="/admin/casino/liveteenpattilist"><span>Live Teenpatti</span></a>
+                  <a href="/admin/casino/teenpatti2list" class="dropdown-item nav-route-link" data-route="/admin/casino/teenpatti2list"><span>Teenpatti 2.0</span></a>
+                  <a href="/admin/casino/livepokerlist" class="dropdown-item nav-route-link" data-route="/admin/casino/livepokerlist"><span>Live Poker</span></a>
+                  <a href="/admin/casino/andarbaharlist" class="dropdown-item nav-route-link" data-route="/admin/casino/andarbaharlist"><span>Andar Bahar</span></a>
+                  <a href="/admin/casino/lucky7list" class="dropdown-item nav-route-link" data-route="/admin/casino/lucky7list"><span>Lucky 7</span></a>
+                  <a href="/admin/casino/dragontigerlist" class="dropdown-item nav-route-link" data-route="/admin/casino/dragontigerlist"><span>Dragon Tiger</span></a>
+                  <a href="/admin/casino/bollywood-casino" class="dropdown-item nav-route-link" data-route="/admin/casino/bollywood-casino"><span>Bollywood Casino</span></a>
+                  <a href="/admin/casino/other-casino" class="dropdown-item nav-route-link" data-route="/admin/casino/other-casino"><span>Others</span></a>
+                </div>
+              </li>
+              <li class="nav-item dropdown">
+                <a data-toggle="dropdown" href="javascript:void(0)" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+                  Live Virtual Market <i class="fa fa-caret-down ml-1"></i>
+                </a>
+                <div class="dropdown-menu">
+                  <a href="/admin/vcasino/dtl20" class="dropdown-item nav-route-link" data-route="/admin/vcasino/dtl20"><span>20-20 DTL</span></a>
+                  <a href="/admin/vcasino/aaa" class="dropdown-item nav-route-link" data-route="/admin/vcasino/aaa"><span>Amar Akbar Anthony</span></a>
+                  <a href="/admin/vcasino/teenmuf" class="dropdown-item nav-route-link" data-route="/admin/vcasino/teenmuf"><span>Muflis Teenpatti</span></a>
+                  <a href="/admin/vcasino/teen" class="dropdown-item nav-route-link" data-route="/admin/vcasino/teen"><span>1 Day Teenpatti</span></a>
+                  <a href="/admin/vcasino/dt6" class="dropdown-item nav-route-link" data-route="/admin/vcasino/dt6"><span>1 Day Dragon Tiger</span></a>
+                  <a href="/admin/vcasino/lucky7" class="dropdown-item nav-route-link" data-route="/admin/vcasino/lucky7"><span>Lucky 7</span></a>
+                  <a href="/admin/vcasino/btable" class="dropdown-item nav-route-link" data-route="/admin/vcasino/btable"><span>Bollywood Casino</span></a>
+                  <a href="/admin/vcasino/teen20" class="dropdown-item nav-route-link" data-route="/admin/vcasino/teen20"><span>20-20 Teenpatti</span></a>
+                  <a href="/admin/vcasino/trio" class="dropdown-item nav-route-link" data-route="/admin/vcasino/trio"><span>Trio</span></a>
+                </div>
+              </li>
+              <li class="nav-item dropdown">
+                <a data-toggle="dropdown" href="javascript:void(0)" role="button" aria-expanded="false" class="nav-link dropdown-toggle" id="reportsDropdown">
                   Reports <i class="fa fa-caret-down ml-1"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="reportsDropdown">
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/accountstatement" data-route="/admin/reports/accountstatement">Account Statement</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/currentbets" data-route="/admin/reports/currentbets">Current Bets</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/generalreport" data-route="/admin/reports/generalreport">General Report</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/gamereport" data-route="/admin/reports/gamereport">Game Report</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/livecasinoreport" data-route="/admin/reports/livecasinoreport">Casino Report</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/profitloss" data-route="/admin/reports/profitloss">Profit And Loss</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/casinoresult" data-route="/admin/reports/casinoresult">Casino Result Report</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/settings/userlock" data-route="/admin/settings/userlock">General Lock</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/userhistory" data-route="/admin/reports/userhistory">User History</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/turnover" data-route="/admin/reports/turnover">Turnover</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/userregisterdetail" data-route="/admin/reports/userregisterdetail">User Register Detail</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/totalprofitloss" data-route="/admin/reports/totalprofitloss">Total Profit Loss</a>
-                  <a class="dropdown-item nav-route-link" href="/admin/reports/userwinloss" data-route="/admin/reports/userwinloss">User Win Loss</a>
+                  <a href="/admin/reports/accountstatement" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/accountstatement">Account Statement</a>
+                  <a href="/admin/reports/currentbets" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/currentbets">Current Bets</a>
+                  <a href="/admin/reports/generalreport" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/generalreport">General Report</a>
+                  <a href="/admin/reports/gamereport" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/gamereport">Game Report</a>
+                  <a href="/admin/reports/livecasinoreport" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/livecasinoreport">Casino Report</a>
+                  <a href="/admin/reports/profitloss" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/profitloss">Profit And Loss</a>
+                  <a href="/admin/reports/casinoresult" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/casinoresult">Casino Result Report</a>
+                  <a href="/admin/reports/userhistory" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/userhistory">User History</a>
+                  <a href="/admin/reports/authlist" class="side-nav-link-ref dropdown-item d-none nav-route-link" data-route="/admin/reports/authlist">User Authentication</a>
+                  <a href="/admin/reports/userregisterdetail" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/userregisterdetail">User Register Detail</a>
+                  <a href="/admin/reports/totalprofitloss" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/totalprofitloss">Total Profit Loss</a>
+                  <a href="/admin/reports/userwinloss" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/userwinloss">User Win Loss</a>
                 </div>
               </li>
-
               <li class="nav-item">
-                <a class="nav-link nav-route-link" href="/admin/reports/bank" data-route="/admin/reports/bank">
+                <a href="/admin/reports/bank" class="nav-link nav-route-link" data-route="/admin/reports/bank">
                   Bank
                 </a>
               </li>
-
-              <!-- Settings / Multi Login -->
               <li class="nav-item">
-                <a class="nav-link nav-route-link" href="/admin/createaccount" data-route="/admin/createaccount">
+                <a href="/admin/createaccount" class="nav-link nav-route-link" data-route="/admin/createaccount">
                   Multi Login
                 </a>
               </li>
             </ul>
           </div>
 
-          <!-- Top Right: User Menu (Desktop has NO balance pill, exactly matching Reference) -->
+          <!-- Top Right: User Menu matching Reference .user-menu -->
           <div class="d-flex align-items-center user-menu">
-            
-            <!-- User Dropdown Menu -->
-            <div class="dropdown user-dropdown">
-              <button class="btn dropdown-toggle header-item text-white border-0" type="button" id="userMenuBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background: transparent;">
-                <span class="ml-1" id="topAdminUsername">Faazan50</span>
-                <i class="fa fa-caret-down ml-1"></i>
+            <div class="dropdown b-dropdown btn-group" id="__BVID__72">
+              <button aria-haspopup="menu" aria-expanded="false" type="button" class="btn dropdown-toggle btn-black header-item" id="userMenuBtn" data-toggle="dropdown">
+                <span class="ml-1" id="topAdminUsername">Faazan50</span> <i class="fa fa-caret-down ml-1"></i>
               </button>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenuBtn">
-                
-                <!-- Balance Box (Mobile only d-sm-none, matching Reference .bal-box) -->
-                <div class="dropdown d-sm-none ml-1 mr-1 px-3 py-2 text-white bg-dark rounded mb-2">
+              <ul role="menu" tabindex="-1" class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenuBtn">
+                <div class="dropdown d-sm-none ml-1 mr-1">
                   <div class="bal-box">
-                    <span class="balance nowrap">
-                      Pts: <span class="balance-value text-info font-weight-bold" id="topAdminBalanceMobile">500,000.00</span> | <span class="balance-value text-danger font-weight-bold" id="topAdminExposureMobile">12,500.00</span>
-                    </span>
+                    <span class="balance nowrap">Pts: <span class="balance-value"><b id="topAdminBalanceMobile">0</b></span></span>
                   </div>
                 </div>
-
-                <a class="dropdown-item d-sm-none" href="javascript:void(0)" id="openRulesBtn"><i class="fas fa-info-circle mr-2"></i> Rules</a>
-                <a class="dropdown-item nav-route-link" href="/admin/secureauth" data-route="/admin/secureauth"><i class="fas fa-shield-alt mr-2"></i> Secure Auth Verification</a>
-                <a class="dropdown-item" href="javascript:void(0)" id="openAdminPasswordBtn"><i class="fas fa-key mr-2"></i> Change Password</a>
-                <a class="dropdown-item nav-route-link" href="/admin/setbutton" data-route="/admin/setbutton"><i class="fas fa-cog mr-2"></i> Set Buttons</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="javascript:void(0)" id="adminLogoutBtn"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
-              </div>
+                <a href="javascript:void(0);" class="dropdown-item d-sm-none" id="openRulesBtn"><i class="fas fa-info-circle mr-1"></i> Rules</a>
+                <a href="/admin/secureauth" class="dropdown-item nav-route-link" data-route="/admin/secureauth">Secure Auth Verification</a>
+                <a href="/admin/change-password" class="dropdown-item" id="openAdminPasswordBtn">Change Password</a>
+                <a href="javascript:void(0)" class="dropdown-item" id="adminLogoutBtn">Logout</a>
+              </ul>
             </div>
-
           </div>
         </div>
       </header>

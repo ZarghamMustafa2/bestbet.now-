@@ -114,10 +114,10 @@
             if (errAlert) errAlert.style.display = 'none';
             self.showToast('Login successful. Welcome, ' + adminData.uname, 'success');
             self.showDashboard();
-            self.navigate('/admin/home');
+            self.navigate('/admin/users');
           } else {
             if (errAlert) {
-              errAlert.innerText = 'Invalid username or password. (Authorized: Faazan50 / Tara9090)';
+              errAlert.innerText = 'Invalid username or password.';
               errAlert.style.display = 'block';
             }
             self.showToast('Invalid credentials. Please verify your login.', 'danger');
@@ -588,23 +588,15 @@
       `;
     },
 
-    renderUsers: function(container, filter, guid) {
+        renderUsers: function(container, filter, guid) {
       let users = window.AdminDataStore.getUsers();
-      let pageTitle = 'Account List';
-      let breadcrumbHtml = `<li class="breadcrumb-item"><a href="/admin/home" class="nav-route-link">Home</a></li><li class="breadcrumb-item active">Account List</li>`;
 
       if (filter === '5') {
         users = users.filter(u => u.userType === '5');
-        pageTitle = 'Account List (Agents)';
-        breadcrumbHtml = `<li class="breadcrumb-item"><a href="/admin/home" class="nav-route-link">Home</a></li><li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Account List</a></li><li class="breadcrumb-item active">Agents</li>`;
       } else if (filter === '6') {
         users = users.filter(u => u.userType === '6');
-        pageTitle = 'Account List (Clients)';
-        breadcrumbHtml = `<li class="breadcrumb-item"><a href="/admin/home" class="nav-route-link">Home</a></li><li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Account List</a></li><li class="breadcrumb-item active">Clients</li>`;
       } else if (filter === 'child' && guid) {
         users = window.AdminDataStore.getDownline(guid);
-        pageTitle = `Account List — Downline of ${guid}`;
-        breadcrumbHtml = `<li class="breadcrumb-item"><a href="/admin/home" class="nav-route-link">Home</a></li><li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Account List</a></li><li class="breadcrumb-item active">${guid}</li>`;
       }
 
       if (this.sortCol) {
@@ -624,191 +616,153 @@
       const totalPages = Math.ceil(totalCount / perPage) || 1;
 
       container.innerHTML = `
-        <!-- Page Header & Breadcrumbs matching Reference -->
-        <div class="row">
-          <div class="col-12">
-            <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
-              <h4 class="mb-0 font-size-18 font-weight-bold">${pageTitle}</h4>
-              <div class="page-title-right">
-                <ol class="breadcrumb m-0 font-size-13">
-                  ${breadcrumbHtml}
-                </ol>
+        <div class="listing-grid">
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between">
+                <h4 class="mb-0 font-size-18">Account List</h4>
+                <div class="page-title-right">
+                  <div class="d-inline-block">
+                    <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link" data-route="/admin/users/insertuser"> Add Account</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- Account List Navigation Tabs (All, Agent, Client) matching Reference -->
-        <ul class="nav nav-tabs nav-tabs-custom mb-3">
-          <li class="nav-item">
-            <a class="nav-link ${filter === 'all' || !filter ? 'active' : ''} nav-route-link" href="/admin/users" data-route="/admin/users">
-              <i class="fas fa-users mr-1"></i> All Accounts
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link ${filter === '5' ? 'active' : ''} nav-route-link" href="/admin/users/agent" data-route="/admin/users/agent">
-              <i class="fas fa-user-tie mr-1"></i> Agents
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link ${filter === '6' ? 'active' : ''} nav-route-link" href="/admin/users/client" data-route="/admin/users/client">
-              <i class="fas fa-user mr-1"></i> Clients
-            </a>
-          </li>
-        </ul>
-
-        <!-- Export Tools Row matching Reference search-form -->
-        <div class="row">
-          <div class="col-md-6 mb-2 search-form">
-            <div class="d-inline-block mr-2">
-              <button type="button" class="btn btn-danger buttons-pdf" onclick="window.adminExportPdf()">
-                <i class="far fa-file-pdf mr-1"></i> PDF
-              </button>
-              <button type="button" class="btn btn-success buttons-excel" onclick="window.adminExportExcel()">
-                <i class="far fa-file-excel mr-1"></i> Excel
-              </button>
-            </div>
-          </div>
-          <div class="col-md-6 text-right mb-2">
-            <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link">
-              <i class="fas fa-user-plus mr-1"></i> Add Account
-            </a>
-          </div>
-        </div>
-
-        <!-- DataTables Show Entries & Search Filter matching Reference -->
-        <div class="row mb-2">
-          <div class="col-sm-12 col-md-6">
-            <div class="dataTables_length" id="tickets-table_length">
-              <label class="d-inline-flex align-items-center">
-                Show&nbsp;
-                <select id="userPerPageSelect" class="custom-select custom-select-sm form-control form-control-sm" style="width:auto;">
-                  <option value="25" ${perPage === 25 ? 'selected' : ''}>25</option>
-                  <option value="50" ${perPage === 50 ? 'selected' : ''}>50</option>
-                  <option value="100" ${perPage === 100 ? 'selected' : ''}>100</option>
-                  <option value="250" ${perPage === 250 ? 'selected' : ''}>250</option>
-                  <option value="500" ${perPage === 500 ? 'selected' : ''}>500</option>
-                </select>
-                &nbsp;entries
-              </label>
-            </div>
-          </div>
-          <div class="col-sm-12 col-md-6">
-            <div class="dataTables_filter text-md-right" id="tickets-table_filter">
-              <label class="d-inline-flex align-items-center">
-                Search:
-                <input name="searchuser" type="search" class="form-control form-control-sm ml-2" placeholder="Search..." id="searchUserInput" onkeyup="if(event.key==='Enter')window.adminFilterUsers()">
-                <button type="button" class="btn btn-primary ml-2" id="loaddata" onclick="window.adminFilterUsers()">Load</button>
-                <button type="button" class="btn btn-secondary ml-2" id="resetdata" onclick="window.adminResetUsers()">Reset</button>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Table matching Reference eventsListTbl & list-clients -->
-        <div class="table-responsive mb-0">
-          <table class="table no-footer list-clients table-striped table-bordered" id="eventsListTbl">
-            <thead class="bg-dark text-white">
-              <tr>
-                <th class="sorting cp" onclick="window.adminSortUsers('uname')">User Name <i class="fas fa-sort float-right mt-1 text-muted"></i></th>
-                <th class="sorting text-right cp" onclick="window.adminSortUsers('creditRef')">Credit Referance <i class="fas fa-sort float-right mt-1 text-muted"></i></th>
-                <th class="sorting text-right cp" onclick="window.adminSortUsers('balance')">Balance <i class="fas fa-sort float-right mt-1 text-muted"></i></th>
-                <th class="sorting text-right cp" onclick="window.adminSortUsers('clientPL')">Client(P/L) <i class="fas fa-sort float-right mt-1 text-muted"></i></th>
-                <th class="text-right">Exposure</th>
-                <th class="text-right">Available Balance</th>
-                <th class="text-center" style="width:50px;">U st</th>
-                <th class="text-center" style="width:50px;">B st</th>
-                <th class="text-right cp" onclick="window.adminSortUsers('exposureLimit')">Exposure Limit <i class="fas fa-sort float-right mt-1 text-muted"></i></th>
-                <th class="text-left">Default(%)</th>
-                <th class="text-center">Account Type</th>
-                <th class="text-center" style="width:260px;">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${pagedUsers.length === 0 ? `
-                <tr><td colspan="12" class="text-center py-4 text-muted">No accounts found in this view.</td></tr>
-              ` : pagedUsers.map(u => `
-                <tr id="row-user-${u.id}">
-                  <td>
-                    ${u.userType === '5' ? `
-                      <a href="/admin/child/${u.uname}" class="wrape-text font-weight-bold text-primary nav-route-link" title="Click to view Downline" data-route="/admin/child/${u.uname}">
-                        <span>${u.uname}</span>
-                      </a>
-                    ` : `
-                      <span class="wrape-text font-weight-bold text-dark cp" onclick="window.openExtraModal('${u.id}')" title="Click to view profile">${u.uname}</span>
-                    `}
-                  </td>
-                  <td class="text-right">
-                    <p class="text-right mb-0 cp font-weight-bold text-info" onclick="window.openCreditRefModal('${u.id}')" title="Click to update Credit">
-                      ${this.formatCurrency(u.creditRef)}
-                    </p>
-                  </td>
-                  <td class="text-right font-weight-bold">${this.formatCurrency(u.balance)}</td>
-                  <td class="text-right font-weight-bold ${(u.clientPL || 0) >= 0 ? 'text-success' : 'text-danger'}">
-                    ${(u.clientPL || 0) >= 0 ? '+' : ''}${this.formatCurrency(u.clientPL || 0)}
-                  </td>
-                  <td class="text-right font-weight-bold ${(u.exposure || 0) > 0 ? 'text-danger' : 'text-muted'}">
-                    ${this.formatCurrency(u.exposure || 0)}
-                  </td>
-                  <td class="text-right font-weight-bold">${this.formatCurrency((u.balance || 0) - (u.exposure || 0))}</td>
-                  <td class="text-center">
-                    <div class="custom-control custom-checkbox d-inline-block">
-                      <input type="checkbox" class="custom-control-input-native" ${u.userActive !== false ? 'checked' : ''} disabled>
+          <div class="row account-list">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row row5">
+                    <div class="col-md-6 mb-2 search-form">
+                      <div class="d-inline-block mr-2">
+                        <button type="button" class="btn buttons-pdf btn-danger" onclick="window.adminExportPdf()"><i class="far fa-file-pdf mr-1"></i>PDF</button>
+                        <div class="d-inline-block"><button type="button" class="btn buttons-excel btn-success" onclick="window.adminExportExcel()"><i class="far fa-file-excel mr-1"></i>Excel</button></div>
+                      </div>
                     </div>
-                  </td>
-                  <td class="text-center">
-                    <div class="custom-control custom-checkbox d-inline-block">
-                      <input type="checkbox" class="custom-control-input-native" ${u.betActive !== false ? 'checked' : ''} disabled>
+                    <div class="col-md-6 text-right mb-2"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                      <div id="tickets-table_length" class="dataTables_length">
+                        <label class="d-inline-flex align-items-center">
+                          Show&nbsp;
+                          <select class="custom-select custom-select-sm" id="userPerPageSelect">
+                            <option value="25" ${perPage === 25 ? 'selected' : ''}>25</option>
+                            <option value="50" ${perPage === 50 ? 'selected' : ''}>50</option>
+                            <option value="100" ${perPage === 100 ? 'selected' : ''}>100</option>
+                            <option value="250" ${perPage === 250 ? 'selected' : ''}>250</option>
+                            <option value="500" ${perPage === 500 ? 'selected' : ''}>500</option>
+                            <option value="750" ${perPage === 750 ? 'selected' : ''}>750</option>
+                            <option value="1000" ${perPage === 1000 ? 'selected' : ''}>1000</option>
+                          </select>&nbsp;entries
+                        </label>
+                      </div>
                     </div>
-                  </td>
-                  <td class="text-right font-weight-bold">
-                    ${this.formatCurrency(u.exposureLimit || 100000)}
-                  </td>
-                  <td class="text-left">
-                    <p class="text-left mb-0">${u.share || 0}</p>
-                  </td>
-                  <td class="text-center">
-                    <span class="badge ${u.userType === '5' ? 'badge-agent' : 'badge-client'}">
-                      ${u.userType === '5' ? 'Agent' : (u.userType === '4' ? 'Master' : 'Client')}
-                    </span>
-                  </td>
-                  <td class="text-center nowrap">
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn action-button" onclick="window.openDepositModal('${u.id}')" title="Deposit">D</button>
-                      <button type="button" class="btn action-button" onclick="window.openWithdrawModal('${u.id}')" title="Withdraw">W</button>
-                      <button type="button" class="btn action-button" onclick="window.openExposureLimitModal('${u.id}')" title="Exposure Limit">L</button>
-                      <button type="button" class="btn action-button" onclick="window.openCreditRefModal('${u.id}')" title="Credit Reference">C</button>
-                      <button type="button" class="btn action-button" onclick="window.openChangePasswordModal('${u.uname}')" title="Change Password">P</button>
-                      <button type="button" class="btn action-button" onclick="window.openStatusModal('${u.id}')" title="Status Lock">S</button>
-                      <button type="button" class="btn action-button" onclick="window.openExtraModal('${u.id}')" title="More Details">More</button>
+                    <div class="col-sm-12 col-md-6">
+                      <div id="tickets-table_filter" class="dataTables_filter text-md-right">
+                        <label class="d-inline-flex align-items-center">
+                          Search:
+                          <input name="searchuser" type="search" placeholder="Search..." class="form-control form-control-sm ml-2 form-control" id="searchUserInput" onkeyup="if(event.key==='Enter')window.adminFilterUsers()">
+                          <button type="submit" id="loaddata" class="btn btn-primary ml-2" onclick="window.adminFilterUsers()">Load</button>
+                          <button type="button" id="resetdata" class="btn btn-secondary ml-2" onclick="window.adminResetUsers()">Reset</button>
+                        </label>
+                      </div>
                     </div>
-                  </td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Pagination Footer matching Reference -->
-        <div class="row pt-3 align-items-center">
-          <div class="col-sm-12 col-md-5">
-            <div class="dataTables_info text-muted">Showing ${totalCount === 0 ? 0 : startIdx + 1} to ${Math.min(startIdx + perPage, totalCount)} of ${totalCount} entries</div>
-          </div>
-          <div class="col-sm-12 col-md-7">
-            <div class="dataTables_paginate paging_simple_numbers float-right">
-              <ul class="pagination pagination-rounded mb-0">
-                <li class="paginate_button page-item previous ${currentPage <= 1 ? 'disabled' : ''}">
-                  <a href="javascript:void(0)" class="page-link" onclick="if(${currentPage} > 1) { window.AdminApp.currentPage = ${currentPage - 1}; window.AdminApp.handleRouting(); }">Previous</a>
-                </li>
-                ${Array.from({ length: totalPages }, (_, i) => i + 1).map(p => `
-                  <li class="paginate_button page-item ${p === currentPage ? 'active' : ''}">
-                    <a href="javascript:void(0)" class="page-link" onclick="window.AdminApp.currentPage = ${p}; window.AdminApp.handleRouting();">${p}</a>
-                  </li>
-                `).join('')}
-                <li class="paginate_button page-item next ${currentPage >= totalPages ? 'disabled' : ''}">
-                  <a href="javascript:void(0)" class="page-link" onclick="if(${currentPage} < ${totalPages}) { window.AdminApp.currentPage = ${currentPage + 1}; window.AdminApp.handleRouting(); }">Next</a>
-                </li>
-              </ul>
+                  </div>
+                  <div class="table-responsive mb-0">
+                    <div class="table no-footer list-clients table-responsive-sm">
+                      <table id="eventsListTbl" role="table" aria-busy="false" aria-colcount="8" class="table b-table table-striped table-bordered">
+                        <thead role="rowgroup">
+                          <tr role="row">
+                            <th role="columnheader" scope="col" tabindex="0" class="position-relative cp" onclick="window.adminSortUsers('uname')"><div>User Name</div></th>
+                            <th role="columnheader" scope="col" tabindex="0" class="position-relative text-right cp" onclick="window.adminSortUsers('creditRef')"><div>CR</div></th>
+                            <th role="columnheader" scope="col"><div>U st</div></th>
+                            <th role="columnheader" scope="col"><div>B st</div></th>
+                            <th role="columnheader" scope="col"><div>Exposure Limit</div></th>
+                            <th role="columnheader" scope="col"><div>Deafult (%)</div></th>
+                            <th role="columnheader" scope="col"><div>Account Type</div></th>
+                            <th role="columnheader" scope="col"><div>Action</div></th>
+                          </tr>
+                        </thead>
+                        <tbody role="rowgroup">
+                          ${pagedUsers.length === 0 ? `
+                            <tr role="row" class="b-table-empty-row"><td colspan="8" role="cell"><div role="alert" aria-live="polite"><div class="text-center my-2">There are no records to show</div></div></td></tr>
+                          ` : pagedUsers.map(u => `
+                            <tr role="row" id="row-user-${u.id}">
+                              <td role="cell">
+                                ${u.userType === '5' ? `
+                                  <a href="/admin/child/${u.uname}" class="wrape-text font-weight-bold text-primary nav-route-link" title="Click to view Downline" data-route="/admin/child/${u.uname}"><span>${u.uname}</span></a>
+                                ` : `
+                                  <span class="wrape-text font-weight-bold text-dark cp" onclick="window.openExtraModal('${u.id}')" title="Click to view profile">${u.uname}</span>
+                                `}
+                              </td>
+                              <td role="cell" class="text-right">
+                                <span class="cp font-weight-bold text-info" onclick="window.openCreditRefModal('${u.id}')" title="Click to update Credit">${this.formatCurrency(u.creditRef)}</span>
+                              </td>
+                              <td role="cell" class="text-center">
+                                <div class="custom-control custom-checkbox d-inline-block">
+                                  <input type="checkbox" class="custom-control-input-native" ${u.userActive !== false ? 'checked' : ''} disabled>
+                                </div>
+                              </td>
+                              <td role="cell" class="text-center">
+                                <div class="custom-control custom-checkbox d-inline-block">
+                                  <input type="checkbox" class="custom-control-input-native" ${u.betActive !== false ? 'checked' : ''} disabled>
+                                </div>
+                              </td>
+                              <td role="cell" class="text-right">${this.formatCurrency(u.exposureLimit || 100000)}</td>
+                              <td role="cell" class="text-left">${u.share || 0}</td>
+                              <td role="cell" class="text-center">
+                                <span class="badge ${u.userType === '5' ? 'badge-agent' : 'badge-client'}">
+                                  ${u.userType === '5' ? 'Agent' : (u.userType === '4' ? 'Master' : 'Client')}
+                                </span>
+                              </td>
+                              <td role="cell" class="text-center nowrap">
+                                <div class="btn-group" role="group">
+                                  <button type="button" class="btn action-button" onclick="window.openDepositModal('${u.id}')" title="Deposit">D</button>
+                                  <button type="button" class="btn action-button" onclick="window.openWithdrawModal('${u.id}')" title="Withdraw">W</button>
+                                  <button type="button" class="btn action-button" onclick="window.openExposureLimitModal('${u.id}')" title="Exposure Limit">L</button>
+                                  <button type="button" class="btn action-button" onclick="window.openCreditRefModal('${u.id}')" title="Credit Reference">C</button>
+                                  <button type="button" class="btn action-button" onclick="window.openChangePasswordModal('${u.uname}')" title="Change Password">P</button>
+                                  <button type="button" class="btn action-button" onclick="window.openStatusModal('${u.id}')" title="Status Lock">S</button>
+                                  <button type="button" class="btn action-button" onclick="window.openExtraModal('${u.id}')" title="More Details">More</button>
+                                </div>
+                              </td>
+                            </tr>
+                          `).join('')}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="row pt-3">
+                    <div class="col">
+                      <div class="dataTables_paginate paging_simple_numbers float-right">
+                        <ul class="pagination pagination-rounded mb-0">
+                          <ul role="menubar" aria-disabled="false" aria-label="Pagination" class="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end">
+                            <li role="presentation" class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
+                              <button role="menuitem" class="page-link" onclick="if(${currentPage} > 1){ window.AdminApp.currentPage = ${currentPage - 1}; window.AdminApp.handleRouting(); }">«</button>
+                            </li>
+                            <li role="presentation" class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
+                              <button role="menuitem" class="page-link" onclick="if(${currentPage} > 1){ window.AdminApp.currentPage = ${currentPage - 1}; window.AdminApp.handleRouting(); }">‹</button>
+                            </li>
+                            ${Array.from({ length: totalPages }, (_, i) => i + 1).map(p => `
+                              <li role="presentation" class="page-item ${p === currentPage ? 'active' : ''}">
+                                <button role="menuitemradio" type="button" aria-checked="${p === currentPage}" class="page-link" onclick="window.AdminApp.currentPage = ${p}; window.AdminApp.handleRouting();">${p}</button>
+                              </li>
+                            `).join('')}
+                            <li role="presentation" class="page-item ${currentPage >= totalPages ? 'disabled' : ''}">
+                              <button role="menuitem" class="page-link" onclick="if(${currentPage} < ${totalPages}){ window.AdminApp.currentPage = ${currentPage + 1}; window.AdminApp.handleRouting(); }">›</button>
+                            </li>
+                            <li role="presentation" class="page-item ${currentPage >= totalPages ? 'disabled' : ''}">
+                              <button role="menuitem" class="page-link" onclick="if(${currentPage} < ${totalPages}){ window.AdminApp.currentPage = ${totalPages}; window.AdminApp.handleRouting(); }">»</button>
+                            </li>
+                          </ul>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -827,130 +781,119 @@
       }, 0);
     },
 
-    renderInsertUser: function(container) {
+        renderInsertUser: function(container) {
       container.innerHTML = `
-        <div class="row">
-          <div class="col-12">
-            <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
-              <h4 class="mb-0 font-size-18 font-weight-bold">Add Account</h4>
-              <div class="page-title-right">
-                <a href="/admin/users" class="btn btn-outline-secondary nav-route-link">
-                  <i class="fas fa-arrow-left mr-1"></i> Back to Account List
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card shadow-sm">
-          <div class="card-header bg-dark text-white py-3">
-            <h5 class="mb-0 font-size-16"><i class="fas fa-user-plus mr-2"></i> Account Registration</h5>
-          </div>
-          <div class="card-body">
-            <form id="insertUserForm" data-vv-scope="InserUserAccount">
+        <div class="listing-grid">
+          <div class="add-account">
+            <h2 class="m-b-20">Add Account</h2>
+            <form data-vv-scope="InserUserAccount" method="post" id="insertUserForm" onsubmit="window.AdminApp.handleCreateAccountSubmit(event);">
               <div class="row">
-                
-                <!-- Personal Detail -->
-                <div class="col-md-6 border-right">
-                  <h5 class="font-weight-bold mb-4">Personal Detail</h5>
+                <div class="col-md-6 col-12">
+                  <h4 class="mb-4 col-12 pl-0">Personal Detail</h4>
                   <div class="row">
-                    <div class="col-md-6 form-group mb-3">
-                      <label class="font-weight-bold">Client Name: <span class="text-danger">*</span></label>
-                      <input type="text" id="newUsername" class="form-control" placeholder="Client Name" required>
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <label for="">Client Name:</label>
+                        <input type="text" placeholder="Client Name" name="clientname" id="newUsername" class="form-control" aria-required="true" required>
+                      </div>
                     </div>
-                    <div class="col-md-6 form-group mb-3">
-                      <label class="font-weight-bold">User Password: <span class="text-danger">*</span></label>
-                      <input type="password" id="newPassword" class="form-control" placeholder="User Password" required minlength="6">
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <label for="">User Password:</label>
+                        <input type="password" placeholder="User Password" name="password" id="newPassword" class="form-control" aria-required="true" required minlength="6">
+                      </div>
                     </div>
-                    <div class="col-md-6 form-group mb-3">
-                      <label class="font-weight-bold">Retype Password: <span class="text-danger">*</span></label>
-                      <input type="password" id="newRPassword" class="form-control" placeholder="Retype Password" required minlength="6">
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <label for="">Retype Password:</label>
+                        <input type="password" placeholder="Retype Password" name="rpassword" id="newRPassword" class="form-control" required minlength="6">
+                      </div>
                     </div>
-                    <div class="col-md-6 form-group mb-3">
-                      <label class="font-weight-bold">Full Name:</label>
-                      <input type="text" id="newFullName" class="form-control" placeholder="Full Name">
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <label for="">Full Name:</label>
+                        <input type="text" placeholder="Full Name" name="fullname" id="newFullName" class="form-control" aria-required="true" required>
+                      </div>
                     </div>
-                    <div class="col-md-6 form-group mb-3">
-                      <label class="font-weight-bold">City:</label>
-                      <input type="text" id="newCity" class="form-control" placeholder="City">
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <label for="">City:</label>
+                        <input type="text" placeholder="City" name="city" id="newCity" class="form-control">
+                      </div>
                     </div>
-                    <div class="col-md-6 form-group mb-3">
-                      <label class="font-weight-bold">Phone:</label>
-                      <input type="text" id="newMobile" class="form-control" placeholder="Phone Number" maxlength="15">
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <label for="">Phone:</label>
+                        <input type="text" placeholder="Phone Number" name="mono" id="newMobile" maxlength="15" class="form-control">
+                      </div>
                     </div>
                   </div>
                 </div>
-
-                <!-- Account Detail -->
-                <div class="col-md-6">
-                  <h5 class="font-weight-bold mb-4">Account Detail</h5>
+                <div class="col-md-6 col-12">
+                  <h4 class="mb-4 col-12 pl-0">Account Detail</h4>
                   <div class="row">
-                    <div class="col-md-6 form-group mb-3">
-                      <label class="font-weight-bold">Account Type: <span class="text-danger">*</span></label>
-                      <select id="newUserType" class="form-control" required>
-                        <option value="6" selected>Client</option>
-                        <option value="5">Agent</option>
-                      </select>
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <label for="">Account Type:</label>
+                        <select name="newlvlno" id="newUserType" label="label" data-vv-as="User Type" class="form-control" aria-required="true" required>
+                          <option value="">Select Account Type</option>
+                          <option value="6">Client</option>
+                          <option value="5">Agent</option>
+                          <option value="4">Master</option>
+                        </select>
+                      </div>
                     </div>
-                    <div class="col-md-6 form-group mb-3">
-                      <label class="font-weight-bold">Credit Reference:</label>
-                      <input type="number" id="newCreditRef" class="form-control" placeholder="Credit Reference" value="50000">
-                    </div>
-                    <div class="col-md-6 form-group mb-3">
-                      <label class="font-weight-bold">Exposure Limit:</label>
-                      <input type="number" id="newExpoLimit" class="form-control" placeholder="Exposure Limit" value="100000">
-                    </div>
-                    <div class="col-md-6 form-group mb-3">
-                      <label class="font-weight-bold">Partnership Share (%):</label>
-                      <input type="number" id="newShare" class="form-control" placeholder="Partnership %" min="0" max="100" value="0">
-                    </div>
-                    <div class="col-md-12 form-group mb-3">
-                      <label class="font-weight-bold">Transaction Code: <span class="text-danger">*</span></label>
-                      <input type="password" id="newMPassword" class="form-control" placeholder="Transaction Code" required>
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <label for="">Credit Reference:</label>
+                        <input type="number" placeholder="Credit Reference" name="camt" id="newCreditRef" class="form-control" aria-required="true" required value="50000">
+                      </div>
                     </div>
                   </div>
                 </div>
-
               </div>
-
-              <hr class="my-4">
-              <div class="text-right">
-                <button type="reset" class="btn btn-secondary px-4 mr-2">Reset</button>
-                <button type="submit" class="btn btn-primary btn-submit px-4 font-weight-bold">Create Account</button>
+              <div class="row mt-4">
+                <div class="col-md-6 col-12 mb-3">
+                  <h4 class="mb-4 col-md-12 pl-0">Commission Settings</h4>
+                  <table class="table table-striped table-bordered">
+                    <tbody>
+                      <tr><td style="width:120px;">Upline</td><td>0.00</td></tr>
+                      <tr><td>Downline</td><td><input type="text" name="comm" id="newCommission" placeholder="0" maxlength="4" class="form-control" style="max-width:180px;" value="0"></td></tr>
+                      <tr><td>Our</td><td>0.00</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-6 col-12 mb-3">
+                  <h4 class="mb-4 col-md-12 pl-0">Partnership</h4>
+                  <table class="table table-striped table-bordered">
+                    <tbody>
+                      <tr><td style="width:120px;">Upline</td><td>0.00</td></tr>
+                      <tr><td>Downline</td><td><div class="form-group mb-0"><input type="text" name="spart1" id="newShare" placeholder="0" disabled="disabled" class="form-control" style="max-width:180px;" value="0"></div></td></tr>
+                      <tr><td>Our</td><td>100.00</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-12">
+                  <div class="form-group col-md-4 col-12 float-md-right pr-0">
+                    <label for="m_pwd">Transaction Password:</label>
+                    <input placeholder="Transaction Password" type="password" name="mpassword" id="newTxnPwd" class="form-control" aria-required="true" required>
+                  </div>
+                </div>
+              </div>
+              <div class="row m-t-20 mb-4">
+                <div class="col-md-12">
+                  <div class="float-right">
+                    <input type="hidden" name="_token">
+                    <button type="submit" class="btn btn-submit btn-primary">Create Account</button>
+                  </div>
+                </div>
               </div>
             </form>
           </div>
         </div>
       `;
-
-      const self = this;
-      const form = document.getElementById('insertUserForm');
-      if (form) {
-        form.addEventListener('submit', function(e) {
-          e.preventDefault();
-          const uname = document.getElementById('newUsername').value.trim();
-          const fname = document.getElementById('newFullName').value.trim();
-          const userType = document.getElementById('newUserType').value;
-          const creditRef = parseFloat(document.getElementById('newCreditRef').value) || 0;
-          const share = parseFloat(document.getElementById('newShare').value) || 0;
-
-          try {
-            const user = window.AdminDataStore.insertUser({
-              uname,
-              fname: fname || uname,
-              userType,
-              userLevel: userType === '5' ? 'Agent' : 'Client',
-              creditRef,
-              share
-            });
-
-            self.showToast(`Account ${user.uname} created successfully!`, 'success');
-            self.navigate('/admin/users');
-          } catch (err) {
-            self.showToast(err.message, 'danger');
-          }
-        });
-      }
     },
 
     renderMarketAnalysis: function(container) {
@@ -1045,157 +988,299 @@
       `;
     },
 
-    renderAccountStatement: function(container) {
+        renderAccountStatement: function(container) {
       const ledger = window.AdminDataStore.getLedger();
 
       container.innerHTML = `
-        <div class="row">
-          <div class="col-12">
-            <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
-              <h4 class="mb-0 font-size-18 font-weight-bold">Account Statement & Settlement Ledger</h4>
-              <div class="page-title-right">
-                <button class="btn btn-sm btn-outline-dark" onclick="window.print()"><i class="fas fa-print mr-1"></i> Export Statement</button>
+        <div class="listing-grid report-wrapper">
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between">
+                <h4 class="mb-0 font-size-18">Account Statement</h4>
+                <div class="page-title-right"></div>
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- Statement Filter Row matching Reference -->
-        <div class="card shadow-sm mb-3">
-          <div class="card-body py-2">
-            <div class="row align-items-center">
-              <div class="col-md-3 mb-2">
-                <label class="small font-weight-bold mb-1">From Date:</label>
-                <input type="date" id="stmtFromDate" class="form-control form-control-sm" value="2026-09-01">
+          <div class="report-form mb-0 mt-3">
+            <form method="post" class="ajaxFormSubmit" onsubmit="event.preventDefault(); window.AdminApp.handleRouting();">
+              <div class="row">
+                <div class="col-lg-2 col-md-4 col-12 mb-2">
+                  <div class="form-group mb-0">
+                    <label>Account Type</label>
+                    <select class="form-control" id="stmtAccountType">
+                      <option value="0">All</option>
+                      <option value="1">Deposit/Withdraw Report</option>
+                      <option value="2">Sports Report</option>
+                      <option value="3">Casino Report</option>
+                      <option value="4">Third Party Casino Report</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-12 mb-2">
+                  <div class="form-group mb-0">
+                    <label>Game Name</label>
+                    <select class="form-control" id="stmtGameName">
+                      <option value="allbalance">All</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-12 mb-2">
+                  <div class="form-group user-lock-search mb-0" style="position: relative;">
+                    <label for="d-inline-block">Search By Client Name</label>
+                    <input type="text" placeholder="Select option" class="form-control" id="stmtClientSearch">
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-12 mb-2">
+                  <label>From</label>
+                  <div class="mb-3 mx-datepicker">
+                    <div class="mx-input-wrapper">
+                      <input name="date" type="date" value="2026-09-01" class="form-control mx-input" id="stmtFromDate">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-12 mb-2">
+                  <label>To</label>
+                  <div class="mb-3 mx-datepicker">
+                    <div class="mx-input-wrapper">
+                      <input name="date" type="date" value="2026-10-11" class="form-control mx-input" id="stmtToDate">
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-3 mb-2">
-                <label class="small font-weight-bold mb-1">To Date:</label>
-                <input type="date" id="stmtToDate" class="form-control form-control-sm" value="2026-09-24">
+              <div class="row">
+                <div class="col-lg-2 col-12 mb-3">
+                  <button type="submit" id="loaddata" class="btn btn-primary">Load</button>
+                </div>
               </div>
-              <div class="col-md-3 mb-2">
-                <label class="small font-weight-bold mb-1">Transaction Type:</label>
-                <select id="stmtTypeSelect" class="form-control form-control-sm">
-                  <option value="All">All Transactions</option>
-                  <option value="Deposit">Deposit</option>
-                  <option value="Withdraw">Withdraw</option>
-                  <option value="Settlement">Settlement</option>
-                </select>
+            </form>
+          </div>
+          <div class="row mt-3">
+            <div class="col-6">
+              <div id="tickets-table_length" class="dataTables_length">
+                <label class="d-inline-flex align-items-center">
+                  Show&nbsp;
+                  <select class="custom-select custom-select-sm">
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="75">75</option>
+                    <option value="100">100</option>
+                    <option value="125">125</option>
+                    <option value="150">150</option>
+                  </select>&nbsp;entries
+                </label>
               </div>
-              <div class="col-md-3 mb-2 text-md-right mt-md-4">
-                <button type="button" class="btn btn-sm btn-primary" onclick="window.adminFilterStatement()">
-                  <i class="fas fa-filter mr-1"></i> Filter
-                </button>
-                <button type="button" class="btn btn-sm btn-secondary ml-1" onclick="window.adminResetStatement()">
-                  Reset
-                </button>
+            </div>
+            <div class="col-6 text-right">
+              <div id="tickets-table_filter" class="dataTables_filter text-md-right">
+                <label class="d-inline-flex align-items-center">
+                  Search:
+                  <input type="search" placeholder="Search..." class="form-control form-control-sm ml-1" id="searchStmtInput">
+                </label>
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="card shadow-sm">
-          <div class="card-header bg-dark text-white py-2 d-flex justify-content-between align-items-center">
-            <h6 class="mb-0">Transaction Ledger</h6>
-            <span class="small text-muted">Records: ${ledger.length}</span>
-          </div>
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-striped table-hover mb-0" id="statementTbl">
-                <thead class="bg-light">
-                  <tr>
-                    <th>Date & Time</th>
-                    <th>Txn ID</th>
-                    <th>Type</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th class="text-right">Debit</th>
-                    <th class="text-right">Credit</th>
-                    <th class="text-right">Balance</th>
-                    <th>Remarks</th>
+          <div class="table-responsive mb-0 mt-2 report-table account-table">
+            <div class="table no-footer table-hover table-responsive-sm">
+              <table id="accStmtTable" role="table" aria-busy="false" aria-colcount="6" class="table b-table table-striped table-bordered">
+                <colgroup>
+                  <col style="width: 120px;">
+                  <col style="width: 120px;">
+                  <col style="width: 120px;">
+                  <col style="width: 120px;">
+                  <col style="width: 350px;">
+                  <col style="width: 120px;">
+                </colgroup>
+                <thead role="rowgroup">
+                  <tr role="row">
+                    <th role="columnheader" scope="col"><div>Date</div></th>
+                    <th role="columnheader" scope="col" class="text-right"><div>Credit</div></th>
+                    <th role="columnheader" scope="col" class="text-right"><div>Debit</div></th>
+                    <th role="columnheader" scope="col" class="text-right"><div>Closing</div></th>
+                    <th role="columnheader" scope="col"><div>Description</div></th>
+                    <th role="columnheader" scope="col"><div>Fromto</div></th>
                   </tr>
                 </thead>
-                <tbody>
-                  ${ledger.map(tx => `
-                    <tr data-date="${tx.date.substring(0, 10)}" data-type="${tx.type}">
-                      <td>${tx.date}</td>
-                      <td><code>${tx.id}</code></td>
-                      <td><span class="badge ${tx.type === 'Settlement' ? 'badge-warning' : (tx.type === 'Deposit' ? 'badge-success' : 'badge-danger')}">${tx.type}</span></td>
-                      <td><strong>${tx.fromUser}</strong></td>
-                      <td><strong>${tx.toUser}</strong></td>
-                      <td class="text-right text-danger">${tx.debit > 0 ? this.formatCurrency(tx.debit) : '-'}</td>
-                      <td class="text-right text-success font-weight-bold">${tx.credit > 0 ? this.formatCurrency(tx.credit) : '-'}</td>
-                      <td class="text-right font-weight-bold">${this.formatCurrency(tx.balance)}</td>
-                      <td>${tx.remarks}</td>
+                <tbody role="rowgroup">
+                  ${ledger.length === 0 ? `
+                    <tr role="row" class="b-table-empty-row"><td colspan="6" role="cell"><div role="alert" aria-live="polite"><p class="text-center mb-0">No data available in table</p></div></td></tr>
+                  ` : ledger.map(tx => `
+                    <tr role="row">
+                      <td role="cell">${tx.date}</td>
+                      <td role="cell" class="text-right text-success font-weight-bold">${tx.credit > 0 ? this.formatCurrency(tx.credit) : '0.00'}</td>
+                      <td role="cell" class="text-right text-danger font-weight-bold">${tx.debit > 0 ? this.formatCurrency(tx.debit) : '0.00'}</td>
+                      <td role="cell" class="text-right font-weight-bold">${this.formatCurrency(tx.balance)}</td>
+                      <td role="cell">${tx.remarks}</td>
+                      <td role="cell">${tx.fromUser} -> ${tx.toUser}</td>
                     </tr>
                   `).join('')}
                 </tbody>
               </table>
+            </div>
+          </div>
+          <div class="row pt-3">
+            <div class="col-12">
+              <div class="dataTables_paginate paging_simple_numbers float-right">
+                <ul class="pagination pagination-rounded mb-0">
+                  <ul role="menubar" class="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end">
+                    <li role="presentation" class="page-item disabled"><span class="page-link">«</span></li>
+                    <li role="presentation" class="page-item disabled"><span class="page-link">‹</span></li>
+                    <li role="presentation" class="page-item active"><button type="button" class="page-link">1</button></li>
+                    <li role="presentation" class="page-item disabled"><span class="page-link">›</span></li>
+                    <li role="presentation" class="page-item disabled"><span class="page-link">»</span></li>
+                  </ul>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       `;
     },
 
-    renderCurrentBets: function(container) {
+        renderCurrentBets: function(container) {
       const bets = window.AdminDataStore.getCurrentBets();
 
       container.innerHTML = `
-        <div class="row">
-          <div class="col-12">
-            <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
-              <h4 class="mb-0 font-size-18 font-weight-bold">Current Live Bets</h4>
-              <div class="page-title-right">
-                <span class="badge badge-info p-2">Total Active Bets: ${bets.length}</span>
+        <div class="listing-grid report-wrapper">
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between">
+                <h4 class="mb-0 font-size-18">Current Bets</h4>
+                <div class="page-title-right"></div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="card shadow-sm">
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-striped table-hover mb-0">
-                <thead class="bg-dark text-white">
-                  <tr>
-                    <th>Bet ID</th>
-                    <th>User</th>
-                    <th>Sport</th>
-                    <th>Event</th>
-                    <th>Market</th>
-                    <th>Selection</th>
-                    <th class="text-center">Type</th>
-                    <th class="text-right">Odds</th>
-                    <th class="text-right">Stake</th>
-                    <th class="text-right">Profit / Liab</th>
-                    <th>Placed Time</th>
-                    <th class="text-center">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${bets.length === 0 ? `
-                    <tr><td colspan="12" class="text-center py-4 text-muted">No active live bets found.</td></tr>
-                  ` : bets.map(b => `
-                    <tr>
-                      <td><code>${b.id}</code></td>
-                      <td><strong>${b.user}</strong></td>
-                      <td><span class="badge badge-secondary">${b.sport}</span></td>
-                      <td>${b.event}</td>
-                      <td>${b.market}</td>
-                      <td><strong>${b.runner}</strong></td>
-                      <td class="text-center">
-                        <span class="badge ${b.type === 'Back' ? 'badge-primary' : 'badge-danger'}">${b.type}</span>
-                      </td>
-                      <td class="text-right font-weight-bold">${b.odds.toFixed(2)}</td>
-                      <td class="text-right font-weight-bold">${this.formatCurrency(b.stake)}</td>
-                      <td class="text-right text-success font-weight-bold">${this.formatCurrency(b.profit)}</td>
-                      <td class="small text-muted">${b.placedAt}</td>
-                      <td class="text-center">
-                        <button class="btn btn-sm btn-outline-danger font-weight-bold" onclick="window.voidBet('${b.id}')" title="Void Bet">Void</button>
-                      </td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
+          <div class="casino-report-tabs">
+            <ul class="nav nav-tabs">
+              <li class="nav-item"><a data-toggle="tab" href="javascript:void(0)" class="nav-link active">Sports</a></li>
+              <li class="nav-item"><a data-toggle="tab" href="javascript:void(0)" class="nav-link">Casino</a></li>
+            </ul>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="report-form mb-3 row align-items-center modal-chekbox">
+                    <div class="col-12 mb-2">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadio" name="example" value="matchbet" checked="checked" class="custom-control-input">
+                        <label for="customRadio" class="custom-control-label">Matched</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadio2" name="example" value="deletebet" class="custom-control-input">
+                        <label for="customRadio2" class="custom-control-label">Deleted</label>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="custom-control custom-radio custom-control-inline pl-0">
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="soda-all" name="bettype" value="all" checked="checked" class="custom-control-input">
+                          <label for="soda-all" class="custom-control-label">All</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="soda-back" name="bettype" value="back" class="custom-control-input">
+                          <label for="soda-back" class="custom-control-label">Back</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="soda-lay" name="bettype" value="lay" class="custom-control-input">
+                          <label for="soda-lay" class="custom-control-label">Lay</label>
+                        </div>
+                      </div>
+                      <div class="custom-control-inline">
+                        <button title="Refresh Data" type="button" class="btn mr-2 btn-primary" onclick="window.AdminApp.handleRouting()">Load</button>
+                      </div>
+                    </div>
+                    <div class="col-6 text-right">
+                      <div class="custom-control-inline mr-0 mt-1">
+                        <h5>Total Soda: <span class="mr-2">${bets.length}</span> Total Amount: <span>${this.formatCurrency(bets.reduce((s, b) => s + (b.stake || 0), 0))}</span></h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row w-100 mb-2">
+                    <div class="col-6">
+                      <div id="tickets-table_length" class="dataTables_length">
+                        <label class="d-inline-flex align-items-center">
+                          Show&nbsp;
+                          <select class="custom-select custom-select-sm">
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="75">75</option>
+                            <option value="100">100</option>
+                            <option value="125">125</option>
+                            <option value="150">150</option>
+                          </select>&nbsp;entries
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-6 text-right">
+                      <div id="tickets-table_filter" class="dataTables_filter text-md-right">
+                        <label class="d-inline-flex align-items-center">
+                          Search:
+                          <input type="search" placeholder="Search..." class="form-control form-control-sm ml-1" id="searchBetInput">
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="table-responsive mb-0 report-table">
+                    <div class="table no-footer table-responsive-sm">
+                      <table id="eventsListTbl" role="table" aria-busy="false" aria-colcount="8" class="table b-table table-striped table-bordered">
+                        <colgroup>
+                          <col style="width: auto;">
+                          <col style="width: 200px;">
+                          <col style="width: auto;">
+                          <col style="width: auto;">
+                          <col style="width: auto;">
+                          <col style="width: auto;">
+                          <col style="width: auto;">
+                          <col style="width: auto;">
+                        </colgroup>
+                        <thead role="rowgroup">
+                          <tr role="row">
+                            <th role="columnheader" scope="col"><div>Event Type</div></th>
+                            <th role="columnheader" scope="col"><div>Event Name</div></th>
+                            <th role="columnheader" scope="col"><div>User Name</div></th>
+                            <th role="columnheader" scope="col"><div>M Name</div></th>
+                            <th role="columnheader" scope="col"><div>Nation</div></th>
+                            <th role="columnheader" scope="col" class="text-right"><div>U Rate</div></th>
+                            <th role="columnheader" scope="col" class="text-right"><div>Amount</div></th>
+                            <th role="columnheader" scope="col"><div>Place Date</div></th>
+                          </tr>
+                        </thead>
+                        <tbody role="rowgroup">
+                          ${bets.length === 0 ? `
+                            <tr role="row" class="b-table-empty-row"><td colspan="8" role="cell"><div role="alert" aria-live="polite"><p class="text-center mb-0">No data available in table</p></div></td></tr>
+                          ` : bets.map(b => `
+                            <tr role="row">
+                              <td role="cell">${b.sport || 'Cricket'}</td>
+                              <td role="cell"><strong>${b.event}</strong></td>
+                              <td role="cell">${b.user}</td>
+                              <td role="cell">${b.market || 'Match Odds'}</td>
+                              <td role="cell">${b.runner}</td>
+                              <td role="cell" class="text-right font-weight-bold">${b.odds.toFixed(2)}</td>
+                              <td role="cell" class="text-right font-weight-bold">${this.formatCurrency(b.stake)}</td>
+                              <td role="cell">${b.placedAt}</td>
+                            </tr>
+                          `).join('')}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="row pt-3">
+                    <div class="col">
+                      <div class="dataTables_paginate paging_simple_numbers float-right">
+                        <ul class="pagination pagination-rounded mb-0">
+                          <ul role="menubar" class="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end">
+                            <li role="presentation" class="page-item disabled"><span class="page-link">«</span></li>
+                            <li role="presentation" class="page-item disabled"><span class="page-link">‹</span></li>
+                            <li role="presentation" class="page-item active"><button type="button" class="page-link">1</button></li>
+                            <li role="presentation" class="page-item disabled"><span class="page-link">›</span></li>
+                            <li role="presentation" class="page-item disabled"><span class="page-link">»</span></li>
+                          </ul>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1324,142 +1409,143 @@
       `;
     },
 
-    renderBank: function(container) {
+        renderBank: function(container) {
       const users = window.AdminDataStore.getUsers();
 
       container.innerHTML = `
-        <div class="row">
-          <div class="col-12">
-            <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
-              <h4 class="mb-0 font-size-18 font-weight-bold">Bank</h4>
-              <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                  <li class="breadcrumb-item"><a href="#/admin/dashboard">Home</a></li>
-                  <li class="breadcrumb-item active">Bank</li>
-                </ol>
+        <div class="listing-grid">
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between">
+                <h4 class="mb-0 font-size-18">Bank</h4>
+                <div class="page-title-right"></div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="row bank-panel">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
-                <div class="report-form mb-3">
-                  <div class="row align-items-center">
-                    <div class="col-md-5 mb-2 search-form">
-                      <form onsubmit="event.preventDefault(); window.AdminApp.renderBank(document.getElementById('admin-main-content'));">
-                        <div class="d-inline-block form-group mb-0 mr-1">
-                          <input type="text" id="bank-search-input" class="form-control form-control-sm" placeholder="Search User" style="display:inline-block; width:auto;">
-                        </div>
-                        <div class="d-inline-block">
-                          <button type="submit" class="btn btn-primary btn-sm" id="submit">Load</button>
-                          <button type="button" class="btn btn-light btn-sm" id="reset" onclick="document.getElementById('bank-search-input').value=''; window.AdminApp.renderBank(document.getElementById('admin-main-content'));">Reset</button>
-                        </div>
-                      </form>
-                    </div>
-
-                    <div class="col-md-7 text-right mb-2">
-                      <div class="d-inline-block mr-2">
-                        <button class="btn btn-success btn-sm mr-1" type="button" onclick="alert('Exporting CSV...')"><i class="fas fa-file-excel"></i></button>
-                        <button class="btn btn-danger btn-sm" type="button" onclick="alert('Exporting PDF...')"><i class="fas fa-file-pdf"></i></button>
+          <div class="row bank-panel">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="report-form mb-1">
+                    <div class="row row5">
+                      <div class="col-md-6 mb-2 search-form">
+                        <form method="post" class="ajaxFormSubmit" onsubmit="event.preventDefault(); window.AdminApp.filterBank();">
+                          <div class="d-inline-block form-group form-group-feedback form-group-feedback-right mb-0 mr-1">
+                            <input type="text" name="searchKey" id="bank-search-input" placeholder="Search User" class="form-control form-control-sm" style="display:inline-block; width:auto;">
+                          </div>
+                          <div class="d-inline-block">
+                            <button type="submit" id="submit" class="btn btn-primary btn-sm">Load</button>
+                            <button type="button" id="reset" class="btn btn-light btn-sm" onclick="window.AdminApp.resetBank();">Reset</button>
+                          </div>
+                        </form>
                       </div>
-                      <div class="d-inline-block">
-                        <div class="d-inline-block form-group mb-0 mr-1">
-                          <input type="password" id="bank-master-pwd" class="form-control form-control-sm" placeholder="Transaction Code" style="display:inline-block; width:150px;">
+                      <div class="col-md-6 text-right mb-2">
+                        <div class="d-inline-block mr-2">
+                          <div id="export_bank_excel" class="d-inline-block">
+                            <button type="button" class="btn mr-1 btn-success btn-sm" onclick="window.adminExportExcel()"><i class="fas fa-file-excel"></i></button>
+                          </div>
+                          <button type="button" class="btn btn-danger btn-sm" onclick="window.adminExportPdf()"><i class="fas fa-file-pdf"></i></button>
                         </div>
-                        <div class="d-inline-block">
-                          <button class="btn btn-primary btn-sm" type="button" id="transferSubmit" onclick="window.AdminApp.transferAllBank()">Transfer All</button>
-                        </div>
+                        <form data-vv-scope="transferAll" method="post" class="d-inline-block" onsubmit="event.preventDefault(); window.AdminApp.transferAllBank();">
+                          <div class="d-inline-block form-group form-group-feedback form-group-feedback-right mb-0 mr-1">
+                            <input type="password" name="masterPassword" id="bank-master-pwd" placeholder="Transaction Code" class="form-control form-control-sm" style="display:inline-block; width:150px;">
+                          </div>
+                          <div class="d-inline-block">
+                            <button type="submit" id="transferSubmit" class="btn btn-primary btn-sm">Transfer All</button>
+                          </div>
+                        </form>
                       </div>
                     </div>
                   </div>
-                </div>
-
-                <div class="row mb-2">
-                  <div class="col-6">
-                    <div class="dataTables_length">
-                      <label class="d-inline-flex align-items-center font-weight-normal">
-                        Show &nbsp;
-                        <select class="custom-select custom-select-sm form-control form-control-sm mr-1 ml-1" style="width: 70px;">
-                          <option value="25">25</option>
-                          <option value="50">50</option>
-                          <option value="100">100</option>
-                          <option value="250">250</option>
-                        </select>
-                        &nbsp; entries
-                      </label>
+                  <div class="row">
+                    <div class="col-6">
+                      <div id="tickets-table_length" class="dataTables_length">
+                        <label class="d-inline-flex align-items-center">
+                          Show&nbsp;
+                          <select class="custom-select custom-select-sm" id="bankPerPageSelect">
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="250">250</option>
+                            <option value="500">500</option>
+                            <option value="750">750</option>
+                            <option value="1000">1000</option>
+                          </select>&nbsp;entries
+                        </label>
+                      </div>
                     </div>
                   </div>
-                </div>
-
-                <div class="table-responsive mb-0">
-                  <table class="table no-footer table-hover table-striped mb-0" id="eventsListTbl">
-                    <thead>
-                      <tr>
-                        <th>User Name</th>
-                        <th class="text-right">CR</th>
-                        <th class="text-right">Pts</th>
-                        <th class="text-right">Client(P/L)</th>
-                        <th class="text-right">Exposure Limit</th>
-                        <th class="text-right">Exposure</th>
-                        <th class="text-right">Available Pts</th>
-                        <th>Account Type</th>
-                        <th>Action</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${users.length === 0 ? '<tr><td colspan="10" class="text-center">No records found</td></tr>' : users.map(u => {
-                        const crebal = u.creditRef || u.creditLimit || 0;
-                        const subgen = u.balance || 0;
-                        const pl = u.pl || 0;
-                        const expolim = u.exposureLimit || 0;
-                        const expo = u.exposure || 0;
-                        const bal = subgen - expo;
-                        return `
-                          <tr>
-                            <td><span class="text-ellipsis font-weight-bold" title="${u.uname} (${u.name || u.uname})">${u.uname}</span></td>
-                            <td class="text-right">${crebal.toFixed(2)}</td>
-                            <td class="text-right">${subgen.toFixed(2)}</td>
-                            <td class="text-right ${pl >= 0 ? 'text-success' : 'text-danger'}">${pl.toFixed(2)}</td>
-                            <td class="text-right">${expolim.toFixed(2)}</td>
-                            <td class="text-right text-danger">${expo.toFixed(2)}</td>
-                            <td class="text-right font-weight-bold">${bal.toFixed(2)}</td>
-                            <td><span class="badge ${u.userType === '5' ? 'badge-agent' : 'badge-client'}">${u.userLevel || 'Client'}</span></td>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <a href="javascript:void(0)" class="text-success mr-2 font-weight-bold" onclick="document.getElementById('bank_amt_${u.id}').value = (${(-1 * pl).toFixed(2)})">
-                                  All <i class="fas fa-arrow-right"></i>
-                                </a>
-                                <input type="number" id="bank_amt_${u.id}" class="form-control form-control-sm transfer-amt mr-2" placeholder="0" style="width: 90px; display: inline-block;">
-                                <button class="btn btn-info btn-sm" onclick="window.AdminApp.submitBankSingle('${u.id}')">Submit</button>
-                              </div>
-                            </td>
-                            <td id="bank_status_${u.id}"></td>
+                  <div class="table-responsive mb-0">
+                    <div class="table no-footer table-hover table-responsive-sm">
+                      <table id="eventsListTbl" role="table" aria-busy="false" aria-colcount="10" class="table b-table table-bordered table-striped">
+                        <colgroup>
+                          <col style="width: 200px;">
+                          <col style="width: auto;">
+                          <col style="width: auto;">
+                          <col style="width: auto;">
+                          <col style="width: auto;">
+                          <col style="width: auto;">
+                          <col style="width: auto;">
+                          <col style="width: auto;">
+                          <col style="width: 250px;">
+                          <col style="width: 200px;">
+                        </colgroup>
+                        <thead role="rowgroup">
+                          <tr role="row">
+                            <th role="columnheader" scope="col"><div>User Name</div></th>
+                            <th role="columnheader" scope="col" class="text-right"><div>CR</div></th>
+                            <th role="columnheader" scope="col" class="text-right"><div>Pts</div></th>
+                            <th role="columnheader" scope="col" class="text-right"><div>Client(P/L)</div></th>
+                            <th role="columnheader" scope="col" class="text-right"><div>Exposure Limit</div></th>
+                            <th role="columnheader" scope="col" class="text-right"><div>Exposure</div></th>
+                            <th role="columnheader" scope="col" class="text-right"><div>Available Pts</div></th>
+                            <th role="columnheader" scope="col"><div>Account Type</div></th>
+                            <th role="columnheader" scope="col"><div>Action</div></th>
+                            <th role="columnheader" scope="col"><div>Status</div></th>
                           </tr>
-                        `;
-                      }).join('')}
-                    </tbody>
-                  </table>
-                </div>
-
-                <div class="row pt-3 align-items-center">
-                  <div class="col-sm-12 col-md-5">
-                    <div class="dataTables_info" role="status" aria-live="polite">Showing 1 to ${users.length} of ${users.length} entries</div>
+                        </thead>
+                        <tbody role="rowgroup">
+                          ${users.map(u => `
+                            <tr role="row">
+                              <td role="cell"><strong>${u.uname}</strong></td>
+                              <td role="cell" class="text-right">${this.formatCurrency(u.creditRef)}</td>
+                              <td role="cell" class="text-right font-weight-bold">${this.formatCurrency(u.balance)}</td>
+                              <td role="cell" class="text-right font-weight-bold ${(u.clientPL || 0) >= 0 ? 'text-success' : 'text-danger'}">${(u.clientPL || 0) >= 0 ? '+' : ''}${this.formatCurrency(u.clientPL || 0)}</td>
+                              <td role="cell" class="text-right">${this.formatCurrency(u.exposureLimit || 100000)}</td>
+                              <td role="cell" class="text-right text-danger">${this.formatCurrency(u.exposure || 0)}</td>
+                              <td role="cell" class="text-right font-weight-bold">${this.formatCurrency((u.balance || 0) - (u.exposure || 0))}</td>
+                              <td role="cell"><span class="badge ${u.userType === '5' ? 'badge-agent' : 'badge-client'}">${u.userType === '5' ? 'Agent' : (u.userType === '4' ? 'Master' : 'Client')}</span></td>
+                              <td role="cell">
+                                <div class="btn-group">
+                                  <button type="button" class="btn action-button" onclick="window.openDepositModal('${u.id}')" title="Deposit">D</button>
+                                  <button type="button" class="btn action-button" onclick="window.openWithdrawModal('${u.id}')" title="Withdraw">W</button>
+                                </div>
+                              </td>
+                              <td role="cell">
+                                <span class="badge badge-success">Active</span>
+                              </td>
+                            </tr>
+                          `).join('')}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                  <div class="col-sm-12 col-md-7">
-                    <div class="dataTables_paginate paging_simple_numbers float-right">
-                      <ul class="pagination pagination-rounded mb-0">
-                        <li class="paginate_button page-item previous disabled"><a href="#" class="page-link"><i class="mdi mdi-chevron-left"></i></a></li>
-                        <li class="paginate_button page-item active"><a href="#" class="page-link">1</a></li>
-                        <li class="paginate_button page-item next disabled"><a href="#" class="page-link"><i class="mdi mdi-chevron-right"></i></a></li>
-                      </ul>
+                  <div class="row pt-3">
+                    <div class="col">
+                      <div class="dataTables_paginate paging_simple_numbers float-right">
+                        <ul class="pagination pagination-rounded mb-0">
+                          <ul role="menubar" class="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end">
+                            <li role="presentation" class="page-item disabled"><span class="page-link">«</span></li>
+                            <li role="presentation" class="page-item disabled"><span class="page-link">‹</span></li>
+                            <li role="presentation" class="page-item active"><button type="button" class="page-link">1</button></li>
+                            <li role="presentation" class="page-item disabled"><span class="page-link">›</span></li>
+                            <li role="presentation" class="page-item disabled"><span class="page-link">»</span></li>
+                          </ul>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
