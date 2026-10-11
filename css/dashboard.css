@@ -174,13 +174,17 @@ body {
   flex-direction: row;
   list-style: none;
   margin: 0;
-  padding: 0 8px;
-  height: 35px;
+  padding: 0 15px;
+  height: 31px;
   align-items: center;
+  flex-wrap: nowrap;
 }
 
 .header-bottom .nav-item {
   white-space: nowrap;
+  height: 31px;
+  display: flex;
+  align-items: center;
 }
 
 .header-bottom .nav-link {
@@ -188,21 +192,24 @@ body {
   font-size: 14px;
   font-weight: 700;
   line-height: 21px;
+  font-family: "Roboto Condensed", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   text-transform: uppercase;
-  padding: 7px 15px !important;
+  padding: 5px 15px !important;
   letter-spacing: normal;
   text-decoration: none;
   display: flex;
   align-items: center;
+  height: 31px;
+  transition: background-color 0.15s ease;
 }
 
 .header-bottom .nav-item:first-child .nav-link {
-  padding: 7px 8px !important;
+  padding: 5px 15px 5px 0px !important;
 }
 
 .header-bottom .nav-item.active .nav-link,
 .header-bottom .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 /* MAIN LAYOUT */
@@ -1508,4 +1515,114 @@ body {
   font-size: 12px;
   background-color: #006699;
   color: #ffffff;
+}
+
+/* FORCED DISPLAY TOGGLES (HIGH SPECIFICITY TO OVERRIDE ANY !IMPORTANT) */
+.d-none-forced,
+.home-page .center-container .nav.sports-tab.d-none-forced,
+.center-container .nav.sports-tab.d-none-forced,
+.center-container .sports-tab.d-none-forced,
+.sports-tab.d-none-forced,
+.latest-event.d-none-forced,
+.center-container .latest-event.d-none-forced,
+.home-page .center-container .latest-event.d-none-forced,
+.bet-table.d-none-forced,
+.center-container .bet-table.d-none-forced,
+.casino-list.d-none-forced,
+.bottom-casino-wrap.d-none-forced {
+  display: none !important;
+}
+
+.slot-iframe {
+  display: none !important;
+}
+
+.slot-iframe.active {
+  display: block !important;
+}
+
+/* CASINO SUB TAB (VERTICAL DESKTOP & SCROLLABLE MOBILE) */
+@media (min-width: 1200px) {
+  .row5,
+  .center-container .row5,
+  .center-container .row {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+    align-items: flex-start !important;
+    margin: 0 !important;
+  }
+
+  .row5 > .col-xl-12,
+  .center-container .row5 > .col-xl-12,
+  .center-container .col-xl-12 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .center-container .tab-content {
+    width: 100% !important;
+  }
+
+  .row5 > .col-xl-2,
+  .center-container .row5 > .col-xl-2,
+  .center-container .col-xl-2 {
+    flex: 0 0 145px !important;
+    max-width: 145px !important;
+    min-width: 145px !important;
+    width: 145px !important;
+    padding: 0 !important;
+  }
+
+  .row5 > .col-xl-10,
+  .center-container .row5 > .col-xl-10,
+  .center-container .col-xl-10 {
+    flex: 1 1 auto !important;
+    max-width: calc(100% - 145px) !important;
+    width: calc(100% - 145px) !important;
+    padding: 0 0 0 6px !important;
+  }
+
+  .center-container .nav.casino-sub-tab {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    background-color: #1a2d3b !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    min-height: calc(100vh - 120px) !important;
+  }
+  .center-container .nav.casino-sub-tab .nav-item {
+    width: 100% !important;
+    margin: 0 !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25) !important;
+  }
+  .center-container .nav.casino-sub-tab .nav-link {
+    display: block !important;
+    width: 100% !important;
+    height: 34px !important;
+    line-height: 34px !important;
+    padding: 0 15px !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    border-radius: 0 !important;
+    text-align: left !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    transition: background-color 0.15s ease !important;
+  }
+  .center-container .nav.casino-sub-tab .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+  }
+  .center-container .nav.casino-sub-tab .nav-link.active {
+    background-color: #0088cc !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+  }
 }

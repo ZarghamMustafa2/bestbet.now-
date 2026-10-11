@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSportsTabs();
   initCasinoInteractions();
   loadCricketCompetitions();
+  updateTopNavActiveState(window.location.pathname);
 });
 
 function initMobileSearch() {
@@ -163,10 +164,196 @@ function initOddsInteraction() {
   });
 }
 
+// Top Navigation Routing & Active State Controller
+function updateTopNavActiveState(pathname) {
+  const navItems = document.querySelectorAll('.header-bottom .navbar-nav .nav-item');
+  if (!navItems.length) return;
+
+  const p = (pathname || window.location.pathname).toLowerCase();
+
+  let targetText = '';
+  if (p === '/' || p === '/home' || p.endsWith('/home.html')) {
+    targetText = 'HOME';
+  } else if (p.includes('/sports-book/33')) {
+    targetText = 'LOTTERY';
+  } else if (p.includes('/all-sports/4')) {
+    targetText = 'CRICKET';
+  } else if (p.includes('/all-sports/2')) {
+    targetText = 'TENNIS';
+  } else if (p.includes('/all-sports/1')) {
+    targetText = 'FOOTBALL';
+  } else if (p.includes('/all-sports/8')) {
+    targetText = 'TABLE TENNIS';
+  } else if (p.includes('/casino-list/lc/4/22') || p.includes('baccarat')) {
+    targetText = 'BACCARAT';
+  } else if (p.includes('/casino-list/lc/4/24') || p.includes('32-card') || p.includes('card32')) {
+    targetText = '32 CARDS';
+  } else if (p.includes('/casino-list/lc/4/20') || p.includes('teenpatti')) {
+    targetText = 'TEENPATTI';
+  } else if (p.includes('/casino-list/lc/4/21') || p.includes('poker')) {
+    targetText = 'POKER';
+  } else if (p.includes('/casino-list/lc/4/27') || p.includes('lucky-7') || p.includes('lucky7')) {
+    targetText = 'LUCKY 7';
+  } else if (p.includes('/aviator') || p.includes('crash')) {
+    targetText = 'CRASH';
+  }
+
+  navItems.forEach(item => {
+    const link = item.querySelector('a');
+    if (!link) return;
+    const t = link.innerText.toUpperCase().trim();
+    if (targetText && (t === targetText || (targetText === 'CRASH' && (t.includes('CRASH') || item.classList.contains('aviator'))))) {
+      item.classList.add('active');
+    } else {
+      item.classList.remove('active');
+    }
+  });
+}
+
+function handleSportsPageNavigation(targetUrl, updateHistory = true) {
+  const p = (targetUrl || window.location.pathname).toLowerCase();
+  const latestEvents = document.querySelectorAll('.latest-event');
+  const sportsTabs = document.querySelectorAll('.sports-tab');
+  const bottomCasinos = document.querySelectorAll('.casino-list.mt-2, .main-container > .casino-list');
+  const betTableEl = document.querySelector('.bet-table');
+  const tbody = document.querySelector('.bet-table-body');
+  const sportTabs = document.querySelectorAll('.sports-tab .nav-link');
+
+  if (p === '/' || p === '/home' || p.endsWith('/home.html')) {
+    // HOME state: Show match bar, sports tabs, bet table, and bottom casino
+    latestEvents.forEach(el => el.classList.remove('d-none-forced'));
+    sportsTabs.forEach(el => el.classList.remove('d-none-forced'));
+    bottomCasinos.forEach(el => el.classList.remove('d-none-forced'));
+    if (betTableEl) betTableEl.classList.remove('d-none-forced');
+    
+    // Highlight Cricket in sports pills
+    sportTabs.forEach(tab => {
+      if (tab.innerText.toLowerCase().trim() === 'cricket') tab.classList.add('active');
+      else tab.classList.remove('active');
+    });
+
+    // Show Cricket matches by default
+    const rows = document.querySelectorAll('.bet-table-body .bet-table-row:not(#noRecordRow)');
+    rows.forEach(r => {
+      const sp = (r.getAttribute('data-sport') || 'cricket').toLowerCase();
+      r.style.display = (sp === 'cricket') ? 'flex' : 'none';
+    });
+
+    const noRec = document.getElementById('noRecordRow');
+    if (noRec) noRec.style.display = 'none';
+
+    updateTopNavActiveState('/home');
+    if (updateHistory) {
+      try { window.history.pushState(null, '', '/home'); } catch (e) {}
+    }
+    return;
+  }
+
+  // Sports pages (/all-sports/:id or /sports-book/33): hide match bar, pills, and bottom casino
+  latestEvents.forEach(el => el.classList.add('d-none-forced'));
+  sportsTabs.forEach(el => el.classList.add('d-none-forced'));
+  bottomCasinos.forEach(el => el.classList.add('d-none-forced'));
+
+  let sName = '';
+  let sId = '';
+  if (p.includes('/sports-book/33')) {
+    sName = 'lottery';
+    sId = '33';
+    updateTopNavActiveState('/sports-book/33');
+    toggleCricketAccordion(false);
+    // Reference /sports-book/33 displays empty center
+    if (betTableEl) betTableEl.classList.add('d-none-forced');
+  } else {
+    if (betTableEl) betTableEl.classList.remove('d-none-forced');
+    if (p.includes('/all-sports/4')) {
+      sName = 'cricket';
+      sId = '4';
+      updateTopNavActiveState('/all-sports/4');
+      toggleCricketAccordion(true);
+    } else if (p.includes('/all-sports/2')) {
+      sName = 'tennis';
+      sId = '2';
+      updateTopNavActiveState('/all-sports/2');
+      toggleCricketAccordion(false);
+    } else if (p.includes('/all-sports/1')) {
+      sName = 'football';
+      sId = '1';
+      updateTopNavActiveState('/all-sports/1');
+      toggleCricketAccordion(false);
+    } else if (p.includes('/all-sports/8')) {
+      sName = 'table tennis';
+      sId = '8';
+      updateTopNavActiveState('/all-sports/8');
+      toggleCricketAccordion(false);
+    } else if (p.includes('/all-sports/7')) {
+      sName = 'horse racing';
+      sId = '7';
+      toggleCricketAccordion(false);
+    }
+  }
+
+  // Filter table rows
+  const tableRows = document.querySelectorAll('.bet-table-body .bet-table-row:not(#noRecordRow)');
+  let matchCount = 0;
+  if (tableRows.length) {
+    tableRows.forEach(row => {
+      const rowSport = (row.getAttribute('data-sport') || 'cricket').toLowerCase();
+      if (sName && rowSport === sName) {
+        row.style.display = 'flex';
+        matchCount++;
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  let noRec = document.getElementById('noRecordRow');
+  if (matchCount === 0 && sId !== '33') {
+    if (!noRec && tbody) {
+      noRec = document.createElement('div');
+      noRec.id = 'noRecordRow';
+      noRec.className = 'no-record-row';
+      noRec.textContent = 'No Record Found';
+      tbody.appendChild(noRec);
+    } else if (noRec) {
+      noRec.style.display = 'block';
+    }
+  } else if (noRec) {
+    noRec.style.display = 'none';
+  }
+
+  if (updateHistory && sId) {
+    try {
+      const newPath = (sId === '33') ? '/sports-book/33' : `/all-sports/${sId}`;
+      window.history.pushState({ sportId: sId }, '', newPath);
+    } catch (e) {}
+  }
+}
+
 // Sports tabs filtering and client-side route sync
 function initSportsTabs() {
   const sportTabs = document.querySelectorAll('.sports-tab .nav-link');
-  const tbody = document.querySelector('.bet-table-body');
+  const hasSportsTable = document.querySelector('.bet-table-body');
+  
+  // Set initial top nav active state
+  updateTopNavActiveState(window.location.pathname);
+
+  if (hasSportsTable) {
+    handleSportsPageNavigation(window.location.pathname, false);
+
+    // Intercept top nav clicks on sports page
+    const topNavLinks = document.querySelectorAll('.header-bottom .navbar-nav a');
+    topNavLinks.forEach(link => {
+      const href = link.getAttribute('href') || '';
+      if (href === '/home' || href.startsWith('/sports-book/33') || href.startsWith('/all-sports/')) {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          handleSportsPageNavigation(href, true);
+        });
+      }
+    });
+  }
+
   if (!sportTabs.length) return;
 
   const sportIdMap = {
@@ -195,153 +382,190 @@ function initSportsTabs() {
     'boat racing': '67'
   };
 
-  function filterSport(sportName, sportId, updateUrl = false) {
-    const sName = (sportName || '').toLowerCase().trim();
-    
-    // Update active tab state
-    sportTabs.forEach(tab => {
+  sportTabs.forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      e.preventDefault();
       const text = tab.innerText.toLowerCase().trim();
-      if (text === sName || (sName === 'cricket' && text === 'cricket')) {
-        tab.classList.add('active');
-        if (typeof tab.scrollIntoView === 'function') {
-          tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
-        }
-      } else {
-        tab.classList.remove('active');
-      }
-    });
+      const sportId = sportIdMap[text] || '4';
+      
+      // Update active tab in pills
+      sportTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
 
-    // Filter table rows
-    const tableRows = document.querySelectorAll('.bet-table-body .bet-table-row:not(#noRecordRow)');
-    let matchCount = 0;
-    if (tableRows.length) {
+      // Filter table rows
+      const tableRows = document.querySelectorAll('.bet-table-body .bet-table-row:not(#noRecordRow)');
+      let matchCount = 0;
       tableRows.forEach(row => {
         const rowSport = (row.getAttribute('data-sport') || 'cricket').toLowerCase();
-        if (rowSport === sName || (sName === 'cricket' && rowSport === 'cricket')) {
+        if (rowSport === text || (text === 'cricket' && rowSport === 'cricket')) {
           row.style.display = 'flex';
           matchCount++;
         } else {
           row.style.display = 'none';
         }
       });
-    }
 
-    let noRec = document.getElementById('noRecordRow');
-    if (matchCount === 0) {
-      if (!noRec && tbody) {
-        noRec = document.createElement('div');
-        noRec.id = 'noRecordRow';
-        noRec.className = 'no-record-row';
-        noRec.textContent = 'No Record Found';
-        tbody.appendChild(noRec);
+      const noRec = document.getElementById('noRecordRow');
+      if (matchCount === 0) {
+        if (!noRec && document.querySelector('.bet-table-body')) {
+          const nr = document.createElement('div');
+          nr.id = 'noRecordRow';
+          nr.className = 'no-record-row';
+          nr.textContent = 'No Record Found';
+          document.querySelector('.bet-table-body').appendChild(nr);
+        } else if (noRec) {
+          noRec.style.display = 'block';
+        }
       } else if (noRec) {
-        noRec.style.display = 'block';
+        noRec.style.display = 'none';
       }
-    } else if (noRec) {
-      noRec.style.display = 'none';
-    }
-
-    if (updateUrl && sportId) {
-      try {
-        window.history.pushState({ sportId }, '', `/all-sports/${sportId}`);
-      } catch (e) {}
-    }
-  }
-
-  sportTabs.forEach(tab => {
-    tab.addEventListener('click', (e) => {
-      e.preventDefault();
-      const text = tab.innerText.toLowerCase().trim();
-      const sportId = sportIdMap[text] || '4';
-      filterSport(text, sportId, false);
     });
   });
 
-  // Intercept header nav & sidebar links pointing to /all-sports/:id
-  const sportsNavLinks = document.querySelectorAll('a[href^="/all-sports/"]');
-  sportsNavLinks.forEach(link => {
+  // Intercept sidebar sports links pointing to /all-sports/:id
+  const sidebarSportsLinks = document.querySelectorAll('.left-sidebar a[href^="/all-sports/"]');
+  sidebarSportsLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       const href = link.getAttribute('href') || '';
-      const parts = href.split('/');
-      const sportId = parts[2];
-      const idToName = {
-        '1': 'football',
-        '2': 'tennis',
-        '4': 'cricket',
-        '7': 'horse racing',
-        '8': 'table tennis',
-        '43': 'greyhound racing'
-      };
-      const sName = idToName[sportId];
-      if (sName) {
+      if (document.querySelector('.bet-table-body')) {
         e.preventDefault();
-        filterSport(sName, sportId, true);
-        if (sportId === '4') {
-          toggleCricketAccordion();
-        } else {
-          toggleCricketAccordion(false);
-        }
+        handleSportsPageNavigation(href, true);
       }
     });
   });
+}
 
-  // Check URL pathname on initial load (e.g. /all-sports/1, /all-sports/2, /all-sports/4)
-  const path = window.location.pathname;
-  if (path.includes('/all-sports/1')) {
-    filterSport('football', '1', false);
-    toggleCricketAccordion(false);
-  } else if (path.includes('/all-sports/2')) {
-    filterSport('tennis', '2', false);
-    toggleCricketAccordion(false);
-  } else if (path.includes('/all-sports/4')) {
-    filterSport('cricket', '4', false);
-    toggleCricketAccordion(true);
-  } else if (path.includes('/all-sports/7')) {
-    filterSport('horse racing', '7', false);
-    toggleCricketAccordion(false);
-  } else if (path.includes('/all-sports/8')) {
-    filterSport('table tennis', '8', false);
-    toggleCricketAccordion(false);
-  } else if (path.includes('/sports-book/33')) {
-    filterSport('lottery', '33', false);
-    toggleCricketAccordion(false);
+function getCasinoGameCategory(href) {
+  const h = (href || '').toLowerCase();
+  // 22 = Baccarat (Exact 3 games in reference: baccarat, baccarat2, teensin/29 baccarat)
+  if (h.includes('teensin') || h.includes('baccarat')) return '22';
+  // 32 = Bollywood
+  if (h.includes('btable')) return '32';
+  // 24 = 32 Cards
+  if (h.includes('card32')) return '24';
+  // 21 = Poker
+  if (h.includes('poker')) return '21';
+  // 27 = Lucky 7
+  if (h.includes('lucky')) return '27';
+  // 31 = Roulette
+  if (h.includes('roulette') || h.includes('roullete')) return '31';
+  // 23 = Dragon Tiger
+  if (h.includes('dt') || h.includes('dragontiger')) return '23';
+  // 26 = Andar Bahar
+  if (h.includes('ab') || h.includes('andar')) return '26';
+  // 30 = Worli
+  if (h.includes('worli')) return '30';
+  // 40 = Queen
+  if (h.includes('queen')) return '40';
+  // 41 = Race
+  if (h.includes('race')) return '41';
+  // 34 = Sports / Super Over
+  if (h.includes('superover') || h.includes('sports')) return '34';
+  // 20 = Teenpatti
+  if (h.includes('teen') || h.includes('joker') || h.includes('patti') || h.includes('muflis')) return '20';
+  return 'other';
+}
+
+function filterCasinoCategory(catId, updateHistory = false) {
+  const cId = String(catId || '35');
+  const casinoCards = document.querySelectorAll('.casino-list-item');
+  const subTabLinks = document.querySelectorAll('.casino-sub-tab .nav-link');
+
+  // Filter game cards
+  casinoCards.forEach(card => {
+    const link = card.querySelector('a');
+    const href = link ? link.getAttribute('href') : '';
+    if (cId === '35' || cId === 'all') {
+      card.style.display = '';
+    } else {
+      const cardCat = getCasinoGameCategory(href);
+      card.style.display = (cardCat === cId) ? '' : 'none';
+    }
+  });
+
+  // Update active sub-tab
+  subTabLinks.forEach(link => {
+    const href = link.getAttribute('href') || '';
+    if (href.includes(`/casino-list/LC/4/${cId}`) || (cId === '35' && href.includes('/35'))) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+
+  // Update top nav active state
+  const catToNav = {
+    '22': '/casino-list/LC/4/22',
+    '24': '/casino-list/LC/4/24',
+    '20': '/casino-list/LC/4/20',
+    '21': '/casino-list/LC/4/21',
+    '27': '/casino-list/LC/4/27'
+  };
+  if (catToNav[cId]) {
+    updateTopNavActiveState(catToNav[cId]);
+  } else {
+    updateTopNavActiveState('/casino');
+  }
+
+  if (updateHistory) {
+    try {
+      window.history.pushState({ catId: cId }, '', `/casino-list/LC/4/${cId}`);
+    } catch (e) {}
   }
 }
 
 // Casino tab filtering and game card launch simulation
 function initCasinoInteractions() {
-  // 1. Casino sub-tab pills
-  const subTabs = document.querySelectorAll('.casino-sub-tab .nav-link, .casino-tab .nav-link');
-  const casinoItems = document.querySelectorAll('.casino-list-item');
+  const isCasinoPage = document.querySelector('.casino-sub-tab');
 
-  subTabs.forEach(tab => {
-    tab.addEventListener('click', (e) => {
-      const href = tab.getAttribute('href');
-      // If client-side category filter
-      if (href && (href.startsWith('/casino-list') || href.startsWith('casino'))) {
+  if (isCasinoPage) {
+    // Initial route extraction from URL
+    const pathname = window.location.pathname;
+    let initialCatId = '35';
+    const match = pathname.match(/\/casino-list\/LC\/4\/(\d+)/i);
+    if (match && match[1]) {
+      initialCatId = match[1];
+    } else if (pathname.includes('baccarat')) {
+      initialCatId = '22';
+    } else if (pathname.includes('32-card') || pathname.includes('card32')) {
+      initialCatId = '24';
+    } else if (pathname.includes('teenpatti')) {
+      initialCatId = '20';
+    } else if (pathname.includes('poker')) {
+      initialCatId = '21';
+    } else if (pathname.includes('lucky7') || pathname.includes('lucky-7')) {
+      initialCatId = '27';
+    }
+
+    filterCasinoCategory(initialCatId, false);
+
+    // Sub-tab click listeners
+    const subTabs = document.querySelectorAll('.casino-sub-tab .nav-link');
+    subTabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        const href = tab.getAttribute('href') || '';
+        const m = href.match(/\/casino-list\/LC\/4\/(\d+)/i);
+        const targetCatId = m ? m[1] : '35';
         e.preventDefault();
-        
-        // Remove active from peers
-        const parentUl = tab.closest('ul');
-        if (parentUl) {
-          parentUl.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-        }
-        tab.classList.add('active');
+        filterCasinoCategory(targetCatId, true);
+      });
+    });
 
-        // Update URL cleanly via pushState
-        try {
-          window.history.pushState(null, '', href);
-        } catch (err) {}
-
-        const tabName = tab.innerText.trim();
-        if (typeof showToast === 'function') {
-          showToast(`Filtered: ${tabName}`);
-        }
+    // Top nav casino items click listeners on casino page
+    const topNavLinks = document.querySelectorAll('.header-bottom .navbar-nav a');
+    topNavLinks.forEach(link => {
+      const href = link.getAttribute('href') || '';
+      const m = href.match(/\/casino-list\/LC\/4\/(\d+)/i);
+      if (m && m[1]) {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          filterCasinoCategory(m[1], true);
+        });
       }
     });
-  });
+  }
 
-  // 2. Casino game cards (both on casino.html and home.html)
+  // 2. Casino game cards launch feedback
   const gameLinks = document.querySelectorAll('.casino-list-item a');
   gameLinks.forEach(link => {
     link.addEventListener('click', (e) => {
@@ -373,6 +597,19 @@ function initCasinoInteractions() {
         console.log('Launching Crash Game...');
       }
     });
+  });
+
+  // Popstate listener for back/forward navigation
+  window.addEventListener('popstate', () => {
+    const curPath = window.location.pathname;
+    updateTopNavActiveState(curPath);
+    if (document.querySelector('.bet-table-body')) {
+      handleSportsPageNavigation(curPath, false);
+    }
+    if (document.querySelector('.casino-sub-tab')) {
+      const m = curPath.match(/\/casino-list\/LC\/4\/(\d+)/i);
+      filterCasinoCategory(m ? m[1] : '35', false);
+    }
   });
 }
 
