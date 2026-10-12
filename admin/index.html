@@ -331,6 +331,7 @@
       color: #1e1e1e !important;
       box-shadow: 0 10.5px 21px 0 rgba(18, 38, 63, 0.03) !important;
       border: none !important;
+      font-family: 'Roboto Condensed', sans-serif !important;
     }
     body.sidebar-enable .vertical-menu,
     body.vertical-collpsed.sidebar-enable .vertical-menu {
@@ -360,67 +361,163 @@
     }
     #sidebar-menu {
       background: transparent !important;
-      padding: 10px 0 30px;
+      padding: 10px 0 30px !important;
+      color: #1e1e1e !important;
+    }
+    #sidebar-menu ul#side-menu {
+      background: transparent !important;
+      list-style: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    /* Event Tree Header matching Reference Ground Truth */
+    #sidebar-menu #event-tree {
+      background: transparent !important;
     }
     #sidebar-menu #event-tree > a {
       color: #000000 !important;
       font-size: 13px !important;
       font-weight: 400 !important;
       padding: 5px 12px 10px 12px !important;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
       background: transparent !important;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
-      text-decoration: none;
+      text-decoration: none !important;
     }
-    #sidebar-menu #event-tree > a span {
-      font-size: 20px !important;
+    #sidebar-menu #event-tree > a span,
+    body.vertical-collpsed .vertical-menu #sidebar-menu #event-tree > a span {
+      font-size: 28px !important;
       font-weight: 500 !important;
       color: #000000 !important;
+      display: inline-block !important;
+      background: transparent !important;
     }
     #sidebar-menu #event-tree > a i.fa-times {
       color: #000000 !important;
-      font-size: 16px !important;
-      cursor: pointer;
+      font-size: 17.5px !important;
+      cursor: pointer !important;
+      display: inline-block !important;
     }
-    #sidebar-menu #event-tree ul.sub-menu {
-      list-style: none;
-      padding-left: 0;
-      margin: 0;
+
+    /* Override any collapsed or dark rules that hide sub-menus or spans */
+    body.vertical-collpsed .vertical-menu #sidebar-menu > ul > li > a span,
+    body.vertical-collpsed.sidebar-enable .vertical-menu #sidebar-menu > ul > li > a span,
+    body[data-sidebar="dark"] .vertical-menu #sidebar-menu > ul > li > a span,
+    .vertical-menu #sidebar-menu span:not(.tree-sport-item) {
+      display: inline-block !important;
+    }
+    body.vertical-collpsed .vertical-menu #sidebar-menu > ul ul.mm-show,
+    body.vertical-collpsed.sidebar-enable .vertical-menu #sidebar-menu > ul ul.mm-show,
+    .vertical-menu #sidebar-menu ul.sub-menu.mm-show {
+      display: block !important;
+    }
+
+    /* Submenu Tree Containers matching Reference Ground Truth */
+    #sidebar-menu ul.sub-menu {
+      list-style: none !important;
+      padding-left: 0 !important;
+      margin: 0 !important;
       background: #f9f9f9 !important;
     }
-    #sidebar-menu #event-tree ul.sub-menu li {
-      padding: 0;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    #sidebar-menu ul.sub-menu li {
+      padding: 0 !important;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
+      background: transparent !important;
     }
-    #sidebar-menu #event-tree ul.sub-menu li a,
-    #sidebar-menu #event-tree ul.sub-menu li .tree-sport-item {
+
+    /* Main Menu Items and Sport Tree Items */
+    #sidebar-menu ul li a,
+    #sidebar-menu ul.sub-menu li a,
+    #sidebar-menu .nav-route-link {
       color: #303030 !important;
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 400;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      padding: 8px 16px;
+      background: transparent !important;
+      text-decoration: none !important;
+      font-size: 13px !important;
+      font-weight: 400 !important;
+      display: flex !important;
+      align-items: center !important;
+      cursor: pointer !important;
+      padding: 8px 16px !important;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
     }
-    #sidebar-menu #event-tree ul.sub-menu li a:hover,
-    #sidebar-menu #event-tree ul.sub-menu li .tree-sport-item:hover,
+    #sidebar-menu .tree-sport-item {
+      color: #303030 !important;
+      background: transparent !important;
+      text-decoration: none !important;
+      font-size: 13px !important;
+      font-weight: 400 !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      cursor: pointer !important;
+      padding: 8px 16px !important;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    #sidebar-menu ul li a span,
+    #sidebar-menu ul.sub-menu li a span,
+    #sidebar-menu .nav-route-link span {
+      color: #303030 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+    }
+    #sidebar-menu .tree-sport-item span {
+      color: #303030 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+    }
+    #sidebar-menu .tree-sport-item b {
+      color: #303030 !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+    }
+    #sidebar-menu ul li a i,
+    #sidebar-menu .tree-sport-item i,
+    #sidebar-menu .nav-route-link i {
+      display: inline-block !important;
+      margin-right: 8px !important;
+      font-size: 14px !important;
+      width: 18px !important;
+      text-align: center !important;
+    }
+
+    /* Hover States matching Reference Ground Truth */
+    #sidebar-menu ul li a:hover,
+    #sidebar-menu ul.sub-menu li a:hover,
+    #sidebar-menu .tree-sport-item:hover,
     #sidebar-menu .nav-route-link:hover {
       color: #0088cc !important;
       background: rgba(0, 136, 204, 0.08) !important;
     }
-    #sidebar-menu .nav-route-link {
-      color: #303030 !important;
-      display: flex;
-      align-items: center;
-      padding: 8px 16px;
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 400;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    #sidebar-menu ul li a:hover span,
+    #sidebar-menu ul.sub-menu li a:hover span,
+    #sidebar-menu .tree-sport-item:hover span,
+    #sidebar-menu .nav-route-link:hover span {
+      color: #0088cc !important;
+    }
+    #sidebar-menu .tree-sport-item:hover b {
+      color: #0088cc !important;
+    }
+
+    /* Active / Selected States matching Reference Ground Truth */
+    #sidebar-menu ul li a.active,
+    #sidebar-menu ul li.active > a,
+    #sidebar-menu ul li.mm-active > a,
+    #sidebar-menu .nav-route-link.active {
+      color: #0088cc !important;
+      background: rgba(0, 136, 204, 0.12) !important;
+      font-weight: 600 !important;
+    }
+    #sidebar-menu ul li a.active span,
+    #sidebar-menu ul li.active > a span,
+    #sidebar-menu ul li.mm-active > a span,
+    #sidebar-menu .nav-route-link.active span {
+      color: #0088cc !important;
+      font-weight: 600 !important;
     }
 
     /* Main Content */

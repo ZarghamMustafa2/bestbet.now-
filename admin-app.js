@@ -46,7 +46,7 @@
       const dashSec = document.getElementById('dashboardSection');
       if (loginSec) loginSec.style.display = 'none';
       if (dashSec) dashSec.style.display = 'block';
-      document.body.setAttribute('data-sidebar', 'dark');
+      document.body.removeAttribute('data-sidebar');
 
       this.updateTopBar();
     },
