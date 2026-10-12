@@ -1,5 +1,5 @@
 /**
- * BestBet9 Admin Panel - Application Controller & SPA Router
+ * ALLPANELEXCH Admin Panel - Application Controller & SPA Router
  * Reproduces the complete management interface, interactions, hierarchy, and settlement workflows.
  */
 
@@ -96,7 +96,7 @@
               lname: 'Master',
               userType: '4',
               userLevel: 'Master',
-              token: 'bestbet9_auth_' + Date.now(),
+              token: 'allpanelexch_auth_' + Date.now(),
               pcode: 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
               gen: 500000,
               exp: 12500,
@@ -112,7 +112,6 @@
             localStorage.setItem('vuejs__admin_user', JSON.stringify({ type: 'string', value: JSON.stringify(adminData), expire: null }));
 
             if (errAlert) errAlert.style.display = 'none';
-            self.showToast('Login successful. Welcome, ' + adminData.uname, 'success');
             self.showDashboard();
             self.navigate('/admin/users');
           } else {
@@ -217,11 +216,7 @@
       if (menuBtn) {
         menuBtn.addEventListener('click', function(e) {
           e.preventDefault();
-          if (window.innerWidth >= 992) {
-            document.body.classList.toggle('vertical-collpsed');
-          } else {
-            document.body.classList.toggle('sidebar-enable');
-          }
+          document.body.classList.toggle('sidebar-enable');
         });
       }
 
@@ -1741,7 +1736,7 @@
             </div>
             <div class="form-group">
               <label class="font-weight-bold">Telegram / Authenticator Bot:</label>
-              <input type="text" class="form-control" value="@BestBet9SecurityBot" readonly>
+              <input type="text" class="form-control" value="@ALLPANELEXCHSecurityBot" readonly>
             </div>
             <button class="btn btn-outline-primary" onclick="alert('Two-factor auth status is synced with Master configuration.')">Check Auth Status</button>
           </div>
@@ -2124,7 +2119,7 @@
     },
 
     showRulesModal: function() {
-      alert("BestBet9 Management Rules:\n\n1. All partnerships are settled weekly on Monday.\n2. Commission formula: (Total P/L * Share %) + 2% Comm.\n3. Negative client balances require immediate settlement authorization.\n4. Ensure adequate Master balance prior to allocating downline credits.");
+      alert("ALLPANELEXCH Management Rules:\n\n1. All partnerships are settled weekly on Monday.\n2. Commission formula: (Total P/L * Share %) + 2% Comm.\n3. Negative client balances require immediate settlement authorization.\n4. Ensure adequate Master balance prior to allocating downline credits.");
     },
 
     openChangePasswordModal: function(uname) {

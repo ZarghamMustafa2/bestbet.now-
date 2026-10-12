@@ -8,19 +8,19 @@
 /*Theme CSS*/
 
 :root {
-  --bg-body: #23292e;
-  --text-body: #aaafb5;
-  --bg-sidebar: #16191c;
-  --text-sidebar: #aaafb5;
-  --bg-table: #2e3439;
-  --text-table: #aaafb5;
-  --bg-table-header: #3c444b;
-  --text-table-header: #aaafb5;
-  --text-highlight: #ffffff;
+  --bg-body: #ffffff;
+  --text-body: #1e1e1e;
+  --bg-sidebar: #f9f9f9;
+  --text-sidebar: #1e1e1e;
+  --bg-table: #ffffff;
+  --text-table: #1e1e1e;
+  --bg-table-header: #ffffff;
+  --text-table-header: #1e1e1e;
+  --text-highlight: #0088cc;
   --text-fancy: #fdcf13;
-  --btn-primary: #03b37f;
-  --btn-secondary: #03b37f52;
-  --btn-reset: #fc4242;
+  --btn-primary: #0088cc;
+  --btn-secondary: #74788d;
+  --btn-reset: #eff2f7;
   --bg-tabs: #03b37f33;
   --bg-primary: #0088cc;
   --bg-primary90: #0088cce6;
@@ -14893,20 +14893,20 @@ body[data-sidebar="dark"] .mm-active > i {
 }
 .wrape-text {
   cursor: pointer;
-  background: #444;
-  padding: 5px 10px;
+  background: transparent;
+  padding: 0;
   text-decoration: none;
-  color: #fff;
-  border-radius: 3px;
-  margin-right: 3px;
-  text-transform: uppercase;
+  color: inherit;
+  border-radius: 0;
+  margin-right: 0;
+  text-transform: none;
   display: inline-block;
   max-width: unset;
   float: unset;
   white-space: unset;
 }
 .wrape-text:hover {
-  color: #fff;
+  color: #0088cc;
 }
 .custom-control-label::after,
 .custom-control-label::before {
