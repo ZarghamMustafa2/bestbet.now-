@@ -387,6 +387,8 @@
         this.renderUsers(container, 'child', guid);
       } else if (path === '/admin/users/insertuser') {
         this.renderInsertUser(container);
+      } else if (path === '/admin/assign-agent') {
+        this.renderAssignAgent(container);
       } else if (path === '/admin/market-analysis') {
         this.renderMarketAnalysis(container);
       } else if (path === '/admin/reports/accountstatement') {
@@ -408,7 +410,7 @@
       } else if (path === '/admin/reports/turnover') {
         this.renderTurnOverReport(container);
       } else if (path === '/admin/reports/userhistory') {
-        this.renderGenericReport(container, 'User History', 'Audit logs of logins and user activities');
+        this.renderUserHistory(container);
       } else if (path === '/admin/reports/generalreport') {
         this.renderGeneralReport(container);
       } else if (path === '/admin/reports/authlist') {
@@ -891,6 +893,102 @@
       `;
     },
 
+    renderAssignAgent: function(container) {
+      const now = new Date();
+      const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      const pad = n => String(n).padStart(2, '0');
+      const formatDate = d => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
+      const fromDateStr = formatDate(oneWeekAgo);
+      const toDateStr = formatDate(now);
+
+      container.innerHTML = `
+        <div class="row">
+          <div class="col-12">
+            <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
+              <h4 class="mb-0 font-size-18">Assign Agent List</h4>
+              <div class="page-title-right"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="row mb-2">
+                  <div class="col-sm-12 col-md-6">
+                    <div id="tickets-table_length" class="dataTables_length">
+                      <label class="d-inline-flex align-items-center font-weight-normal">
+                        Show&nbsp;
+                        <select class="custom-select custom-select-sm" style="width:auto; display:inline-block;" id="assignAgentPerPage">
+                          <option value="25" selected>25</option>
+                          <option value="50">50</option>
+                          <option value="75">75</option>
+                          <option value="100">100</option>
+                          <option value="125">125</option>
+                          <option value="150">150</option>
+                        </select>&nbsp;entries
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <div id="tickets-table_filter" class="dataTables_filter text-md-right">
+                      <label class="d-inline-flex align-items-center font-weight-normal">
+                        Search:
+                        <input type="search" placeholder="Search..." class="form-control form-control-sm ml-2" style="width:auto; display:inline-block;" id="assignAgentSearchInput">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-responsive mb-0">
+                  <div class="table no-footer table-responsive-sm">
+                    <table id="eventsListTbl" role="table" aria-busy="false" aria-colcount="6" class="table b-table table-striped table-bordered mb-0">
+                      <thead role="rowgroup">
+                        <tr role="row">
+                          <th role="columnheader" scope="col"><div>S.No.</div></th>
+                          <th role="columnheader" scope="col"><div>User Name</div></th>
+                          <th role="columnheader" scope="col"><div>Assign Agent Settings</div></th>
+                          <th role="columnheader" scope="col"><div>Mobile Number</div></th>
+                          <th role="columnheader" scope="col"><div>Depo Mobile Number</div></th>
+                          <th role="columnheader" scope="col"><div>First Bonus Status</div></th>
+                        </tr>
+                      </thead>
+                      <tbody role="rowgroup" id="assignAgentTableBody">
+                        <tr role="row" class="b-table-empty-row">
+                          <td colspan="6" role="cell" class="text-center py-2">
+                            There are no records to show
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-12">
+            <h4 class="mb-3 font-size-18">User Creation</h4>
+            <div class="card">
+              <div class="card-body">
+                <form class="form-inline" onsubmit="event.preventDefault(); window.AdminApp.downloadUserCreationCsv();">
+                  <div class="form-group mr-3 mb-2">
+                    <label class="mr-2 font-weight-normal">From Date:</label>
+                    <input type="text" name="date" class="form-control form-control-sm" value="${fromDateStr}" id="userCreationFromDate">
+                  </div>
+                  <div class="form-group mr-3 mb-2">
+                    <label class="mr-2 font-weight-normal">To Date:</label>
+                    <input type="text" name="date" class="form-control form-control-sm" value="${toDateStr}" id="userCreationToDate">
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-sm mb-2" style="background-color: #0088cc; border-color: #0088cc;">Download CSV</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    },
+
     renderMarketAnalysis: function(container) {
       const matches = window.AdminDataStore.getLiveMatches();
 
@@ -1286,75 +1384,89 @@
       container.innerHTML = `
         <div class="row">
           <div class="col-12">
-            <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
-              <h4 class="mb-0 font-size-18 font-weight-bold">Profit And Loss Report</h4>
+            <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
+              <h4 class="mb-0 font-size-18">Profit Loss</h4>
+              <div class="page-title-right"></div>
             </div>
           </div>
         </div>
 
-        <div class="card shadow-sm mb-3">
-          <div class="card-body py-2">
-            <div class="row align-items-center">
-              <div class="col-md-3">
-                <label class="small font-weight-bold">From Date:</label>
-                <input type="date" class="form-control form-control-sm" value="2026-09-01">
-              </div>
-              <div class="col-md-3">
-                <label class="small font-weight-bold">To Date:</label>
-                <input type="date" class="form-control form-control-sm" value="2026-09-17">
-              </div>
-              <div class="col-md-3">
-                <label class="small font-weight-bold">Sport / Game:</label>
-                <select class="form-control form-control-sm">
-                  <option>All Sports</option>
-                  <option>Cricket</option>
-                  <option>Football</option>
-                  <option>Casino</option>
-                </select>
-              </div>
-              <div class="col-md-3 text-right mt-3">
-                <button class="btn btn-sm btn-primary">Filter Report</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="row mb-3">
+                  <div class="col-12">
+                    <form class="form-inline" onsubmit="event.preventDefault();">
+                      <select class="custom-select custom-select-sm mr-2" style="min-width: 200px;">
+                        <option value="all" selected>All</option>
+                      </select>
+                      <button type="submit" class="btn btn-primary btn-sm" style="background-color: #0088cc; border-color: #0088cc;">Load</button>
+                    </form>
+                  </div>
+                </div>
 
-        <div class="card shadow-sm">
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-bordered table-striped mb-0">
-                <thead class="bg-dark text-white">
-                  <tr>
-                    <th>Sport</th>
-                    <th>Event / Market</th>
-                    <th>Account</th>
-                    <th class="text-right">Total Stake</th>
-                    <th class="text-right">Gross P/L</th>
-                    <th class="text-right">Comm (2%)</th>
-                    <th class="text-right">Net Settlement</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span class="badge badge-secondary">Cricket</span></td>
-                    <td>South Africa v Pakistan (Match Odds)</td>
-                    <td>Agent_Alpha</td>
-                    <td class="text-right">${this.formatCurrency(85000)}</td>
-                    <td class="text-right text-danger font-weight-bold">-${this.formatCurrency(12000)}</td>
-                    <td class="text-right text-muted">${this.formatCurrency(240)}</td>
-                    <td class="text-right text-success font-weight-bold">+${this.formatCurrency(9600)}</td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge badge-secondary">Football</span></td>
-                    <td>Manchester City v Arsenal</td>
-                    <td>Agent_Beta</td>
-                    <td class="text-right">${this.formatCurrency(112000)}</td>
-                    <td class="text-right text-success font-weight-bold">+${this.formatCurrency(18500)}</td>
-                    <td class="text-right text-muted">${this.formatCurrency(370)}</td>
-                    <td class="text-right text-danger font-weight-bold">-${this.formatCurrency(13875)}</td>
-                  </tr>
-                </tbody>
-              </table>
+                <div class="row mb-2">
+                  <div class="col-sm-12 col-md-6">
+                    <div id="tickets-table_length" class="dataTables_length">
+                      <label class="d-inline-flex align-items-center font-weight-normal">
+                        Show&nbsp;
+                        <select class="custom-select custom-select-sm" style="width:auto; display:inline-block;">
+                          <option value="25" selected>25</option>
+                          <option value="50">50</option>
+                          <option value="75">75</option>
+                          <option value="100">100</option>
+                        </select>&nbsp;entries
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <div id="tickets-table_filter" class="dataTables_filter text-md-right">
+                      <label class="d-inline-flex align-items-center font-weight-normal">
+                        Search:
+                        <input type="search" placeholder="Search..." class="form-control form-control-sm ml-2" style="width:auto; display:inline-block;">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="table-responsive mb-0">
+                  <table class="table b-table table-bordered table-striped mb-0">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>User Name</th>
+                        <th>Level</th>
+                        <th class="text-right">Casino Pts</th>
+                        <th class="text-right">Sport Pts</th>
+                        <th class="text-right">Third Party Pts</th>
+                        <th class="text-right">Profit/Loss</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="b-table-empty-row">
+                        <td colspan="7" class="text-center py-2">No data available in table</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="row pt-3">
+                  <div class="col-12">
+                    <div class="dataTables_paginate paging_simple_numbers float-right">
+                      <ul class="pagination pagination-rounded mb-0">
+                        <ul role="menubar" class="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end">
+                          <li role="presentation" class="page-item disabled"><span class="page-link">«</span></li>
+                          <li role="presentation" class="page-item disabled"><span class="page-link">‹</span></li>
+                          <li role="presentation" class="page-item active"><button role="menuitemradio" class="page-link" style="background-color: #0088cc; border-color: #0088cc;">1</button></li>
+                          <li role="presentation" class="page-item disabled"><span class="page-link">›</span></li>
+                          <li role="presentation" class="page-item disabled"><span class="page-link">»</span></li>
+                        </ul>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1602,67 +1714,31 @@
     },
 
     renderUserLock: function(container) {
-      const users = window.AdminDataStore.getUsers();
-
       container.innerHTML = `
         <div class="row">
           <div class="col-12">
-            <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
-              <h4 class="mb-0 font-size-18 font-weight-bold">General Lock & Permissions</h4>
-              <div class="page-title-right">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-danger font-weight-bold" onclick="window.adminMasterLock('lockBets')">
-                    <i class="fas fa-ban mr-1"></i> Lock All Bets
-                  </button>
-                  <button type="button" class="btn btn-sm btn-outline-warning font-weight-bold" onclick="window.adminMasterLock('lockUsers')">
-                    <i class="fas fa-user-lock mr-1"></i> Lock All Logins
-                  </button>
-                  <button type="button" class="btn btn-sm btn-outline-success font-weight-bold" onclick="window.adminMasterLock('unlockAll')">
-                    <i class="fas fa-unlock mr-1"></i> Unlock All
-                  </button>
-                </div>
-              </div>
+            <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
+              <h4 class="mb-0 font-size-18">General Lock</h4>
+              <div class="page-title-right"></div>
             </div>
           </div>
         </div>
 
-        <div class="card shadow-sm">
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-bordered table-striped mb-0">
-                <thead class="bg-dark text-white">
-                  <tr>
-                    <th>Account</th>
-                    <th>Role</th>
-                    <th class="text-center">User Active (Login)</th>
-                    <th class="text-center">Bet Active (Betting)</th>
-                    <th class="text-center">Status Badge</th>
-                    <th class="text-center">Modify</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${users.map(u => `
-                    <tr>
-                      <td><strong>${u.uname}</strong></td>
-                      <td><span class="badge ${u.userType === '5' ? 'badge-agent' : 'badge-client'}">${u.userLevel}</span></td>
-                      <td class="text-center font-size-16">
-                        ${u.userActive ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>'}
-                      </td>
-                      <td class="text-center font-size-16">
-                        ${u.betActive ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>'}
-                      </td>
-                      <td class="text-center">
-                        <span class="badge ${u.status === 'Active' ? 'badge-success' : 'badge-danger'}">${u.status}</span>
-                      </td>
-                      <td class="text-center">
-                        <button class="btn btn-sm btn-dark" onclick="openStatusModal('${u.id}')">
-                          <i class="fas fa-lock mr-1"></i> Change Lock
-                        </button>
-                      </td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <form class="form-inline" onsubmit="event.preventDefault(); window.AdminApp.handleUserLockLoad();">
+                  <div class="form-group mr-2 mb-2">
+                    <input type="text" placeholder="Search By Client Name" class="form-control form-control-sm" style="min-width: 250px;" id="lockClientName">
+                  </div>
+                  <div class="form-group mr-2 mb-2">
+                    <input type="password" placeholder="Transaction Code" class="form-control form-control-sm" style="min-width: 180px;" id="lockTxnCode">
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-sm mr-2 mb-2" style="background-color: #0088cc; border-color: #0088cc;" id="lockLoadBtn">Load</button>
+                  <button type="button" class="btn btn-secondary btn-sm mb-2" id="lockResetBtn" onclick="document.getElementById('lockClientName').value=''; document.getElementById('lockTxnCode').value='';">Reset</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -1884,75 +1960,179 @@
     renderTurnOverReport: function(container) {
       const now = new Date();
       const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-      const formatDate = d => d.toISOString().slice(0, 10);
+      const pad = n => String(n).padStart(2, '0');
+      const formatDate = d => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
+      const fromDateStr = formatDate(oneWeekAgo);
+      const toDateStr = formatDate(now);
 
       container.innerHTML = `
-        <div class="listing-grid report-wrapper">
-          <div class="row">
-            <div class="col-12">
-              <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
-                <h4 class="mb-0 font-size-18 font-weight-bold">Turnover Report</h4>
-              </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
+              <h4 class="mb-0 font-size-18">Turnover Report</h4>
+              <div class="page-title-right"></div>
             </div>
           </div>
+        </div>
 
-          <div class="row mt-3">
-            <div class="col-12">
-              <form class="ajaxFormSubmit mb-3" onsubmit="event.preventDefault(); alert('Loading Turnover Report...');">
-                <div class="row align-items-end">
-                  <div class="col-md-2 mb-2">
-                    <label class="font-weight-normal">From</label>
-                    <input type="date" class="form-control form-control-sm" value="${formatDate(oneWeekAgo)}">
-                  </div>
-                  <div class="col-md-2 mb-2">
-                    <label class="font-weight-normal">To</label>
-                    <input type="date" class="form-control form-control-sm" value="${formatDate(now)}">
-                  </div>
-                  <div class="col-md-2 mb-2">
-                    <div class="form-group mb-0">
-                      <label class="font-weight-normal">Type</label>
-                      <select name="type" class="form-control form-control-sm">
-                        <option value="all" selected>All</option>
+        <div class="row">
+          <div class="col-12">
+            <div class="alert alert-info py-2 mb-3" style="background-color: #d1ecf1; border-color: #bee5eb; color: #0c5460;">
+              You will be able to see the data of last 7 days only.
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <form class="mb-3" onsubmit="event.preventDefault();">
+                  <div class="row align-items-end">
+                    <div class="col-md-3 mb-2">
+                      <label class="font-weight-normal mb-1">Search By Client Name</label>
+                      <input type="text" placeholder="Select option" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-2 mb-2">
+                      <label class="font-weight-normal mb-1">From Date:</label>
+                      <input type="text" class="form-control form-control-sm" value="${fromDateStr}">
+                    </div>
+                    <div class="col-md-2 mb-2">
+                      <label class="font-weight-normal mb-1">To Date:</label>
+                      <input type="text" class="form-control form-control-sm" value="${toDateStr}">
+                    </div>
+                    <div class="col-md-2 mb-2">
+                      <label class="font-weight-normal mb-1">Type</label>
+                      <select class="custom-select custom-select-sm">
+                        <option value="" selected>Select Type</option>
                         <option value="sport">Sport</option>
                         <option value="casino">Casino</option>
                       </select>
                     </div>
                   </div>
-                  <div class="col-md-2 mb-2">
-                    <div class="form-group mb-0">
-                      <label class="font-weight-normal">Sport</label>
-                      <select name="sport" class="form-control form-control-sm">
-                        <option value="" selected>All Sports</option>
-                        <option value="4">Cricket</option>
-                        <option value="1">Soccer</option>
-                        <option value="2">Tennis</option>
-                      </select>
+                  <div class="row mt-2">
+                    <div class="col-12">
+                      <button type="submit" class="btn btn-primary btn-sm mr-1" style="background-color: #0088cc; border-color: #0088cc;">Load</button>
+                      <button type="reset" class="btn btn-secondary btn-sm mr-1">Reset</button>
+                      <button type="button" class="btn btn-danger btn-sm mr-1" style="background-color: #f46a6a; border-color: #f46a6a;"><i class="far fa-file-pdf mr-1"></i>PDF</button>
+                      <button type="button" class="btn btn-success btn-sm" style="background-color: #34c38f; border-color: #34c38f;"><i class="far fa-file-excel mr-1"></i>Excel</button>
                     </div>
                   </div>
-                  <div class="col-md-4 mb-2">
-                    <button type="submit" class="btn btn-primary btn-sm mr-2" id="loaddata">Load</button>
-                    <button type="button" class="btn btn-success btn-sm mr-1" onclick="alert('Exporting Excel...')"><i class="far fa-file-excel mr-1"></i> Excel</button>
-                    <button type="button" class="btn btn-danger btn-sm" onclick="alert('Exporting PDF...')"><i class="far fa-file-pdf mr-1"></i> PDF</button>
+                </form>
+                <div class="table-responsive mb-0">
+                  <table class="table b-table table-bordered table-striped mb-0">
+                    <thead>
+                      <tr>
+                        <th class="text-center">Loss Turn Over</th>
+                        <th class="text-center">Loss</th>
+                        <th class="text-center">Win Turn Over</th>
+                        <th class="text-center">Win</th>
+                        <th class="text-center">Total Turn Over</th>
+                        <th class="text-center">Total P/L</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="b-table-empty-row">
+                        <td colspan="6" class="text-center py-2">There are no records to show</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    },
+
+    renderUserHistory: function(container) {
+      const now = new Date();
+      const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      const pad = n => String(n).padStart(2, '0');
+      const formatDate = d => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
+      const dateRangeStr = `${formatDate(oneWeekAgo)} ~ ${formatDate(now)}`;
+
+      container.innerHTML = `
+        <div class="row">
+          <div class="col-12">
+            <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
+              <h4 class="mb-0 font-size-18">User History</h4>
+              <div class="page-title-right"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <ul class="nav nav-tabs mb-3">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="javascript:void(0)">Login History</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)">Change Password History</a>
+                  </li>
+                </ul>
+                <form class="form-inline mb-3" onsubmit="event.preventDefault();">
+                  <input type="text" placeholder="Select option" class="form-control form-control-sm mr-2" style="min-width: 200px;">
+                  <div class="input-group input-group-sm mr-2" style="min-width: 220px;">
+                    <input type="text" class="form-control" value="${dateRangeStr}">
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-sm" style="background-color: #0088cc; border-color: #0088cc;">Load</button>
+                </form>
+                <div class="row mb-2">
+                  <div class="col-sm-12 col-md-6">
+                    <div id="tickets-table_length" class="dataTables_length">
+                      <label class="d-inline-flex align-items-center font-weight-normal">
+                        Show&nbsp;
+                        <select class="custom-select custom-select-sm" style="width:auto; display:inline-block;">
+                          <option value="25" selected>25</option>
+                          <option value="50">50</option>
+                          <option value="75">75</option>
+                          <option value="100">100</option>
+                        </select>&nbsp;entries
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <div id="tickets-table_filter" class="dataTables_filter text-md-right">
+                      <label class="d-inline-flex align-items-center font-weight-normal">
+                        Search:
+                        <input type="search" placeholder="Search..." class="form-control form-control-sm ml-2" style="width:auto; display:inline-block;">
+                      </label>
+                    </div>
                   </div>
                 </div>
-              </form>
-
-              <div class="table-responsive mb-0 report-table">
-                <table class="table table-striped table-bordered table-hover mb-0">
-                  <thead>
-                    <tr>
-                      <th>Sr.No</th>
-                      <th>Sport Name</th>
-                      <th class="text-right">Total Amount</th>
-                      <th class="text-right">Net P/L</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td colspan="4" class="text-center mb-0">No data available in table</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="table-responsive mb-0">
+                  <table class="table b-table table-bordered table-striped mb-0">
+                    <thead>
+                      <tr>
+                        <th>Username</th>
+                        <th>Date</th>
+                        <th>IP</th>
+                        <th>Detail</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="b-table-empty-row">
+                        <td colspan="4" class="text-center py-2">There are no records to show</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-12">
+                    <div class="dataTables_paginate paging_simple_numbers float-right">
+                      <ul class="pagination pagination-rounded mb-0">
+                        <ul role="menubar" class="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end">
+                          <li role="presentation" class="page-item disabled"><span class="page-link">«</span></li>
+                          <li role="presentation" class="page-item disabled"><span class="page-link">‹</span></li>
+                          <li role="presentation" class="page-item active"><button role="menuitemradio" class="page-link" style="background-color: #0088cc; border-color: #0088cc;">1</button></li>
+                          <li role="presentation" class="page-item disabled"><span class="page-link">›</span></li>
+                          <li role="presentation" class="page-item disabled"><span class="page-link">»</span></li>
+                        </ul>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1969,12 +2149,7 @@
             <div class="col-12">
               <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
                 <h4 class="mb-0 font-size-18 font-weight-bold">User Authentication</h4>
-                <div class="page-title-right">
-                  <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="#/admin/dashboard">Home</a></li>
-                    <li class="breadcrumb-item active">User Authentication</li>
-                  </ol>
-                </div>
+                <div class="page-title-right"></div>
               </div>
             </div>
           </div>
@@ -2790,6 +2965,29 @@
       App.showToast('All accounts and betting have been UNLOCKED.', 'success');
     }
     App.handleRouting();
+  };
+
+  App.downloadUserCreationCsv = function() {
+    const from = document.getElementById('userCreationFromDate')?.value || '';
+    const to = document.getElementById('userCreationToDate')?.value || '';
+    const csv = 'Date,User,Status\n';
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `User_Creation.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  App.handleUserLockLoad = function() {
+    const name = (document.getElementById('lockClientName')?.value || '').trim();
+    const code = (document.getElementById('lockTxnCode')?.value || '').trim();
+    if (!name && !code) {
+      App.showToast('Please enter Client Name or Transaction Code.', 'warning');
+      return;
+    }
+    App.showToast('Lock status updated.', 'success');
   };
 
   // Launch on DOM Ready
