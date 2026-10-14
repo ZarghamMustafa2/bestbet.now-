@@ -496,16 +496,23 @@
         this.renderUserAuthList(container);
       } else if (path === '/admin/reports/gamereport') {
         this.renderGameReport(container);
-      } else if (path === '/admin/reports/livecasinoreport') {
-        this.renderGenericReport(container, 'Live Casino Report', 'Live casino table performance');
+      } else if (path === '/admin/reports/livecasinoreport' || path.startsWith('/admin/reports/livecasinoreport/')) {
+        this.renderLiveCasinoReport(container);
       } else if (path === '/admin/reports/userregisterdetail') {
-        this.renderGenericReport(container, 'User Register Detail', 'Registered clients and agents timestamp records');
+        this.renderUserRegisterDetail(container);
       } else if (path === '/admin/reports/totalprofitloss') {
-        this.renderGenericReport(container, 'Total Profit Loss Report', 'Downline net profit and loss aggregation');
+        this.renderTotalProfitLoss(container);
       } else if (path === '/admin/reports/userwinloss') {
-        this.renderGenericReport(container, 'User Win Loss', 'Client win/loss ratio metrics');
+        this.renderUserWinLoss(container);
       } else if (path === '/admin/createaccount') {
-        this.renderGenericReport(container, 'Multi Login Management', 'Sub-accounts and concurrent session controls');
+        this.renderCreateAccount(container);
+      } else if (path.startsWith('/admin/casino/') || path.startsWith('/admin/vcasino/')) {
+        const parts = path.split('/');
+        const mode = parts[2];
+        const slug = parts[3] || '';
+        this.renderCasinoLobby(container, mode, slug);
+      } else if (path.startsWith('/admin/game-detail') || path.startsWith('/admin/match/')) {
+        this.renderGameDetailView(container, path);
       } else {
         this.renderHome(container);
       }
@@ -1793,35 +1800,277 @@
     },
 
     renderUserLock: function(container) {
-      container.innerHTML = `
-        <div class="row">
-          <div class="col-12">
-            <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
-              <h4 class="mb-0 font-size-18">General Lock</h4>
-              <div class="page-title-right"></div>
-            </div>
-          </div>
-        </div>
+      const self = this;
+      const isLoaded = self._userLockLoaded !== false;
+      const searchUname = self._userLockUname || 'Client_001';
 
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
-                <form class="form-inline" onsubmit="event.preventDefault(); window.AdminApp.handleUserLockLoad();">
-                  <div class="form-group mr-2 mb-2">
-                    <input type="text" placeholder="Search By Client Name" class="form-control form-control-sm" style="min-width: 250px;" id="lockClientName">
-                  </div>
-                  <div class="form-group mr-2 mb-2">
-                    <input type="password" placeholder="Transaction Code" class="form-control form-control-sm" style="min-width: 180px;" id="lockTxnCode">
-                  </div>
-                  <button type="submit" class="btn btn-primary btn-sm mr-2 mb-2" style="background-color: #0088cc; border-color: #0088cc;" id="lockLoadBtn">Load</button>
-                  <button type="button" class="btn btn-secondary btn-sm mb-2" id="lockResetBtn" onclick="document.getElementById('lockClientName').value=''; document.getElementById('lockTxnCode').value='';">Reset</button>
-                </form>
+      const sportsTree = [
+        {
+          id: 'etid_4',
+          name: 'Cricket',
+          icon: 'fas fa-baseball-ball',
+          checked: false,
+          children: [
+            {
+              id: 'tour_ipl',
+              name: 'Indian Premier League (IPL)',
+              checked: false,
+              children: [
+                { id: 'm_csk_mi', name: 'Chennai Super Kings v Mumbai Indians', checked: false },
+                { id: 'm_rcb_kkr', name: 'Royal Challengers Bangalore v Kolkata Knight Riders', checked: false }
+              ]
+            },
+            {
+              id: 'tour_icc',
+              name: 'ICC Champions Trophy 2026',
+              checked: false,
+              children: [
+                { id: 'm_ind_pak', name: 'India v Pakistan', checked: false },
+                { id: 'm_aus_eng', name: 'Australia v England', checked: false }
+              ]
+            },
+            {
+              id: 'tour_psl',
+              name: 'Pakistan Super League (PSL)',
+              checked: false,
+              children: [
+                { id: 'm_lq_kk', name: 'Lahore Qalandars v Karachi Kings', checked: false }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'etid_1',
+          name: 'Soccer',
+          icon: 'fas fa-futbol',
+          checked: false,
+          children: [
+            {
+              id: 'tour_epl',
+              name: 'English Premier League',
+              checked: false,
+              children: [
+                { id: 'm_ars_che', name: 'Arsenal v Chelsea', checked: false },
+                { id: 'm_liv_mci', name: 'Liverpool v Manchester City', checked: false }
+              ]
+            },
+            {
+              id: 'tour_ucl',
+              name: 'UEFA Champions League',
+              checked: false,
+              children: [
+                { id: 'm_rm_bay', name: 'Real Madrid v Bayern Munich', checked: false }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'etid_2',
+          name: 'Tennis',
+          icon: 'fas fa-table-tennis',
+          checked: false,
+          children: [
+            {
+              id: 'tour_wim',
+              name: 'Wimbledon Championship',
+              checked: false,
+              children: [
+                { id: 'm_djo_alc', name: 'Djokovic v Alcaraz', checked: false }
+              ]
+            },
+            {
+              id: 'tour_uso',
+              name: 'US Open Grand Slam',
+              children: [
+                { id: 'm_sin_med', name: 'Sinner v Medvedev', checked: false }
+              ]
+            }
+          ]
+        }
+      ];
+
+      const casinoList = [
+        { id: 'c_teen20', name: '20-20 Teenpatti', checked: false },
+        { id: 'c_roul', name: 'Roulette Classic', checked: false },
+        { id: 'c_dt6', name: 'Dragon Tiger 1 Day', checked: false },
+        { id: 'c_lucky7', name: 'Lucky 7 European', checked: false },
+        { id: 'c_bacc', name: 'Speed Baccarat', checked: false },
+        { id: 'c_ab', name: 'Andar Bahar Live', checked: false },
+        { id: 'c_poker', name: 'Live Poker', checked: false },
+        { id: 'c_32c', name: '32 Cards', checked: false },
+        { id: 'c_worli', name: 'Worli Matka', checked: false },
+        { id: 'c_dt20', name: 'Dragon Tiger 20-20', checked: false },
+        { id: 'c_lucky7b', name: 'Lucky 7 B', checked: false },
+        { id: 'c_teen', name: '1-Day Teenpatti', checked: false },
+        { id: 'c_aaa', name: 'Amar Akbar Anthony', checked: false },
+        { id: 'c_btable', name: 'Bollywood Table', checked: false },
+        { id: 'c_trio', name: 'Trio Table', checked: false },
+        { id: 'c_trap', name: 'Trap Roulette', checked: false },
+        { id: 'c_race17', name: 'Race to 17', checked: false },
+        { id: 'c_teenmuf', name: 'Teenpatti Muflis', checked: false },
+        { id: 'c_queen', name: 'Queen Table', checked: false },
+        { id: 'c_card32b', name: '32 Cards B', checked: false },
+        { id: 'c_poker20', name: '20-20 Poker', checked: false },
+        { id: 'c_race20', name: 'Race 20-20', checked: false },
+        { id: 'c_sixplayer', name: '6 Player Poker', checked: false },
+        { id: 'c_poker6', name: 'Poker 6 Player', checked: false },
+        { id: 'c_ab2', name: 'Andar Bahar 2', checked: false },
+        { id: 'c_superover', name: 'Super Over', checked: false },
+        { id: 'c_worli2', name: 'Instant Worli', checked: false },
+        { id: 'c_roulette2', name: 'European Roulette', checked: false }
+      ];
+
+      container.innerHTML = `
+        <div class="listing-grid">
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
+                <h4 class="mb-0 font-size-18 font-weight-bold">General Lock</h4>
+                <div class="page-title-right">
+                  <ol class="breadcrumb m-0 font-size-12">
+                    <li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Home</a></li>
+                    <li class="breadcrumb-item active">General Lock</li>
+                  </ol>
+                </div>
               </div>
             </div>
           </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <form class="ajaxFormSubmit" onsubmit="event.preventDefault(); window.AdminApp.handleUserLockLoad();">
+                    <div class="row row5 align-items-end">
+                      <div class="col-xl-3 col-md-4 mb-2">
+                        <label class="font-weight-normal small">Search By Client Name</label>
+                        <input type="text" placeholder="Search By Client Name" class="form-control form-control-sm" id="lockClientName" value="${searchUname}">
+                      </div>
+                      <div class="col-xl-3 col-md-4 mb-2">
+                        <label class="font-weight-normal small">Transaction Code</label>
+                        <input type="password" placeholder="Transaction Code" class="form-control form-control-sm" id="lockTxnCode" value="123456">
+                      </div>
+                      <div class="col-xl-3 col-md-4 mb-2">
+                        <button type="submit" class="btn btn-primary btn-sm mr-2" style="background-color: #0088cc; border-color: #0088cc;" id="loaddata">Load</button>
+                        <button type="button" class="btn btn-light btn-sm" id="reset" onclick="window.AdminApp.resetUserLock();">Reset</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          ${isLoaded ? `
+            <div class="row mt-2" id="userLockSection">
+              <!-- Left Column: Events Accordion -->
+              <div class="col-lg-6 col-12 mb-3">
+                <div class="card shadow-sm h-100">
+                  <div class="card-header bg-light py-2">
+                    <h5 class="mb-0 font-size-16 font-weight-bold text-dark"><i class="fas fa-trophy mr-1 text-warning"></i> Events</h5>
+                  </div>
+                  <div class="card-body p-3">
+                    <ul class="navbar-nav user-lock-nav" id="accordian1" style="list-style: none; padding-left: 0;">
+                      ${sportsTree.map((s, si) => `
+                        <li class="nav-item dropdown show mb-2 p-2 border rounded bg-white">
+                          <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                              <a class="arrow-icon mr-2 text-dark font-weight-bold" style="cursor: pointer;" onclick="const el=document.getElementById('submenu-${s.id}'); el.style.display = (el.style.display==='none'?'block':'none'); this.querySelector('i').classList.toggle('fa-angle-right'); this.querySelector('i').classList.toggle('fa-angle-down');">
+                                <i class="fas fa-angle-down"></i>
+                              </a>
+                              <span class="custom-control custom-checkbox d-inline-block">
+                                <input type="checkbox" class="custom-control-input" id="${s.id}" onchange="window.AdminApp.toggleUserLock('${s.id}', '${s.name}', 'Sport')">
+                                <label class="custom-control-label font-weight-bold" for="${s.id}"><i class="${s.icon} mr-1 text-primary"></i> ${s.name}</label>
+                              </span>
+                            </div>
+                            <span class="badge badge-light text-muted small">All In-Play</span>
+                          </div>
+
+                          <ul class="sub-menu mt-2 pl-4" id="submenu-${s.id}" style="list-style: none;">
+                            ${s.children.map((c, ci) => `
+                              <li class="mb-2">
+                                <div class="d-flex align-items-center justify-content-between">
+                                  <div class="d-flex align-items-center">
+                                    <a class="arrow-icon mr-2 text-secondary" style="cursor: pointer;" onclick="const el=document.getElementById('submenu-${c.id}'); if(el){ el.style.display = (el.style.display==='none'?'block':'none'); }">
+                                      <i class="fas fa-angle-right font-size-12"></i>
+                                    </a>
+                                    <span class="custom-control custom-checkbox d-inline-block">
+                                      <input type="checkbox" class="custom-control-input" id="${c.id}" onchange="window.AdminApp.toggleUserLock('${c.id}', '${c.name}', 'Tournament')">
+                                      <label class="custom-control-label small font-weight-bold" for="${c.id}">${c.name}</label>
+                                    </span>
+                                  </div>
+                                </div>
+
+                                ${c.children ? `
+                                  <ul class="sub-menu mt-1 pl-4" id="submenu-${c.id}" style="list-style: none; display: none;">
+                                    ${c.children.map(m => `
+                                      <li class="mb-1">
+                                        <span class="custom-control custom-checkbox">
+                                          <input type="checkbox" class="custom-control-input" id="${m.id}" onchange="window.AdminApp.toggleUserLock('${m.id}', '${m.name}', 'Match')">
+                                          <label class="custom-control-label small text-muted" for="${m.id}">${m.name}</label>
+                                        </span>
+                                      </li>
+                                    `).join('')}
+                                  </ul>
+                                ` : ''}
+                              </li>
+                            `).join('')}
+                          </ul>
+                        </li>
+                      `).join('')}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Casino Checkboxes -->
+              <div class="col-lg-6 col-12 mb-3">
+                <div class="card shadow-sm h-100">
+                  <div class="card-header bg-light py-2 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 font-size-16 font-weight-bold text-dark"><i class="fas fa-dice mr-1 text-danger"></i> Casino Games Lock</h5>
+                    <button class="btn btn-xs btn-outline-primary" onclick="const boxes=document.querySelectorAll('#casinoLockList input[type=checkbox]'); const allChecked = Array.from(boxes).every(b=>b.checked); boxes.forEach(b=>b.checked=!allChecked); window.AdminApp.showToast(allChecked?'All casino games unlocked':'All casino games locked', 'info');">Toggle All</button>
+                  </div>
+                  <div class="card-body p-3">
+                    <ul class="list-unstyled mb-0" id="casinoLockList" style="max-height: 480px; overflow-y: auto;">
+                      <div class="row">
+                        ${casinoList.map(g => `
+                          <div class="col-sm-6 mb-2">
+                            <span class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="${g.id}" onchange="window.AdminApp.toggleUserLock('${g.id}', '${g.name}', 'Casino')">
+                              <label class="custom-control-label small font-weight-bold" for="${g.id}">${g.name}</label>
+                            </span>
+                          </div>
+                        `).join('')}
+                      </div>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ` : ''}
         </div>
       `;
+    },
+
+    handleUserLockLoad: function() {
+      const clientName = (document.getElementById('lockClientName') ? document.getElementById('lockClientName').value : '') || 'Client_001';
+      this._userLockLoaded = true;
+      this._userLockUname = clientName;
+      this.handleRouting();
+      this.showToast('Lock profile loaded for ' + clientName, 'success');
+    },
+
+    resetUserLock: function() {
+      this._userLockLoaded = false;
+      this._userLockUname = '';
+      this.handleRouting();
+      this.showToast('User lock form reset.', 'info');
+    },
+
+    toggleUserLock: function(id, name, type) {
+      const el = document.getElementById(id);
+      const isLocked = el ? el.checked : false;
+      this.showToast((isLocked ? 'Locked ' : 'Unlocked ') + type + ': ' + name, isLocked ? 'warning' : 'success');
     },
 
     renderSetButtons: function(container) {
@@ -2310,7 +2559,939 @@
       `;
     },
 
-    renderGenericReport: function(container, title, desc) {
+    
+    renderLiveCasinoReport: function(container) {
+      const self = this;
+      const casinoBets = [
+        { roundId: '7729104', game: '20-20 Teenpatti', winner: 'Player A', cards: 'A♠ K♠ Q♠', uname: 'Client_001', stake: 5000, pl: 9500, time: '2026-10-13 22:45:10' },
+        { roundId: '7729103', game: 'Roulette Classic', winner: 'Red 14', cards: 'Red', uname: 'Client_002', stake: 2500, pl: -2500, time: '2026-10-13 22:43:25' },
+        { roundId: '7729102', game: 'Dragon Tiger Lion', winner: 'Dragon', cards: 'K♥ vs 9♦', uname: 'Client_003', stake: 10000, pl: 9500, time: '2026-10-13 22:41:00' },
+        { roundId: '7729101', game: 'Lucky 7 European', winner: 'Low (7 Down)', cards: '4♣', uname: 'Client_Direct', stake: 3000, pl: 2850, time: '2026-10-13 22:38:15' },
+        { roundId: '7729100', game: 'Speed Baccarat', winner: 'Banker', cards: 'Banker 8 / Player 6', uname: 'Client_004', stake: 12000, pl: -12000, time: '2026-10-13 22:35:40' }
+      ];
+
+      container.innerHTML = `
+        <div class="live-bets-report listing-grid report-wrapper">
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
+                <h4 class="mb-0 font-size-18 font-weight-bold">Casino Report</h4>
+                <div class="page-title-right">
+                  <ol class="breadcrumb m-0 font-size-12">
+                    <li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Home</a></li>
+                    <li class="breadcrumb-item active">Casino Report</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <form class="ajaxFormSubmit mb-3" onsubmit="event.preventDefault(); window.AdminApp.showToast('Casino report data refreshed.', 'success');">
+                    <div class="row row5 align-items-end mb-3">
+                      <div class="col-xl-2 col-md-4 mb-2">
+                        <label class="font-weight-normal small">Select Casino Type</label>
+                        <select class="form-control form-control-sm" id="casinoReportType">
+                          <option value="settled" selected>Settled Bets</option>
+                          <option value="unsettled">UnSettled Bets</option>
+                        </select>
+                      </div>
+                      <div class="col-xl-2 col-md-4 mb-2">
+                        <label class="font-weight-normal small">Search By Client Name</label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Client Name..." id="casinoReportUser">
+                      </div>
+                      <div class="col-xl-2 col-md-4 mb-2">
+                        <label class="font-weight-normal small">Date</label>
+                        <input type="date" class="form-control form-control-sm" id="casinoReportDate" value="${new Date().toISOString().slice(0, 10)}">
+                      </div>
+                      <div class="col-xl-3 col-md-6 mb-2">
+                        <label class="font-weight-normal small">Select Game</label>
+                        <select class="form-control form-control-sm" id="casinoReportGame">
+                          <option value="all" selected>All Casino Games</option>
+                          <option value="teen20">20-20 Teenpatti</option>
+                          <option value="roulette">Roulette</option>
+                          <option value="dt6">Dragon Tiger 1 Day</option>
+                          <option value="lucky7">Lucky 7</option>
+                          <option value="baccarat">Baccarat</option>
+                          <option value="andarbahar">Andar Bahar</option>
+                          <option value="poker">Live Poker</option>
+                        </select>
+                      </div>
+                      <div class="col-xl-3 col-md-6 mb-2 text-right">
+                        <button type="submit" class="btn btn-primary btn-sm mr-1" id="loaddata" style="background-color: #0088cc; border-color: #0088cc;">Load</button>
+                        <button type="button" class="btn btn-light btn-sm mr-2" id="reset" onclick="document.getElementById('casinoReportUser').value='';">Reset</button>
+                        <button type="button" class="btn btn-success btn-sm mr-1" onclick="window.adminExportExcel()"><i class="fas fa-file-excel"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="window.adminExportPdf()"><i class="fas fa-file-pdf"></i></button>
+                      </div>
+                    </div>
+                  </form>
+
+                  <div class="row mb-2">
+                    <div class="col-sm-6">
+                      <div class="dataTables_length">
+                        <label class="d-inline-flex align-items-center font-weight-normal small">
+                          Show&nbsp;
+                          <select class="custom-select custom-select-sm" style="width:auto;">
+                            <option value="25" selected>25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                          </select>&nbsp;entries
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                      <label class="d-inline-flex align-items-center font-weight-normal small">
+                        Search: <input type="search" placeholder="Search..." class="form-control form-control-sm ml-2" style="width: auto;">
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="table-responsive mb-0 report-table">
+                    <table class="table b-table table-striped table-bordered table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th>Round ID</th>
+                          <th>Casino Game</th>
+                          <th>Winner / Outcome</th>
+                          <th>Cards / Detail</th>
+                          <th>Client</th>
+                          <th class="text-right">Stake</th>
+                          <th class="text-right">Profit / Loss</th>
+                          <th>Time</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${casinoBets.map(b => `
+                          <tr>
+                            <td><code>#${b.roundId}</code></td>
+                            <td><strong>${b.game}</strong></td>
+                            <td><span class="badge ${b.pl >= 0 ? 'badge-success' : 'badge-danger'} font-size-12">${b.winner}</span></td>
+                            <td><code>${b.cards}</code></td>
+                            <td><strong class="text-primary">${b.uname}</strong></td>
+                            <td class="text-right font-weight-bold">${self.formatCurrency(b.stake)}</td>
+                            <td class="text-right font-weight-bold ${b.pl >= 0 ? 'text-success' : 'text-danger'}">${b.pl >= 0 ? '+' : ''}${self.formatCurrency(b.pl)}</td>
+                            <td class="text-muted small">${b.time}</td>
+                          </tr>
+                        `).join('')}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    },
+
+    renderUserRegisterDetail: function(container) {
+      const self = this;
+      const now = new Date();
+      const tenDaysAgo = new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000);
+      const formatDate = d => d.toISOString().slice(0, 10);
+
+      const regUsers = [
+        { userName: 'Client_001', aname: 'Agent_Alpha', Mobile: '+923001234567', CreatedDate: '2026-08-18 16:45:00', Llogin: '2026-10-13 21:10:00', FDepodate: '2026-08-19 10:00:00', LDepoDate: '2026-10-11 14:30:00', deposite: 'Yes', SportsBal: 48000, CasinoBal: 12500, TPCreditBal: 5000, SbookBal: 0 },
+        { userName: 'Client_002', aname: 'Agent_Alpha', Mobile: '+923219876543', CreatedDate: '2026-08-20 12:10:00', Llogin: '2026-10-12 18:25:00', FDepodate: '2026-08-21 11:15:00', LDepoDate: '2026-10-09 19:40:00', deposite: 'Yes', SportsBal: 35000, CasinoBal: 8200, TPCreditBal: 2000, SbookBal: 0 },
+        { userName: 'Client_003', aname: 'Agent_Beta', Mobile: '+923334567890', CreatedDate: '2026-08-25 10:00:00', Llogin: '2026-10-13 14:00:00', FDepodate: '2026-08-26 15:30:00', LDepoDate: '2026-10-12 20:15:00', deposite: 'Yes', SportsBal: 112000, CasinoBal: 45000, TPCreditBal: 10000, SbookBal: 0 },
+        { userName: 'Client_004', aname: 'Agent_Beta', Mobile: '+923456789012', CreatedDate: '2026-08-28 15:30:00', Llogin: '2026-10-10 11:20:00', FDepodate: '-', LDepoDate: '-', deposite: 'No Deposit', SportsBal: 74000, CasinoBal: 0, TPCreditBal: 0, SbookBal: 0 },
+        { userName: 'Client_Direct', aname: 'Faazan50', Mobile: '+923123456789', CreatedDate: '2026-08-15 09:30:00', Llogin: '2026-10-13 22:00:00', FDepodate: '2026-08-15 11:00:00', LDepoDate: '2026-10-13 18:00:00', deposite: 'Yes', SportsBal: 42000, CasinoBal: 15400, TPCreditBal: 8000, SbookBal: 0 }
+      ];
+
+      container.innerHTML = `
+        <div class="listing-grid report-wrapper">
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
+                <h4 class="mb-0 font-size-18 font-weight-bold">User Register Detail</h4>
+                <div class="page-title-right">
+                  <ol class="breadcrumb m-0 font-size-12">
+                    <li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Home</a></li>
+                    <li class="breadcrumb-item active">User Register Detail</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <form class="ajaxFormSubmit mb-3" onsubmit="event.preventDefault(); window.AdminApp.showToast('Registration data filtered.', 'success');">
+                    <div class="row row5 align-items-end mb-3">
+                      <div class="col-xl-3 col-md-4 mb-2">
+                        <label class="font-weight-normal small">Search By Client Name</label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Client Name..." id="regClientName">
+                      </div>
+                      <div class="col-xl-2 col-md-3 mb-2">
+                        <label class="font-weight-normal small">Status Filter</label>
+                        <select class="form-control form-control-sm" id="regType">
+                          <option value="1" selected>All Users</option>
+                          <option value="2">With Deposit</option>
+                          <option value="3">No Deposit</option>
+                        </select>
+                      </div>
+                      <div class="col-xl-2 col-md-3 mb-2">
+                        <label class="font-weight-normal small">From Date</label>
+                        <input type="date" class="form-control form-control-sm" value="${formatDate(tenDaysAgo)}">
+                      </div>
+                      <div class="col-xl-2 col-md-3 mb-2">
+                        <label class="font-weight-normal small">To Date</label>
+                        <input type="date" class="form-control form-control-sm" value="${formatDate(now)}">
+                      </div>
+                      <div class="col-xl-3 col-md-6 mb-2 text-right">
+                        <button type="submit" class="btn btn-primary btn-sm mr-1" style="background-color: #0088cc; border-color: #0088cc;">Load</button>
+                        <button type="button" class="btn btn-light btn-sm mr-2" onclick="document.getElementById('regClientName').value='';">Reset</button>
+                        <button type="button" class="btn btn-success btn-sm mr-1" onclick="window.adminExportExcel()"><i class="fas fa-file-excel"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="window.adminExportPdf()"><i class="fas fa-file-pdf"></i></button>
+                      </div>
+                    </div>
+                  </form>
+
+                  <div class="row mb-2">
+                    <div class="col-sm-6">
+                      <div class="dataTables_length">
+                        <label class="d-inline-flex align-items-center font-weight-normal small">
+                          Show&nbsp;
+                          <select class="custom-select custom-select-sm" style="width:auto;">
+                            <option value="25" selected>25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                          </select>&nbsp;entries
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                      <label class="d-inline-flex align-items-center font-weight-normal small">
+                        Search: <input type="search" placeholder="Search..." class="form-control form-control-sm ml-2" style="width: auto;">
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="table-responsive mb-0 report-table">
+                    <table class="table b-table table-striped table-bordered table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th>User Name</th>
+                          <th>Agent Name</th>
+                          <th>Mobile</th>
+                          <th>Created Date</th>
+                          <th>Last Login</th>
+                          <th>First Depo</th>
+                          <th>Last Depo</th>
+                          <th>Deposit</th>
+                          <th class="text-right">Sports Bal</th>
+                          <th class="text-right">Casino Bal</th>
+                          <th class="text-right">TP Credit</th>
+                          <th class="text-right">SBook Bal</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${regUsers.map(u => `
+                          <tr>
+                            <td><strong class="text-primary">${u.userName}</strong></td>
+                            <td>${u.aname}</td>
+                            <td>${u.Mobile}</td>
+                            <td class="small text-muted">${u.CreatedDate}</td>
+                            <td class="small text-muted">${u.Llogin}</td>
+                            <td class="small">${u.FDepodate}</td>
+                            <td class="small">${u.LDepoDate}</td>
+                            <td><span class="badge ${u.deposite === 'Yes' ? 'badge-success' : 'badge-warning'}">${u.deposite}</span></td>
+                            <td class="text-right font-weight-bold">${self.formatCurrency(u.SportsBal)}</td>
+                            <td class="text-right font-weight-bold">${self.formatCurrency(u.CasinoBal)}</td>
+                            <td class="text-right font-weight-bold">${self.formatCurrency(u.TPCreditBal)}</td>
+                            <td class="text-right font-weight-bold">${self.formatCurrency(u.SbookBal)}</td>
+                          </tr>
+                        `).join('')}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    },
+
+    renderTotalProfitLoss: function(container) {
+      const self = this;
+      const now = new Date();
+      const tenDaysAgo = new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000);
+      const formatDate = d => d.toISOString().slice(0, 10);
+
+      const sportsData = [
+        { name: 'Cricket - South Africa v Pakistan', opening: 500000, closing: 518500, pl: 18500 },
+        { name: 'Cricket - India v Australia', opening: 420000, closing: 408000, pl: -12000 },
+        { name: 'Soccer - Chelsea v Liverpool', opening: 250000, closing: 259200, pl: 9200 },
+        { name: 'Tennis - Alcaraz v Djokovic', opening: 180000, closing: 174500, pl: -5500 }
+      ];
+      const casinoData = [
+        { name: '20-20 Teenpatti', opening: 300000, closing: 314200, pl: 14200 },
+        { name: 'Roulette Classic', opening: 150000, closing: 146800, pl: -3200 },
+        { name: 'Dragon Tiger', opening: 220000, closing: 228400, pl: 8400 },
+        { name: 'Speed Baccarat', opening: 180000, closing: 185600, pl: 5600 }
+      ];
+      const tpData = [
+        { name: 'Spribe Aviator', opening: 120000, closing: 124500, pl: 4500 },
+        { name: 'Evolution Lightning Roulette', opening: 95000, closing: 91800, pl: -3200 }
+      ];
+
+      const totalSportsPL = sportsData.reduce((s, r) => s + r.pl, 0);
+      const totalCasinoPL = casinoData.reduce((s, r) => s + r.pl, 0);
+      const totalTPPL = tpData.reduce((s, r) => s + r.pl, 0);
+      const grandTotalPL = totalSportsPL + totalCasinoPL + totalTPPL;
+
+      container.innerHTML = `
+        <div class="listing-grid report-wrapper">
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
+                <h4 class="mb-0 font-size-18 font-weight-bold">Total Profit Loss</h4>
+                <div class="page-title-right">
+                  <ol class="breadcrumb m-0 font-size-12">
+                    <li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Home</a></li>
+                    <li class="breadcrumb-item active">Total Profit Loss</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <form class="ajaxFormSubmit mb-3" onsubmit="event.preventDefault(); window.AdminApp.showToast('Total Profit Loss report loaded.', 'success');">
+                    <div class="row row5 align-items-end mb-3">
+                      <div class="col-xl-3 col-md-4 mb-2">
+                        <label class="font-weight-normal small">Search By Client Name</label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Client Name..." id="tplClientName">
+                      </div>
+                      <div class="col-xl-2 col-md-3 mb-2">
+                        <label class="font-weight-normal small">Report Category</label>
+                        <select class="form-control form-control-sm" id="tplType">
+                          <option value="0" selected>All Reports</option>
+                          <option value="2">Sports Report</option>
+                          <option value="3">Casino Report</option>
+                          <option value="4">Third Party Report</option>
+                        </select>
+                      </div>
+                      <div class="col-xl-2 col-md-3 mb-2">
+                        <label class="font-weight-normal small">From Date</label>
+                        <input type="date" class="form-control form-control-sm" value="${formatDate(tenDaysAgo)}">
+                      </div>
+                      <div class="col-xl-2 col-md-3 mb-2">
+                        <label class="font-weight-normal small">To Date</label>
+                        <input type="date" class="form-control form-control-sm" value="${formatDate(now)}">
+                      </div>
+                      <div class="col-xl-3 col-md-6 mb-2 text-right">
+                        <button type="submit" class="btn btn-primary btn-sm mr-1" style="background-color: #0088cc; border-color: #0088cc;">Load</button>
+                        <button type="button" class="btn btn-light btn-sm mr-2" onclick="document.getElementById('tplClientName').value='';">Reset</button>
+                        <button type="button" class="btn btn-success btn-sm mr-1" onclick="window.adminExportExcel()"><i class="fas fa-file-excel"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="window.adminExportPdf()"><i class="fas fa-file-pdf"></i></button>
+                      </div>
+                    </div>
+                  </form>
+
+                  <!-- Grand Total Overview Card -->
+                  <div class="row mb-3">
+                    <div class="col-md-3 col-6 mb-2">
+                      <div class="card bg-light border p-2 text-center">
+                        <small class="text-muted text-uppercase">Sports P/L</small>
+                        <h5 class="mb-0 font-weight-bold ${totalSportsPL >= 0 ? 'text-success' : 'text-danger'}">${totalSportsPL >= 0 ? '+' : ''}${self.formatCurrency(totalSportsPL)}</h5>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-2">
+                      <div class="card bg-light border p-2 text-center">
+                        <small class="text-muted text-uppercase">Casino P/L</small>
+                        <h5 class="mb-0 font-weight-bold ${totalCasinoPL >= 0 ? 'text-success' : 'text-danger'}">${totalCasinoPL >= 0 ? '+' : ''}${self.formatCurrency(totalCasinoPL)}</h5>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-2">
+                      <div class="card bg-light border p-2 text-center">
+                        <small class="text-muted text-uppercase">Third Party P/L</small>
+                        <h5 class="mb-0 font-weight-bold ${totalTPPL >= 0 ? 'text-success' : 'text-danger'}">${totalTPPL >= 0 ? '+' : ''}${self.formatCurrency(totalTPPL)}</h5>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-2">
+                      <div class="card bg-primary text-white p-2 text-center shadow-sm">
+                        <small class="text-white-50 text-uppercase">Grand Total Net P/L</small>
+                        <h5 class="mb-0 font-weight-bold">${grandTotalPL >= 0 ? '+' : ''}${self.formatCurrency(grandTotalPL)}</h5>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 1. Sports Section -->
+                  <h5 class="font-weight-bold mt-3 mb-2"><i class="fas fa-baseball-ball text-warning mr-1"></i> Sports Report</h5>
+                  <div class="table-responsive mb-4 report-table">
+                    <table class="table b-table table-striped table-bordered table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th>Sport / Match Name</th>
+                          <th class="text-right">Opening Balance</th>
+                          <th class="text-right">Closing Balance</th>
+                          <th class="text-right">Profit / Loss</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${sportsData.map(r => `
+                          <tr>
+                            <td><strong>${r.name}</strong></td>
+                            <td class="text-right">${self.formatCurrency(r.opening)}</td>
+                            <td class="text-right">${self.formatCurrency(r.closing)}</td>
+                            <td class="text-right font-weight-bold ${r.pl >= 0 ? 'text-success' : 'text-danger'}">${r.pl >= 0 ? '+' : ''}${self.formatCurrency(r.pl)}</td>
+                          </tr>
+                        `).join('')}
+                      </tbody>
+                      <tfoot>
+                        <tr class="bg-light font-weight-bold">
+                          <td colspan="3" class="text-right">Total Sports Profit/Loss:</td>
+                          <td class="text-right ${totalSportsPL >= 0 ? 'text-success' : 'text-danger'}">${totalSportsPL >= 0 ? '+' : ''}${self.formatCurrency(totalSportsPL)}</td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+
+                  <!-- 2. Casino Section -->
+                  <h5 class="font-weight-bold mt-3 mb-2"><i class="fas fa-dice text-danger mr-1"></i> Casino Report</h5>
+                  <div class="table-responsive mb-4 report-table">
+                    <table class="table b-table table-striped table-bordered table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th>Casino Game</th>
+                          <th class="text-right">Opening Balance</th>
+                          <th class="text-right">Closing Balance</th>
+                          <th class="text-right">Profit / Loss</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${casinoData.map(r => `
+                          <tr>
+                            <td><strong>${r.name}</strong></td>
+                            <td class="text-right">${self.formatCurrency(r.opening)}</td>
+                            <td class="text-right">${self.formatCurrency(r.closing)}</td>
+                            <td class="text-right font-weight-bold ${r.pl >= 0 ? 'text-success' : 'text-danger'}">${r.pl >= 0 ? '+' : ''}${self.formatCurrency(r.pl)}</td>
+                          </tr>
+                        `).join('')}
+                      </tbody>
+                      <tfoot>
+                        <tr class="bg-light font-weight-bold">
+                          <td colspan="3" class="text-right">Total Casino Profit/Loss:</td>
+                          <td class="text-right ${totalCasinoPL >= 0 ? 'text-success' : 'text-danger'}">${totalCasinoPL >= 0 ? '+' : ''}${self.formatCurrency(totalCasinoPL)}</td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+
+                  <!-- 3. Third Party Section -->
+                  <h5 class="font-weight-bold mt-3 mb-2"><i class="fas fa-gamepad text-info mr-1"></i> Third Party Casino Report</h5>
+                  <div class="table-responsive mb-0 report-table">
+                    <table class="table b-table table-striped table-bordered table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th>Provider / Title</th>
+                          <th class="text-right">Opening Balance</th>
+                          <th class="text-right">Closing Balance</th>
+                          <th class="text-right">Profit / Loss</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${tpData.map(r => `
+                          <tr>
+                            <td><strong>${r.name}</strong></td>
+                            <td class="text-right">${self.formatCurrency(r.opening)}</td>
+                            <td class="text-right">${self.formatCurrency(r.closing)}</td>
+                            <td class="text-right font-weight-bold ${r.pl >= 0 ? 'text-success' : 'text-danger'}">${r.pl >= 0 ? '+' : ''}${self.formatCurrency(r.pl)}</td>
+                          </tr>
+                        `).join('')}
+                      </tbody>
+                      <tfoot>
+                        <tr class="bg-light font-weight-bold">
+                          <td colspan="3" class="text-right">Total Third Party Profit/Loss:</td>
+                          <td class="text-right ${totalTPPL >= 0 ? 'text-success' : 'text-danger'}">${totalTPPL >= 0 ? '+' : ''}${self.formatCurrency(totalTPPL)}</td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    },
+
+    renderUserWinLoss: function(container) {
+      const self = this;
+      const now = new Date();
+      const tenDaysAgo = new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000);
+      const formatDate = d => d.toISOString().slice(0, 10);
+
+      const winLossList = [
+        { index: 1, uname: 'Client_001', casino: 12500, sports: -18500, thirdparty: 2400, pl: -3600 },
+        { index: 2, uname: 'Client_002', casino: -4500, sports: 15200, thirdparty: 0, pl: 10700 },
+        { index: 3, uname: 'Client_003', casino: 22000, sports: 9400, thirdparty: 3100, pl: 34500 },
+        { index: 4, uname: 'Client_004', casino: 0, sports: -7800, thirdparty: -1200, pl: -9000 },
+        { index: 5, uname: 'Client_Direct', casino: 8600, sports: 12000, thirdparty: 4500, pl: 25100 }
+      ];
+
+      const totCasino = winLossList.reduce((s, r) => s + r.casino, 0);
+      const totSports = winLossList.reduce((s, r) => s + r.sports, 0);
+      const totTP = winLossList.reduce((s, r) => s + r.thirdparty, 0);
+      const totPL = winLossList.reduce((s, r) => s + r.pl, 0);
+
+      container.innerHTML = `
+        <div class="listing-grid report-wrapper">
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
+                <h4 class="mb-0 font-size-18 font-weight-bold">User Win Loss</h4>
+                <div class="page-title-right">
+                  <ol class="breadcrumb m-0 font-size-12">
+                    <li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Home</a></li>
+                    <li class="breadcrumb-item active">User Win Loss</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <form class="ajaxFormSubmit mb-3" onsubmit="event.preventDefault(); window.AdminApp.showToast('User win/loss metrics calculated.', 'success');">
+                    <div class="row row5 align-items-end mb-3">
+                      <div class="col-xl-3 col-md-4 mb-2">
+                        <label class="font-weight-normal small">Search By Client Name</label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Client Name..." id="winlossClientName">
+                      </div>
+                      <div class="col-xl-2 col-md-3 mb-2">
+                        <label class="font-weight-normal small">From Date</label>
+                        <input type="date" class="form-control form-control-sm" value="${formatDate(tenDaysAgo)}">
+                      </div>
+                      <div class="col-xl-2 col-md-3 mb-2">
+                        <label class="font-weight-normal small">To Date</label>
+                        <input type="date" class="form-control form-control-sm" value="${formatDate(now)}">
+                      </div>
+                      <div class="col-xl-5 col-md-8 mb-2 text-right">
+                        <button type="submit" class="btn btn-primary btn-sm mr-1" style="background-color: #0088cc; border-color: #0088cc;">Load</button>
+                        <button type="button" class="btn btn-light btn-sm mr-2" onclick="document.getElementById('winlossClientName').value='';">Reset</button>
+                        <button type="button" class="btn btn-success btn-sm mr-1" onclick="window.adminExportExcel()"><i class="fas fa-file-excel"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="window.adminExportPdf()"><i class="fas fa-file-pdf"></i></button>
+                      </div>
+                    </div>
+                  </form>
+
+                  <div class="row mb-2">
+                    <div class="col-sm-6">
+                      <div class="dataTables_length">
+                        <label class="d-inline-flex align-items-center font-weight-normal small">
+                          Show&nbsp;
+                          <select class="custom-select custom-select-sm" style="width:auto;">
+                            <option value="25" selected>25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                          </select>&nbsp;entries
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                      <label class="d-inline-flex align-items-center font-weight-normal small">
+                        Search: <input type="search" placeholder="Search..." class="form-control form-control-sm ml-2" style="width: auto;">
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="table-responsive mb-0 report-table">
+                    <table class="table b-table table-striped table-bordered table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th style="width: 60px;">No</th>
+                          <th>User Name</th>
+                          <th class="text-right">Casino</th>
+                          <th class="text-right">Sport</th>
+                          <th class="text-right">Third Party</th>
+                          <th class="text-right">Profit / Loss</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${winLossList.map(r => `
+                          <tr>
+                            <td>${r.index}</td>
+                            <td><strong class="text-primary">${r.uname}</strong></td>
+                            <td class="text-right ${r.casino >= 0 ? 'text-success' : 'text-danger'}">${r.casino >= 0 ? '+' : ''}${self.formatCurrency(r.casino)}</td>
+                            <td class="text-right ${r.sports >= 0 ? 'text-success' : 'text-danger'}">${r.sports >= 0 ? '+' : ''}${self.formatCurrency(r.sports)}</td>
+                            <td class="text-right ${r.thirdparty >= 0 ? 'text-success' : 'text-danger'}">${r.thirdparty >= 0 ? '+' : ''}${self.formatCurrency(r.thirdparty)}</td>
+                            <td class="text-right font-weight-bold ${r.pl >= 0 ? 'text-success' : 'text-danger'}">${r.pl >= 0 ? '+' : ''}${self.formatCurrency(r.pl)}</td>
+                          </tr>
+                        `).join('')}
+                      </tbody>
+                      <tfoot>
+                        <tr class="bg-light font-weight-bold">
+                          <td colspan="2" class="text-right">Total Aggregate:</td>
+                          <td class="text-right ${totCasino >= 0 ? 'text-success' : 'text-danger'}">${totCasino >= 0 ? '+' : ''}${self.formatCurrency(totCasino)}</td>
+                          <td class="text-right ${totSports >= 0 ? 'text-success' : 'text-danger'}">${totSports >= 0 ? '+' : ''}${self.formatCurrency(totSports)}</td>
+                          <td class="text-right ${totTP >= 0 ? 'text-success' : 'text-danger'}">${totTP >= 0 ? '+' : ''}${self.formatCurrency(totTP)}</td>
+                          <td class="text-right ${totPL >= 0 ? 'text-success' : 'text-danger'}">${totPL >= 0 ? '+' : ''}${self.formatCurrency(totPL)}</td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    },
+
+    renderCreateAccount: function(container) {
+      const self = this;
+      const subAccounts = [
+        { guid: 'sub_1', uname: 'Faazan_Operator1', fullname: 'Operations Shift A', plist: 'dashboard,ma,ulist,reportcb', isact: true, created: '2026-09-01' },
+        { guid: 'sub_2', uname: 'Faazan_AuditOfficer', fullname: 'Compliance Desk', plist: 'dashboard,raccst,reportuh,reportpl,totpl', isact: true, created: '2026-09-10' }
+      ];
+
+      container.innerHTML = `
+        <div class="listing-grid">
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
+                <h4 class="mb-0 font-size-18 font-weight-bold">Multi Login Account</h4>
+                <div class="page-title-right">
+                  <ol class="breadcrumb m-0 font-size-12">
+                    <li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Home</a></li>
+                    <li class="breadcrumb-item active">Multi Login Account</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="card mb-4">
+                <div class="card-header bg-light">
+                  <h6 class="mb-0 font-weight-bold text-dark"><i class="fas fa-user-plus mr-1 text-primary"></i> Create New Multi Login Sub-Account</h6>
+                </div>
+                <div class="card-body">
+                  <form id="createSubAccountForm" onsubmit="event.preventDefault(); window.AdminApp.showToast('Sub-account created successfully with assigned permissions.', 'success'); document.getElementById('createSubAccountForm').reset();">
+                    <div class="row">
+                      <div class="col-md-3 mb-3">
+                        <label class="font-weight-bold small">User Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Enter username..." required id="subUname">
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label class="font-weight-bold small">Full Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Enter full name..." required id="subFullname">
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label class="font-weight-bold small">Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control form-control-sm" placeholder="Enter password..." required id="subPass">
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label class="font-weight-bold small">Confirm Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control form-control-sm" placeholder="Confirm password..." required id="subCpass">
+                      </div>
+                    </div>
+
+                    <div class="form-group mt-2">
+                      <label class="font-weight-bold small mb-2 d-block">Module Permissions Access:</label>
+                      <div class="row">
+                        <div class="col-md-3 col-sm-6 mb-2">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="perm_dash" checked>
+                            <label class="custom-control-label small" for="perm_dash">Dashboard Overview</label>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-2">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="perm_ma" checked>
+                            <label class="custom-control-label small" for="perm_ma">Market Analysis</label>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-2">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="perm_ulist" checked>
+                            <label class="custom-control-label small" for="perm_ulist">Client List & Downline</label>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-2">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="perm_reports" checked>
+                            <label class="custom-control-label small" for="perm_reports">Reports & Statements</label>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-2">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="perm_bank">
+                            <label class="custom-control-label small" for="perm_bank">Bank & Chip Transfer</label>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-2">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="perm_lock">
+                            <label class="custom-control-label small" for="perm_lock">General Lock Controls</label>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-2">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="perm_casino" checked>
+                            <label class="custom-control-label small" for="perm_casino">Live & Virtual Casino</label>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-2">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="perm_btn">
+                            <label class="custom-control-label small" for="perm_btn">Set Bet Buttons</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row align-items-center mt-3 pt-2 border-top">
+                      <div class="col-md-4 mb-2">
+                        <label class="font-weight-bold small">Master Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control form-control-sm" placeholder="Enter Master password..." required id="subMasterPass">
+                      </div>
+                      <div class="col-md-8 mb-2 text-right pt-3">
+                        <button type="submit" class="btn btn-primary btn-sm px-4" style="background-color: #0088cc; border-color: #0088cc;">Create Account</button>
+                        <button type="reset" class="btn btn-light btn-sm px-3 ml-2">Reset</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Existing Sub-accounts list -->
+              <div class="card">
+                <div class="card-header bg-light">
+                  <h6 class="mb-0 font-weight-bold text-dark"><i class="fas fa-users-cog mr-1 text-primary"></i> Configured Multi Login Accounts</h6>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive mb-0 report-table">
+                    <table class="table b-table table-striped table-bordered table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th>User Name</th>
+                          <th>Full Name</th>
+                          <th>Assigned Modules</th>
+                          <th>Created Date</th>
+                          <th>Status</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${subAccounts.map(a => `
+                          <tr>
+                            <td><strong class="text-primary">${a.uname}</strong></td>
+                            <td>${a.fullname}</td>
+                            <td><code>${a.plist}</code></td>
+                            <td class="small text-muted">${a.created}</td>
+                            <td><span class="badge ${a.isact ? 'badge-success' : 'badge-danger'}">${a.isact ? 'Active' : 'Locked'}</span></td>
+                            <td class="text-center">
+                              <button class="btn btn-sm btn-outline-info mr-1" onclick="window.AdminApp.showToast('Sub-account configuration opened.', 'info');"><i class="fas fa-edit mr-1"></i> Edit</button>
+                              <button class="btn btn-sm btn-outline-warning" onclick="window.AdminApp.showToast('Account access toggled.', 'warning');"><i class="fas fa-lock mr-1"></i> Lock</button>
+                            </td>
+                          </tr>
+                        `).join('')}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    },
+
+    renderCasinoLobby: function(container, mode, slug) {
+      const self = this;
+      const gameCatalog = [
+        { id: 'teen20', title: '20-20 Teenpatti', category: 'teenpatti', img: 'https://sitethemedata.com/casino_icons/twenty_twenty_teenpatti.jpg', min: 100, max: 200000, live: true },
+        { id: 'teen1day', title: '1 Day Teenpatti', category: 'teenpatti', img: 'https://sitethemedata.com/casino_icons/oneday_teenpatti.jpg', min: 100, max: 100000, live: true },
+        { id: 'roulette', title: 'European Roulette', category: 'roulette', img: 'https://sitethemedata.com/casino_icons/roulette.jpg', min: 50, max: 50000, live: true },
+        { id: 'dt6', title: '1 Day Dragon Tiger', category: 'dragontiger', img: 'https://sitethemedata.com/casino_icons/oneday_dragontiger.jpg', min: 100, max: 150000, live: true },
+        { id: 'lucky7', title: 'Lucky 7 European', category: 'lucky7', img: 'https://sitethemedata.com/casino_icons/lucky7.jpg', min: 100, max: 100000, live: true },
+        { id: 'baccarat', title: 'Live Speed Baccarat', category: 'baccarat', img: 'https://sitethemedata.com/casino_icons/baccarat.jpg', min: 200, max: 300000, live: true },
+        { id: 'andarbahar', title: 'Andar Bahar Live', category: 'andarbahar', img: 'https://sitethemedata.com/casino_icons/andar_bahar.jpg', min: 100, max: 100000, live: true },
+        { id: 'cards32', title: '32 Cards Casino', category: 'cards', img: 'https://sitethemedata.com/casino_icons/32cards.jpg', min: 100, max: 150000, live: true },
+        { id: 'race20', title: 'Race 20-20', category: 'cards', img: 'https://sitethemedata.com/casino_icons/race20.jpg', min: 100, max: 100000, live: true },
+        { id: 'queen', title: 'Queen Casino', category: 'cards', img: 'https://sitethemedata.com/casino_icons/queen.jpg', min: 100, max: 100000, live: true },
+        { id: 'aaa', title: 'Amar Akbar Anthony', category: 'virtual', img: 'https://sitethemedata.com/casino_icons/aaa.jpg', min: 50, max: 100000, live: true },
+        { id: 'trio', title: 'Trio Virtual Table', category: 'virtual', img: 'https://sitethemedata.com/casino_icons/trio.jpg', min: 100, max: 50000, live: true }
+      ];
+
+      const currentTitle = slug ? slug.replace(/-/g, ' ').toUpperCase() : (mode === 'live' ? 'LIVE CASINO' : 'VIRTUAL CASINO');
+
+      container.innerHTML = `
+        <div class="listing-grid">
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
+                <h4 class="mb-0 font-size-18 font-weight-bold">${currentTitle}</h4>
+                <div class="page-title-right">
+                  <ol class="breadcrumb m-0 font-size-12">
+                    <li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Home</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">${mode === 'live' ? 'Live Market' : 'Virtual Market'}</a></li>
+                    <li class="breadcrumb-item active">${currentTitle}</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-12">
+              <div class="card p-2 bg-light border-0">
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                  <div class="btn-group btn-group-sm mb-1" role="group">
+                    <button type="button" class="btn btn-primary" style="background-color: #0088cc; border-color: #0088cc;">All Tables</button>
+                    <button type="button" class="btn btn-outline-dark">Teenpatti</button>
+                    <button type="button" class="btn btn-outline-dark">Roulette</button>
+                    <button type="button" class="btn btn-outline-dark">Dragon Tiger</button>
+                    <button type="button" class="btn btn-outline-dark">Baccarat</button>
+                    <button type="button" class="btn btn-outline-dark">Lucky 7</button>
+                  </div>
+                  <span class="badge badge-success px-3 py-2 font-size-12 mb-1"><i class="fas fa-signal mr-1"></i> Live Stream Connected (Ultra-Low Latency)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Casino Tables Grid -->
+          <div class="row">
+            ${gameCatalog.map(g => `
+              <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm border" style="border-radius: 6px; overflow: hidden;">
+                  <div style="position: relative; height: 160px; background: #111; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                    <img src="${g.img}" onerror="this.src='/admin/images/logo.png'" alt="${g.title}" style="width:100%; height:100%; object-fit: cover;">
+                    <span class="badge badge-danger" style="position: absolute; top: 10px; right: 10px; font-size: 11px; padding: 4px 8px;">
+                      <i class="fas fa-circle font-size-8 mr-1 text-white"></i> LIVE
+                    </span>
+                  </div>
+                  <div class="card-body p-3 d-flex flex-column justify-content-between">
+                    <div>
+                      <h5 class="card-title font-size-15 font-weight-bold mb-1 text-dark">${g.title}</h5>
+                      <div class="small text-muted mb-2">Min: ${self.formatCurrency(g.min)} | Max: ${self.formatCurrency(g.max)}</div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                      <span class="small font-weight-bold text-success">● Open for Betting</span>
+                      <button class="btn btn-sm btn-primary px-3 font-weight-bold" style="background-color: #0088cc; border-color: #0088cc;" onclick="window.openCasinoTableViewer('${g.id}', '${g.title}')">
+                        <i class="fas fa-play mr-1"></i> Open Table
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    },
+
+    renderGameDetailView: function(container, path) {
+      const self = this;
+      const matches = window.AdminDataStore.getLiveMatches();
+      const match = matches[0] || { event: 'South Africa v Pakistan', sport: 'Cricket', runners: ['South Africa', 'Pakistan'] };
+
+      container.innerHTML = `
+        <div class="listing-grid">
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
+                <h4 class="mb-0 font-size-18 font-weight-bold">${match.event}</h4>
+                <div class="page-title-right">
+                  <ol class="breadcrumb m-0 font-size-12">
+                    <li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/admin/market-analysis" class="nav-route-link">Market Analysis</a></li>
+                    <li class="breadcrumb-item active">${match.event}</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-8 mb-4">
+              <div class="card shadow-sm mb-3">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-2" style="background-color: #0088cc !important;">
+                  <h6 class="mb-0 font-weight-bold"><i class="fas fa-chart-bar mr-2"></i> Match Odds - Live Exchange</h6>
+                  <span class="badge badge-light text-primary font-weight-bold">Active In-Play</span>
+                </div>
+                <div class="card-body p-0">
+                  <div class="table-responsive">
+                    <table class="table table-bordered mb-0">
+                      <thead class="bg-light text-center">
+                        <tr>
+                          <th class="text-left">Runner / Selection</th>
+                          <th style="width: 120px; background-color: #72bbef; color: #111;">Back</th>
+                          <th style="width: 120px; background-color: #faa9ba; color: #111;">Lay</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${(match.runners || ['South Africa', 'Pakistan']).map((r, i) => `
+                          <tr>
+                            <td>
+                              <div class="font-weight-bold">${r}</div>
+                              <small class="text-muted">Book: <span class="${i === 0 ? 'text-success' : 'text-danger'} font-weight-bold">${i === 0 ? '+12,500' : '-8,200'}</span></small>
+                            </td>
+                            <td class="text-center cp" style="background-color: #edf7ff;" onclick="window.AdminApp.showToast('Back betslip opened for ${r}', 'info')">
+                              <span class="odds-box-back d-block">${(1.85 + i * 0.25).toFixed(2)}</span>
+                              <small class="text-muted">150k</small>
+                            </td>
+                            <td class="text-center cp" style="background-color: #fff0f3;" onclick="window.AdminApp.showToast('Lay betslip opened for ${r}', 'info')">
+                              <span class="odds-box-lay d-block">${(1.88 + i * 0.25).toFixed(2)}</span>
+                              <small class="text-muted">85k</small>
+                            </td>
+                          </tr>
+                        `).join('')}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 mb-4">
+              <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white py-2">
+                  <h6 class="mb-0 font-weight-bold"><i class="fas fa-list-ol mr-2"></i> Live Matched Bets</h6>
+                </div>
+                <div class="card-body p-0">
+                  <div class="table-responsive">
+                    <table class="table table-sm table-striped mb-0">
+                      <thead>
+                        <tr>
+                          <th>User</th>
+                          <th>Type</th>
+                          <th class="text-right">Odds</th>
+                          <th class="text-right">Stake</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr><td>Client_001</td><td><span class="badge badge-primary">Back</span></td><td class="text-right font-weight-bold">1.85</td><td class="text-right">5,000</td></tr>
+                        <tr><td>Client_002</td><td><span class="badge badge-danger">Lay</span></td><td class="text-right font-weight-bold">2.10</td><td class="text-right">2,500</td></tr>
+                        <tr><td>Client_Direct</td><td><span class="badge badge-primary">Back</span></td><td class="text-right font-weight-bold">1.86</td><td class="text-right">10,000</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    },
+
+renderGenericReport: function(container, title, desc) {
       container.innerHTML = `
         <div class="row">
           <div class="col-12">
@@ -2330,42 +3511,6 @@
           <div class="card-body">
             <div class="alert alert-light border">
               <i class="fas fa-info-circle mr-2 text-info"></i> Displaying consolidated records up to <strong>${new Date().toISOString().slice(0,10)}</strong>.
-            </div>
-            <div class="table-responsive">
-              <table class="table table-striped table-bordered mb-0">
-                <thead class="bg-light">
-                  <tr>
-                    <th>#</th>
-                    <th>Report Entry</th>
-                    <th>Reference</th>
-                    <th>Timestamp</th>
-                    <th class="text-right">Value / Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Weekly Turnover Summary</td>
-                    <td>REF-SPORT-2026</td>
-                    <td>2026-09-17 00:00:00</td>
-                    <td class="text-right font-weight-bold text-success">${this.formatCurrency(4315000)}</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Casino Volume Reconciliation</td>
-                    <td>REF-CASINO-2026</td>
-                    <td>2026-09-16 23:59:59</td>
-                    <td class="text-right font-weight-bold text-primary">${this.formatCurrency(2180000)}</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Agent Margin Settle Audit</td>
-                    <td>SETTLE-AUDIT-99</td>
-                    <td>2026-09-16 22:40:00</td>
-                    <td class="text-right"><span class="badge badge-success">CLEARED</span></td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
         </div>
