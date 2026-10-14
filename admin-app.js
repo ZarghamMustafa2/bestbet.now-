@@ -82,6 +82,9 @@
         if (data && typeof data === 'string') {
           const uField = document.getElementById('input-1');
           if (uField) uField.value = data;
+        } else if (!data) {
+          const uField = document.getElementById('input-1');
+          if (uField) uField.value = '';
         }
         const pField = document.getElementById('input-2');
         if (pField) pField.value = '';
