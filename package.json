@@ -1,5 +1,8 @@
 {
   "name": "bestbet-now",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "crypto-js": "^4.2.0"
+  }
 }

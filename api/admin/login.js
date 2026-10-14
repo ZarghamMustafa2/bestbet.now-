@@ -52,15 +52,73 @@ function generateToken(user) {
   return `${str}.${sig}`;
 }
 
+function evpBytesToKey(passphrase, salt, keyLen, ivLen) {
+  let d = Buffer.alloc(0);
+  let d_i = Buffer.alloc(0);
+  while (d.length < keyLen + ivLen) {
+    const hash = crypto.createHash('md5');
+    hash.update(d_i);
+    hash.update(passphrase);
+    hash.update(salt);
+    d_i = hash.digest();
+    d = Buffer.concat([d, d_i]);
+  }
+  return {
+    key: d.slice(0, keyLen),
+    iv: d.slice(keyLen, keyLen + ivLen)
+  };
+}
+
+function nativeDecrypt(cipherBase64, passphrase) {
+  try {
+    const buf = Buffer.from(cipherBase64, 'base64');
+    if (buf.length < 16 || buf.slice(0, 8).toString('utf8') !== 'Salted__') return null;
+    const salt = buf.slice(8, 16);
+    const data = buf.slice(16);
+    const { key, iv } = evpBytesToKey(Buffer.from(passphrase, 'utf8'), salt, 32, 16);
+    const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+    let dec = decipher.update(data);
+    dec = Buffer.concat([dec, decipher.final()]);
+    return JSON.parse(dec.toString('utf8'));
+  } catch (e) {
+    return null;
+  }
+}
+
+function nativeEncrypt(obj, passphrase) {
+  try {
+    const plainText = typeof obj === 'string' ? obj : JSON.stringify(obj);
+    const salt = crypto.randomBytes(8);
+    const { key, iv } = evpBytesToKey(Buffer.from(passphrase, 'utf8'), salt, 32, 16);
+    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+    let enc = cipher.update(Buffer.from(plainText, 'utf8'));
+    enc = Buffer.concat([enc, cipher.final()]);
+    return Buffer.concat([Buffer.from('Salted__', 'utf8'), salt, enc]).toString('base64');
+  } catch (e) {
+    return null;
+  }
+}
+
+function decryptCipher(cipherText) {
+  if (!cipherText || typeof cipherText !== 'string') return null;
+  if (CryptoJS) {
+    try {
+      const bytes = CryptoJS.AES.decrypt(cipherText, ENC_KEY);
+      const dec = bytes.toString(CryptoJS.enc.Utf8);
+      if (dec) return JSON.parse(dec);
+    } catch (e) {}
+  }
+  return nativeDecrypt(cipherText, ENC_KEY);
+}
+
 function decryptPayload(dataStr) {
   if (!dataStr) return null;
   // If JSON object already parsed
   if (typeof dataStr === 'object') {
     if (dataStr.username) return dataStr;
-    if (dataStr.data && CryptoJS) {
-      const bytes = CryptoJS.AES.decrypt(dataStr.data, ENC_KEY);
-      const dec = bytes.toString(CryptoJS.enc.Utf8);
-      return JSON.parse(dec);
+    if (dataStr.data) {
+      const res = decryptCipher(dataStr.data);
+      if (res) return res;
     }
   }
 
@@ -68,29 +126,31 @@ function decryptPayload(dataStr) {
   try {
     const obj = JSON.parse(dataStr);
     if (obj.username) return obj;
-    if (obj.data && CryptoJS) {
-      const bytes = CryptoJS.AES.decrypt(obj.data, ENC_KEY);
-      const dec = bytes.toString(CryptoJS.enc.Utf8);
-      return JSON.parse(dec);
+    if (obj.data) {
+      const res = decryptCipher(obj.data);
+      if (res) return res;
     }
   } catch (e) {}
 
-  if (CryptoJS) {
-    try {
-      const bytes = CryptoJS.AES.decrypt(dataStr, ENC_KEY);
-      const dec = bytes.toString(CryptoJS.enc.Utf8);
-      return JSON.parse(dec);
-    } catch (e) {}
+  if (typeof dataStr === 'string') {
+    const res = decryptCipher(dataStr);
+    if (res) return res;
   }
+
   return null;
 }
 
 function encryptResponse(obj) {
+  let cipher = null;
   if (CryptoJS) {
-    const cipher = CryptoJS.AES.encrypt(JSON.stringify(obj), ENC_KEY).toString();
-    return { data: cipher, ...obj };
+    try {
+      cipher = CryptoJS.AES.encrypt(JSON.stringify(obj), ENC_KEY).toString();
+    } catch (e) {}
   }
-  return obj;
+  if (!cipher) {
+    cipher = nativeEncrypt(obj, ENC_KEY);
+  }
+  return cipher ? { data: cipher, ...obj } : obj;
 }
 
 module.exports = async function handler(req, res) {
