@@ -41,7 +41,12 @@
       }
 
       if (this.adminUser && this.adminUser.uname) {
-        this.showDashboard();
+        if (this.adminUser.login === false) {
+          this.showLogin();
+          this.showLoginStep('changePassword', this.adminUser.uname);
+        } else {
+          this.showDashboard();
+        }
       } else {
         this.showLogin();
       }
@@ -78,17 +83,37 @@
           const uField = document.getElementById('input-1');
           if (uField) uField.value = data;
         }
+        const pField = document.getElementById('input-2');
+        if (pField) pField.value = '';
+        const uErr = document.getElementById('usernameError');
+        const pErr = document.getElementById('passwordError');
+        if (uErr) uErr.style.display = 'none';
+        if (pErr) pErr.style.display = 'none';
       } else if (step === 'changePassword') {
         if (stepChangePass) stepChangePass.style.display = 'block';
         const cpUser = document.getElementById('cp-input-username');
-        if (cpUser) {
-          const uField = document.getElementById('input-1');
-          cpUser.value = (typeof data === 'string' && data) ? data : (uField && uField.value ? uField.value : 'Faazan50');
-        }
         const cpOld = document.getElementById('cp-input-old');
         const cpNew = document.getElementById('cp-input-new');
         const cpConfirm = document.getElementById('cp-input-confirm');
-        if (cpOld) cpOld.value = '';
+
+        let uName = 'Faazan50';
+        let oldPass = '';
+        if (typeof data === 'string' && data) {
+          uName = data;
+        } else if (data && typeof data === 'object') {
+          uName = data.username || data.uname || 'Faazan50';
+          oldPass = data.password || data.oldPassword || '';
+        } else {
+          const uField = document.getElementById('input-1');
+          if (uField && uField.value) uName = uField.value;
+        }
+
+        if (!oldPass) {
+          oldPass = this.pendingFirstTimePassword || sessionStorage.getItem('pending_first_time_password') || '';
+        }
+
+        if (cpUser) cpUser.value = uName;
+        if (cpOld) cpOld.value = oldPass;
         if (cpNew) cpNew.value = '';
         if (cpConfirm) cpConfirm.value = '';
       } else if (step === 'success') {
@@ -240,8 +265,12 @@
               const adminData = res.data;
               if (adminData.login === false) {
                 // First-time login / password change required
+                self.pendingFirstTimeUser = uVal;
+                self.pendingFirstTimePassword = pVal;
+                sessionStorage.setItem('pending_first_time_user', uVal);
+                sessionStorage.setItem('pending_first_time_password', pVal);
                 self.showToast('Welcome, You are logged in first time. Please change your password to continue.', 'success');
-                self.showLoginStep('changePassword', uVal);
+                self.showLoginStep('changePassword', { username: uVal, password: pVal });
                 return;
               }
 
@@ -303,7 +332,11 @@
           const submitBtn = document.getElementById('cpSubmitBtn');
 
           const uVal = (uField?.value || '').trim();
-          const oVal = (oField?.value || '').trim();
+          let oVal = (oField?.value || '').trim();
+          if (!oVal) {
+            oVal = (self.pendingFirstTimePassword || sessionStorage.getItem('pending_first_time_password') || '').trim();
+            if (oField && oVal) oField.value = oVal;
+          }
           const nVal = (nField?.value || '').trim();
           const cVal = (cField?.value || '').trim();
 
@@ -318,7 +351,8 @@
 
           let hasError = false;
           if (!uVal) { if (uErr) uErr.style.display = 'block'; hasError = true; }
-          if (!oVal) { if (oErr) oErr.style.display = 'block'; hasError = true; }
+          const isPendingFirst = !!(self.pendingFirstTimeUser || sessionStorage.getItem('pending_first_time_user'));
+          if (!oVal && !isPendingFirst) { if (oErr) oErr.style.display = 'block'; hasError = true; }
           if (!nVal || nVal.length < 8) { if (nErr) nErr.style.display = 'block'; hasError = true; }
           if (nVal !== cVal) { if (cErr) cErr.style.display = 'block'; hasError = true; }
           if (hasError) return;
@@ -330,7 +364,18 @@
 
           try {
             const ENC_KEY = 'cae7b808-8b1e-4f47-87a5-1a4b6a08030e';
-            const payloadObj = { uname: uVal, password: oVal, newPassword: nVal, newPasswordConfirm: cVal };
+            const authUsers = (window.AdminDataStore && typeof window.AdminDataStore.getAuthUsers === 'function')
+              ? window.AdminDataStore.getAuthUsers()
+              : ((window.AdminDataStore && typeof window.AdminDataStore.getUsers === 'function')
+                ? window.AdminDataStore.getUsers()
+                : []);
+            const payloadObj = {
+              uname: uVal,
+              password: oVal,
+              newPassword: nVal,
+              newPasswordConfirm: cVal,
+              clientAccounts: authUsers
+            };
             let reqBody;
             if (window.CryptoJS) {
               const cipher = CryptoJS.AES.encrypt(JSON.stringify(payloadObj), ENC_KEY).toString();
@@ -356,6 +401,11 @@
 
             if (response.ok && res.status === 200 && res.data) {
               const tranToken = res.data.tran || '130367';
+              if (window.AdminDataStore && typeof window.AdminDataStore.updateUserPassword === 'function') {
+                window.AdminDataStore.updateUserPassword(uVal, nVal, tranToken);
+              }
+              self.pendingFirstTimeUser = null;
+              sessionStorage.removeItem('pending_first_time_user');
               self.showToast(res.data.msg || 'Password updated successfully.', 'success');
               self.showLoginStep('success', tranToken);
             } else {
@@ -378,6 +428,8 @@
       if (cpBackBtn) {
         cpBackBtn.addEventListener('click', function(e) {
           e.preventDefault();
+          self.pendingFirstTimeUser = null;
+          sessionStorage.removeItem('pending_first_time_user');
           const cpUser = (document.getElementById('cp-input-username')?.value || '').trim();
           self.showLoginStep('signIn', cpUser);
         });
@@ -388,6 +440,8 @@
       if (btnBackFromSuccess) {
         btnBackFromSuccess.addEventListener('click', function(e) {
           e.preventDefault();
+          self.pendingFirstTimeUser = null;
+          sessionStorage.removeItem('pending_first_time_user');
           const cpUser = (document.getElementById('cp-input-username')?.value || 'Faazan50').trim();
           self.showLoginStep('signIn', cpUser);
           self.showToast('Password updated! Please sign in with your new password.', 'info');
@@ -744,7 +798,17 @@
           sessionStorage.setItem('admin_redirect', window.location.pathname);
           window.history.replaceState(null, '', '/admin');
         }
-        this.showLoginStep('signIn');
+        const pendingUser = this.pendingFirstTimeUser || sessionStorage.getItem('pending_first_time_user');
+        if (pendingUser) {
+          this.showLogin();
+          this.showLoginStep('changePassword', pendingUser);
+        } else {
+          this.showLoginStep('signIn');
+        }
+        return;
+      } else if (this.adminUser.login === false) {
+        this.showLogin();
+        this.showLoginStep('changePassword', this.adminUser.uname);
         return;
       } else {
         this.showDashboard();
@@ -1423,7 +1487,10 @@
               comm: comm,
               passHash: createdUser.passHash || '',
               password: password,
-              upline: (self.adminUser && self.adminUser.uname) || 'Newadmin98'
+              upline: (self.adminUser && self.adminUser.uname) || 'Newadmin98',
+              login: false,
+              firstLogin: true,
+              tranCode: createdUser.tranCode || '130367'
             });
           }
 

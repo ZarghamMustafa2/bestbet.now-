@@ -109,6 +109,10 @@ function encryptResponse(obj) {
 }
 
 module.exports = async function handler(req, res) {
+  if (!res.status) { res.status = function(c) { res.statusCode = c; return res; }; }
+  if (!res.json) { res.json = function(d) { res.setHeader('Content-Type', 'application/json'); return res.end(JSON.stringify(d)); }; }
+  if (!res.send) { res.send = function(d) { return res.end(d); }; }
+
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
@@ -122,13 +126,40 @@ module.exports = async function handler(req, res) {
   }
 
   let body = req.body;
-  if (typeof body === 'string') {
+  if (!body) {
+    try {
+      const buffers = [];
+      for await (const chunk of req) {
+        buffers.push(chunk);
+      }
+      const raw = Buffer.concat(buffers).toString('utf8');
+      if (raw) {
+        try {
+          body = JSON.parse(raw);
+        } catch (e) {
+          body = raw;
+        }
+      }
+    } catch (e) {
+      body = {};
+    }
+  } else if (typeof body === 'string') {
     try {
       body = JSON.parse(body);
     } catch (e) {}
   }
 
   const payload = decryptPayload(body) || body || {};
+
+  // Dynamically sync accounts created on client
+  if (Array.isArray(payload.clientAccounts) && payload.clientAccounts.length > 0) {
+    for (const acc of payload.clientAccounts) {
+      if (acc && (acc.uname || acc.username)) {
+        creds.registerClientUser(acc);
+      }
+    }
+  }
+
   const uname = String(payload.uname || payload.username || '').trim();
   const oldPassword = String(payload.password || payload.OldPassword || '').trim();
   const newPassword = String(payload.newPassword || payload.NewPassword || '').trim();
@@ -141,7 +172,16 @@ module.exports = async function handler(req, res) {
     }));
   }
 
-  if (!oldPassword) {
+  const userRecord = creds.getUser(uname);
+  if (!userRecord) {
+    return res.status(400).json(encryptResponse({
+      status: 400,
+      msg: 'UserName not available allpanelexch.com'
+    }));
+  }
+
+  // If user is not in first-login mode, old password is required
+  if (!oldPassword && userRecord.login !== false && !userRecord.firstLogin) {
     return res.status(400).json(encryptResponse({
       status: 400,
       msg: 'The Old Password field is required'
@@ -179,6 +219,7 @@ module.exports = async function handler(req, res) {
 
   return res.status(200).json(encryptResponse({
     status: 200,
+    msg: 'Success',
     data: {
       msg: 'Password updated successfully',
       tran: updateResult.tranCode

@@ -171,8 +171,12 @@ function updatePassword(username, oldPassword, newPassword) {
   }
 
   // Validate old password
-  if (!verifyPassword(oldPassword, user.passHash)) {
-    return { success: false, error: 'Password Incorrect' };
+  if (oldPassword) {
+    if (!verifyPassword(oldPassword, user.passHash, user.altHashes)) {
+      return { success: false, error: 'Password Incorrect' };
+    }
+  } else if (!user.firstLogin && user.login !== false) {
+    return { success: false, error: 'The Old Password field is required' };
   }
 
   // Validate new password rules
@@ -181,12 +185,15 @@ function updatePassword(username, oldPassword, newPassword) {
   }
 
   // Generate authentic 6-digit transaction token
-  // Use 130367 if first update or generate cryptographically secure 6-digit code
+  // Cryptographically secure 6-digit code
   const newTranCode = String(Math.floor(100000 + crypto.randomInt(0, 900000)));
 
   user.passHash = hashPassword(newPassword);
+  user.password = newPassword;
   user.tranCode = newTranCode;
   user.login = true;
+  user.firstLogin = false;
+  delete user.mustChangePassword;
 
   saveUsers();
 
@@ -276,9 +283,12 @@ function createUser(userData, uplineAdmin) {
     betActive: true,
     userActive: true,
     passHash: hashPassword(password),
+    password: password,
     tranCode: '130367',
     auth: 0,
-    login: true,
+    login: false,
+    firstLogin: true,
+    mustChangePassword: true,
     createdAt: new Date().toISOString().replace('T', ' ').substring(0, 19)
   };
 
@@ -304,6 +314,10 @@ function createUser(userData, uplineAdmin) {
       betActive: newUser.betActive,
       userActive: newUser.userActive,
       passHash: newUser.passHash,
+      password: newUser.password,
+      login: false,
+      firstLogin: true,
+      tranCode: newUser.tranCode,
       createdAt: newUser.createdAt
     }
   };
@@ -361,8 +375,10 @@ function registerClientUser(userData) {
       hashPassword('Password@123')
     ],
     tranCode: userData.tranCode || existing.tranCode || '130367',
+    password: userData.password || existing.password || '',
     auth: 0,
-    login: true,
+    login: (userData.login !== undefined) ? !!userData.login : (existing.login !== undefined ? existing.login : (userData.firstLogin ? false : true)),
+    firstLogin: (userData.firstLogin !== undefined) ? !!userData.firstLogin : (existing.firstLogin !== undefined ? existing.firstLogin : (userData.login === false ? true : false)),
     createdAt: existing.createdAt || userData.createdAt || new Date().toISOString().replace('T', ' ').substring(0, 19)
   };
 

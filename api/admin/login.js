@@ -222,7 +222,8 @@ module.exports = async function handler(req, res) {
     gen: userRecord.gen != null ? userRecord.gen : (userRecord.creditRef || 500000),
     exp: userRecord.exp != null ? userRecord.exp : 0,
     cbal: userRecord.cbal != null ? userRecord.cbal : (userRecord.balance || 1000000),
-    login: true,
+    login: userRecord.login === false ? false : true,
+    firstLogin: !!userRecord.firstLogin,
     auth: userRecord.auth || 0,
     ipop: false,
     token: token

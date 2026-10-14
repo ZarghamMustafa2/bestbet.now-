@@ -334,7 +334,10 @@
           pcode: u.pcode,
           passHash: u.passHash,
           password: u.password,
-          status: u.status
+          status: u.status,
+          login: u.login !== undefined ? u.login : false,
+          firstLogin: u.firstLogin !== undefined ? u.firstLogin : true,
+          tranCode: u.tranCode || '130367'
         });
       }
       return list;
@@ -353,6 +356,28 @@
 
     getDownline(uplineUname) {
       return this.state.users.filter(u => u.upline.toLowerCase() === uplineUname.toLowerCase());
+    }
+
+    updateUserPassword(uname, newPassword, newTranCode) {
+      if (!uname) return false;
+      const key = String(uname).trim().toLowerCase();
+      const u = (this.state.users || []).find(x => (x.uname || '').toLowerCase() === key);
+      if (u) {
+        u.password = newPassword;
+        u.login = true;
+        u.firstLogin = false;
+        if (newTranCode) u.tranCode = newTranCode;
+        this.saveState();
+        return true;
+      }
+      if (this.state.currentAdmin && (this.state.currentAdmin.uname || '').toLowerCase() === key) {
+        this.state.currentAdmin.login = true;
+        this.state.currentAdmin.firstLogin = false;
+        if (newTranCode) this.state.currentAdmin.tranCode = newTranCode;
+        this.saveState();
+        return true;
+      }
+      return false;
     }
 
     insertUser(userData) {
@@ -387,6 +412,9 @@
         userActive: true,
         passHash: userData.passHash || '',
         password: userData.password || '',
+        login: userData.login !== undefined ? userData.login : false,
+        firstLogin: userData.firstLogin !== undefined ? userData.firstLogin : true,
+        tranCode: userData.tranCode || '130367',
         createdAt: new Date().toISOString().replace('T', ' ').substring(0, 19)
       };
 
