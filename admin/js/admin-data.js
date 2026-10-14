@@ -364,6 +364,7 @@
       const u = (this.state.users || []).find(x => (x.uname || '').toLowerCase() === key);
       if (u) {
         u.password = newPassword;
+        u.passHash = '';
         u.login = true;
         u.firstLogin = false;
         if (newTranCode) u.tranCode = newTranCode;
@@ -371,6 +372,8 @@
         return true;
       }
       if (this.state.currentAdmin && (this.state.currentAdmin.uname || '').toLowerCase() === key) {
+        this.state.currentAdmin.password = newPassword;
+        this.state.currentAdmin.passHash = '';
         this.state.currentAdmin.login = true;
         this.state.currentAdmin.firstLogin = false;
         if (newTranCode) this.state.currentAdmin.tranCode = newTranCode;

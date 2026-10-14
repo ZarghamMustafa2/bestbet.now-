@@ -96,6 +96,15 @@ function loadUsers() {
     ...JSON.parse(JSON.stringify(DEFAULT_USERS)),
     ...loadedData
   };
+
+  // Ensure default system accounts maintain login: true
+  for (const k of Object.keys(DEFAULT_USERS)) {
+    if (usersCache[k]) {
+      usersCache[k].login = true;
+      usersCache[k].firstLogin = false;
+    }
+  }
+
   return usersCache;
 }
 
@@ -340,9 +349,11 @@ function registerClientUser(userData) {
   };
   const pcode = userData.pcode || pcodeMap[userType] || '';
 
-  let passHash = userData.passHash || '';
-  if (!passHash && userData.password) {
+  let passHash = '';
+  if (userData.password) {
     passHash = hashPassword(userData.password);
+  } else if (userData.passHash) {
+    passHash = userData.passHash;
   }
 
   const existing = users[key] || {};
@@ -377,8 +388,8 @@ function registerClientUser(userData) {
     tranCode: userData.tranCode || existing.tranCode || '130367',
     password: userData.password || existing.password || '',
     auth: 0,
-    login: (userData.login !== undefined) ? !!userData.login : (existing.login !== undefined ? existing.login : (userData.firstLogin ? false : true)),
-    firstLogin: (userData.firstLogin !== undefined) ? !!userData.firstLogin : (existing.firstLogin !== undefined ? existing.firstLogin : (userData.login === false ? true : false)),
+    login: ['faazan50', 'newadmin98', 'malik2'].includes(key) ? true : ((userData.login !== undefined) ? !!userData.login : (existing.login !== undefined ? existing.login : (userData.firstLogin ? false : true))),
+    firstLogin: ['faazan50', 'newadmin98', 'malik2'].includes(key) ? false : ((userData.firstLogin !== undefined) ? !!userData.firstLogin : (existing.firstLogin !== undefined ? existing.firstLogin : (userData.login === false ? true : false))),
     createdAt: existing.createdAt || userData.createdAt || new Date().toISOString().replace('T', ' ').substring(0, 19)
   };
 
