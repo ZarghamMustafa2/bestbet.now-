@@ -19,6 +19,10 @@
   <link rel="stylesheet" href="/admin/css/custom.css">
   <link rel="stylesheet" href="/admin/css/responsive.css">
 
+  <!-- SweetAlert2 & CryptoJS for Reference-Matching Auth & Notifications -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
   <style>
     :root {
       --bg-primary: #0088cc;
@@ -107,6 +111,52 @@
     .btn-login:hover {
       background-color: #0077b3 !important;
       color: #fff !important;
+    }
+    /* VeeValidate-style form validation error matching Reference */
+    .error {
+      color: #dc3545;
+      font-size: 13px;
+      margin-top: 4px;
+      display: block;
+      font-weight: 400;
+      text-align: left;
+    }
+    /* SweetAlert2 Toast customization to match Reference exact dark style */
+    .swal2-container.swal2-top-end {
+      top: 15px !important;
+      right: 15px !important;
+      z-index: 999999 !important;
+    }
+    .swal2-popup.swal2-toast {
+      background-color: #2b2b2b !important;
+      color: #ffffff !important;
+      font-size: 14px !important;
+      border-radius: 4px !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+      padding: 10px 16px !important;
+      max-width: 380px !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    .swal2-popup.swal2-toast .swal2-title {
+      color: #ffffff !important;
+      font-size: 14px !important;
+      font-weight: 400 !important;
+      margin: 0 !important;
+      line-height: 1.4 !important;
+    }
+    .swal2-popup.swal2-toast .swal2-icon {
+      margin: 0 10px 0 0 !important;
+      width: 24px !important;
+      height: 24px !important;
+      border-width: 2px !important;
+    }
+    .swal2-popup.swal2-toast .swal2-icon.swal2-error {
+      border-color: #dc3545 !important;
+      color: #dc3545 !important;
+    }
+    .swal2-popup.swal2-toast .swal2-icon.swal2-success {
+      border-color: #28a745 !important;
+      color: #28a745 !important;
     }
 
     /* Modal Backdrop & Z-Index */
@@ -705,20 +755,20 @@
       <div class="log-fld">
         <h2 class="text-center">Sign In</h2>
 
-        <div id="loginErrorAlert" class="alert alert-danger" style="display:none;" role="alert"></div>
-
         <form id="adminLoginForm" autocomplete="off" class="form-horizontal" action="javascript:void(0);" onsubmit="event.preventDefault(); return false;">
           <div id="input-group-1" role="group" class="form-group mb-3 text-left">
             <div>
-              <input id="input-1" name="username" type="text" class="form-control" placeholder="Username" required autofocus>
+              <input id="input-1" name="username" type="text" class="form-control" placeholder="Username" autofocus>
+              <span id="usernameError" class="error text-danger" style="display:none;">The username field is required</span>
             </div>
           </div>
           <div id="input-group-2" role="group" class="form-group mb-4 text-left">
             <div>
-              <input id="input-2" name="password" type="password" class="form-control" placeholder="password" required>
+              <input id="input-2" name="password" type="password" class="form-control" placeholder="password">
+              <span id="passwordError" class="error text-danger" style="display:none;">The password field is required</span>
             </div>
           </div>
-          <button type="submit" class="btn btn-submit btn-login btn-secondary">
+          <button id="loginSubmitBtn" type="submit" class="btn btn-submit btn-login btn-secondary">
             Login <i class="fas fa-sign-in-alt ml-1"></i>
           </button>
         </form>

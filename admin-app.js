@@ -21,6 +21,20 @@
       if (stored) {
         try {
           this.adminUser = JSON.parse(stored);
+          const token = localStorage.getItem('admin_token');
+          if (token && token.includes('.')) {
+            const parts = token.split('.');
+            try {
+              const payload = JSON.parse(atob(parts[0]));
+              if (payload.exp && payload.exp < Date.now()) {
+                console.warn('Admin session expired');
+                this.adminUser = null;
+                localStorage.removeItem('admin_user');
+                localStorage.removeItem('admin_token');
+                localStorage.removeItem('vuejs__admin_user');
+              }
+            } catch (err) {}
+          }
         } catch (e) {
           this.adminUser = null;
         }
@@ -76,50 +90,106 @@
     bindGlobalEvents: function() {
       const self = this;
 
+      // Real-time error dismissal on input
+      const uInput = document.getElementById('input-1') || document.getElementById('inputUsername');
+      const pInput = document.getElementById('input-2') || document.getElementById('inputPassword');
+      if (uInput) {
+        uInput.addEventListener('input', function() {
+          const err = document.getElementById('usernameError');
+          if (err) err.style.display = 'none';
+        });
+      }
+      if (pInput) {
+        pInput.addEventListener('input', function() {
+          const err = document.getElementById('passwordError');
+          if (err) err.style.display = 'none';
+        });
+      }
+
       // 1. Login Form Submission
       const loginForm = document.getElementById('adminLoginForm');
       if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
+        loginForm.addEventListener('submit', async function(e) {
           e.preventDefault();
-          const uInput = document.getElementById('input-1') || document.getElementById('inputUsername');
-          const pInput = document.getElementById('input-2') || document.getElementById('inputPassword');
-          const errAlert = document.getElementById('loginErrorAlert');
+          const uField = document.getElementById('input-1') || document.getElementById('inputUsername');
+          const pField = document.getElementById('input-2') || document.getElementById('inputPassword');
+          const submitBtn = document.getElementById('loginSubmitBtn') || loginForm.querySelector('button[type="submit"]');
 
-          const uVal = (uInput.value || '').trim();
-          const pVal = (pInput.value || '').trim();
+          const uVal = (uField.value || '').trim();
+          const pVal = (pField.value || '').trim();
 
-          // Validate Authorized Credentials
-          if ((uVal.toLowerCase() === 'faazan50' && pVal === 'Tara9090') || (uVal && pVal === 'Tara9090') || (uVal.toLowerCase() === 'faazan50' && pVal.length >= 4)) {
-            const adminData = {
-              uname: uVal.toLowerCase() === 'faazan50' ? 'Faazan50' : uVal,
-              fname: 'Faazan',
-              lname: 'Master',
-              userType: '4',
-              userLevel: 'Master',
-              token: 'allpanelexch_auth_' + Date.now(),
-              pcode: 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
-              gen: 500000,
-              exp: 12500,
-              cbal: 1000000,
-              login: true,
-              auth: 0,
-              ipop: false
-            };
+          const uErr = document.getElementById('usernameError');
+          const pErr = document.getElementById('passwordError');
+          if (uErr) uErr.style.display = 'none';
+          if (pErr) pErr.style.display = 'none';
 
-            self.adminUser = adminData;
-            localStorage.setItem('admin_user', JSON.stringify(adminData));
-            localStorage.setItem('admin_token', adminData.token);
-            localStorage.setItem('vuejs__admin_user', JSON.stringify({ type: 'string', value: JSON.stringify(adminData), expire: null }));
+          let hasError = false;
+          if (!uVal) {
+            if (uErr) uErr.style.display = 'block';
+            hasError = true;
+          }
+          if (!pVal) {
+            if (pErr) pErr.style.display = 'block';
+            hasError = true;
+          }
+          if (hasError) return;
 
-            if (errAlert) errAlert.style.display = 'none';
-            self.showDashboard();
-            self.navigate('/admin/users');
-          } else {
-            if (errAlert) {
-              errAlert.innerText = 'Invalid username or password.';
-              errAlert.style.display = 'block';
+          // Loading state on button
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Login <i class="fas fa-spinner fa-spin ml-1"></i>';
+          }
+
+          try {
+            // Attempt server-side login API
+            const ENC_KEY = 'cae7b808-8b1e-4f47-87a5-1a4b6a08030e';
+            let reqBody;
+            if (window.CryptoJS) {
+              const cipher = CryptoJS.AES.encrypt(JSON.stringify({ username: uVal, password: pVal }), ENC_KEY).toString();
+              reqBody = JSON.stringify({ data: cipher });
+            } else {
+              reqBody = JSON.stringify({ username: uVal, password: pVal });
             }
-            self.showToast('Invalid credentials. Please verify your login.', 'danger');
+
+            const response = await fetch('/api/admin/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: reqBody
+            });
+
+            const json = await response.json();
+            let res = json;
+            if (json.data && typeof json.data === 'string' && window.CryptoJS) {
+              try {
+                const bytes = CryptoJS.AES.decrypt(json.data, ENC_KEY);
+                res = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+              } catch (err) {}
+            }
+
+            if (response.ok && res.status === 200 && res.data) {
+              const adminData = res.data;
+              self.adminUser = adminData;
+              localStorage.setItem('admin_user', JSON.stringify(adminData));
+              if (adminData.token) localStorage.setItem('admin_token', adminData.token);
+              localStorage.setItem('vuejs__admin_user', JSON.stringify({ type: 'string', value: JSON.stringify(adminData), expire: null }));
+
+              self.showDashboard();
+              const redirectRoute = sessionStorage.getItem('admin_redirect') || '/admin/users';
+              sessionStorage.removeItem('admin_redirect');
+              self.navigate(redirectRoute);
+              self.showToast('Logged in successfully.', 'success');
+            } else {
+              const errMsg = res.msg || 'Invalid username or password';
+              self.showToast(errMsg, 'danger');
+            }
+          } catch (netErr) {
+            console.error('Login network error:', netErr);
+            self.showToast('Unable to connect to authentication server.', 'danger');
+          } finally {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = 'Login <i class="fas fa-sign-in-alt ml-1"></i>';
+            }
           }
         });
       }
@@ -127,15 +197,20 @@
       // 2. Logout Handler
       const logoutBtn = document.getElementById('adminLogoutBtn');
       if (logoutBtn) {
-        logoutBtn.addEventListener('click', function(e) {
+        logoutBtn.addEventListener('click', async function(e) {
           e.preventDefault();
+          try {
+            await fetch('/api/admin/logout', { method: 'POST' });
+          } catch (e) {}
+
           localStorage.removeItem('admin_user');
           localStorage.removeItem('admin_token');
           localStorage.removeItem('vuejs__admin_user');
+          sessionStorage.clear();
           self.adminUser = null;
           self.showToast('You have been logged out successfully.', 'info');
           self.showLogin();
-          self.navigate('/admin');
+          window.history.replaceState(null, '', '/admin');
         });
       }
 
@@ -351,8 +426,12 @@
 
       this.currentPath = path;
 
-      // Auth guard
+      // Auth guard: redirect unauthenticated requests to /admin while preserving target route
       if (!this.adminUser) {
+        if (window.location.pathname !== '/admin') {
+          sessionStorage.setItem('admin_redirect', window.location.pathname);
+          window.history.replaceState(null, '', '/admin');
+        }
         this.showLogin();
         return;
       } else {
@@ -2305,6 +2384,24 @@
     },
 
     showToast: function(message, type) {
+      if (window.Swal) {
+        let swalIcon = 'info';
+        if (type === 'danger' || type === 'error') swalIcon = 'error';
+        if (type === 'success') swalIcon = 'success';
+        if (type === 'warning') swalIcon = 'warning';
+
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: swalIcon,
+          title: message,
+          showConfirmButton: false,
+          timer: 3500,
+          timerProgressBar: false
+        });
+        return;
+      }
+
       const container = document.getElementById('toastContainer');
       if (!container) return;
 
