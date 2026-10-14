@@ -6,38 +6,10 @@ try {
   CryptoJS = null;
 }
 
+const creds = require('./credentials');
 const ENC_KEY = process.env.ADMIN_ENC_KEY || 'cae7b808-8b1e-4f47-87a5-1a4b6a08030e';
 const JWT_SECRET = process.env.ADMIN_JWT_SECRET || 'allpanelexch_jwt_secure_key_2026';
-const SALT = process.env.ADMIN_PASS_SALT || 'allpanel_secure_salt_2026';
 
-// PBKDF2 hash of authorized password (never store plaintext)
-const AUTHORIZED_USERS = {
-  'faazan50': {
-    uname: 'Faazan50',
-    fname: 'Faazan',
-    lname: 'Master',
-    userType: '4',
-    userLevel: 'Master',
-    pcode: 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
-    gen: 500000,
-    exp: 12500,
-    cbal: 1000000,
-    // PBKDF2 10000 iterations sha256 of authorized password
-    passHash: '76b256187086a15a19e1c90a8a5e3feeab3fa2c797d4b806f134993a80333315'
-  }
-};
-
-function verifyPassword(providedPassword, expectedHash) {
-  try {
-    const computed = crypto.pbkdf2Sync(providedPassword, SALT, 10000, 32, 'sha256').toString('hex');
-    const a = Buffer.from(computed, 'utf8');
-    const b = Buffer.from(expectedHash, 'utf8');
-    if (a.length !== b.length) return false;
-    return crypto.timingSafeEqual(a, b);
-  } catch (err) {
-    return false;
-  }
-}
 
 function generateToken(user) {
   const expiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
@@ -192,7 +164,7 @@ module.exports = async function handler(req, res) {
     }));
   }
 
-  const userRecord = AUTHORIZED_USERS[username.toLowerCase()];
+  const userRecord = creds.getUser(username);
   if (!userRecord) {
     return res.status(400).json(encryptResponse({
       status: 400,
@@ -200,13 +172,14 @@ module.exports = async function handler(req, res) {
     }));
   }
 
-  const isValid = verifyPassword(password, userRecord.passHash);
+  const isValid = creds.verifyPassword(password, userRecord.passHash);
   if (!isValid) {
     return res.status(400).json(encryptResponse({
       status: 400,
       msg: 'Password Incorrect'
     }));
   }
+
 
   // Successful Authentication
   const token = generateToken(userRecord);

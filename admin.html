@@ -124,6 +124,66 @@
       font-weight: 400;
       text-align: left;
     }
+    /* Multi-step login & password setup styling matching Reference */
+    .login-wrapper.success-mode {
+      background: #ffffff !important;
+      padding: 0 !important;
+    }
+    .cp-success-box {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      padding: 40px 20px;
+    }
+    .cp-success-box h1 {
+      font-size: 22px;
+      margin-top: 15px;
+      color: #212529;
+      font-weight: 500;
+    }
+    .cp-success-box h2 {
+      font-size: 15px;
+      color: #212529;
+      font-weight: 400;
+      line-height: 1.6;
+      margin-top: 15px;
+    }
+    .cp-success-box .token-box {
+      color: #0088cc !important;
+      font-weight: 700;
+    }
+    .cp-success-box .text-success {
+      color: #28a745 !important;
+      font-size: 24px;
+      font-weight: 500;
+    }
+    .login-auth-box {
+      width: 100%;
+      max-width: 480px;
+      background: #fff;
+      border-radius: 6px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin: auto;
+    }
+    .otp-field {
+      width: 46px;
+      height: 52px;
+      font-size: 22px;
+      text-align: center;
+      font-weight: 700;
+      margin: 0 4px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+    }
+    .otp-field:focus {
+      border-color: #0088cc;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(0, 136, 204, 0.25);
+    }
     /* SweetAlert2 Toast customization to match Reference exact dark style */
     .swal2-container.swal2-top-end {
       top: 15px !important;
@@ -941,9 +1001,11 @@
   <!-- Toast Notification -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <!-- 1. LOGIN SECTION -->
+  <!-- 1. LOGIN & AUTHENTICATION WORKFLOW SECTION -->
   <section id="loginSection" class="login-wrapper">
-    <div class="login-mn">
+
+    <!-- STEP 1: INITIAL SIGN IN SCREEN -->
+    <div id="loginStepSignIn" class="login-mn">
       <div class="log-logo">
         <img src="/admin/images/logo.png" onerror="this.src='https://sitethemedata.com/sitethemes/allpanelexch.com/front/logo.png'" alt="ALLPANELEXCH">
       </div>
@@ -966,9 +1028,109 @@
           <button id="loginSubmitBtn" type="submit" class="btn btn-submit btn-login btn-secondary">
             Login <i class="fas fa-sign-in-alt ml-1"></i>
           </button>
+          <div class="text-center mt-3">
+            <a href="javascript:void(0);" id="btnGoToChangePass" class="text-secondary small font-weight-500" style="text-decoration: none;">
+              <i class="fas fa-key mr-1"></i> First Time Login / Set Password
+            </a>
+          </div>
         </form>
       </div>
     </div>
+
+    <!-- STEP 2: USERNAME, PASSWORD, AND CONFIRM PASSWORD (CHANGE PASSWORD) -->
+    <div id="loginStepChangePassword" class="login-mn" style="display:none;">
+      <div class="log-logo">
+        <img src="/admin/images/logo.png" onerror="this.src='https://sitethemedata.com/sitethemes/allpanelexch.com/front/logo.png'" alt="ALLPANELEXCH">
+      </div>
+      <div class="log-fld">
+        <h2 class="text-center">Change Password</h2>
+
+        <form id="adminChangePasswordForm" autocomplete="off" class="change-form" action="javascript:void(0);" onsubmit="event.preventDefault(); return false;">
+          <div class="form-group mb-3 text-left">
+            <label class="user-email-text font-weight-bold" style="font-size: 13px; color: #495057;">Username</label>
+            <input id="cp-input-username" name="uname" type="text" class="form-control" placeholder="Username" value="Faazan50">
+            <span id="cpUserError" class="error text-danger" style="display:none;">The username field is required</span>
+          </div>
+          <div class="form-group mb-3 text-left">
+            <label class="user-email-text font-weight-bold" style="font-size: 13px; color: #495057;">Old Password</label>
+            <input id="cp-input-old" name="OldPassword" type="password" class="form-control" placeholder="Old Password">
+            <span id="cpOldError" class="error text-danger" style="display:none;">The Old Password field is required</span>
+          </div>
+          <div class="form-group mb-3 text-left">
+            <label class="user-email-text font-weight-bold" style="font-size: 13px; color: #495057;">New Password</label>
+            <input id="cp-input-new" name="NewPassword" type="password" class="form-control" placeholder="New Password">
+            <span id="cpNewError" class="error text-danger" style="display:none;">The New Password field is required (min 8 characters)</span>
+          </div>
+          <div class="form-group mb-4 text-left">
+            <label class="user-email-text font-weight-bold" style="font-size: 13px; color: #495057;">Confirm Password</label>
+            <input id="cp-input-confirm" name="ConfirmNewPassword" type="password" class="form-control" placeholder="Confirm Password">
+            <span id="cpConfirmError" class="error text-danger" style="display:none;">Confirm Password does not match</span>
+          </div>
+          <div class="form-group mb-0">
+            <button id="cpSubmitBtn" type="submit" class="btn btn-submit btn-login btn-secondary mb-2">
+              Change Password
+            </button>
+          </div>
+          <div class="text-center mt-3">
+            <button type="button" id="cpBackBtn" class="btn btn-link text-secondary" style="font-size: 14px; text-decoration: none;">
+              <i class="fas fa-arrow-left mr-1"></i> Back to Sign In
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- STEP 3: TRANSACTION PASSWORD SUCCESS CONFIRMATION (MATCHING USER SCREENSHOT EXACTLY) -->
+    <div id="loginStepSuccess" class="cp-success-box" style="display:none; width: 100%;">
+      <div class="text-center container" style="max-width: 900px; padding: 40px 20px;">
+        <h1><span class="text-success" style="color: #28a745; font-size: 24px; font-weight: 500;">Success! Your password has been updated successfully.</span></h1>
+        <h1 style="font-size: 22px; margin-top: 15px; color: #212529;">Your transaction password is <span id="successTranTokenEn" class="text-info token-box font-weight-bold" style="color: #0088cc;">130367</span>.</h1>
+        <h2 style="font-size: 15px; color: #212529; font-weight: 400; line-height: 1.6; margin-top: 15px;">Please remember this transaction password, from now on all transcation of the website can be done only with this password and keep one thing in mind, do not share this password with anyone.</h2>
+        <h2 class="mt-3 text-dark" style="font-size: 15px; font-weight: 400;">Thank you, Team allpanelexch.com</h2>
+        <div class="font-hindi" style="margin-top: 35px;">
+          <h1 class="mt-5"><span class="text-success" style="color: #28a745; font-size: 24px; font-weight: 500;">Success! आपका पासवर्ड बदला जा चुका है।</span></h1>
+          <h1 style="font-size: 22px; margin-top: 15px; color: #212529;">आपका लेनदेन पासवर्ड <span id="successTranTokenHi" class="text-info token-box font-weight-bold" style="color: #0088cc;">130367</span> है।</h1>
+          <h2 style="font-size: 15px; color: #212529; font-weight: 400; line-height: 1.6; margin-top: 15px;">कृपया इस लेन-देन के पासवर्ड को याद रखें, अब से वेबसाइट के सभी हस्तांतरण केवल इस पासवर्ड से किए जा सकते हैं और एक बात का ध्यान रखें, इस पासवर्ड को किसी के साथ साझा न करें।</h2>
+          <h2 class="mt-3 text-dark" style="font-size: 15px; font-weight: 400;">धन्यवाद, टीम allpanelexch.com</h2>
+        </div>
+        <div class="text-center mt-5">
+          <button type="button" id="btnBackFromSuccess" class="btn btn-dark btn-lg" style="min-width: 200px; background-color: #2b343a; border-color: #2b343a; padding: 10px 30px; font-size: 16px; border-radius: 4px;">
+            <i class="fas fa-arrow-left mr-2"></i> Back
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: TRANSACTION CODE / 2FA AUTHENTICATION SCREEN -->
+    <div id="loginStepAuth" class="login-auth" style="display:none; width: 100%;">
+      <div class="login-auth-box text-center">
+        <div class="log-logo mb-3 text-center">
+          <img src="/admin/images/logo.png" onerror="this.src='https://sitethemedata.com/sitethemes/allpanelexch.com/front/logo.png'" alt="ALLPANELEXCH" style="max-width: 220px;">
+        </div>
+        <div class="featured-box-login">
+          <h3 class="text-center" style="font-size: 22px; font-weight: 600; color: #212529; margin-bottom: 10px;">Security Code Verification</h3>
+          <div class="mt-2 text-center text-muted font-size-14 mb-4">
+            Enter 6-digit transaction code / OTP from your authentication app
+          </div>
+          <form id="adminAuthForm" class="mt-3" onsubmit="event.preventDefault(); return false;">
+            <div class="d-flex justify-content-center mb-4">
+              <input type="text" id="authDigit1" maxlength="1" class="form-control otp-field" autofocus>
+              <input type="text" id="authDigit2" maxlength="1" class="form-control otp-field">
+              <input type="text" id="authDigit3" maxlength="1" class="form-control otp-field">
+              <input type="text" id="authDigit4" maxlength="1" class="form-control otp-field">
+              <input type="text" id="authDigit5" maxlength="1" class="form-control otp-field">
+              <input type="text" id="authDigit6" maxlength="1" class="form-control otp-field">
+            </div>
+            <span id="authCodeError" class="error text-danger mb-3" style="display:none;">Invalid verification code</span>
+            <button type="submit" id="authSubmitBtn" class="btn btn-submit btn-login btn-secondary w-100 mb-2">Verify & Proceed</button>
+            <div class="text-center mt-3">
+              <button type="button" id="authBackBtn" class="btn btn-link text-secondary font-size-14" style="text-decoration:none;"><i class="fas fa-arrow-left mr-1"></i> Back to Sign In</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
   </section>
 
   <!-- 2. AUTHENTICATED DASHBOARD SECTION -->

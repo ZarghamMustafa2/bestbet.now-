@@ -55,6 +55,68 @@
       document.body.removeAttribute('data-sidebar');
     },
 
+    showLoginStep: function(step, data) {
+      this.showLogin();
+      const stepSignIn = document.getElementById('loginStepSignIn');
+      const stepChangePass = document.getElementById('loginStepChangePassword');
+      const stepSuccess = document.getElementById('loginStepSuccess');
+      const stepAuth = document.getElementById('loginStepAuth');
+      const loginSection = document.getElementById('loginSection');
+
+      if (stepSignIn) stepSignIn.style.display = 'none';
+      if (stepChangePass) stepChangePass.style.display = 'none';
+      if (stepSuccess) stepSuccess.style.display = 'none';
+      if (stepAuth) stepAuth.style.display = 'none';
+      if (loginSection) loginSection.classList.remove('success-mode');
+
+      if (step === 'signIn') {
+        if (stepSignIn) stepSignIn.style.display = 'block';
+        if (window.location.pathname.startsWith('/admin/change-password-success') || window.location.pathname.startsWith('/admin/loginauth')) {
+          window.history.pushState(null, '', '/admin');
+        }
+        if (data && typeof data === 'string') {
+          const uField = document.getElementById('input-1');
+          if (uField) uField.value = data;
+        }
+      } else if (step === 'changePassword') {
+        if (stepChangePass) stepChangePass.style.display = 'block';
+        const cpUser = document.getElementById('cp-input-username');
+        if (cpUser) {
+          const uField = document.getElementById('input-1');
+          cpUser.value = (typeof data === 'string' && data) ? data : (uField && uField.value ? uField.value : 'Faazan50');
+        }
+        const cpOld = document.getElementById('cp-input-old');
+        const cpNew = document.getElementById('cp-input-new');
+        const cpConfirm = document.getElementById('cp-input-confirm');
+        if (cpOld) cpOld.value = '';
+        if (cpNew) cpNew.value = '';
+        if (cpConfirm) cpConfirm.value = '';
+      } else if (step === 'success') {
+        if (loginSection) loginSection.classList.add('success-mode');
+        if (stepSuccess) stepSuccess.style.display = 'flex';
+        const token = (typeof data === 'string' && data) ? data : (data && data.token ? data.token : '130367');
+        const tokenEn = document.getElementById('successTranTokenEn');
+        const tokenHi = document.getElementById('successTranTokenHi');
+        if (tokenEn) tokenEn.textContent = token;
+        if (tokenHi) tokenHi.textContent = token;
+        const targetUrl = '/admin/change-password-success/' + token;
+        if (window.location.pathname !== targetUrl) {
+          window.history.pushState(null, '', targetUrl);
+        }
+      } else if (step === 'auth') {
+        if (stepAuth) stepAuth.style.display = 'flex';
+        const authId = (data && data.authId) ? data.authId : '1';
+        const targetUrl = '/admin/loginauth/' + authId;
+        if (window.location.pathname !== targetUrl) {
+          window.history.pushState(null, '', targetUrl);
+        }
+        setTimeout(() => {
+          const d1 = document.getElementById('authDigit1');
+          if (d1) d1.focus();
+        }, 100);
+      }
+    },
+
     showDashboard: function() {
       const loginSec = document.getElementById('loginSection');
       const dashSec = document.getElementById('dashboardSection');
@@ -168,6 +230,18 @@
 
             if (response.ok && res.status === 200 && res.data) {
               const adminData = res.data;
+              if (adminData.login === false) {
+                // First-time login / password change required
+                self.showToast('Welcome, You are logged in first time. Please change your password to continue.', 'success');
+                self.showLoginStep('changePassword', uVal);
+                return;
+              }
+
+              if (adminData.auth === 1 || adminData.auth === 2 || adminData.auth === 3) {
+                self.showLoginStep('auth', { authId: adminData.auth, username: uVal });
+                return;
+              }
+
               self.adminUser = adminData;
               localStorage.setItem('admin_user', JSON.stringify(adminData));
               if (adminData.token) localStorage.setItem('admin_token', adminData.token);
@@ -191,6 +265,217 @@
               submitBtn.innerHTML = 'Login <i class="fas fa-sign-in-alt ml-1"></i>';
             }
           }
+        });
+      }
+
+      // 1b. Switch to Change Password Screen
+      const btnGoToChangePass = document.getElementById('btnGoToChangePass');
+      if (btnGoToChangePass) {
+        btnGoToChangePass.addEventListener('click', function(e) {
+          e.preventDefault();
+          const uField = document.getElementById('input-1');
+          const uVal = (uField?.value || 'Faazan50').trim();
+          self.showLoginStep('changePassword', uVal);
+        });
+      }
+
+      // 1c. Change Password Form Submission
+      const cpForm = document.getElementById('adminChangePasswordForm');
+      if (cpForm) {
+        cpForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          const uField = document.getElementById('cp-input-username');
+          const oField = document.getElementById('cp-input-old');
+          const nField = document.getElementById('cp-input-new');
+          const cField = document.getElementById('cp-input-confirm');
+          const submitBtn = document.getElementById('cpSubmitBtn');
+
+          const uVal = (uField?.value || '').trim();
+          const oVal = (oField?.value || '').trim();
+          const nVal = (nField?.value || '').trim();
+          const cVal = (cField?.value || '').trim();
+
+          const uErr = document.getElementById('cpUserError');
+          const oErr = document.getElementById('cpOldError');
+          const nErr = document.getElementById('cpNewError');
+          const cErr = document.getElementById('cpConfirmError');
+          if (uErr) uErr.style.display = 'none';
+          if (oErr) oErr.style.display = 'none';
+          if (nErr) nErr.style.display = 'none';
+          if (cErr) cErr.style.display = 'none';
+
+          let hasError = false;
+          if (!uVal) { if (uErr) uErr.style.display = 'block'; hasError = true; }
+          if (!oVal) { if (oErr) oErr.style.display = 'block'; hasError = true; }
+          if (!nVal || nVal.length < 8) { if (nErr) nErr.style.display = 'block'; hasError = true; }
+          if (nVal !== cVal) { if (cErr) cErr.style.display = 'block'; hasError = true; }
+          if (hasError) return;
+
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Updating <i class="fas fa-spinner fa-spin ml-1"></i>';
+          }
+
+          try {
+            const ENC_KEY = 'cae7b808-8b1e-4f47-87a5-1a4b6a08030e';
+            const payloadObj = { uname: uVal, password: oVal, newPassword: nVal, newPasswordConfirm: cVal };
+            let reqBody;
+            if (window.CryptoJS) {
+              const cipher = CryptoJS.AES.encrypt(JSON.stringify(payloadObj), ENC_KEY).toString();
+              reqBody = JSON.stringify({ data: cipher });
+            } else {
+              reqBody = JSON.stringify(payloadObj);
+            }
+
+            const response = await fetch('/api/admin/changepass-login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: reqBody
+            });
+
+            const json = await response.json();
+            let res = json;
+            if (json.data && typeof json.data === 'string' && window.CryptoJS) {
+              try {
+                const bytes = CryptoJS.AES.decrypt(json.data, ENC_KEY);
+                res = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+              } catch (err) {}
+            }
+
+            if (response.ok && res.status === 200 && res.data) {
+              const tranToken = res.data.tran || '130367';
+              self.showToast(res.data.msg || 'Password updated successfully.', 'success');
+              self.showLoginStep('success', tranToken);
+            } else {
+              self.showToast(res.msg || 'Failed to update password', 'danger');
+            }
+          } catch (netErr) {
+            console.error('Change password error:', netErr);
+            self.showToast('Unable to connect to password server.', 'danger');
+          } finally {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = 'Change Password';
+            }
+          }
+        });
+      }
+
+      // 1d. Back Button from Change Password to Sign In
+      const cpBackBtn = document.getElementById('cpBackBtn');
+      if (cpBackBtn) {
+        cpBackBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const cpUser = (document.getElementById('cp-input-username')?.value || '').trim();
+          self.showLoginStep('signIn', cpUser);
+        });
+      }
+
+      // 1e. Centered Back Button from Transaction Success Page (Matching Screenshot)
+      const btnBackFromSuccess = document.getElementById('btnBackFromSuccess');
+      if (btnBackFromSuccess) {
+        btnBackFromSuccess.addEventListener('click', function(e) {
+          e.preventDefault();
+          const cpUser = (document.getElementById('cp-input-username')?.value || 'Faazan50').trim();
+          self.showLoginStep('signIn', cpUser);
+          self.showToast('Password updated! Please sign in with your new password.', 'info');
+        });
+      }
+
+      // 1f. 2FA Security Code Form Submission & OTP auto-advance
+      for (let i = 1; i <= 6; i++) {
+        const inp = document.getElementById('authDigit' + i);
+        if (inp) {
+          inp.addEventListener('input', function(e) {
+            if (this.value && this.value.length >= 1) {
+              this.value = this.value.slice(-1);
+              const next = document.getElementById('authDigit' + (i + 1));
+              if (next) next.focus();
+            }
+          });
+          inp.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && !this.value) {
+              const prev = document.getElementById('authDigit' + (i - 1));
+              if (prev) prev.focus();
+            }
+          });
+        }
+      }
+
+      const authForm = document.getElementById('adminAuthForm');
+      if (authForm) {
+        authForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          let code = '';
+          for (let i = 1; i <= 6; i++) {
+            code += (document.getElementById('authDigit' + i)?.value || '').trim();
+          }
+          const authErr = document.getElementById('authCodeError');
+          if (authErr) authErr.style.display = 'none';
+
+          if (code.length < 6) {
+            if (authErr) {
+              authErr.textContent = 'Please enter complete 6-digit code';
+              authErr.style.display = 'block';
+            }
+            return;
+          }
+
+          const authSubmitBtn = document.getElementById('authSubmitBtn');
+          if (authSubmitBtn) {
+            authSubmitBtn.disabled = true;
+            authSubmitBtn.innerHTML = 'Verifying <i class="fas fa-spinner fa-spin ml-1"></i>';
+          }
+
+          try {
+            const resp = await fetch('/api/admin/verifycode', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ code: code, uname: 'Faazan50' })
+            });
+            const res = await resp.json();
+            if (resp.ok && res.status === 200) {
+              self.showToast('Verification successful.', 'success');
+              const adminData = {
+                uname: 'Faazan50',
+                fname: 'Faazan',
+                lname: 'Master',
+                userType: '4',
+                userLevel: 'Master',
+                pcode: 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+                gen: 500000,
+                exp: 12500,
+                cbal: 1000000,
+                login: true,
+                auth: 0
+              };
+              self.adminUser = adminData;
+              localStorage.setItem('admin_user', JSON.stringify(adminData));
+              self.showDashboard();
+              self.navigate('/admin/users');
+            } else {
+              if (authErr) {
+                authErr.textContent = res.msg || 'Invalid verification code';
+                authErr.style.display = 'block';
+              }
+              self.showToast(res.msg || 'Invalid verification code', 'danger');
+            }
+          } catch (err) {
+            self.showToast('Verification error.', 'danger');
+          } finally {
+            if (authSubmitBtn) {
+              authSubmitBtn.disabled = false;
+              authSubmitBtn.innerHTML = 'Verify & Proceed';
+            }
+          }
+        });
+      }
+
+      const authBackBtn = document.getElementById('authBackBtn');
+      if (authBackBtn) {
+        authBackBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          self.showLoginStep('signIn');
         });
       }
 
@@ -426,13 +711,28 @@
 
       this.currentPath = path;
 
+      // Route handlers for unauthenticated workflow screens
+      if (path.startsWith('/admin/change-password-success')) {
+        const parts = path.split('/');
+        const token = parts[3] || '130367';
+        this.showLoginStep('success', token);
+        return;
+      }
+
+      if (path.startsWith('/admin/loginauth')) {
+        const parts = path.split('/');
+        const authId = parts[3] || '1';
+        this.showLoginStep('auth', { authId: authId });
+        return;
+      }
+
       // Auth guard: redirect unauthenticated requests to /admin while preserving target route
       if (!this.adminUser) {
         if (window.location.pathname !== '/admin') {
           sessionStorage.setItem('admin_redirect', window.location.pathname);
           window.history.replaceState(null, '', '/admin');
         }
-        this.showLogin();
+        this.showLoginStep('signIn');
         return;
       } else {
         this.showDashboard();
