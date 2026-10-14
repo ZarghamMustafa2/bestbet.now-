@@ -992,6 +992,7 @@
       }
 
       const totalCount = users.length;
+      const totalCR = users.reduce((acc, u) => acc + (Number(u.creditRef) || 0), 0);
       const perPage = this.perPage || 25;
       const currentPage = this.currentPage || 1;
       const startIdx = (currentPage - 1) * perPage;
@@ -1006,7 +1007,7 @@
                 <h4 class="mb-0 font-size-18">Account List</h4>
                 <div class="page-title-right">
                   <div class="d-inline-block">
-                    <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link" data-route="/admin/users/insertuser"> Add Account</a>
+                    <a href="/admin/users/insertuser" class="btn btn-add-account nav-route-link" data-route="/admin/users/insertuser">Add Account</a>
                   </div>
                 </div>
               </div>
@@ -1055,13 +1056,13 @@
                   </div>
                   <div class="table-responsive mb-0">
                     <div class="table no-footer list-clients table-responsive-sm">
-                      <table id="eventsListTbl" role="table" aria-busy="false" aria-colcount="8" class="table b-table table-striped table-bordered">
+                      <table id="eventsListTbl" role="table" aria-busy="false" aria-colcount="8" class="table b-table table-striped table-bordered list-clients">
                         <thead role="rowgroup">
                           <tr role="row">
                             <th role="columnheader" scope="col" tabindex="0" class="position-relative cp" onclick="window.adminSortUsers('uname')"><div>User Name</div></th>
                             <th role="columnheader" scope="col" tabindex="0" class="position-relative text-right cp" onclick="window.adminSortUsers('creditRef')"><div>CR</div></th>
-                            <th role="columnheader" scope="col"><div>U st</div></th>
-                            <th role="columnheader" scope="col"><div>B st</div></th>
+                            <th role="columnheader" scope="col" class="text-center"><div>U st</div></th>
+                            <th role="columnheader" scope="col" class="text-center"><div>B st</div></th>
                             <th role="columnheader" scope="col"><div>Exposure Limit</div></th>
                             <th role="columnheader" scope="col"><div>Deafult (%)</div></th>
                             <th role="columnheader" scope="col"><div>Account Type</div></th>
@@ -1069,47 +1070,45 @@
                           </tr>
                         </thead>
                         <tbody role="rowgroup">
+                          <tr role="row" class="font-weight-bold" style="background-color: #f8f9fa;">
+                            <td role="cell"></td>
+                            <td role="cell" class="text-right"><b>${totalCR}</b></td>
+                            <td role="cell"></td>
+                            <td role="cell"></td>
+                            <td role="cell"></td>
+                            <td role="cell"></td>
+                            <td role="cell"></td>
+                            <td role="cell"></td>
+                          </tr>
                           ${pagedUsers.length === 0 ? `
                             <tr role="row" class="b-table-empty-row"><td colspan="8" role="cell"><div role="alert" aria-live="polite"><div class="text-center my-2">There are no records to show</div></div></td></tr>
                           ` : pagedUsers.map(u => `
                             <tr role="row" id="row-user-${u.id}">
                               <td role="cell">
-                                ${u.userType === '5' ? `
-                                  <a href="/admin/child/${u.uname}" class="wrape-text font-weight-bold text-primary nav-route-link" title="Click to view Downline" data-route="/admin/child/${u.uname}"><span>${u.uname}</span></a>
-                                ` : `
-                                  <span class="wrape-text font-weight-bold text-dark cp" onclick="window.openExtraModal('${u.id}')" title="Click to view profile">${u.uname}</span>
-                                `}
+                                <span class="username-badge cp" onclick="${u.userType === '5' ? `window.AdminApp.handleRoute('/admin/child/${u.uname}')` : `window.openExtraModal('${u.id}')`}" title="Click to view details">${u.uname}</span>
                               </td>
                               <td role="cell" class="text-right">
-                                <span class="cp font-weight-bold text-info" onclick="window.openCreditRefModal('${u.id}')" title="Click to update Credit">${this.formatCurrency(u.creditRef)}</span>
+                                <span class="cp font-weight-normal text-dark" onclick="window.openCreditRefModal('${u.id}')" title="Click to update Credit">${u.creditRef != null ? u.creditRef : 0}</span>
                               </td>
                               <td role="cell" class="text-center">
-                                <div class="custom-control custom-checkbox d-inline-block">
-                                  <input type="checkbox" class="custom-control-input-native" ${u.userActive !== false ? 'checked' : ''} disabled>
-                                </div>
+                                <div class="checkbox-black-box ${u.userActive !== false ? '' : 'inactive'}">${u.userActive !== false ? '✔' : ''}</div>
                               </td>
                               <td role="cell" class="text-center">
-                                <div class="custom-control custom-checkbox d-inline-block">
-                                  <input type="checkbox" class="custom-control-input-native" ${u.betActive !== false ? 'checked' : ''} disabled>
-                                </div>
+                                <div class="checkbox-black-box ${u.betActive !== false ? '' : 'inactive'}">${u.betActive !== false ? '✔' : ''}</div>
                               </td>
-                              <td role="cell" class="text-right">${this.formatCurrency(u.exposureLimit || 100000)}</td>
+                              <td role="cell" class="text-left">${u.exposureLimit || 0}</td>
                               <td role="cell" class="text-left">${u.share || 0}</td>
-                              <td role="cell" class="text-center">
-                                <span class="badge ${u.userType === '5' ? 'badge-agent' : 'badge-client'}">
-                                  ${u.userType === '5' ? 'Agent' : (u.userType === '4' ? 'Master' : 'Client')}
-                                </span>
+                              <td role="cell" class="text-left" style="color: #212529; font-size: 13px;">
+                                ${u.userType === '4' ? 'Master' : (u.userType === '5' ? 'Agent' : 'User')}
                               </td>
-                              <td role="cell" class="text-center nowrap">
-                                <div class="btn-group" role="group">
-                                  <button type="button" class="btn action-button" onclick="window.openDepositModal('${u.id}')" title="Deposit">D</button>
-                                  <button type="button" class="btn action-button" onclick="window.openWithdrawModal('${u.id}')" title="Withdraw">W</button>
-                                  <button type="button" class="btn action-button" onclick="window.openExposureLimitModal('${u.id}')" title="Exposure Limit">L</button>
-                                  <button type="button" class="btn action-button" onclick="window.openCreditRefModal('${u.id}')" title="Credit Reference">C</button>
-                                  <button type="button" class="btn action-button" onclick="window.openChangePasswordModal('${u.uname}')" title="Change Password">P</button>
-                                  <button type="button" class="btn action-button" onclick="window.openStatusModal('${u.id}')" title="Status Lock">S</button>
-                                  <button type="button" class="btn action-button" onclick="window.openExtraModal('${u.id}')" title="More Details">More</button>
-                                </div>
+                              <td role="cell" class="text-left nowrap">
+                                <button type="button" class="btn action-button" onclick="window.openDepositModal('${u.id}')" title="Deposit">D</button>
+                                <button type="button" class="btn action-button" onclick="window.openWithdrawModal('${u.id}')" title="Withdraw">W</button>
+                                <button type="button" class="btn action-button" onclick="window.openExposureLimitModal('${u.id}')" title="Exposure Limit">L</button>
+                                <button type="button" class="btn action-button" onclick="window.openCreditRefModal('${u.id}')" title="Credit Reference">C</button>
+                                <button type="button" class="btn action-button" onclick="window.openChangePasswordModal('${u.uname}')" title="Change Password">P</button>
+                                <button type="button" class="btn action-button" onclick="window.openStatusModal('${u.id}')" title="Status Lock">S</button>
+                                <button type="button" class="btn action-button btn-more" onclick="window.openExtraModal('${u.id}')" title="More Details">MORE</button>
                               </td>
                             </tr>
                           `).join('')}
@@ -4414,9 +4413,11 @@ renderGenericReport: function(container, title, desc) {
   };
 
   // Account List Table Filter, Reset, Export & Sort
-  window.adminFilterUsers = function() {
-    const q = (document.getElementById('searchUserInput')?.value || '').toLowerCase().trim();
-    document.querySelectorAll('#eventsListTbl tbody tr').forEach(row => {
+  window.adminFilterUsers = function(searchTerm) {
+    const q = (searchTerm !== undefined ? searchTerm : (document.getElementById('searchUserInput')?.value || '')).toLowerCase().trim();
+    const rows = document.querySelectorAll('#eventsListTbl tbody tr');
+    rows.forEach((row, idx) => {
+      if (idx === 0) return; // Keep total summary row visible
       row.style.display = row.innerText.toLowerCase().includes(q) ? '' : 'none';
     });
   };
@@ -4424,6 +4425,8 @@ renderGenericReport: function(container, title, desc) {
   window.adminResetUsers = function() {
     const input = document.getElementById('searchUserInput');
     if (input) input.value = '';
+    const topInput = document.getElementById('topClientSearchInput');
+    if (topInput) topInput.value = '';
     document.querySelectorAll('#eventsListTbl tbody tr').forEach(row => {
       row.style.display = '';
     });
