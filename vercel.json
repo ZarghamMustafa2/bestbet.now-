@@ -6,6 +6,7 @@
     { "source": "/admin/css/:path*", "destination": "/admin/css/:path*" },
     { "source": "/admin/js/:path*", "destination": "/admin/js/:path*" },
     { "source": "/admin/images/:path*", "destination": "/admin/images/:path*" },
+    { "source": "/admin/users/insertuser", "destination": "/api/admin/insertuser" },
     { "source": "/admin/:path*", "destination": "/admin" },
     { "source": "/admin", "destination": "/admin" },
     { "source": "/all-sports/:path*", "destination": "/home" },

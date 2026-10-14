@@ -17,7 +17,21 @@ const DEFAULT_USERS = {
     gen: 500000,
     exp: 12500,
     cbal: 1000000,
-    // PBKDF2 10000 iterations sha256 of "Tara9090" with SALT
+    passHash: '76b256187086a15a19e1c90a8a5e3feeab3fa2c797d4b806f134993a80333315',
+    tranCode: '130367',
+    auth: 0,
+    login: true
+  },
+  'newadmin98': {
+    uname: 'Newadmin98',
+    fname: 'Newadmin',
+    lname: 'Master',
+    userType: '4',
+    userLevel: 'Master',
+    pcode: 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+    gen: 500000,
+    exp: 0,
+    cbal: 1000000,
     passHash: '76b256187086a15a19e1c90a8a5e3feeab3fa2c797d4b806f134993a80333315',
     tranCode: '130367',
     auth: 0,
@@ -140,11 +154,106 @@ function verifyTranCode(username, code) {
   return String(user.tranCode || '130367').trim() === String(code).trim();
 }
 
+function createUser(userData, uplineAdmin) {
+  const users = loadUsers();
+  const rawUname = String(userData.clientname || userData.uname || '').trim();
+  const key = rawUname.toLowerCase();
+
+  if (!rawUname) {
+    return { success: false, status: 400, error: 'Client Name is required.' };
+  }
+  if (!/^[a-zA-Z0-9_]{3,20}$/.test(rawUname)) {
+    return { success: false, status: 400, error: 'Client Name must be 3-20 alphanumeric characters or underscores.' };
+  }
+  if (users[key]) {
+    return { success: false, status: 409, error: 'Username already exists. Please choose a different name.' };
+  }
+
+  const password = String(userData.password || '');
+  const rpassword = String(userData.rpassword || '');
+  if (!password || password.length < 6) {
+    return { success: false, status: 400, error: 'Password must be at least 6 characters.' };
+  }
+  if (password !== rpassword) {
+    return { success: false, status: 400, error: 'Password and Retype Password not matching' };
+  }
+
+  const fullname = String(userData.fullname || '').trim();
+  if (!fullname) {
+    return { success: false, status: 400, error: 'Full Name is required.' };
+  }
+
+  const userType = String(userData.newlvlno || userData.userType || '6');
+  if (!['4', '5', '6'].includes(userType)) {
+    return { success: false, status: 400, error: 'Invalid Account Type selected.' };
+  }
+
+  const creditRef = parseFloat(userData.camt != null ? userData.camt : userData.creditRef) || 0;
+  if (creditRef < 0) {
+    return { success: false, status: 400, error: 'Credit Reference cannot be negative.' };
+  }
+
+  const levelMap = { '4': 'Master', '5': 'Agent', '6': 'Client' };
+  const userLevel = levelMap[userType] || 'Client';
+
+  const newUser = {
+    id: String(Date.now()).slice(-5),
+    uname: rawUname,
+    fname: fullname,
+    lname: '',
+    city: String(userData.city || '').trim(),
+    mono: String(userData.mono || '').trim(),
+    userType: userType,
+    userLevel: userLevel,
+    upline: uplineAdmin ? uplineAdmin.uname : 'Newadmin98',
+    creditRef: creditRef,
+    balance: creditRef,
+    exposure: 0,
+    clientPL: 0,
+    share: parseFloat(userData.spart1 || userData.share || 0),
+    comm: parseFloat(userData.comm || 0),
+    casinoShare: 0,
+    status: 'Active',
+    betActive: true,
+    userActive: true,
+    passHash: hashPassword(password),
+    tranCode: '130367',
+    auth: 0,
+    login: true,
+    createdAt: new Date().toISOString().replace('T', ' ').substring(0, 19)
+  };
+
+  users[key] = newUser;
+  saveUsers();
+
+  return {
+    success: true,
+    status: 200,
+    msg: 'User created successfully',
+    user: {
+      id: newUser.id,
+      uname: newUser.uname,
+      fname: newUser.fname,
+      userType: newUser.userType,
+      userLevel: newUser.userLevel,
+      upline: newUser.upline,
+      creditRef: newUser.creditRef,
+      balance: newUser.balance,
+      share: newUser.share,
+      status: newUser.status,
+      betActive: newUser.betActive,
+      userActive: newUser.userActive,
+      createdAt: newUser.createdAt
+    }
+  };
+}
+
 module.exports = {
   SALT,
   hashPassword,
   verifyPassword,
   getUser,
   updatePassword,
-  verifyTranCode
+  verifyTranCode,
+  createUser
 };

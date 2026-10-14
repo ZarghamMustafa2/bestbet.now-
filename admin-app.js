@@ -1168,7 +1168,7 @@
         <div class="listing-grid">
           <div class="add-account">
             <h2 class="m-b-20">Add Account</h2>
-            <form data-vv-scope="InserUserAccount" method="post" id="insertUserForm" onsubmit="window.AdminApp.handleCreateAccountSubmit(event);">
+            <form data-vv-scope="InserUserAccount" method="post" action="javascript:void(0);" id="insertUserForm" onsubmit="event.preventDefault(); window.AdminApp.handleCreateAccountSubmit(event); return false;">
               <div class="row">
                 <div class="col-md-6 col-12">
                   <h4 class="mb-4 col-12 pl-0">Personal Detail</h4>
@@ -1276,6 +1276,161 @@
           </div>
         </div>
       `;
+    },
+
+    handleCreateAccountSubmit: async function(event) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      const form = document.getElementById('insertUserForm');
+      if (!form) return false;
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Create Account';
+
+      // 1. Client-Side Field Extraction
+      const clientname = (document.getElementById('newUsername')?.value || '').trim();
+      const password = document.getElementById('newPassword')?.value || '';
+      const rpassword = document.getElementById('newRPassword')?.value || '';
+      const fullname = (document.getElementById('newFullName')?.value || '').trim();
+      const city = (document.getElementById('newCity')?.value || '').trim();
+      const mono = (document.getElementById('newMobile')?.value || '').trim();
+      const newlvlno = document.getElementById('newUserType')?.value || '';
+      const camt = parseFloat(document.getElementById('newCreditRef')?.value) || 0;
+      const comm = parseFloat(document.getElementById('newCommission')?.value) || 0;
+      const spart1 = parseFloat(document.getElementById('newShare')?.value) || 0;
+      const mpassword = (document.getElementById('newTxnPwd')?.value || '').trim();
+
+      // 2. Client-Side Validation
+      if (!clientname) {
+        this.showToast('Please enter Client Name', 'error');
+        document.getElementById('newUsername')?.focus();
+        return false;
+      }
+
+      if (!/^[a-zA-Z0-9_]{3,20}$/.test(clientname)) {
+        this.showToast('Client Name must be 3-20 alphanumeric characters or underscores', 'error');
+        document.getElementById('newUsername')?.focus();
+        return false;
+      }
+
+      if (!password || password.length < 6) {
+        this.showToast('Password must be at least 6 characters', 'error');
+        document.getElementById('newPassword')?.focus();
+        return false;
+      }
+
+      if (password !== rpassword) {
+        this.showToast('Password and Retype Password not matching', 'error');
+        document.getElementById('newRPassword')?.focus();
+        return false;
+      }
+
+      if (!fullname) {
+        this.showToast('Please enter Full Name', 'error');
+        document.getElementById('newFullName')?.focus();
+        return false;
+      }
+
+      if (!newlvlno) {
+        this.showToast('Please select Account Type', 'error');
+        document.getElementById('newUserType')?.focus();
+        return false;
+      }
+
+      if (isNaN(camt) || camt < 0) {
+        this.showToast('Please enter a valid Credit Reference amount', 'error');
+        document.getElementById('newCreditRef')?.focus();
+        return false;
+      }
+
+      if (!mpassword) {
+        this.showToast('Please enter Transaction Password', 'error');
+        document.getElementById('newTxnPwd')?.focus();
+        return false;
+      }
+
+      // 3. Prevent duplicate submissions
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Creating Account...';
+      }
+
+      const payload = {
+        clientname: clientname,
+        uname: clientname,
+        password: password,
+        rpassword: rpassword,
+        fullname: fullname,
+        city: city,
+        mono: mono,
+        newlvlno: newlvlno,
+        userType: newlvlno,
+        camt: camt,
+        creditRef: camt,
+        comm: comm,
+        spart1: spart1,
+        share: spart1,
+        mpassword: mpassword
+      };
+
+      const self = this;
+      try {
+        const token = localStorage.getItem('admin_token') || '';
+        const headers = {
+          'Content-Type': 'application/json'
+        };
+        if (token) {
+          headers['Authorization'] = 'Bearer ' + token;
+        }
+
+        // Call backend API endpoint
+        const response = await fetch('/api/admin/insertuser', {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (response.ok && (data.status === 200 || data.success)) {
+          // Success! Save to client data store
+          if (window.AdminDataStore) {
+            window.AdminDataStore.insertUser({
+              uname: clientname,
+              fname: fullname,
+              userType: newlvlno,
+              creditRef: camt,
+              balance: camt,
+              share: spart1
+            });
+          }
+
+          self.showToast(data.msg || 'User created successfully', 'success');
+          form.reset();
+
+          // Navigate back to user list after short delay
+          setTimeout(() => {
+            self.navigate('/admin/users');
+          }, 800);
+        } else {
+          // Validation / Server Error
+          const errMsg = data.msg || data.error || 'Failed to create account. Please check inputs.';
+          self.showToast(errMsg, 'error');
+        }
+      } catch (err) {
+        console.error('Error creating account:', err);
+        self.showToast('Network error while creating account. Please try again.', 'error');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
+        }
+      }
+
+      return false;
     },
 
     renderAssignAgent: function(container) {
@@ -4542,7 +4697,14 @@ renderGenericReport: function(container, title, desc) {
     App.init();
   }
 
+  App.handleRoute = function(path) {
+    App.navigate(path);
+  };
+
   window.AdminApp = App;
+  window.handleCreateAccountSubmit = function(e) {
+    return App.handleCreateAccountSubmit(e);
+  };
 
 })(window, document);
 

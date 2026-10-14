@@ -50,3 +50,5 @@ module.exports = async function handler(req, res) {
 
   return res.status(200).json({ status: 200, valid: true, user: verified });
 };
+
+module.exports.verifyToken = verifyToken;
