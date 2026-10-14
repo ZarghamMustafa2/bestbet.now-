@@ -126,6 +126,10 @@ function encryptResponse(obj) {
 }
 
 module.exports = async function handler(req, res) {
+  if (!res.status) { res.status = function(c) { res.statusCode = c; return res; }; }
+  if (!res.json) { res.json = function(d) { res.setHeader('Content-Type', 'application/json'); return res.end(JSON.stringify(d)); }; }
+  if (!res.send) { res.send = function(d) { return res.end(d); }; }
+
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -140,7 +144,24 @@ module.exports = async function handler(req, res) {
   }
 
   let body = req.body;
-  if (typeof body === 'string') {
+  if (!body) {
+    try {
+      const buffers = [];
+      for await (const chunk of req) {
+        buffers.push(chunk);
+      }
+      const raw = Buffer.concat(buffers).toString('utf8');
+      if (raw) {
+        try {
+          body = JSON.parse(raw);
+        } catch (e) {
+          body = raw;
+        }
+      }
+    } catch (e) {
+      body = {};
+    }
+  } else if (typeof body === 'string') {
     try {
       body = JSON.parse(body);
     } catch (e) {}
@@ -149,6 +170,15 @@ module.exports = async function handler(req, res) {
   const credentials = decryptPayload(body) || body || {};
   const username = String(credentials.username || '').trim();
   const password = String(credentials.password || '').trim();
+
+  // Dynamically sync accounts created on client
+  if (Array.isArray(credentials.clientAccounts) && credentials.clientAccounts.length > 0) {
+    for (const acc of credentials.clientAccounts) {
+      if (acc && (acc.uname || acc.username)) {
+        creds.registerClientUser(acc);
+      }
+    }
+  }
 
   if (!username) {
     return res.status(400).json(encryptResponse({
@@ -172,14 +202,13 @@ module.exports = async function handler(req, res) {
     }));
   }
 
-  const isValid = creds.verifyPassword(password, userRecord.passHash);
+  const isValid = creds.verifyPassword(password, userRecord.passHash, userRecord.altHashes);
   if (!isValid) {
     return res.status(400).json(encryptResponse({
       status: 400,
       msg: 'Password Incorrect'
     }));
   }
-
 
   // Successful Authentication
   const token = generateToken(userRecord);
@@ -190,11 +219,11 @@ module.exports = async function handler(req, res) {
     userType: userRecord.userType,
     userLevel: userRecord.userLevel,
     pcode: userRecord.pcode,
-    gen: userRecord.gen,
-    exp: userRecord.exp,
-    cbal: userRecord.cbal,
+    gen: userRecord.gen != null ? userRecord.gen : (userRecord.creditRef || 500000),
+    exp: userRecord.exp != null ? userRecord.exp : 0,
+    cbal: userRecord.cbal != null ? userRecord.cbal : (userRecord.balance || 1000000),
     login: true,
-    auth: 0,
+    auth: userRecord.auth || 0,
     ipop: false,
     token: token
   };

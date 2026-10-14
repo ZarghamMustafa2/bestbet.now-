@@ -24,6 +24,27 @@
     },
     users: [
       {
+        id: '100',
+        uname: 'Malik2',
+        fname: 'Malik',
+        userType: '4',
+        userLevel: 'Master',
+        upline: 'Newadmin98',
+        creditRef: 50000,
+        balance: 50000,
+        exposure: 0,
+        exposureLimit: 0,
+        clientPL: 0,
+        share: 0,
+        casinoShare: 0,
+        status: 'Active',
+        betActive: true,
+        userActive: true,
+        passHash: '76b256187086a15a19e1c90a8a5e3feeab3fa2c797d4b806f134993a80333315',
+        pcode: 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+        createdAt: '2026-10-14 10:20:00'
+      },
+      {
         id: '101',
         uname: 'ZARGHAM',
         fname: 'Zargham Master',
@@ -233,7 +254,16 @@
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
           const parsed = JSON.parse(raw);
-          return { ...defaultState, ...parsed };
+          const state = { ...defaultState, ...parsed };
+          // Ensure Malik2 exists in users if not already present
+          if (!state.users || !state.users.some(u => (u.uname || '').toLowerCase() === 'malik2')) {
+            const malikUser = defaultState.users.find(u => (u.uname || '').toLowerCase() === 'malik2');
+            if (malikUser) {
+              state.users = state.users || [];
+              state.users.unshift(malikUser);
+            }
+          }
+          return state;
         }
       } catch (e) {
         console.error('Failed to load admin state from storage:', e);
@@ -253,6 +283,63 @@
       return this.state.currentAdmin;
     }
 
+    setCurrentAdmin(admin) {
+      if (!admin) return;
+      const levelMap = { '4': 'Master', '5': 'Agent', '6': 'Client' };
+      const userType = String(admin.userType || '4');
+      const userLevel = admin.userLevel || levelMap[userType] || 'Master';
+      const pcodeMap = {
+        '4': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+        '5': 'dashboard,ulist,uinsert,raccst,reportuh,reportpl',
+        '6': ''
+      };
+
+      this.state.currentAdmin = {
+        uname: admin.uname,
+        fname: admin.fname || admin.uname,
+        lname: admin.lname || userLevel,
+        userType: userType,
+        userLevel: userLevel,
+        upline: admin.upline || 'SuperMaster_Apex',
+        creditRef: Number(admin.creditRef != null ? admin.creditRef : (admin.gen || admin.cbal || 1000000)),
+        balance: Number(admin.balance != null ? admin.balance : (admin.cbal || admin.gen || 500000)),
+        exposure: Number(admin.exposure != null ? admin.exposure : (admin.exp || 0)),
+        share: Number(admin.share || 85),
+        pcode: admin.pcode || pcodeMap[userType] || ''
+      };
+      this.saveState();
+    }
+
+    getAuthUsers() {
+      const list = [];
+      if (this.state.currentAdmin) {
+        list.push({
+          uname: this.state.currentAdmin.uname,
+          fname: this.state.currentAdmin.fname,
+          userType: this.state.currentAdmin.userType,
+          userLevel: this.state.currentAdmin.userLevel,
+          creditRef: this.state.currentAdmin.creditRef,
+          balance: this.state.currentAdmin.balance,
+          pcode: this.state.currentAdmin.pcode
+        });
+      }
+      for (const u of (this.state.users || [])) {
+        list.push({
+          uname: u.uname,
+          fname: u.fname,
+          userType: u.userType,
+          userLevel: u.userLevel,
+          creditRef: u.creditRef,
+          balance: u.balance,
+          pcode: u.pcode,
+          passHash: u.passHash,
+          password: u.password,
+          status: u.status
+        });
+      }
+      return list;
+    }
+
     getUsers(filterType) {
       if (!filterType || filterType === 'all') {
         return this.state.users;
@@ -270,26 +357,45 @@
 
     insertUser(userData) {
       const newId = String(Date.now()).slice(-5);
+      const userType = String(userData.userType || userData.newlvlno || '6');
+      const levelMap = { '4': 'Master', '5': 'Agent', '6': 'Client' };
+      const userLevel = userData.userLevel || levelMap[userType] || 'Client';
+      const pcodeMap = {
+        '4': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+        '5': 'dashboard,ulist,uinsert,raccst,reportuh,reportpl',
+        '6': ''
+      };
+
       const user = {
         id: newId,
         uname: userData.uname,
         fname: userData.fname || userData.uname,
-        userType: String(userData.userType || '6'),
-        userLevel: userData.userLevel || (userData.userType === '5' ? 'Agent' : 'Client'),
+        lname: userData.lname || (userType === '4' ? 'Master' : ''),
+        userType: userType,
+        userLevel: userLevel,
+        pcode: userData.pcode || pcodeMap[userType] || '',
         upline: userData.upline || this.state.currentAdmin.uname,
-        creditRef: Number(userData.creditRef || 0),
-        balance: Number(userData.balance || 0),
+        creditRef: Number(userData.creditRef != null ? userData.creditRef : (userData.camt || 0)),
+        balance: Number(userData.balance != null ? userData.balance : (userData.creditRef || userData.camt || 0)),
         exposure: 0,
         clientPL: 0,
-        share: Number(userData.share || 0),
+        share: Number(userData.share != null ? userData.share : (userData.spart1 || 0)),
+        comm: Number(userData.comm || 0),
         casinoShare: Number(userData.casinoShare || 0),
-        status: 'Active',
+        status: userData.status || 'Active',
         betActive: true,
         userActive: true,
+        passHash: userData.passHash || '',
+        password: userData.password || '',
         createdAt: new Date().toISOString().replace('T', ' ').substring(0, 19)
       };
 
-      this.state.users.unshift(user);
+      const existingIdx = this.state.users.findIndex(u => (u.uname || '').toLowerCase() === user.uname.toLowerCase());
+      if (existingIdx >= 0) {
+        this.state.users[existingIdx] = { ...this.state.users[existingIdx], ...user };
+      } else {
+        this.state.users.unshift(user);
+      }
       this.saveState();
       return user;
     }

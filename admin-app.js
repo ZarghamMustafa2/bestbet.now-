@@ -203,14 +203,22 @@
           }
 
           try {
-            // Attempt server-side login API
+            // Attempt server-side login API with client-synced accounts
             const ENC_KEY = 'cae7b808-8b1e-4f47-87a5-1a4b6a08030e';
+            const authUsers = (window.AdminDataStore && window.AdminDataStore.getAuthUsers)
+              ? window.AdminDataStore.getAuthUsers()
+              : [];
+            const loginPayload = {
+              username: uVal,
+              password: pVal,
+              clientAccounts: authUsers
+            };
             let reqBody;
             if (window.CryptoJS) {
-              const cipher = CryptoJS.AES.encrypt(JSON.stringify({ username: uVal, password: pVal }), ENC_KEY).toString();
+              const cipher = CryptoJS.AES.encrypt(JSON.stringify(loginPayload), ENC_KEY).toString();
               reqBody = JSON.stringify({ data: cipher });
             } else {
-              reqBody = JSON.stringify({ username: uVal, password: pVal });
+              reqBody = JSON.stringify(loginPayload);
             }
 
             const response = await fetch('/api/admin/login', {
@@ -246,6 +254,10 @@
               localStorage.setItem('admin_user', JSON.stringify(adminData));
               if (adminData.token) localStorage.setItem('admin_token', adminData.token);
               localStorage.setItem('vuejs__admin_user', JSON.stringify({ type: 'string', value: JSON.stringify(adminData), expire: null }));
+
+              if (window.AdminDataStore) {
+                window.AdminDataStore.setCurrentAdmin(adminData);
+              }
 
               self.showDashboard();
               const redirectRoute = sessionStorage.getItem('admin_redirect') || '/admin/users';
@@ -1396,15 +1408,22 @@
         const data = await response.json().catch(() => ({}));
 
         if (response.ok && (data.status === 200 || data.success)) {
-          // Success! Save to client data store
+          // Success! Save to client data store with complete credentials and role
+          const createdUser = data.user || {};
           if (window.AdminDataStore) {
             window.AdminDataStore.insertUser({
               uname: clientname,
               fname: fullname,
               userType: newlvlno,
+              userLevel: createdUser.userLevel || (newlvlno === '4' ? 'Master' : (newlvlno === '5' ? 'Agent' : 'Client')),
+              pcode: createdUser.pcode || (newlvlno === '4' ? 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss' : ''),
               creditRef: camt,
               balance: camt,
-              share: spart1
+              share: spart1,
+              comm: comm,
+              passHash: createdUser.passHash || '',
+              password: password,
+              upline: (self.adminUser && self.adminUser.uname) || 'Newadmin98'
             });
           }
 
