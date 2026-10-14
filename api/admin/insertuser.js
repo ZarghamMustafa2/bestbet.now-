@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const querystring = require('querystring');
-const creds = require('./credentials');
+const creds = require('./_credentials');
 const { verifyToken } = require('./verify');
 
 module.exports = async function handler(req, res) {

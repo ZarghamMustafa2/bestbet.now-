@@ -248,6 +248,12 @@ function createUser(userData, uplineAdmin) {
   };
 }
 
+function resetUsers() {
+  usersCache = JSON.parse(JSON.stringify(DEFAULT_USERS));
+  try { if (fs.existsSync(PERSIST_FILE_LOCAL)) fs.unlinkSync(PERSIST_FILE_LOCAL); } catch (e) {}
+  try { if (fs.existsSync(PERSIST_FILE_TMP)) fs.unlinkSync(PERSIST_FILE_TMP); } catch (e) {}
+}
+
 module.exports = {
   SALT,
   hashPassword,
@@ -255,5 +261,6 @@ module.exports = {
   getUser,
   updatePassword,
   verifyTranCode,
-  createUser
+  createUser,
+  resetUsers
 };

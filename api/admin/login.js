@@ -6,7 +6,7 @@ try {
   CryptoJS = null;
 }
 
-const creds = require('./credentials');
+const creds = require('./_credentials');
 const ENC_KEY = process.env.ADMIN_ENC_KEY || 'cae7b808-8b1e-4f47-87a5-1a4b6a08030e';
 const JWT_SECRET = process.env.ADMIN_JWT_SECRET || 'allpanelexch_jwt_secure_key_2026';
 
