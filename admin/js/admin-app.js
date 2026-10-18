@@ -1136,8 +1136,7 @@
                 <h4 class="mb-0 font-size-18">Account List</h4>
                 <div class="page-title-right">
                   <div class="d-inline-block">
-                    <a href="/admin/downline-tree" class="btn btn-outline-info mr-2 nav-route-link" data-route="/admin/downline-tree"><i class="fas fa-sitemap"></i> <span class="d-none d-sm-inline ml-1">Downline Tree</span></a>
-                    <a href="/admin/users/insertuser" class="btn btn-add-account nav-route-link" data-route="/admin/users/insertuser">Add Account</a>
+                    <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link" data-route="/admin/users/insertuser"> Add Account</a>
                   </div>
                 </div>
               </div>
@@ -1187,52 +1186,39 @@
                   </div>
                   <div class="table-responsive mb-0">
                     <div class="table no-footer list-clients table-responsive-sm">
-                      <table id="eventsListTbl" role="table" aria-busy="false" aria-colcount="9" class="table b-table table-striped table-bordered list-clients">
+                      <table id="eventsListTbl" role="table" aria-busy="false" aria-colcount="8" class="table b-table table-striped table-bordered list-clients">
                         <thead role="rowgroup">
                           <tr role="row">
-                            <th role="columnheader" scope="col" tabindex="0" class="position-relative cp" onclick="window.adminSortUsers('uname')"><div>User Name</div></th>
-                            <th role="columnheader" scope="col" class="text-center"><div>Account ID</div></th>
-                            <th role="columnheader" scope="col" class="text-left"><div>Role</div></th>
-                            <th role="columnheader" scope="col" class="text-left"><div>Parent / Created By</div></th>
-                            <th role="columnheader" scope="col" tabindex="0" class="position-relative text-right cp" onclick="window.adminSortUsers('creditRef')"><div>CR</div></th>
-                            <th role="columnheader" scope="col" class="text-center"><div>U st</div></th>
-                            <th role="columnheader" scope="col" class="text-center"><div>B st</div></th>
-                            <th role="columnheader" scope="col" class="text-center"><div>Downline</div></th>
-                            <th role="columnheader" scope="col"><div>Action</div></th>
+                            <th role="columnheader" scope="col" tabindex="0" aria-colindex="1" aria-sort="none" class="position-relative cp" onclick="window.adminSortUsers('uname')"><div>User Name</div></th>
+                            <th role="columnheader" scope="col" tabindex="0" aria-colindex="2" aria-sort="none" class="position-relative text-right cp" onclick="window.adminSortUsers('creditRef')"><div>CR</div></th>
+                            <th role="columnheader" scope="col" aria-colindex="3" class="text-center"><div>U<br>st</div></th>
+                            <th role="columnheader" scope="col" aria-colindex="4" class="text-center"><div>B<br>st</div></th>
+                            <th role="columnheader" scope="col" aria-colindex="5" class="text-center"><div>Exposure Limit</div></th>
+                            <th role="columnheader" scope="col" aria-colindex="6" class="text-center"><div>Deafult (%)</div></th>
+                            <th role="columnheader" scope="col" aria-colindex="7" class="text-center"><div>Account Type</div></th>
+                            <th role="columnheader" scope="col" aria-colindex="8" class="text-left"><div>Action</div></th>
                           </tr>
                         </thead>
                         <tbody role="rowgroup">
                           <tr role="row" class="font-weight-bold" style="background-color: #f8f9fa;">
-                            <td role="cell"></td>
-                            <td role="cell"></td>
-                            <td role="cell"></td>
                             <td role="cell"></td>
                             <td role="cell" class="text-right"><b>${totalCR}</b></td>
                             <td role="cell"></td>
                             <td role="cell"></td>
                             <td role="cell"></td>
                             <td role="cell"></td>
+                            <td role="cell"></td>
+                            <td role="cell"></td>
                           </tr>
                           ${pagedUsers.length === 0 ? `
-                            <tr role="row" class="b-table-empty-row"><td colspan="9" role="cell"><div role="alert" aria-live="polite"><div class="text-center my-2">There are no records to show</div></div></td></tr>
+                            <tr role="row" class="b-table-empty-row"><td colspan="8" role="cell"><div role="alert" aria-live="polite"><div class="text-center my-2">There are no records to show</div></div></td></tr>
                           ` : pagedUsers.map(u => {
                             const uRole = store.normalizeRole(u.role || u.userType);
                             const roleLabel = store.getRoleLabel(uRole);
-                            const allUsers = store.state.users || [];
-                            const directCount = allUsers.filter(x => (x.createdBy || x.upline || '').toLowerCase() === (u.uname || '').toLowerCase()).length;
                             return `
                             <tr role="row" id="row-user-${u.id}">
                               <td role="cell">
                                 <span class="username-badge cp" onclick="${uRole !== 'user' ? `window.AdminApp.handleRoute('/admin/child/${u.uname}')` : `window.openExtraModal('${u.id}')`}" title="Click to view details">${u.uname}</span>
-                              </td>
-                              <td role="cell" class="text-center font-weight-bold text-muted font-size-12">
-                                ${u.id || '-'}
-                              </td>
-                              <td role="cell" class="text-left">
-                                <span class="role-badge role-badge-${uRole}">${roleLabel}</span>
-                              </td>
-                              <td role="cell" class="text-left font-size-12">
-                                <span class="font-weight-bold text-dark">${u.createdBy || u.upline || 'SYSTEM'}</span>
                               </td>
                               <td role="cell" class="text-right">
                                 <span class="cp font-weight-normal text-dark" onclick="window.openCreditRefModal('${u.id}')" title="Click to update Credit">${u.creditRef != null ? u.creditRef : 0}</span>
@@ -1244,7 +1230,13 @@
                                 <div class="checkbox-black-box ${u.betActive !== false ? '' : 'inactive'}">${u.betActive !== false ? '✔' : ''}</div>
                               </td>
                               <td role="cell" class="text-center">
-                                <span class="badge badge-light border font-weight-bold px-2 py-1">${directCount}</span>
+                                <span>${u.exposureLimit != null ? u.exposureLimit : (u.exposure || 0)}</span>
+                              </td>
+                              <td role="cell" class="text-center">
+                                <span>${u.defaultPercent != null ? u.defaultPercent : 0}</span>
+                              </td>
+                              <td role="cell" class="text-center">
+                                <span class="role-badge role-badge-${uRole}">${roleLabel}</span>
                               </td>
                               <td role="cell" class="text-left nowrap">
                                 <button type="button" class="btn action-button" onclick="window.openDepositModal('${u.id}')" title="Deposit">D</button>
@@ -1340,28 +1332,12 @@
       container.innerHTML = `
         <div class="listing-grid">
           <div class="add-account">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-              <h2 class="mb-0">Add Account</h2>
-              <a href="/admin/downline-tree" class="btn btn-outline-info btn-sm nav-route-link" data-route="/admin/downline-tree">
-                <i class="fas fa-sitemap mr-1"></i> View Downline Tree
-              </a>
-            </div>
-
-            <div class="alert alert-light border mb-4 py-2 px-3 d-flex align-items-center justify-content-between flex-wrap">
-              <div class="my-1">
-                <span class="text-muted mr-1 font-size-13">Parent / Creator Account:</span>
-                <strong class="text-dark font-size-14">${currentAdmin?.uname || 'SYSTEM'}</strong>
-                <span class="role-badge role-badge-${actorRole} ml-2">${store.getRoleLabel(actorRole)}</span>
-              </div>
-              <div class="my-1">
-                <span class="text-muted font-size-12">Account ID: #${currentAdmin?.id || '-'}</span>
-              </div>
-            </div>
+            <h2 class="m-b-20 mb-4">Add Account</h2>
 
             <form data-vv-scope="InserUserAccount" method="post" action="javascript:void(0);" id="insertUserForm" onsubmit="event.preventDefault(); window.AdminApp.handleCreateAccountSubmit(event); return false;">
               <div class="row">
                 <div class="col-md-6 col-12">
-                  <h4 class="mb-4 col-12 pl-0">Personal Detail</h4>
+                  <h4 class="mb-4 col-12">Personal Detail</h4>
                   <div class="row">
                     <div class="col-md-6 col-12">
                       <div class="form-group">
@@ -1402,7 +1378,7 @@
                   </div>
                 </div>
                 <div class="col-md-6 col-12">
-                  <h4 class="mb-4 col-12 pl-0">Account Detail</h4>
+                  <h4 class="mb-4 col-12">Account Detail</h4>
                   <div class="row">
                     <div class="col-md-6 col-12">
                       <div class="form-group">
@@ -1425,7 +1401,7 @@
               </div>
               <div class="row mt-4">
                 <div class="col-md-6 col-12 mb-3">
-                  <h4 class="mb-4 col-md-12 pl-0">Commission Settings</h4>
+                  <h4 class="mb-4 col-md-12">Commission Settings</h4>
                   <table class="table table-striped table-bordered">
                     <tbody>
                       <tr><td style="width:120px;">Upline</td><td>0.00</td></tr>
@@ -1435,7 +1411,7 @@
                   </table>
                 </div>
                 <div class="col-md-6 col-12 mb-3">
-                  <h4 class="mb-4 col-md-12 pl-0">Partnership</h4>
+                  <h4 class="mb-4 col-md-12">Partnership</h4>
                   <table class="table table-striped table-bordered">
                     <tbody>
                       <tr><td style="width:120px;">Upline</td><td>0.00</td></tr>
@@ -5122,6 +5098,22 @@ renderGenericReport: function(container, title, desc) {
           item.style.display = 'none';
         }
       }
+    });
+  };
+
+  window.showAdminRulesModal = function() {
+    Swal.fire({
+      title: 'Rules & Regulations',
+      html: `
+        <div style="text-align: left; font-size: 13px; max-height: 400px; overflow-y: auto;">
+          <p><strong>1. General Conditions:</strong> All management accounts must strictly operate within authorized downline boundaries.</p>
+          <p><strong>2. Transactions:</strong> All financial credit reference deposits, withdrawals, and settlements must be backed by a valid transaction password.</p>
+          <p><strong>3. Bets:</strong> Bets once matched cannot be altered except through official Void/Deleted procedures.</p>
+          <p><strong>4. Security:</strong> Always protect your master credentials and enable two-step verification where applicable.</p>
+        </div>
+      `,
+      confirmButtonText: 'Understood',
+      confirmButtonColor: '#0088cc'
     });
   };
 

@@ -1202,12 +1202,13 @@
       font-weight: 500 !important;
     }
     .add-account h4 {
-      background-color: transparent !important;
-      color: #212529 !important;
-      padding: 0 !important;
-      font-size: 16px !important;
-      font-weight: 600 !important;
+      background-color: #2c3e50 !important;
+      color: #ffffff !important;
+      padding: 6px 15px !important;
+      font-size: 18px !important;
+      font-weight: 700 !important;
       margin-bottom: 16px !important;
+      border-radius: 2px !important;
     }
     .add-account label {
       color: #495057 !important;
@@ -1314,6 +1315,23 @@
       }
       .navbar-header .user-menu .role-badge {
         display: none !important;
+      }
+      #page-topbar .main-menu {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        max-width: calc(100vw - 145px) !important;
+        scrollbar-width: none;
+      }
+      #page-topbar .main-menu::-webkit-scrollbar {
+        display: none;
+      }
+      #page-topbar .main-menu .nav-link {
+        font-size: 12px !important;
+        padding: 0 7px !important;
+        line-height: 50px !important;
+        height: 50px !important;
       }
     }
     @media (max-width: 767.98px) {
@@ -1628,7 +1646,7 @@
             </button>
 
             <!-- Main Menu Links matching Reference Vue router -->
-            <ul class="nav align-items-center main-menu d-none d-lg-flex">
+            <ul class="nav align-items-center main-menu" id="adminMainMenu">
               <li class="nav-item">
                 <a href="/admin/users" class="nav-link nav-route-link" data-route="/admin/users">
                   List of Clients
@@ -1736,6 +1754,12 @@
                 <span class="mr-1" id="topAdminUsername">Newadmin98</span> <i class="fa fa-caret-down"></i>
               </button>
               <ul role="menu" tabindex="-1" class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenuBtn">
+                <div class="dropdown d-sm-none ml-2 mr-2 my-1">
+                  <div class="bal-box" style="padding: 4px 8px; font-size: 12px; background: #2a3042; border-radius: 3px; color: #fff;">
+                    <span class="balance nowrap">Pts: <span class="balance-value" id="mobileUserPts"><b>0</b></span></span>
+                  </div>
+                </div>
+                <a href="javascript: void(0);" class="dropdown-item d-sm-none" onclick="window.showAdminRulesModal()"><i class="fas fa-info-circle mr-1"></i> Rules</a>
                 <a href="/admin/secureauth" class="dropdown-item nav-route-link" data-route="/admin/secureauth">Secure Auth Verification</a>
                 <a href="/admin/change-password" class="dropdown-item" id="openAdminPasswordBtn">Change Password</a>
                 <a href="/admin/setbutton" class="dropdown-item nav-route-link" data-route="/admin/setbutton">Set Buttons</a>

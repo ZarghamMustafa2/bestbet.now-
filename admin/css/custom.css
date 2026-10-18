@@ -763,6 +763,23 @@ html, body {
     .navbar-header .user-menu .role-badge {
         display: none !important;
     }
+    #page-topbar .main-menu {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        max-width: calc(100vw - 145px) !important;
+        scrollbar-width: none;
+    }
+    #page-topbar .main-menu::-webkit-scrollbar {
+        display: none;
+    }
+    #page-topbar .main-menu .nav-link {
+        font-size: 12px !important;
+        padding: 0 7px !important;
+        line-height: 50px !important;
+        height: 50px !important;
+    }
     .vertical-menu {
         display: none !important;
     }
