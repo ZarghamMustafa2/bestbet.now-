@@ -171,7 +171,7 @@
       if (userEl) {
         const role = admin.role || 'company';
         const roleLabel = window.AdminDataStore ? window.AdminDataStore.getRoleLabel(role) : (admin.userLevel || 'Company Account');
-        userEl.innerHTML = `${admin.uname} <span class="role-badge role-badge-${role} ml-1" style="font-size:10px; vertical-align:middle;">${roleLabel}</span>`;
+        userEl.innerHTML = `${admin.uname} <span class="role-badge role-badge-${role} ml-1 d-none d-md-inline" style="font-size:10px; vertical-align:middle;">${roleLabel}</span>`;
       }
     },
 
@@ -1136,7 +1136,7 @@
                 <h4 class="mb-0 font-size-18">Account List</h4>
                 <div class="page-title-right">
                   <div class="d-inline-block">
-                    <a href="/admin/downline-tree" class="btn btn-outline-info mr-2 nav-route-link" data-route="/admin/downline-tree"><i class="fas fa-sitemap mr-1"></i> Downline Tree</a>
+                    <a href="/admin/downline-tree" class="btn btn-outline-info mr-2 nav-route-link" data-route="/admin/downline-tree"><i class="fas fa-sitemap"></i> <span class="d-none d-sm-inline ml-1">Downline Tree</span></a>
                     <a href="/admin/users/insertuser" class="btn btn-add-account nav-route-link" data-route="/admin/users/insertuser">Add Account</a>
                   </div>
                 </div>
