@@ -1,52 +1,127 @@
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
+const hierarchy = require('./_hierarchy');
 
 const SALT = process.env.ADMIN_PASS_SALT || 'allpanel_secure_salt_2026';
 const PERSIST_FILE_TMP = '/tmp/admin_credentials.json';
 const PERSIST_FILE_LOCAL = path.join(__dirname, '../../scratch/admin_credentials.json');
 
+const PERSIST_AUDIT_TMP = '/tmp/admin_audit_logs.json';
+const PERSIST_AUDIT_LOCAL = path.join(__dirname, '../../scratch/admin_audit_logs.json');
+
 const DEFAULT_USERS = {
+  'company': {
+    id: '78858',
+    uname: 'Company',
+    fname: 'Company Root',
+    lname: 'Company',
+    role: 'company',
+    userType: '1',
+    userLevel: 'Company Account',
+    pcode: 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss,api_mgmt,payments',
+    parentId: null,
+    createdBy: 'SYSTEM',
+    companyRootId: '78858',
+    ancestors: [],
+    gen: 10000000,
+    exp: 0,
+    cbal: 10000000,
+    creditRef: 10000000,
+    balance: 10000000,
+    passHash: '76b256187086a15a19e1c90a8a5e3feeab3fa2c797d4b806f134993a80333315',
+    altHashes: [
+      'f22ee14ae1618b358483826350eec7471da9e5a575e89eab2d81e4db60a19da8',
+      '2e072457f1a28f58ae8aab2fbf011213806f6aac9a86ef271035a54089f16d8d',
+      '130d51837c34b40f86708b88e8be1ab68a5dd5530de066f3a003dea5b3223f02'
+    ],
+    tranCode: '130367',
+    auth: 0,
+    status: 'Active',
+    betActive: true,
+    userActive: true,
+    login: true,
+    firstLogin: false,
+    createdAt: '2026-09-01 00:00:00'
+  },
+  'newadmin98': {
+    id: '78859',
+    uname: 'Newadmin98',
+    fname: 'Newadmin',
+    lname: 'Company',
+    role: 'company',
+    userType: '1',
+    userLevel: 'Company Account',
+    pcode: 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss,api_mgmt,payments',
+    parentId: null,
+    createdBy: 'SYSTEM',
+    companyRootId: '78859',
+    ancestors: [],
+    gen: 500000,
+    exp: 0,
+    cbal: 1000000,
+    creditRef: 1000000,
+    balance: 500000,
+    passHash: '76b256187086a15a19e1c90a8a5e3feeab3fa2c797d4b806f134993a80333315',
+    altHashes: [
+      'f22ee14ae1618b358483826350eec7471da9e5a575e89eab2d81e4db60a19da8',
+      '2e072457f1a28f58ae8aab2fbf011213806f6aac9a86ef271035a54089f16d8d'
+    ],
+    tranCode: '130367',
+    auth: 0,
+    status: 'Active',
+    betActive: true,
+    userActive: true,
+    login: true,
+    firstLogin: false,
+    createdAt: '2026-10-14 13:01:18'
+  },
   'faazan50': {
+    id: '78860',
     uname: 'Faazan50',
     fname: 'Faazan',
-    lname: 'Master',
-    userType: '4',
-    userLevel: 'Master',
+    lname: 'Super Admin',
+    role: 'super_admin',
+    userType: '2',
+    userLevel: 'Super Admin',
     pcode: 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+    parentId: '78859',
+    createdBy: 'Newadmin98',
+    companyRootId: '78859',
+    ancestors: ['newadmin98'],
     gen: 500000,
     exp: 12500,
     cbal: 1000000,
+    creditRef: 1000000,
+    balance: 500000,
     passHash: '76b256187086a15a19e1c90a8a5e3feeab3fa2c797d4b806f134993a80333315',
     tranCode: '130367',
     auth: 0,
-    login: true
-  },
-  'newadmin98': {
-    uname: 'Newadmin98',
-    fname: 'Newadmin',
-    lname: 'Master',
-    userType: '4',
-    userLevel: 'Master',
-    pcode: 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
-    gen: 500000,
-    exp: 0,
-    cbal: 1000000,
-    passHash: '76b256187086a15a19e1c90a8a5e3feeab3fa2c797d4b806f134993a80333315',
-    tranCode: '130367',
-    auth: 0,
-    login: true
+    status: 'Active',
+    betActive: true,
+    userActive: true,
+    login: true,
+    firstLogin: false,
+    createdAt: '2026-09-01 00:00:00'
   },
   'malik2': {
+    id: '78904',
     uname: 'Malik2',
     fname: 'Malik',
     lname: 'Master',
-    userType: '4',
-    userLevel: 'Master',
+    role: 'master',
+    userType: '5',
+    userLevel: 'Master Account',
     pcode: 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+    parentId: '78859',
+    createdBy: 'Newadmin98',
+    companyRootId: '78859',
+    ancestors: ['newadmin98'],
     gen: 500000,
     exp: 0,
     cbal: 1000000,
+    creditRef: 50000,
+    balance: 50000,
     passHash: '76b256187086a15a19e1c90a8a5e3feeab3fa2c797d4b806f134993a80333315',
     altHashes: [
       'f22ee14ae1618b358483826350eec7471da9e5a575e89eab2d81e4db60a19da8',
@@ -61,11 +136,87 @@ const DEFAULT_USERS = {
     ],
     tranCode: '130367',
     auth: 0,
-    login: true
+    status: 'Active',
+    betActive: true,
+    userActive: true,
+    login: true,
+    firstLogin: false,
+    createdAt: '2026-10-14 13:01:18'
   }
 };
 
 let usersCache = null;
+let auditLogsCache = null;
+
+function loadAuditLogs() {
+  if (auditLogsCache) return auditLogsCache;
+  let loaded = [];
+  try {
+    if (fs.existsSync(PERSIST_AUDIT_TMP)) {
+      const d = JSON.parse(fs.readFileSync(PERSIST_AUDIT_TMP, 'utf8'));
+      if (Array.isArray(d)) loaded = d;
+    }
+  } catch (e) {}
+
+  if (loaded.length === 0) {
+    try {
+      if (fs.existsSync(PERSIST_AUDIT_LOCAL)) {
+        const d = JSON.parse(fs.readFileSync(PERSIST_AUDIT_LOCAL, 'utf8'));
+        if (Array.isArray(d)) loaded = d;
+      }
+    } catch (e) {}
+  }
+  auditLogsCache = loaded;
+  return auditLogsCache;
+}
+
+function saveAuditLogs() {
+  if (!auditLogsCache) return;
+  const jsonStr = JSON.stringify(auditLogsCache, null, 2);
+  try { fs.writeFileSync(PERSIST_AUDIT_TMP, jsonStr, 'utf8'); } catch (e) {}
+  try {
+    const dir = path.dirname(PERSIST_AUDIT_LOCAL);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(PERSIST_AUDIT_LOCAL, jsonStr, 'utf8');
+  } catch (e) {}
+}
+
+function addAuditLog(entry) {
+  loadAuditLogs();
+  const log = {
+    id: 'AUD-' + Date.now() + '-' + Math.floor(Math.random() * 10000),
+    action: entry.action || 'ACCOUNT_CREATED',
+    actorId: String(entry.actorId || ''),
+    actorUsername: String(entry.actorUsername || ''),
+    actorRole: String(entry.actorRole || ''),
+    targetId: String(entry.targetId || ''),
+    targetUsername: String(entry.targetUsername || ''),
+    targetRole: String(entry.targetRole || ''),
+    parentId: String(entry.parentId || ''),
+    companyRootId: String(entry.companyRootId || ''),
+    details: entry.details || '',
+    createdAt: new Date().toISOString().replace('T', ' ').substring(0, 19)
+  };
+  auditLogsCache.unshift(log);
+  if (auditLogsCache.length > 500) auditLogsCache.pop(); // keep last 500
+  saveAuditLogs();
+  return log;
+}
+
+function getAuditLogs(actor) {
+  loadAuditLogs();
+  if (!actor) return [];
+  const actorRole = hierarchy.normalizeRole(actor.role || actor.userType);
+  if (actorRole === 'company') {
+    return auditLogsCache;
+  }
+  const actorUname = (actor.uname || actor.username || '').toLowerCase();
+  return auditLogsCache.filter(l => 
+    (l.actorUsername && l.actorUsername.toLowerCase() === actorUname) ||
+    (l.targetUsername && l.targetUsername.toLowerCase() === actorUname) ||
+    (l.parentId && l.parentId.toLowerCase() === actorUname)
+  );
+}
 
 function loadUsers() {
   if (usersCache) return usersCache;
@@ -97,12 +248,111 @@ function loadUsers() {
     ...loadedData
   };
 
-  // Ensure default system accounts maintain login: true
-  for (const k of Object.keys(DEFAULT_USERS)) {
-    if (usersCache[k]) {
-      usersCache[k].login = true;
-      usersCache[k].firstLogin = false;
+  // Safe Canonical Hierarchy Migration Pass
+  for (const [k, u] of Object.entries(usersCache)) {
+    if (!u) continue;
+
+    // Preserve system root identities
+    if (k === 'newadmin98' || k === 'company') {
+      if (!u.id) u.id = k === 'company' ? '78858' : '78859';
+      u.role = 'company';
+      u.userType = '1';
+      u.userLevel = 'Company Account';
+      u.parentId = null;
+      u.createdBy = 'SYSTEM';
+      u.companyRootId = u.id || '78859';
+      u.ancestors = [];
+      u.login = true;
+      u.firstLogin = false;
+      continue;
     }
+
+    if (k === 'faazan50') {
+      if (!u.id) u.id = '78860';
+      u.role = 'super_admin';
+      u.userType = '2';
+      u.userLevel = 'Super Admin';
+      u.parentId = '78859';
+      u.createdBy = 'Newadmin98';
+      u.companyRootId = '78859';
+      u.ancestors = ['newadmin98'];
+      u.login = true;
+      u.firstLogin = false;
+      continue;
+    }
+
+    if (k === 'malik2') {
+      if (!u.id) u.id = '78904';
+      u.role = 'master';
+      u.userType = '5';
+      u.userLevel = 'Master Account';
+      u.parentId = '78859';
+      u.createdBy = 'Newadmin98';
+      u.companyRootId = '78859';
+      u.ancestors = ['newadmin98'];
+      u.login = true;
+      u.firstLogin = false;
+      continue;
+    }
+
+    // Legacy role mapping for existing accounts
+    // zargham -> Super Master (Level 4)
+    if (k === 'zargham') {
+      if (!u.id) u.id = '78905';
+      u.role = 'super_master';
+      u.userType = '4';
+      u.userLevel = 'Super Master';
+      u.parentId = '78859';
+      u.createdBy = 'Newadmin98';
+      u.companyRootId = '78859';
+      u.ancestors = ['newadmin98'];
+      continue;
+    }
+
+    // zargham1 (old Agent) -> Master Account (Level 5)
+    if (k === 'zargham1') {
+      if (!u.id) u.id = '78949';
+      u.role = 'master';
+      u.userType = '5';
+      u.userLevel = 'Master Account';
+      u.parentId = '78905';
+      u.createdBy = 'ZARGHAM';
+      u.companyRootId = '78859';
+      u.ancestors = ['newadmin98', 'zargham'];
+      continue;
+    }
+
+    // zargham2 (old Client) -> Normal User (Level 6)
+    if (k === 'zargham2') {
+      if (!u.id) u.id = '78950';
+      u.role = 'user';
+      u.userType = '6';
+      u.userLevel = 'Normal User';
+      u.parentId = '78949';
+      u.createdBy = 'ZARGHAM1';
+      u.companyRootId = '78859';
+      u.ancestors = ['newadmin98', 'zargham', 'zargham1'];
+      continue;
+    }
+
+    // Default migration for any other user
+    if (!u.role) {
+      // Legacy agent role mapped to master
+      if (u.userType === '5' || (u.userLevel && u.userLevel.toLowerCase() === 'agent')) {
+        u.role = 'master';
+      } else {
+        u.role = hierarchy.normalizeRole(u.userType || u.userLevel);
+      }
+    }
+    u.userType = hierarchy.ROLE_TO_NUMERIC[u.role] || u.userType || '6';
+    u.userLevel = hierarchy.getRoleLabel(u.role);
+    if (!u.companyRootId) u.companyRootId = '78859';
+    if (!u.createdBy) u.createdBy = u.upline || 'Newadmin98';
+    if (!u.parentId) u.parentId = u.upline || '78859';
+    if (!Array.isArray(u.ancestors)) {
+      u.ancestors = u.createdBy ? [u.createdBy.toLowerCase()] : ['newadmin98'];
+    }
+    if (!u.status) u.status = 'Active';
   }
 
   return usersCache;
@@ -170,7 +420,7 @@ function getUser(username) {
   return users[String(username).trim().toLowerCase()] || null;
 }
 
-function updatePassword(username, oldPassword, newPassword) {
+function updatePassword(username, oldPassword, newPassword, actor) {
   const users = loadUsers();
   const key = String(username).trim().toLowerCase();
   const user = users[key];
@@ -194,7 +444,6 @@ function updatePassword(username, oldPassword, newPassword) {
   }
 
   // Generate authentic 6-digit transaction token
-  // Cryptographically secure 6-digit code
   const newTranCode = String(Math.floor(100000 + crypto.randomInt(0, 900000)));
 
   user.passHash = hashPassword(newPassword);
@@ -205,6 +454,19 @@ function updatePassword(username, oldPassword, newPassword) {
   delete user.mustChangePassword;
 
   saveUsers();
+
+  addAuditLog({
+    action: 'PASSWORD_RESET',
+    actorId: actor ? actor.id : user.id,
+    actorUsername: actor ? actor.uname : user.uname,
+    actorRole: actor ? actor.role : user.role,
+    targetId: user.id,
+    targetUsername: user.uname,
+    targetRole: user.role,
+    parentId: user.parentId,
+    companyRootId: user.companyRootId,
+    details: 'Password updated and new transaction code generated'
+  });
 
   return {
     success: true,
@@ -219,6 +481,9 @@ function verifyTranCode(username, code) {
   return String(user.tranCode || '130367').trim() === String(code).trim();
 }
 
+/**
+ * Server-Side Enforced Hierarchical User Creation
+ */
 function createUser(userData, uplineAdmin) {
   const users = loadUsers();
   const rawUname = String(userData.clientname || userData.uname || '').trim();
@@ -232,6 +497,30 @@ function createUser(userData, uplineAdmin) {
   }
   if (users[key]) {
     return { success: false, status: 409, error: 'Username already exists. Please choose a different name.' };
+  }
+
+  // 1. Resolve Creator (Actor)
+  const actor = uplineAdmin ? (getUser(uplineAdmin.uname) || uplineAdmin) : getUser('newadmin98');
+  const actorRole = hierarchy.normalizeRole(actor.role || actor.userType || actor.userLevel);
+
+  // Normal User cannot create any account
+  if (actorRole === 'user') {
+    return { success: false, status: 403, error: 'Forbidden: Normal Users cannot create accounts.' };
+  }
+
+  // 2. Resolve Target Role
+  const requestedRoleInput = userData.role || userData.newlvlno || userData.userType;
+  const targetRole = hierarchy.normalizeRole(requestedRoleInput);
+
+  // Check Backend Permission Matrix
+  if (!hierarchy.canCreateRole(actorRole, targetRole)) {
+    const actorLabel = hierarchy.getRoleLabel(actorRole);
+    const targetLabel = hierarchy.getRoleLabel(targetRole);
+    return {
+      success: false,
+      status: 403,
+      error: `Forbidden: ${actorLabel} is not permitted to create a ${targetLabel}. Allowed: ${hierarchy.getAllowedCreationRoles(actorRole).map(hierarchy.getRoleLabel).join(', ')}.`
+    };
   }
 
   const password = String(userData.password || '');
@@ -248,36 +537,47 @@ function createUser(userData, uplineAdmin) {
     return { success: false, status: 400, error: 'Full Name is required.' };
   }
 
-  const userType = String(userData.newlvlno || userData.userType || '6');
-  if (!['4', '5', '6'].includes(userType)) {
-    return { success: false, status: 400, error: 'Invalid Account Type selected.' };
-  }
-
   const creditRef = parseFloat(userData.camt != null ? userData.camt : userData.creditRef) || 0;
   if (creditRef < 0) {
     return { success: false, status: 400, error: 'Credit Reference cannot be negative.' };
   }
 
-  const levelMap = { '4': 'Master', '5': 'Agent', '6': 'Client' };
-  const userLevel = levelMap[userType] || 'Client';
+  const userType = hierarchy.ROLE_TO_NUMERIC[targetRole] || '6';
+  const userLevel = hierarchy.getRoleLabel(targetRole);
+
   const pcodeMap = {
-    '4': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
-    '5': 'dashboard,ulist,uinsert,raccst,reportuh,reportpl',
-    '6': ''
+    'company': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss,api_mgmt,payments',
+    'super_admin': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss,payments',
+    'admin': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+    'super_master': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+    'master': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+    'user': ''
   };
-  const pcode = pcodeMap[userType] || '';
+
+  const parentId = String(actor.id || actor.uname || '78859');
+  const createdBy = actor.uname || 'Newadmin98';
+  const companyRootId = actor.companyRootId || '78859';
+  const parentAncestors = Array.isArray(actor.ancestors) ? actor.ancestors : [];
+  const ancestors = [...parentAncestors, (actor.uname || '').toLowerCase()];
+
+  const newId = String(Date.now()).slice(-5);
 
   const newUser = {
-    id: String(Date.now()).slice(-5),
+    id: newId,
     uname: rawUname,
     fname: fullname,
-    lname: '',
+    lname: targetRole === 'user' ? 'Client' : userLevel,
     city: String(userData.city || '').trim(),
     mono: String(userData.mono || '').trim(),
+    role: targetRole,
     userType: userType,
     userLevel: userLevel,
-    pcode: pcode,
-    upline: uplineAdmin ? uplineAdmin.uname : 'Newadmin98',
+    pcode: pcodeMap[targetRole] || '',
+    parentId: parentId,
+    createdBy: createdBy,
+    companyRootId: companyRootId,
+    ancestors: ancestors,
+    upline: createdBy,
     creditRef: creditRef,
     balance: creditRef,
     gen: creditRef,
@@ -304,6 +604,19 @@ function createUser(userData, uplineAdmin) {
   users[key] = newUser;
   saveUsers();
 
+  addAuditLog({
+    action: 'ACCOUNT_CREATED',
+    actorId: actor.id,
+    actorUsername: actor.uname,
+    actorRole: actorRole,
+    targetId: newUser.id,
+    targetUsername: newUser.uname,
+    targetRole: targetRole,
+    parentId: newUser.parentId,
+    companyRootId: newUser.companyRootId,
+    details: `Created new ${userLevel} under ${createdBy}`
+  });
+
   return {
     success: true,
     status: 200,
@@ -312,9 +625,14 @@ function createUser(userData, uplineAdmin) {
       id: newUser.id,
       uname: newUser.uname,
       fname: newUser.fname,
+      role: newUser.role,
       userType: newUser.userType,
       userLevel: newUser.userLevel,
       pcode: newUser.pcode,
+      parentId: newUser.parentId,
+      createdBy: newUser.createdBy,
+      companyRootId: newUser.companyRootId,
+      ancestors: newUser.ancestors,
       upline: newUser.upline,
       creditRef: newUser.creditRef,
       balance: newUser.balance,
@@ -339,15 +657,12 @@ function registerClientUser(userData) {
   const key = rawUname.toLowerCase();
   const users = loadUsers();
 
-  const userType = String(userData.userType || userData.newlvlno || '4');
-  const levelMap = { '4': 'Master', '5': 'Agent', '6': 'Client' };
-  const userLevel = userData.userLevel || levelMap[userType] || 'Master';
-  const pcodeMap = {
-    '4': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
-    '5': 'dashboard,ulist,uinsert,raccst,reportuh,reportpl',
-    '6': ''
-  };
-  const pcode = userData.pcode || pcodeMap[userType] || '';
+  let targetRole = hierarchy.normalizeRole(userData.role || userData.userType || userData.newlvlno);
+  if (userData.userType === '5' || (userData.userLevel && userData.userLevel.toLowerCase() === 'agent')) {
+    targetRole = 'master';
+  }
+  const userType = hierarchy.ROLE_TO_NUMERIC[targetRole] || '6';
+  const userLevel = hierarchy.getRoleLabel(targetRole);
 
   let passHash = '';
   if (userData.password) {
@@ -357,16 +672,23 @@ function registerClientUser(userData) {
   }
 
   const existing = users[key] || {};
+  const isSystemAccount = ['faazan50', 'newadmin98', 'malik2', 'company'].includes(key);
+
   const mergedUser = {
     id: existing.id || userData.id || String(Date.now()).slice(-5),
     uname: existing.uname || rawUname,
     fname: userData.fname || existing.fname || rawUname,
-    lname: userData.lname || existing.lname || (userType === '4' ? 'Master' : ''),
+    lname: userData.lname || existing.lname || userLevel,
     city: userData.city || existing.city || '',
     mono: userData.mono || existing.mono || '',
-    userType: userType,
-    userLevel: userLevel,
-    pcode: pcode,
+    role: existing.role || targetRole,
+    userType: existing.userType || userType,
+    userLevel: existing.userLevel || userLevel,
+    pcode: existing.pcode || userData.pcode || '',
+    parentId: existing.parentId || userData.parentId || '78859',
+    createdBy: existing.createdBy || userData.createdBy || userData.upline || 'Newadmin98',
+    companyRootId: existing.companyRootId || userData.companyRootId || '78859',
+    ancestors: existing.ancestors || userData.ancestors || ['newadmin98'],
     upline: userData.upline || existing.upline || 'Newadmin98',
     creditRef: Number(userData.creditRef != null ? userData.creditRef : (existing.creditRef || 500000)),
     balance: Number(userData.balance != null ? userData.balance : (existing.balance || 500000)),
@@ -388,14 +710,44 @@ function registerClientUser(userData) {
     tranCode: userData.tranCode || existing.tranCode || '130367',
     password: userData.password || existing.password || '',
     auth: 0,
-    login: ['faazan50', 'newadmin98', 'malik2'].includes(key) ? true : ((userData.login !== undefined) ? !!userData.login : (existing.login !== undefined ? existing.login : (userData.firstLogin ? false : true))),
-    firstLogin: ['faazan50', 'newadmin98', 'malik2'].includes(key) ? false : ((userData.firstLogin !== undefined) ? !!userData.firstLogin : (existing.firstLogin !== undefined ? existing.firstLogin : (userData.login === false ? true : false))),
+    login: isSystemAccount ? true : ((userData.login !== undefined) ? !!userData.login : (existing.login !== undefined ? existing.login : (userData.firstLogin ? false : true))),
+    firstLogin: isSystemAccount ? false : ((userData.firstLogin !== undefined) ? !!userData.firstLogin : (existing.firstLogin !== undefined ? existing.firstLogin : (userData.login === false ? true : false))),
     createdAt: existing.createdAt || userData.createdAt || new Date().toISOString().replace('T', ' ').substring(0, 19)
   };
 
   users[key] = mergedUser;
   saveUsers();
   return mergedUser;
+}
+
+function updateUserStatus(actor, targetUname, newStatus) {
+  const users = loadUsers();
+  const key = String(targetUname).toLowerCase();
+  const target = users[key];
+  if (!target) return { success: false, error: 'User not found' };
+
+  if (!hierarchy.canDisableAccount(actor, target, users)) {
+    return { success: false, error: 'Forbidden: You do not have permission to change status for this account.' };
+  }
+
+  target.status = newStatus;
+  target.userActive = newStatus === 'Active';
+  saveUsers();
+
+  addAuditLog({
+    action: newStatus === 'Active' ? 'ACCOUNT_REACTIVATED' : 'ACCOUNT_DISABLED',
+    actorId: actor.id,
+    actorUsername: actor.uname,
+    actorRole: actor.role,
+    targetId: target.id,
+    targetUsername: target.uname,
+    targetRole: target.role,
+    parentId: target.parentId,
+    companyRootId: target.companyRootId,
+    details: `Status set to ${newStatus}`
+  });
+
+  return { success: true, user: target };
 }
 
 function resetUsers() {
@@ -406,12 +758,19 @@ function resetUsers() {
 
 module.exports = {
   SALT,
+  DEFAULT_USERS,
   hashPassword,
   verifyPassword,
   getUser,
+  loadUsers,
+  saveUsers,
   updatePassword,
   verifyTranCode,
   createUser,
   registerClientUser,
-  resetUsers
+  updateUserStatus,
+  addAuditLog,
+  getAuditLogs,
+  resetUsers,
+  hierarchy
 };

@@ -168,8 +168,11 @@
       if (balEl) balEl.innerText = this.formatCurrency(admin.balance);
       if (expEl) expEl.innerText = this.formatCurrency(admin.exposure);
       if (balElMobile) balElMobile.innerText = this.formatCurrency(admin.balance);
-      if (expElMobile) expElMobile.innerText = this.formatCurrency(admin.exposure);
-      if (userEl) userEl.innerText = admin.uname;
+      if (userEl) {
+        const role = admin.role || 'company';
+        const roleLabel = window.AdminDataStore ? window.AdminDataStore.getRoleLabel(role) : (admin.userLevel || 'Company Account');
+        userEl.innerHTML = `${admin.uname} <span class="role-badge role-badge-${role} ml-1" style="font-size:10px; vertical-align:middle;">${roleLabel}</span>`;
+      }
     },
 
     formatCurrency: function(num) {
@@ -818,6 +821,15 @@
         this.showLogin();
         this.showLoginStep('changePassword', this.adminUser.uname);
         return;
+      } else if (this.adminUser.role === 'user' || (this.adminUser.userType === '6' && !this.adminUser.role)) {
+        localStorage.removeItem('admin_user');
+        localStorage.removeItem('admin_token');
+        localStorage.removeItem('vuejs__admin_user');
+        sessionStorage.clear();
+        this.adminUser = null;
+        alert('Access Denied: Normal User accounts cannot access the admin management portal.');
+        window.location.href = '/home';
+        return;
       } else {
         this.showDashboard();
       }
@@ -840,10 +852,20 @@
         this.renderHome(container);
       } else if (path === '/admin/users' || path === '/admin/users/all') {
         this.renderUsers(container, 'all');
+      } else if (path === '/admin/users/super_admin') {
+        this.renderUsers(container, 'super_admin');
+      } else if (path === '/admin/users/admin') {
+        this.renderUsers(container, 'admin');
+      } else if (path === '/admin/users/super_master') {
+        this.renderUsers(container, 'super_master');
+      } else if (path === '/admin/users/master') {
+        this.renderUsers(container, 'master');
+      } else if (path === '/admin/users/client' || path === '/admin/users/user') {
+        this.renderUsers(container, 'user');
       } else if (path === '/admin/users/agent') {
-        this.renderUsers(container, '5');
-      } else if (path === '/admin/users/client') {
-        this.renderUsers(container, '6');
+        this.renderUsers(container, 'master');
+      } else if (path === '/admin/downline-tree' || path === '/admin/tree') {
+        this.renderDownlineTree(container);
       } else if (path.startsWith('/admin/child/')) {
         const parts = path.split('/');
         const guid = parts[3];
@@ -1055,15 +1077,20 @@
       `;
     },
 
-        renderUsers: function(container, filter, guid) {
-      let users = window.AdminDataStore.getUsers();
+    renderUsers: function(container, filter, guid) {
+      const store = window.AdminDataStore;
+      const actor = this.adminUser || (store ? store.state.currentAdmin : null);
+      const actorRole = actor ? store.normalizeRole(actor.role || actor.userType) : 'company';
 
-      if (filter === '5') {
-        users = users.filter(u => u.userType === '5');
-      } else if (filter === '6') {
-        users = users.filter(u => u.userType === '6');
-      } else if (filter === 'child' && guid) {
-        users = window.AdminDataStore.getDownline(guid);
+      let users = store.getUsers();
+
+      if (filter && filter !== 'all') {
+        if (filter === 'child' && guid) {
+          users = store.getDownline(guid);
+        } else {
+          const normF = store.normalizeRole(filter);
+          users = users.filter(u => store.normalizeRole(u.role || u.userType) === normF);
+        }
       }
 
       if (this.sortCol) {
@@ -1083,6 +1110,24 @@
       const pagedUsers = users.slice(startIdx, startIdx + perPage);
       const totalPages = Math.ceil(totalCount / perPage) || 1;
 
+      const canSeeSuperAdmin = actorRole === 'company';
+      const canSeeAdmin = ['company', 'super_admin'].includes(actorRole);
+      const canSeeSuperMaster = ['company', 'super_admin', 'admin'].includes(actorRole);
+      const canSeeMaster = ['company', 'super_admin', 'admin', 'super_master'].includes(actorRole);
+      const activeFilter = filter || 'all';
+
+      const filterPillsHtml = `
+        <div class="role-filter-pills mb-3 d-flex flex-wrap align-items-center">
+          <span class="mr-2 font-weight-bold font-size-13 text-muted"><i class="fas fa-filter mr-1"></i> Filter by Role:</span>
+          <button type="button" class="btn btn-sm ${activeFilter === 'all' ? 'btn-primary font-weight-bold' : 'btn-outline-primary'} mr-1 mb-1" onclick="window.AdminApp.filterByRole('all')">All</button>
+          ${canSeeSuperAdmin ? `<button type="button" class="btn btn-sm ${activeFilter === 'super_admin' ? 'btn-primary font-weight-bold' : 'btn-outline-primary'} mr-1 mb-1" onclick="window.AdminApp.filterByRole('super_admin')">Super Admin</button>` : ''}
+          ${canSeeAdmin ? `<button type="button" class="btn btn-sm ${activeFilter === 'admin' ? 'btn-primary font-weight-bold' : 'btn-outline-primary'} mr-1 mb-1" onclick="window.AdminApp.filterByRole('admin')">Admin</button>` : ''}
+          ${canSeeSuperMaster ? `<button type="button" class="btn btn-sm ${activeFilter === 'super_master' ? 'btn-primary font-weight-bold' : 'btn-outline-primary'} mr-1 mb-1" onclick="window.AdminApp.filterByRole('super_master')">Super Master</button>` : ''}
+          ${canSeeMaster ? `<button type="button" class="btn btn-sm ${activeFilter === 'master' ? 'btn-primary font-weight-bold' : 'btn-outline-primary'} mr-1 mb-1" onclick="window.AdminApp.filterByRole('master')">Master</button>` : ''}
+          <button type="button" class="btn btn-sm ${activeFilter === 'user' ? 'btn-primary font-weight-bold' : 'btn-outline-primary'} mr-1 mb-1" onclick="window.AdminApp.filterByRole('user')">Users</button>
+        </div>
+      `;
+
       container.innerHTML = `
         <div class="listing-grid">
           <div class="row">
@@ -1091,6 +1136,7 @@
                 <h4 class="mb-0 font-size-18">Account List</h4>
                 <div class="page-title-right">
                   <div class="d-inline-block">
+                    <a href="/admin/downline-tree" class="btn btn-outline-info mr-2 nav-route-link" data-route="/admin/downline-tree"><i class="fas fa-sitemap mr-1"></i> Downline Tree</a>
                     <a href="/admin/users/insertuser" class="btn btn-add-account nav-route-link" data-route="/admin/users/insertuser">Add Account</a>
                   </div>
                 </div>
@@ -1101,6 +1147,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-body">
+                  ${filterPillsHtml}
                   <div class="row row5">
                     <div class="col-md-6 mb-2 search-form">
                       <div class="d-inline-block mr-2">
@@ -1140,36 +1187,52 @@
                   </div>
                   <div class="table-responsive mb-0">
                     <div class="table no-footer list-clients table-responsive-sm">
-                      <table id="eventsListTbl" role="table" aria-busy="false" aria-colcount="8" class="table b-table table-striped table-bordered list-clients">
+                      <table id="eventsListTbl" role="table" aria-busy="false" aria-colcount="9" class="table b-table table-striped table-bordered list-clients">
                         <thead role="rowgroup">
                           <tr role="row">
                             <th role="columnheader" scope="col" tabindex="0" class="position-relative cp" onclick="window.adminSortUsers('uname')"><div>User Name</div></th>
+                            <th role="columnheader" scope="col" class="text-center"><div>Account ID</div></th>
+                            <th role="columnheader" scope="col" class="text-left"><div>Role</div></th>
+                            <th role="columnheader" scope="col" class="text-left"><div>Parent / Created By</div></th>
                             <th role="columnheader" scope="col" tabindex="0" class="position-relative text-right cp" onclick="window.adminSortUsers('creditRef')"><div>CR</div></th>
                             <th role="columnheader" scope="col" class="text-center"><div>U st</div></th>
                             <th role="columnheader" scope="col" class="text-center"><div>B st</div></th>
-                            <th role="columnheader" scope="col"><div>Exposure Limit</div></th>
-                            <th role="columnheader" scope="col"><div>Deafult (%)</div></th>
-                            <th role="columnheader" scope="col"><div>Account Type</div></th>
+                            <th role="columnheader" scope="col" class="text-center"><div>Downline</div></th>
                             <th role="columnheader" scope="col"><div>Action</div></th>
                           </tr>
                         </thead>
                         <tbody role="rowgroup">
                           <tr role="row" class="font-weight-bold" style="background-color: #f8f9fa;">
                             <td role="cell"></td>
+                            <td role="cell"></td>
+                            <td role="cell"></td>
+                            <td role="cell"></td>
                             <td role="cell" class="text-right"><b>${totalCR}</b></td>
-                            <td role="cell"></td>
-                            <td role="cell"></td>
                             <td role="cell"></td>
                             <td role="cell"></td>
                             <td role="cell"></td>
                             <td role="cell"></td>
                           </tr>
                           ${pagedUsers.length === 0 ? `
-                            <tr role="row" class="b-table-empty-row"><td colspan="8" role="cell"><div role="alert" aria-live="polite"><div class="text-center my-2">There are no records to show</div></div></td></tr>
-                          ` : pagedUsers.map(u => `
+                            <tr role="row" class="b-table-empty-row"><td colspan="9" role="cell"><div role="alert" aria-live="polite"><div class="text-center my-2">There are no records to show</div></div></td></tr>
+                          ` : pagedUsers.map(u => {
+                            const uRole = store.normalizeRole(u.role || u.userType);
+                            const roleLabel = store.getRoleLabel(uRole);
+                            const allUsers = store.state.users || [];
+                            const directCount = allUsers.filter(x => (x.createdBy || x.upline || '').toLowerCase() === (u.uname || '').toLowerCase()).length;
+                            return `
                             <tr role="row" id="row-user-${u.id}">
                               <td role="cell">
-                                <span class="username-badge cp" onclick="${u.userType === '5' ? `window.AdminApp.handleRoute('/admin/child/${u.uname}')` : `window.openExtraModal('${u.id}')`}" title="Click to view details">${u.uname}</span>
+                                <span class="username-badge cp" onclick="${uRole !== 'user' ? `window.AdminApp.handleRoute('/admin/child/${u.uname}')` : `window.openExtraModal('${u.id}')`}" title="Click to view details">${u.uname}</span>
+                              </td>
+                              <td role="cell" class="text-center font-weight-bold text-muted font-size-12">
+                                ${u.id || '-'}
+                              </td>
+                              <td role="cell" class="text-left">
+                                <span class="role-badge role-badge-${uRole}">${roleLabel}</span>
+                              </td>
+                              <td role="cell" class="text-left font-size-12">
+                                <span class="font-weight-bold text-dark">${u.createdBy || u.upline || 'SYSTEM'}</span>
                               </td>
                               <td role="cell" class="text-right">
                                 <span class="cp font-weight-normal text-dark" onclick="window.openCreditRefModal('${u.id}')" title="Click to update Credit">${u.creditRef != null ? u.creditRef : 0}</span>
@@ -1180,10 +1243,8 @@
                               <td role="cell" class="text-center">
                                 <div class="checkbox-black-box ${u.betActive !== false ? '' : 'inactive'}">${u.betActive !== false ? '✔' : ''}</div>
                               </td>
-                              <td role="cell" class="text-left">${u.exposureLimit || 0}</td>
-                              <td role="cell" class="text-left">${u.share || 0}</td>
-                              <td role="cell" class="text-left" style="color: #212529; font-size: 13px;">
-                                ${u.userType === '4' ? 'Master' : (u.userType === '5' ? 'Agent' : 'User')}
+                              <td role="cell" class="text-center">
+                                <span class="badge badge-light border font-weight-bold px-2 py-1">${directCount}</span>
                               </td>
                               <td role="cell" class="text-left nowrap">
                                 <button type="button" class="btn action-button" onclick="window.openDepositModal('${u.id}')" title="Deposit">D</button>
@@ -1195,7 +1256,7 @@
                                 <button type="button" class="btn action-button btn-more" onclick="window.openExtraModal('${u.id}')" title="More Details">MORE</button>
                               </td>
                             </tr>
-                          `).join('')}
+                          `}).join('')}
                         </tbody>
                       </table>
                     </div>
@@ -1247,11 +1308,56 @@
       }, 0);
     },
 
-        renderInsertUser: function(container) {
+    renderInsertUser: function(container) {
+      const store = window.AdminDataStore;
+      const currentAdmin = store ? store.getAdminUser() : null;
+      const actorRole = store ? store.normalizeRole(currentAdmin?.role || currentAdmin?.userType) : 'user';
+
+      if (actorRole === 'user') {
+        container.innerHTML = `
+          <div class="listing-grid">
+            <div class="row">
+              <div class="col-12">
+                <div class="alert alert-danger font-weight-bold p-4 text-center">
+                  <i class="fas fa-ban fa-2x mb-2 d-block"></i>
+                  <h5>Access Denied</h5>
+                  <p class="mb-0">Normal User accounts are not authorized to create or manage accounts.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const allowedRoles = store ? store.getAllowedCreationRoles(actorRole) : [];
+      const optionsHtml = allowedRoles.map(r => {
+        const num = store.ROLE_TO_NUMERIC[r] || '6';
+        const label = store.getRoleLabel(r);
+        return `<option value="${num}" data-role="${r}">${label}</option>`;
+      }).join('');
+
       container.innerHTML = `
         <div class="listing-grid">
           <div class="add-account">
-            <h2 class="m-b-20">Add Account</h2>
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h2 class="mb-0">Add Account</h2>
+              <a href="/admin/downline-tree" class="btn btn-outline-info btn-sm nav-route-link" data-route="/admin/downline-tree">
+                <i class="fas fa-sitemap mr-1"></i> View Downline Tree
+              </a>
+            </div>
+
+            <div class="alert alert-light border mb-4 py-2 px-3 d-flex align-items-center justify-content-between flex-wrap">
+              <div class="my-1">
+                <span class="text-muted mr-1 font-size-13">Parent / Creator Account:</span>
+                <strong class="text-dark font-size-14">${currentAdmin?.uname || 'SYSTEM'}</strong>
+                <span class="role-badge role-badge-${actorRole} ml-2">${store.getRoleLabel(actorRole)}</span>
+              </div>
+              <div class="my-1">
+                <span class="text-muted font-size-12">Account ID: #${currentAdmin?.id || '-'}</span>
+              </div>
+            </div>
+
             <form data-vv-scope="InserUserAccount" method="post" action="javascript:void(0);" id="insertUserForm" onsubmit="event.preventDefault(); window.AdminApp.handleCreateAccountSubmit(event); return false;">
               <div class="row">
                 <div class="col-md-6 col-12">
@@ -1259,37 +1365,37 @@
                   <div class="row">
                     <div class="col-md-6 col-12">
                       <div class="form-group">
-                        <label for="">Client Name:</label>
-                        <input type="text" placeholder="Client Name" name="clientname" id="newUsername" class="form-control" aria-required="true" required>
+                        <label for="newUsername">Client Name:</label>
+                        <input type="text" placeholder="Client Name" name="clientname" id="newUsername" class="form-control" aria-required="true" required autocomplete="off">
                       </div>
                     </div>
                     <div class="col-md-6 col-12">
                       <div class="form-group">
-                        <label for="">User Password:</label>
-                        <input type="password" placeholder="User Password" name="password" id="newPassword" class="form-control" aria-required="true" required minlength="6">
+                        <label for="newPassword">User Password:</label>
+                        <input type="password" placeholder="User Password" name="password" id="newPassword" class="form-control" aria-required="true" required minlength="6" autocomplete="new-password">
                       </div>
                     </div>
                     <div class="col-md-6 col-12">
                       <div class="form-group">
-                        <label for="">Retype Password:</label>
-                        <input type="password" placeholder="Retype Password" name="rpassword" id="newRPassword" class="form-control" required minlength="6">
+                        <label for="newRPassword">Retype Password:</label>
+                        <input type="password" placeholder="Retype Password" name="rpassword" id="newRPassword" class="form-control" required minlength="6" autocomplete="new-password">
                       </div>
                     </div>
                     <div class="col-md-6 col-12">
                       <div class="form-group">
-                        <label for="">Full Name:</label>
+                        <label for="newFullName">Full Name:</label>
                         <input type="text" placeholder="Full Name" name="fullname" id="newFullName" class="form-control" aria-required="true" required>
                       </div>
                     </div>
                     <div class="col-md-6 col-12">
                       <div class="form-group">
-                        <label for="">City:</label>
+                        <label for="newCity">City:</label>
                         <input type="text" placeholder="City" name="city" id="newCity" class="form-control">
                       </div>
                     </div>
                     <div class="col-md-6 col-12">
                       <div class="form-group">
-                        <label for="">Phone:</label>
+                        <label for="newMobile">Phone:</label>
                         <input type="text" placeholder="Phone Number" name="mono" id="newMobile" maxlength="15" class="form-control">
                       </div>
                     </div>
@@ -1300,18 +1406,17 @@
                   <div class="row">
                     <div class="col-md-6 col-12">
                       <div class="form-group">
-                        <label for="">Account Type:</label>
+                        <label for="newUserType">Account Type (Role):</label>
                         <select name="newlvlno" id="newUserType" label="label" data-vv-as="User Type" class="form-control" aria-required="true" required>
                           <option value="">Select Account Type</option>
-                          <option value="6">Client</option>
-                          <option value="5">Agent</option>
-                          <option value="4">Master</option>
+                          ${optionsHtml}
                         </select>
+                        <small class="form-text text-muted">Only roles allowed for your ${store.getRoleLabel(actorRole)} level are listed.</small>
                       </div>
                     </div>
                     <div class="col-md-6 col-12">
                       <div class="form-group">
-                        <label for="">Credit Reference:</label>
+                        <label for="newCreditRef">Credit Reference:</label>
                         <input type="number" placeholder="Credit Reference" name="camt" id="newCreditRef" class="form-control" aria-required="true" required value="50000">
                       </div>
                     </div>
@@ -1343,8 +1448,8 @@
               <div class="row mt-4">
                 <div class="col-12">
                   <div class="form-group col-md-4 col-12 float-md-right pr-0">
-                    <label for="m_pwd">Transaction Password:</label>
-                    <input placeholder="Transaction Password" type="password" name="mpassword" id="newTxnPwd" class="form-control" aria-required="true" required>
+                    <label for="newTxnPwd">Transaction Password:</label>
+                    <input placeholder="Transaction Password" type="password" name="mpassword" id="newTxnPwd" class="form-control" aria-required="true" required autocomplete="new-password">
                   </div>
                 </div>
               </div>
@@ -1374,6 +1479,9 @@
       const submitBtn = form.querySelector('button[type="submit"]');
       const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Create Account';
 
+      const store = window.AdminDataStore;
+      const currentAdmin = store ? store.getAdminUser() : null;
+
       // 1. Client-Side Field Extraction
       const clientname = (document.getElementById('newUsername')?.value || '').trim();
       const password = document.getElementById('newPassword')?.value || '';
@@ -1382,6 +1490,9 @@
       const city = (document.getElementById('newCity')?.value || '').trim();
       const mono = (document.getElementById('newMobile')?.value || '').trim();
       const newlvlno = document.getElementById('newUserType')?.value || '';
+      const selectEl = document.getElementById('newUserType');
+      const selectedOption = selectEl?.options[selectEl.selectedIndex];
+      const targetRole = selectedOption?.getAttribute('data-role') || (store ? store.ROLE_NUMERIC_MAP[newlvlno] : 'user');
       const camt = parseFloat(document.getElementById('newCreditRef')?.value) || 0;
       const comm = parseFloat(document.getElementById('newCommission')?.value) || 0;
       const spart1 = parseFloat(document.getElementById('newShare')?.value) || 0;
@@ -1436,6 +1547,13 @@
         return false;
       }
 
+      // Check client-side permission
+      const actorRole = store ? store.normalizeRole(currentAdmin?.role || currentAdmin?.userType) : 'user';
+      if (!store || !store.canCreateRole(actorRole, targetRole)) {
+        this.showToast(`Forbidden: ${store ? store.getRoleLabel(actorRole) : 'You'} cannot create ${store ? store.getRoleLabel(targetRole) : targetRole}.`, 'error');
+        return false;
+      }
+
       // 3. Prevent duplicate submissions
       if (submitBtn) {
         submitBtn.disabled = true;
@@ -1450,6 +1568,7 @@
         fullname: fullname,
         city: city,
         mono: mono,
+        role: targetRole,
         newlvlno: newlvlno,
         userType: newlvlno,
         camt: camt,
@@ -1480,29 +1599,42 @@
         const data = await response.json().catch(() => ({}));
 
         if (response.ok && (data.status === 200 || data.success)) {
-          // Success! Save to client data store with complete credentials and role
+          // Success! Save to client data store with complete hierarchy fields
           const createdUser = data.user || {};
-          if (window.AdminDataStore) {
-            window.AdminDataStore.insertUser({
+          if (store) {
+            const roleLabel = store.getRoleLabel(targetRole);
+            const parentUname = (self.adminUser && self.adminUser.uname) || (currentAdmin && currentAdmin.uname) || 'Newadmin98';
+            const parentId = (self.adminUser && self.adminUser.id) || (currentAdmin && currentAdmin.id) || '78859';
+            const compRootId = (self.adminUser && self.adminUser.companyRootId) || (currentAdmin && currentAdmin.companyRootId) || '78859';
+            const existingAncestors = (self.adminUser && self.adminUser.ancestors) || (currentAdmin && currentAdmin.ancestors) || [];
+
+            store.insertUser({
+              id: createdUser.id,
               uname: clientname,
               fname: fullname,
-              userType: newlvlno,
-              userLevel: createdUser.userLevel || (newlvlno === '4' ? 'Master' : (newlvlno === '5' ? 'Agent' : 'Client')),
-              pcode: createdUser.pcode || (newlvlno === '4' ? 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss' : ''),
+              role: createdUser.role || targetRole,
+              userType: createdUser.userType || newlvlno,
+              userLevel: createdUser.userLevel || roleLabel,
+              pcode: createdUser.pcode || (['company', 'super_admin', 'admin', 'super_master', 'master'].includes(targetRole) ? 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss' : ''),
+              parentId: createdUser.parentId || parentId,
+              createdBy: createdUser.createdBy || parentUname,
+              companyRootId: createdUser.companyRootId || compRootId,
+              ancestors: createdUser.ancestors || [...existingAncestors, parentUname.toLowerCase()],
               creditRef: camt,
               balance: camt,
               share: spart1,
               comm: comm,
               passHash: createdUser.passHash || '',
               password: password,
-              upline: (self.adminUser && self.adminUser.uname) || 'Newadmin98',
+              upline: parentUname,
               login: false,
               firstLogin: true,
-              tranCode: createdUser.tranCode || '130367'
+              tranCode: createdUser.tranCode || '130367',
+              status: 'Active'
             });
           }
 
-          self.showToast(data.msg || 'User created successfully', 'success');
+          self.showToast(data.msg || `Account ${clientname} created successfully!`, 'success');
           form.reset();
 
           // Navigate back to user list after short delay
@@ -1510,7 +1642,7 @@
             self.navigate('/admin/users');
           }, 800);
         } else {
-          // Validation / Server Error
+          // Validation / Server Error (including 403 Forbidden)
           const errMsg = data.msg || data.error || 'Failed to create account. Please check inputs.';
           self.showToast(errMsg, 'error');
         }
@@ -1525,6 +1657,119 @@
       }
 
       return false;
+    },
+
+    renderDownlineTree: function(container) {
+      const store = window.AdminDataStore;
+      const currentAdmin = store ? store.getAdminUser() : null;
+      if (!currentAdmin) {
+        container.innerHTML = `<div class="alert alert-warning">Please login to view Downline Tree.</div>`;
+        return;
+      }
+
+      const actorRole = store.normalizeRole(currentAdmin.role || currentAdmin.userType);
+      if (actorRole === 'user') {
+        container.innerHTML = `
+          <div class="alert alert-danger font-weight-bold p-4 text-center">
+            <i class="fas fa-ban fa-2x mb-2 d-block"></i>
+            <h5>Access Denied</h5>
+            <p class="mb-0">Normal User accounts do not have access to the Downline Hierarchy Tree.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const tree = store.buildDownlineTree(currentAdmin);
+
+      function renderTreeNode(node, depth = 0) {
+        const hasChildren = node.children && node.children.length > 0;
+        const role = store.normalizeRole(node.role || node.userType);
+        const roleLabel = store.getRoleLabel(role);
+        const nodeId = `tree-node-${node.uname}`;
+        const childId = `tree-children-${node.uname}`;
+
+        return `
+          <div class="tree-item depth-${depth}" id="${nodeId}" data-uname="${node.uname}" data-role="${role}">
+            <div class="tree-node-card">
+              <div class="tree-node-left">
+                ${hasChildren ? `
+                  <button type="button" class="tree-toggle-btn" onclick="window.toggleTreeNode('${node.uname}')" id="btn-toggle-${node.uname}" title="Toggle Children">
+                    <i class="fas fa-chevron-down"></i>
+                  </button>
+                ` : `
+                  <span class="tree-leaf-indicator"><i class="fas fa-circle"></i></span>
+                `}
+                <span class="role-badge role-badge-${role} mr-2">${roleLabel}</span>
+                <span class="tree-node-uname font-weight-bold text-dark">${node.uname}</span>
+                <span class="text-muted font-size-11 ml-1">(#${node.id || '-'})</span>
+                ${node.createdBy ? `<span class="badge badge-light border text-muted ml-2 font-size-11 d-none d-sm-inline">By: ${node.createdBy}</span>` : ''}
+              </div>
+              <div class="tree-node-right">
+                <span class="badge badge-success px-2 py-1 mr-1 font-size-12" title="Balance">Bal: ${Number(node.balance || 0).toLocaleString()}</span>
+                <span class="badge badge-info px-2 py-1 mr-1 font-size-12 d-none d-md-inline" title="Credit Reference">CR: ${Number(node.creditRef || 0).toLocaleString()}</span>
+                <span class="badge ${node.status === 'Active' ? 'badge-primary' : 'badge-danger'} px-2 py-1 mr-1 font-size-11">${node.status || 'Active'}</span>
+                <span class="badge badge-dark px-2 py-1 font-size-11" title="Direct / Total Downline">
+                  <i class="fas fa-users mr-1"></i>${node.directCount || 0} / ${node.totalDescendants || 0}
+                </span>
+                <div class="tree-node-actions ml-2 d-inline-block">
+                  <button type="button" class="btn btn-xs btn-outline-primary action-btn-xs" onclick="window.openDepositModal('${node.id}')" title="Deposit">D</button>
+                  <button type="button" class="btn btn-xs btn-outline-warning action-btn-xs" onclick="window.openWithdrawModal('${node.id}')" title="Withdraw">W</button>
+                  <button type="button" class="btn btn-xs btn-outline-secondary action-btn-xs" onclick="window.openChangePasswordModal('${node.uname}')" title="Change Password">P</button>
+                </div>
+              </div>
+            </div>
+            ${hasChildren ? `
+              <div class="tree-children" id="${childId}">
+                ${node.children.map(child => renderTreeNode(child, depth + 1)).join('')}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+
+      container.innerHTML = `
+        <div class="listing-grid">
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between mb-3 flex-wrap">
+                <div>
+                  <h4 class="mb-0 font-size-18 font-weight-bold">Downline Hierarchy Tree</h4>
+                  <p class="text-muted mb-0 font-size-12">Scoped to branch: <span class="badge badge-info">${currentAdmin.uname} (${store.getRoleLabel(actorRole)})</span></p>
+                </div>
+                <div class="page-title-right mt-2 mt-sm-0">
+                  <button type="button" class="btn btn-outline-secondary btn-sm mr-1" onclick="window.expandAllTreeNodes()"><i class="fas fa-expand-arrows-alt mr-1"></i> Expand All</button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm mr-1" onclick="window.collapseAllTreeNodes()"><i class="fas fa-compress-arrows-alt mr-1"></i> Collapse All</button>
+                  <a href="/admin/users/insertuser" class="btn btn-add-account btn-sm nav-route-link" data-route="/admin/users/insertuser"><i class="fas fa-plus mr-1"></i> Add Account</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row mb-3">
+                    <div class="col-md-6 col-12">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-search"></i></span>
+                        </div>
+                        <input type="text" class="form-control" id="treeSearchInput" placeholder="Search account by username or role in tree..." onkeyup="window.filterDownlineTree(this.value)">
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-12 text-md-right mt-2 mt-md-0">
+                      <span class="text-muted font-size-12">Branch Stats: Total Accounts: <b>${(tree.totalDescendants || 0) + 1}</b> | Direct Children: <b>${tree.directCount || 0}</b></span>
+                    </div>
+                  </div>
+                  <div class="tree-container p-2" id="downlineTreeRoot">
+                    ${renderTreeNode(tree, 0)}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
     },
 
     renderAssignAgent: function(container) {
@@ -4793,6 +5038,91 @@ renderGenericReport: function(container, title, desc) {
 
   App.handleRoute = function(path) {
     App.navigate(path);
+  };
+
+  App.filterByRole = function(role) {
+    if (!role || role === 'all') {
+      App.navigate('/admin/users');
+    } else {
+      App.navigate('/admin/users/' + role);
+    }
+  };
+
+  window.toggleTreeNode = function(uname) {
+    const container = document.getElementById(`tree-children-${uname}`);
+    const btn = document.getElementById(`btn-toggle-${uname}`);
+    if (!container) return;
+    if (container.classList.contains('collapsed')) {
+      container.classList.remove('collapsed');
+      container.style.display = 'block';
+      if (btn) btn.innerHTML = '<i class="fas fa-chevron-down"></i>';
+    } else {
+      container.classList.add('collapsed');
+      container.style.display = 'none';
+      if (btn) btn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    }
+  };
+
+  window.expandAllTreeNodes = function() {
+    document.querySelectorAll('.tree-children').forEach(c => {
+      c.classList.remove('collapsed');
+      c.style.display = 'block';
+    });
+    document.querySelectorAll('.tree-toggle-btn').forEach(b => {
+      b.innerHTML = '<i class="fas fa-chevron-down"></i>';
+    });
+  };
+
+  window.collapseAllTreeNodes = function() {
+    document.querySelectorAll('.tree-children').forEach((c, idx) => {
+      if (idx > 0) { // Keep root node open
+        c.classList.add('collapsed');
+        c.style.display = 'none';
+      }
+    });
+    document.querySelectorAll('.tree-toggle-btn').forEach((b, idx) => {
+      if (idx > 0) {
+        b.innerHTML = '<i class="fas fa-chevron-right"></i>';
+      }
+    });
+  };
+
+  window.filterDownlineTree = function(query) {
+    const q = (query || '').trim().toLowerCase();
+    const items = document.querySelectorAll('.tree-item');
+    if (!q) {
+      items.forEach(item => {
+        item.style.display = '';
+      });
+      return;
+    }
+    items.forEach(item => {
+      const uname = (item.getAttribute('data-uname') || '').toLowerCase();
+      const role = (item.getAttribute('data-role') || '').toLowerCase();
+      const matches = uname.includes(q) || role.includes(q);
+      if (matches) {
+        item.style.display = '';
+        let parent = item.parentElement;
+        while (parent && parent.classList.contains('tree-children')) {
+          parent.classList.remove('collapsed');
+          parent.style.display = 'block';
+          if (parent.parentElement) {
+            parent.parentElement.style.display = '';
+            const pUname = parent.parentElement.getAttribute('data-uname');
+            const pBtn = document.getElementById(`btn-toggle-${pUname}`);
+            if (pBtn) pBtn.innerHTML = '<i class="fas fa-chevron-down"></i>';
+          }
+          parent = parent.parentElement ? parent.parentElement.parentElement : null;
+        }
+      } else {
+        const hasMatchingDescendant = item.querySelector(`.tree-item[data-uname*="${q}"], .tree-item[data-role*="${q}"]`);
+        if (hasMatchingDescendant) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      }
+    });
   };
 
   window.AdminApp = App;

@@ -7,6 +7,7 @@ try {
 }
 
 const creds = require('./_credentials');
+const hierarchy = require('./_hierarchy');
 const ENC_KEY = process.env.ADMIN_ENC_KEY || 'cae7b808-8b1e-4f47-87a5-1a4b6a08030e';
 const JWT_SECRET = process.env.ADMIN_JWT_SECRET || 'allpanelexch_jwt_secure_key_2026';
 
@@ -14,8 +15,15 @@ const JWT_SECRET = process.env.ADMIN_JWT_SECRET || 'allpanelexch_jwt_secure_key_
 function generateToken(user) {
   const expiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
   const payload = {
+    id: user.id,
     uname: user.uname,
+    role: user.role || hierarchy.normalizeRole(user.userType),
     userType: user.userType,
+    userLevel: user.userLevel,
+    parentId: user.parentId,
+    createdBy: user.createdBy,
+    companyRootId: user.companyRootId,
+    ancestors: user.ancestors || [],
     exp: expiresAt,
     iat: Date.now()
   };
@@ -202,6 +210,15 @@ module.exports = async function handler(req, res) {
     }));
   }
 
+  // Normal Users cannot access Admin panel or management APIs
+  const userRole = hierarchy.normalizeRole(userRecord.role || userRecord.userType);
+  if (userRole === 'user') {
+    return res.status(403).json(encryptResponse({
+      status: 403,
+      msg: 'Access Denied: Normal User accounts cannot access the admin management portal.'
+    }));
+  }
+
   const isValid = creds.verifyPassword(password, userRecord.passHash, userRecord.altHashes);
   if (!isValid) {
     return res.status(400).json(encryptResponse({
@@ -213,11 +230,19 @@ module.exports = async function handler(req, res) {
   // Successful Authentication
   const token = generateToken(userRecord);
   const responseData = {
+    id: userRecord.id,
     uname: userRecord.uname,
     fname: userRecord.fname,
     lname: userRecord.lname,
+    role: userRole,
+    roleLabel: hierarchy.getRoleLabel(userRole),
+    roleRank: hierarchy.getRoleRank(userRole),
     userType: userRecord.userType,
     userLevel: userRecord.userLevel,
+    parentId: userRecord.parentId,
+    createdBy: userRecord.createdBy,
+    companyRootId: userRecord.companyRootId,
+    ancestors: userRecord.ancestors || [],
     pcode: userRecord.pcode,
     gen: userRecord.gen != null ? userRecord.gen : (userRecord.creditRef || 500000),
     exp: userRecord.exp != null ? userRecord.exp : 0,

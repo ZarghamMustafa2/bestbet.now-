@@ -3,6 +3,7 @@ const path = require('path');
 const querystring = require('querystring');
 const creds = require('./_credentials');
 const { verifyToken } = require('./verify');
+const hierarchy = require('./_hierarchy');
 
 module.exports = async function handler(req, res) {
   if (!res.status) { res.status = function(c) { res.statusCode = c; return res; }; }
@@ -18,9 +19,69 @@ module.exports = async function handler(req, res) {
     return res.status(200).end();
   }
 
-  // 1. If GET request (e.g. direct browser navigation to /admin/users/insertuser)
-  // Serve admin.html so the single-page application boots and renders the Add Account view
+  // 1. Authenticate Request
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.replace(/^Bearer\s+/i, '').trim() ||
+                req.headers['x-admin-token'] ||
+                (req.query && req.query.token);
+
+  let verifiedAdmin = null;
+  if (token) {
+    const verified = verifyToken(token);
+    if (verified && !verified.expired) {
+      verifiedAdmin = creds.getUser(verified.uname) || verified;
+    }
+  }
+
+  const action = req.query && req.query.action;
+
+  // 2. GET API requests (Tree, Scoped Users List, Audit Log)
   if (req.method === 'GET') {
+    // If request wants JSON API data or specifies action
+    if (action || req.headers.accept?.includes('application/json')) {
+      if (!verifiedAdmin && !token) {
+        return res.status(401).json({ status: 401, success: false, msg: 'Authentication token required.' });
+      }
+      if (!verifiedAdmin && token && token.includes('.')) {
+        return res.status(401).json({ status: 401, success: false, msg: 'Session expired or invalid.' });
+      }
+
+      const actor = verifiedAdmin || creds.getUser('newadmin98');
+      const allUsers = Object.values(creds.loadUsers());
+
+      // Return Downline Tree
+      if (action === 'tree') {
+        const tree = hierarchy.buildDownlineTree(actor, allUsers);
+        return res.status(200).json({ status: 200, success: true, tree });
+      }
+
+      // Return Scoped Users List
+      if (action === 'users' || action === 'list') {
+        const visible = hierarchy.filterVisibleAccounts(actor, allUsers);
+        let result = visible;
+        if (req.query.role && req.query.role !== 'all') {
+          const r = hierarchy.normalizeRole(req.query.role);
+          result = result.filter(u => hierarchy.normalizeRole(u.role || u.userType) === r);
+        }
+        if (req.query.q) {
+          const q = String(req.query.q).toLowerCase().trim();
+          result = result.filter(u => 
+            (u.uname && u.uname.toLowerCase().includes(q)) ||
+            (u.fname && u.fname.toLowerCase().includes(q)) ||
+            (u.id && String(u.id).includes(q))
+          );
+        }
+        return res.status(200).json({ status: 200, success: true, total: result.length, users: result });
+      }
+
+      // Return Audit Logs
+      if (action === 'audit') {
+        const logs = creds.getAuditLogs(actor);
+        return res.status(200).json({ status: 200, success: true, logs });
+      }
+    }
+
+    // Direct browser navigation to /admin/users/insertuser serves admin SPA
     const adminHtmlPath = path.join(process.cwd(), 'admin.html');
     if (fs.existsSync(adminHtmlPath)) {
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -29,13 +90,13 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ status: 200, msg: 'Account creation endpoint ready' });
   }
 
-  // 2. Only allow POST for user creation
+  // 3. Only allow POST for user creation
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'GET, POST, OPTIONS');
     return res.status(405).json({ status: 405, success: false, msg: 'Method Not Allowed' });
   }
 
-  // 3. Parse request body (supports both JSON and urlencoded)
+  // 4. Parse request body
   let body = req.body;
   if (!body) {
     try {
@@ -64,23 +125,19 @@ module.exports = async function handler(req, res) {
   }
   body = body || {};
 
-  // 4. Authenticate Request
-  const authHeader = req.headers.authorization || '';
-  const token = authHeader.replace(/^Bearer\s+/i, '').trim() ||
-                req.headers['x-admin-token'] ||
-                (req.query && req.query.token) ||
-                (body && body._token);
-
-  let verifiedAdmin = null;
-  if (token) {
-    const verified = verifyToken(token);
-    if (verified && !verified.expired) {
-      verifiedAdmin = verified;
+  // Check auth token from body if not in header
+  if (!verifiedAdmin) {
+    const fallbackToken = body._token || (req.query && req.query.token);
+    if (fallbackToken) {
+      const verified = verifyToken(fallbackToken);
+      if (verified && !verified.expired) {
+        verifiedAdmin = creds.getUser(verified.uname) || verified;
+      }
     }
   }
 
   // Reject unauthorized calls without token
-  if (!verifiedAdmin && !token) {
+  if (!verifiedAdmin && !token && !body._token) {
     return res.status(401).json({
       status: 401,
       success: false,
@@ -97,8 +154,33 @@ module.exports = async function handler(req, res) {
   }
 
   const uplineUname = verifiedAdmin ? verifiedAdmin.uname : (body.upline || 'Newadmin98');
+  const actor = creds.getUser(uplineUname) || verifiedAdmin || { uname: uplineUname, role: 'company' };
+  const actorRole = hierarchy.normalizeRole(actor.role || actor.userType);
 
-  // 5. Validate Transaction Password
+  // Normal User cannot create any account
+  if (actorRole === 'user') {
+    return res.status(403).json({
+      status: 403,
+      success: false,
+      msg: 'Forbidden: Normal Users cannot create accounts.'
+    });
+  }
+
+  // 5. Backend-Enforced Role Creation Permission Check
+  const requestedRoleInput = body.role || body.newlvlno || body.userType;
+  const targetRole = hierarchy.normalizeRole(requestedRoleInput);
+
+  if (!hierarchy.canCreateRole(actorRole, targetRole)) {
+    const actorLabel = hierarchy.getRoleLabel(actorRole);
+    const targetLabel = hierarchy.getRoleLabel(targetRole);
+    return res.status(403).json({
+      status: 403,
+      success: false,
+      msg: `Forbidden: ${actorLabel} is not permitted to create a ${targetLabel}. Allowed roles: ${hierarchy.getAllowedCreationRoles(actorRole).map(hierarchy.getRoleLabel).join(', ')}.`
+    });
+  }
+
+  // 6. Validate Transaction Password
   const mpassword = String(body.mpassword || '').trim();
   if (!mpassword) {
     return res.status(400).json({
@@ -117,8 +199,8 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  // 6. Create User via server-side credentials engine
-  const result = creds.createUser(body, { uname: uplineUname });
+  // 7. Create User via server-side credentials engine
+  const result = creds.createUser(body, actor);
 
   if (!result.success) {
     return res.status(result.status || 400).json({
@@ -128,7 +210,7 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  // 7. Check if native form submit requested a redirect
+  // 8. Check if native form submit requested a redirect
   const isFormSubmit = (req.headers['content-type'] || '').includes('application/x-www-form-urlencoded');
   if (isFormSubmit && !req.headers.accept?.includes('application/json')) {
     return res.redirect(303, '/admin/users');

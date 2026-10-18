@@ -599,3 +599,120 @@ photo {
     background: #7c0d0d;
     font-weight: bold;
 }
+
+
+/* ===================================================
+   CANONICAL HIERARCHY & DOWNLINE TREE STYLES
+   =================================================== */
+
+.role-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.role-badge-company {
+    background-color: #1a365d !important;
+    color: #fbbf24 !important;
+    border: 1px solid #d97706;
+}
+.role-badge-super_admin {
+    background-color: #553c9e !important;
+    color: #ffffff !important;
+}
+.role-badge-admin {
+    background-color: #0088cc !important;
+    color: #ffffff !important;
+}
+.role-badge-super_master {
+    background-color: #0d9488 !important;
+    color: #ffffff !important;
+}
+.role-badge-master {
+    background-color: #d97706 !important;
+    color: #ffffff !important;
+}
+.role-badge-user {
+    background-color: #16a34a !important;
+    color: #ffffff !important;
+}
+
+.role-filter-pills {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 10px 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.tree-container {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.tree-node-wrapper {
+    margin: 8px 0;
+    position: relative;
+}
+
+.tree-node-children {
+    margin-left: 24px;
+    border-left: 2px dashed #cbd5e1;
+    padding-left: 14px;
+}
+
+.tree-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #0088cc;
+    border-radius: 6px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+.tree-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    border-color: #0088cc;
+}
+.tree-card.card-company { border-left-color: #1a365d; }
+.tree-card.card-super_admin { border-left-color: #553c9e; }
+.tree-card.card-admin { border-left-color: #0088cc; }
+.tree-card.card-super_master { border-left-color: #0d9488; }
+.tree-card.card-master { border-left-color: #d97706; }
+.tree-card.card-user { border-left-color: #16a34a; }
+
+.tree-toggle-btn {
+    width: 22px;
+    height: 22px;
+    line-height: 20px;
+    padding: 0;
+    font-size: 11px;
+    text-align: center;
+    border-radius: 4px;
+    margin-right: 8px;
+}
+
+@media only screen and (max-width: 576px) {
+    .tree-node-children {
+        margin-left: 10px;
+        padding-left: 8px;
+    }
+    .tree-card {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+    .tree-card .badge {
+        font-size: 10px;
+    }
+}

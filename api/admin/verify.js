@@ -48,7 +48,27 @@ module.exports = async function handler(req, res) {
     return res.status(401).json({ status: 401, valid: false, msg: 'Session expired' });
   }
 
-  return res.status(200).json({ status: 200, valid: true, user: verified });
+  let userPayload = verified;
+  try {
+    const creds = require('./_credentials');
+    const u = creds.getUser(verified.uname);
+    if (u) {
+      userPayload = {
+        ...verified,
+        id: u.id,
+        uname: u.uname,
+        role: u.role,
+        userType: u.userType,
+        userLevel: u.userLevel,
+        parentId: u.parentId,
+        createdBy: u.createdBy,
+        companyRootId: u.companyRootId,
+        ancestors: u.ancestors || []
+      };
+    }
+  } catch (e) {}
+
+  return res.status(200).json({ status: 200, valid: true, user: userPayload });
 };
 
 module.exports.verifyToken = verifyToken;
