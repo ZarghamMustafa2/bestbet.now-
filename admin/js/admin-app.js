@@ -939,137 +939,154 @@
       const totalExposure = users.reduce((acc, u) => acc + (u.exposure || 0), 0);
 
       container.innerHTML = `
-        <div class="row">
-          <div class="col-12">
-            <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
-              <h4 class="mb-0 font-size-18 font-weight-bold">Dashboard Overview</h4>
-              <div class="page-title-right">
-                <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link">
-                  <i class="fas fa-plus mr-1"></i> Add Account
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Metric Cards Row -->
-        <div class="row">
-          <div class="col-md-3 col-sm-6 mb-3">
-            <div class="card bg-primary text-white shadow-sm">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h6 class="text-uppercase mb-1" style="opacity:0.8;">Admin Balance</h6>
-                    <h4 class="mb-0 font-weight-bold">${this.formatCurrency(admin.balance)}</h4>
-                  </div>
-                  <i class="fas fa-wallet fa-2x" style="opacity:0.6;"></i>
+        <div class="dashboard-overview-container">
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
+                <h4 class="mb-0 font-size-18 font-weight-bold" style="font-family: 'Roboto Condensed', sans-serif; color: #212529;">Dashboard Overview</h4>
+                <div class="page-title-right">
+                  <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link btn-add-account-dash">
+                    <i class="fas fa-plus mr-1"></i> Add Account
+                  </a>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="col-md-3 col-sm-6 mb-3">
-            <div class="card bg-success text-white shadow-sm">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h6 class="text-uppercase mb-1" style="opacity:0.8;">Downline Balance</h6>
-                    <h4 class="mb-0 font-weight-bold">${this.formatCurrency(totalBalance)}</h4>
+          <!-- Metric Cards Row -->
+          <div class="row">
+            <div class="col-md-3 col-sm-6 mb-3">
+              <div class="card dashboard-metric-card h-100">
+                <div class="card-body p-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 class="metric-label mb-1">Admin Balance</h6>
+                      <h4 class="metric-value mb-0">${this.formatCurrency(admin.balance)}</h4>
+                    </div>
+                    <div class="metric-icon">
+                      <i class="fas fa-wallet"></i>
+                    </div>
                   </div>
-                  <i class="fas fa-users fa-2x" style="opacity:0.6;"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 mb-3">
+              <div class="card dashboard-metric-card h-100">
+                <div class="card-body p-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 class="metric-label mb-1">Downline Balance</h6>
+                      <h4 class="metric-value mb-0">${this.formatCurrency(totalBalance)}</h4>
+                    </div>
+                    <div class="metric-icon">
+                      <i class="fas fa-users"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 mb-3">
+              <div class="card dashboard-metric-card h-100">
+                <div class="card-body p-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 class="metric-label mb-1">Total Exposure</h6>
+                      <h4 class="metric-value mb-0">${this.formatCurrency(totalExposure)}</h4>
+                    </div>
+                    <div class="metric-icon">
+                      <i class="fas fa-chart-line"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 mb-3">
+              <div class="card dashboard-metric-card h-100">
+                <div class="card-body p-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 class="metric-label mb-1">Credit Allocated</h6>
+                      <h4 class="metric-value mb-0">${this.formatCurrency(totalCredit)}</h4>
+                    </div>
+                    <div class="metric-icon">
+                      <i class="fas fa-credit-card"></i>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="col-md-3 col-sm-6 mb-3">
-            <div class="card bg-danger text-white shadow-sm">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h6 class="text-uppercase mb-1" style="opacity:0.8;">Total Exposure</h6>
-                    <h4 class="mb-0 font-weight-bold">${this.formatCurrency(totalExposure)}</h4>
-                  </div>
-                  <i class="fas fa-chart-line fa-2x" style="opacity:0.6;"></i>
+          <!-- Live Featured Markets & Recent Bets Placed Row -->
+          <div class="row mt-2">
+            <div class="col-lg-8 col-12 mb-3">
+              <div class="card dashboard-panel-card mb-0 h-100">
+                <div class="card-header dashboard-section-header d-flex justify-content-between align-items-center py-2 px-3">
+                  <h6 class="mb-0 text-white font-weight-bold d-flex align-items-center">
+                    <i class="fas fa-circle mr-2" style="color: #f46a6a; font-size: 9px; vertical-align: middle;"></i> Live Featured Markets
+                  </h6>
+                  <a href="/admin/market-analysis" class="btn btn-sm btn-analysis-header nav-route-link">View Full Analysis</a>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-3 col-sm-6 mb-3">
-            <div class="card bg-info text-white shadow-sm">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h6 class="text-uppercase mb-1" style="opacity:0.8;">Credit Allocated</h6>
-                    <h4 class="mb-0 font-weight-bold">${this.formatCurrency(totalCredit)}</h4>
-                  </div>
-                  <i class="fas fa-credit-card fa-2x" style="opacity:0.6;"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Quick Links & Live Sports Ticker -->
-        <div class="row mt-2">
-          <div class="col-lg-8 col-12 mb-3">
-            <div class="card shadow-sm">
-              <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center py-2">
-                <h6 class="mb-0"><i class="fas fa-play-circle mr-1 text-danger"></i> Live Featured Markets</h6>
-                <a href="/admin/market-analysis" class="btn btn-sm btn-outline-light nav-route-link">View Full Analysis</a>
-              </div>
-              <div class="card-body p-0">
-                <div class="table-responsive">
-                  <table class="table table-striped table-hover mb-0">
-                    <thead class="thead-light">
-                      <tr>
-                        <th>Sport</th>
-                        <th>Event</th>
-                        <th>Status</th>
-                        <th>Volume</th>
-                        <th class="text-right">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${liveMatches.map(m => `
+                <div class="card-body p-0">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-bordered dashboard-table mb-0">
+                      <thead>
                         <tr>
-                          <td><span class="badge badge-secondary">${m.sportName}</span></td>
-                          <td><strong>${m.eventName}</strong></td>
-                          <td>${m.inPlay ? '<span class="badge badge-success">IN PLAY</span>' : '<span class="badge badge-warning">UPCOMING</span>'}</td>
-                          <td>${this.formatCurrency(m.matchedVolume)}</td>
-                          <td class="text-right">
-                            <a href="/admin/market-analysis" class="btn btn-sm btn-primary nav-route-link">Open Book</a>
-                          </td>
+                          <th style="width: 100px;">Sport</th>
+                          <th>Event</th>
+                          <th style="width: 110px; text-align: center;">Status</th>
+                          <th style="width: 140px;">Volume</th>
+                          <th style="width: 110px; text-align: right;">Action</th>
                         </tr>
-                      `).join('')}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        ${liveMatches.map(m => `
+                          <tr>
+                            <td><span class="badge badge-sport">${m.sportName}</span></td>
+                            <td><strong class="text-dark">${m.eventName}</strong></td>
+                            <td class="text-center">${m.inPlay ? '<span class="badge badge-inplay">IN PLAY</span>' : '<span class="badge badge-upcoming">UPCOMING</span>'}</td>
+                            <td class="text-dark font-weight-500">${this.formatCurrency(m.matchedVolume)}</td>
+                            <td class="text-right">
+                              <a href="/admin/market-analysis" class="btn btn-sm btn-open-book nav-route-link">Open Book</a>
+                            </td>
+                          </tr>
+                        `).join('')}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="col-lg-4 col-12 mb-3">
-            <div class="card shadow-sm">
-              <div class="card-header bg-dark text-white py-2">
-                <h6 class="mb-0"><i class="fas fa-bell mr-1 text-warning"></i> Recent Bets Placed</h6>
-              </div>
-              <div class="card-body p-0">
-                <ul class="list-group list-group-flush">
-                  ${bets.slice(0, 4).map(b => `
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      <div>
-                        <strong>${b.user}</strong> <span class="badge ${b.type === 'Back' ? 'badge-primary' : 'badge-danger'}">${b.type} @ ${b.odds}</span>
-                        <div class="small text-muted">${b.event} (${b.runner})</div>
-                      </div>
-                      <span class="font-weight-bold text-dark">${this.formatCurrency(b.stake)}</span>
-                    </li>
-                  `).join('')}
-                </ul>
-              </div>
-              <div class="card-footer text-center py-2 bg-light">
-                <a href="/admin/reports/currentbets" class="btn btn-sm btn-link nav-route-link">View All Bets</a>
+            <div class="col-lg-4 col-12 mb-3">
+              <div class="card dashboard-panel-card mb-0 h-100">
+                <div class="card-header dashboard-section-header py-2 px-3">
+                  <h6 class="mb-0 text-white font-weight-bold d-flex align-items-center">
+                    <i class="fas fa-bell mr-2" style="color: #f1b44c;"></i> Recent Bets Placed
+                  </h6>
+                </div>
+                <div class="card-body p-0">
+                  <ul class="list-group list-group-flush recent-bets-list">
+                    ${bets.slice(0, 4).map(b => `
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                          <div class="d-flex align-items-center">
+                            <strong class="recent-bet-user">${b.user}</strong>
+                            <span class="badge ${b.type === 'Back' ? 'badge-bet-back' : 'badge-bet-lay'} ml-1">${b.type} @ ${b.odds}</span>
+                          </div>
+                          <div class="recent-bet-subtext">${b.event} (${b.runner})</div>
+                        </div>
+                        <span class="recent-bet-amount font-weight-bold">${this.formatCurrency(b.stake)}</span>
+                      </li>
+                    `).join('')}
+                  </ul>
+                </div>
+                <div class="card-footer recent-bets-footer text-center py-2">
+                  <a href="/admin/reports/currentbets" class="btn-view-all-bets nav-route-link">View All Bets</a>
+                </div>
               </div>
             </div>
           </div>
