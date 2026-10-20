@@ -1992,7 +1992,7 @@
       <!-- TOP HEADER BAR -->
       <header id="page-topbar">
         <div class="navbar-header">
-          <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center top-nav-left">
             <div class="navbar-brand-box mr-2">
               <a href="/admin/users" class="logo logo-light nav-route-link" data-route="/admin/users">
                 <span class="logo-lg">
@@ -2144,6 +2144,138 @@
           <div id="sidebar-menu">
             <ul class="metismenu list-unstyled" id="side-menu">
               
+              <!-- Mobile Drawer Header with Logo & Close Button (Mobile Only) -->
+              <li class="mobile-nav-only sidebar-mobile-header" style="padding: 12px 15px; border-bottom: 1px solid #e9ecef; display: flex; align-items: center; justify-content: space-between;">
+                <img src="/admin/images/logo.png" onerror="this.src='https://sitethemedata.com/sitethemes/allpanelexch.com/front/logo.png'" alt="ALLPANELEXCH" style="height: 30px; max-width: 140px; object-fit: contain;">
+                <button type="button" class="btn btn-sm text-secondary" style="background: none; border: none; font-size: 18px; padding: 0 5px;" onclick="document.body.classList.remove('sidebar-enable');">
+                  <i class="fa fa-times"></i>
+                </button>
+              </li>
+
+              <!-- Mobile Admin Navigation Section (Visible only on mobile max-width: 991.98px) -->
+              <li class="menu-title mobile-nav-only" style="padding: 10px 15px 4px; font-size: 11px; text-transform: uppercase; color: #74788d; font-weight: 700; letter-spacing: .5px;">Main Navigation</li>
+              
+              <li class="mobile-nav-only">
+                <a href="/admin/users" class="nav-route-link" data-route="/admin/users" onclick="document.body.classList.remove('sidebar-enable');">
+                  <i class="fas fa-users mr-2 text-primary" style="width: 18px; text-align: center;"></i>
+                  <span>List of Clients</span>
+                </a>
+              </li>
+              
+              <li class="mobile-nav-only">
+                <a href="/admin/assign-agent" class="nav-route-link" data-route="/admin/assign-agent" onclick="document.body.classList.remove('sidebar-enable');">
+                  <i class="fas fa-user-check mr-2 text-primary" style="width: 18px; text-align: center;"></i>
+                  <span>Assign Agent</span>
+                </a>
+              </li>
+              
+              <li class="mobile-nav-only">
+                <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');">
+                  <i class="fas fa-chart-line mr-2 text-primary" style="width: 18px; text-align: center;"></i>
+                  <span>Market Analysis</span>
+                </a>
+              </li>
+              
+              <!-- Live Market Accordion -->
+              <li class="mobile-nav-only">
+                <a href="javascript:void(0);" onclick="window.toggleMobileNavAccordion('mobNavLiveMarket', this)">
+                  <i class="fas fa-dice mr-2 text-primary" style="width: 18px; text-align: center;"></i>
+                  <span>Live Market</span>
+                  <i class="fa fa-caret-down float-right mt-1 accordion-arrow"></i>
+                </a>
+                <ul class="sub-menu list-unstyled pl-4 py-1" id="mobNavLiveMarket" style="display: none; background: #fff; border-left: 2px solid #0088cc; margin-left: 15px;">
+                  <li><a href="/admin/casino/premium-casino" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/premium-casino" onclick="document.body.classList.remove('sidebar-enable');">Premium Casino</a></li>
+                  <li><a href="/admin/casino/tembo-casino" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/tembo-casino" onclick="document.body.classList.remove('sidebar-enable');">Tembo Casino</a></li>
+                  <li><a href="/admin/casino/vip" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/vip" onclick="document.body.classList.remove('sidebar-enable');">Vip Casino</a></li>
+                  <li><a href="/admin/casino/lucky5" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/lucky5" onclick="document.body.classList.remove('sidebar-enable');">Lucky 6</a></li>
+                  <li><a href="/admin/casino/mogambo" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/mogambo" onclick="document.body.classList.remove('sidebar-enable');">Mogambo</a></li>
+                  <li><a href="/admin/casino/teenunique" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/teenunique" onclick="document.body.classList.remove('sidebar-enable');">Unique Teenpatti</a></li>
+                  <li><a href="/admin/casino/roulettelist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/roulettelist" onclick="document.body.classList.remove('sidebar-enable');">Roulette</a></li>
+                  <li><a href="/admin/casino/superover2" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/superover2" onclick="document.body.classList.remove('sidebar-enable');">Super Over2</a></li>
+                  <li><a href="/admin/casino/lucky15" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/lucky15" onclick="document.body.classList.remove('sidebar-enable');">Lucky15</a></li>
+                  <li><a href="/admin/casino/goal" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/goal" onclick="document.body.classList.remove('sidebar-enable');">Goal</a></li>
+                  <li><a href="/admin/casino/goal2" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/goal2" onclick="document.body.classList.remove('sidebar-enable');">Goal2</a></li>
+                  <li><a href="/admin/users" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/users" onclick="document.body.classList.remove('sidebar-enable');">Binary</a></li>
+                  <li><a href="/admin/casino/race20" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/race20" onclick="document.body.classList.remove('sidebar-enable');">Race 20-20</a></li>
+                  <li><a href="/admin/casino/queen" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/queen" onclick="document.body.classList.remove('sidebar-enable');">Queen</a></li>
+                  <li><a href="/admin/casino/baccaratlist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/baccaratlist" onclick="document.body.classList.remove('sidebar-enable');">Baccarat</a></li>
+                  <li><a href="/admin/casino/sportscasinolist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/sportscasinolist" onclick="document.body.classList.remove('sidebar-enable');">Sport Casino</a></li>
+                  <li><a href="/admin/casino/war" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/war" onclick="document.body.classList.remove('sidebar-enable');">Casino War</a></li>
+                  <li><a href="/admin/casino/worlilist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/worlilist" onclick="document.body.classList.remove('sidebar-enable');">Worli</a></li>
+                  <li><a href="/admin/casino/3cardj" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/3cardj" onclick="document.body.classList.remove('sidebar-enable');">3 Card Judgement</a></li>
+                  <li><a href="/admin/casino/cards32list" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/cards32list" onclick="document.body.classList.remove('sidebar-enable');">32 Card Casino</a></li>
+                  <li><a href="/admin/casino/liveteenpattilist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/liveteenpattilist" onclick="document.body.classList.remove('sidebar-enable');">Live Teenpatti</a></li>
+                  <li><a href="/admin/casino/teenpatti2list" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/teenpatti2list" onclick="document.body.classList.remove('sidebar-enable');">Teenpatti 2.0</a></li>
+                  <li><a href="/admin/casino/livepokerlist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/livepokerlist" onclick="document.body.classList.remove('sidebar-enable');">Live Poker</a></li>
+                  <li><a href="/admin/casino/andarbaharlist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/andarbaharlist" onclick="document.body.classList.remove('sidebar-enable');">Andar Bahar</a></li>
+                  <li><a href="/admin/casino/lucky7list" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/lucky7list" onclick="document.body.classList.remove('sidebar-enable');">Lucky 7</a></li>
+                  <li><a href="/admin/casino/dragontigerlist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/dragontigerlist" onclick="document.body.classList.remove('sidebar-enable');">Dragon Tiger</a></li>
+                  <li><a href="/admin/casino/bollywood-casino" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/bollywood-casino" onclick="document.body.classList.remove('sidebar-enable');">Bollywood Casino</a></li>
+                  <li><a href="/admin/casino/other-casino" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/other-casino" onclick="document.body.classList.remove('sidebar-enable');">Others</a></li>
+                </ul>
+              </li>
+              
+              <!-- Live Virtual Market Accordion -->
+              <li class="mobile-nav-only">
+                <a href="javascript:void(0);" onclick="window.toggleMobileNavAccordion('mobNavLiveVirtualMarket', this)">
+                  <i class="fas fa-gamepad mr-2 text-primary" style="width: 18px; text-align: center;"></i>
+                  <span>Live Virtual Market</span>
+                  <i class="fa fa-caret-down float-right mt-1 accordion-arrow"></i>
+                </a>
+                <ul class="sub-menu list-unstyled pl-4 py-1" id="mobNavLiveVirtualMarket" style="display: none; background: #fff; border-left: 2px solid #0088cc; margin-left: 15px;">
+                  <li><a href="/admin/vcasino/dtl20" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/dtl20" onclick="document.body.classList.remove('sidebar-enable');">20-20 DTL</a></li>
+                  <li><a href="/admin/vcasino/aaa" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/aaa" onclick="document.body.classList.remove('sidebar-enable');">Amar Akbar Anthony</a></li>
+                  <li><a href="/admin/vcasino/teenmuf" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/teenmuf" onclick="document.body.classList.remove('sidebar-enable');">Muflis Teenpatti</a></li>
+                  <li><a href="/admin/vcasino/teen" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/teen" onclick="document.body.classList.remove('sidebar-enable');">1 Day Teenpatti</a></li>
+                  <li><a href="/admin/vcasino/dt6" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/dt6" onclick="document.body.classList.remove('sidebar-enable');">1 Day Dragon Tiger</a></li>
+                  <li><a href="/admin/vcasino/lucky7" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/lucky7" onclick="document.body.classList.remove('sidebar-enable');">Lucky 7</a></li>
+                  <li><a href="/admin/vcasino/btable" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/btable" onclick="document.body.classList.remove('sidebar-enable');">Bollywood Casino</a></li>
+                  <li><a href="/admin/vcasino/teen20" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/teen20" onclick="document.body.classList.remove('sidebar-enable');">20-20 Teenpatti</a></li>
+                  <li><a href="/admin/vcasino/trio" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/trio" onclick="document.body.classList.remove('sidebar-enable');">Trio</a></li>
+                </ul>
+              </li>
+              
+              <!-- Reports Accordion -->
+              <li class="mobile-nav-only">
+                <a href="javascript:void(0);" onclick="window.toggleMobileNavAccordion('mobNavReports', this)">
+                  <i class="fas fa-file-alt mr-2 text-primary" style="width: 18px; text-align: center;"></i>
+                  <span>Reports</span>
+                  <i class="fa fa-caret-down float-right mt-1 accordion-arrow"></i>
+                </a>
+                <ul class="sub-menu list-unstyled pl-4 py-1" id="mobNavReports" style="display: none; background: #fff; border-left: 2px solid #0088cc; margin-left: 15px;">
+                  <li><a href="/admin/reports/accountstatement" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/accountstatement" onclick="document.body.classList.remove('sidebar-enable');">Account Statement</a></li>
+                  <li><a href="/admin/reports/currentbets" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/currentbets" onclick="document.body.classList.remove('sidebar-enable');">Current Bets</a></li>
+                  <li><a href="/admin/reports/generalreport" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/generalreport" onclick="document.body.classList.remove('sidebar-enable');">General Report</a></li>
+                  <li><a href="/admin/reports/gamereport" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/gamereport" onclick="document.body.classList.remove('sidebar-enable');">Game Report</a></li>
+                  <li><a href="/admin/reports/livecasinoreport" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/livecasinoreport" onclick="document.body.classList.remove('sidebar-enable');">Casino Report</a></li>
+                  <li><a href="/admin/reports/profitloss" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/profitloss" onclick="document.body.classList.remove('sidebar-enable');">Profit And Loss</a></li>
+                  <li><a href="/admin/reports/casinoresult" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/casinoresult" onclick="document.body.classList.remove('sidebar-enable');">Casino Result Report</a></li>
+                  <li><a href="/admin/settings/userlock" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/settings/userlock" onclick="document.body.classList.remove('sidebar-enable');">General Lock</a></li>
+                  <li><a href="/admin/reports/userhistory" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/userhistory" onclick="document.body.classList.remove('sidebar-enable');">User History</a></li>
+                  <li><a href="/admin/reports/turnover" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/turnover" onclick="document.body.classList.remove('sidebar-enable');">Turnover</a></li>
+                  <li><a href="/admin/reports/userregisterdetail" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/userregisterdetail" onclick="document.body.classList.remove('sidebar-enable');">User Register Detail</a></li>
+                  <li><a href="/admin/reports/totalprofitloss" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/totalprofitloss" onclick="document.body.classList.remove('sidebar-enable');">Total Profit Loss</a></li>
+                  <li><a href="/admin/reports/userwinloss" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/userwinloss" onclick="document.body.classList.remove('sidebar-enable');">User Win Loss</a></li>
+                </ul>
+              </li>
+              
+              <li class="mobile-nav-only">
+                <a href="/admin/reports/bank" class="nav-route-link" data-route="/admin/reports/bank" onclick="document.body.classList.remove('sidebar-enable');">
+                  <i class="fas fa-university mr-2 text-primary" style="width: 18px; text-align: center;"></i>
+                  <span>Bank</span>
+                </a>
+              </li>
+              
+              <li class="mobile-nav-only">
+                <a href="/admin/createaccount" class="nav-route-link" data-route="/admin/createaccount" onclick="document.body.classList.remove('sidebar-enable');">
+                  <i class="fas fa-users-cog mr-2 text-primary" style="width: 18px; text-align: center;"></i>
+                  <span>Multi Login</span>
+                </a>
+              </li>
+              
+              <li class="mobile-nav-only" style="border-bottom: 1px solid #e2e8f0; margin: 6px 0;"></li>
+              <li class="menu-title mobile-nav-only" style="padding: 6px 15px 4px; font-size: 11px; text-transform: uppercase; color: #74788d; font-weight: 700; letter-spacing: .5px;">Sports & Markets</li>
+
               <!-- Sports Tree Header -->
               <li class="menu-box" id="event-tree">
                 <a href="javascript:void(0);" onclick="window.toggleSidebarSportsTree()">

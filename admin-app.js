@@ -4866,6 +4866,25 @@ renderGenericReport: function(container, title, desc) {
   };
 
   // Sidebar Sports Tree Toggles matching Reference MetisMenu
+  window.toggleMobileNavAccordion = function(id, trigger) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const isHidden = (el.style.display === 'none' || !el.style.display);
+    el.style.display = isHidden ? 'block' : 'none';
+    if (trigger) {
+      const arrow = trigger.querySelector('.accordion-arrow');
+      if (arrow) {
+        if (isHidden) {
+          arrow.classList.remove('fa-caret-down');
+          arrow.classList.add('fa-caret-up');
+        } else {
+          arrow.classList.remove('fa-caret-up');
+          arrow.classList.add('fa-caret-down');
+        }
+      }
+    }
+  };
+
   window.toggleSidebarSportsTree = function() {
     const treeUl = document.getElementById('sidebarSportsTreeUl');
     if (treeUl) {
