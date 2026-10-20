@@ -1886,15 +1886,15 @@
             <div class="market-analysis-list">
               ${matches.map(m => `
                 <div class="market-analysis-container mb-3">
-                  <div class="market-analysis-title bg-light p-2 border d-flex justify-content-between align-items-center">
+                  <div class="market-analysis-title p-2 d-flex justify-content-between align-items-center" style="background-color: #2c3e50 !important; color: #ffffff !important; border-radius: 4px 4px 0 0;">
                     <div>
                       <span class="badge badge-warning mr-2">${m.sportName}</span>
-                      <a href="javascript:void(0)" onclick="window.openMarketBookModal('${m.id}')" class="ma-link font-weight-bold text-dark">${m.eventName}</a>
+                      <a href="javascript:void(0)" onclick="window.openMarketBookModal('${m.id}')" class="ma-link font-weight-bold text-white">${m.eventName}</a>
                     </div>
-                    <div class="text-muted small d-flex align-items-center">
+                    <div class="small d-flex align-items-center text-white">
                       <span class="badge badge-success mr-2">${m.inPlay ? 'IN PLAY' : 'UPCOMING'}</span>
-                      <span class="mr-2">Matched: <strong class="text-info">${this.formatCurrency(m.matchedVolume)}</strong></span>
-                      <button class="btn btn-sm btn-primary py-0 px-2" onclick="window.openMarketBookModal('${m.id}')" title="Open Detailed Market Book">
+                      <span class="mr-2 text-white-50">Matched: <strong class="text-white">${this.formatCurrency(m.matchedVolume)}</strong></span>
+                      <button class="btn btn-sm btn-primary py-0 px-2" style="background-color: #0088cc !important; border-color: #0088cc !important;" onclick="window.openMarketBookModal('${m.id}')" title="Open Detailed Market Book">
                         <i class="fas fa-book-open mr-1"></i> Book
                       </button>
                     </div>
@@ -1903,8 +1903,8 @@
                     <div class="row row5">
                       <div class="col-lg-6 col-12 mb-3">
                         <div class="market-analysis-content-detail card shadow-sm">
-                          <table class="table table-bordered mb-0">
-                            <thead class="bg-dark text-white">
+                          <table class="table table-bordered table-striped mb-0">
+                            <thead>
                               <tr>
                                 <th>Match Odds</th>
                                 <th class="text-right">Exposure</th>
@@ -1925,8 +1925,8 @@
                       </div>
                       <div class="col-lg-6 col-12 mb-3">
                         <div class="market-analysis-content-detail card shadow-sm">
-                          <table class="table table-bordered mb-0">
-                            <thead class="bg-dark text-white">
+                          <table class="table table-bordered table-striped mb-0">
+                            <thead>
                               <tr>
                                 <th>Bookmaker</th>
                                 <th class="text-right">Exposure</th>
@@ -2360,8 +2360,8 @@
         <div class="card shadow-sm">
           <div class="card-body p-0">
             <div class="table-responsive">
-              <table class="table table-striped table-hover mb-0">
-                <thead class="bg-dark text-white">
+              <table class="table b-table table-bordered table-striped mb-0">
+                <thead>
                   <tr>
                     <th>Round ID</th>
                     <th>Casino Game</th>
@@ -2872,8 +2872,8 @@
         </div>
 
         <div class="card shadow-sm" style="max-width: 700px;">
-          <div class="card-header bg-dark text-white">
-            <h6 class="mb-0">Configure Quick Stake Values</h6>
+          <div class="card-header text-white" style="background-color: #2c3e50 !important;">
+            <h6 class="mb-0 font-weight-bold">Configure Quick Stake Values</h6>
           </div>
           <div class="card-body">
             <form id="setButtonForm">
@@ -2916,8 +2916,8 @@
         </div>
 
         <div class="card shadow-sm" style="max-width: 600px;">
-          <div class="card-header bg-dark text-white">
-            <h6 class="mb-0"><i class="fas fa-shield-alt mr-2 text-warning"></i> Two-Factor Authentication (2FA)</h6>
+          <div class="card-header text-white" style="background-color: #2c3e50 !important;">
+            <h6 class="mb-0 font-weight-bold"><i class="fas fa-shield-alt mr-2 text-warning"></i> Two-Factor Authentication (2FA)</h6>
           </div>
           <div class="card-body">
             <p>Enhance your account security with Google Authenticator OTP verification.</p>
@@ -4248,7 +4248,7 @@
 
             <div class="col-lg-4 mb-4">
               <div class="card shadow-sm">
-                <div class="card-header bg-dark text-white py-2">
+                <div class="card-header text-white py-2" style="background-color: #2c3e50 !important;">
                   <h6 class="mb-0 font-weight-bold"><i class="fas fa-list-ol mr-2"></i> Live Matched Bets</h6>
                 </div>
                 <div class="card-body p-0">
@@ -4291,8 +4291,8 @@ renderGenericReport: function(container, title, desc) {
         </div>
 
         <div class="card shadow-sm">
-          <div class="card-header bg-dark text-white">
-            <h6 class="mb-0">${desc}</h6>
+          <div class="card-header text-white" style="background-color: #2c3e50 !important;">
+            <h6 class="mb-0 font-weight-bold">${desc}</h6>
           </div>
           <div class="card-body">
             <div class="alert alert-light border">
@@ -4783,7 +4783,7 @@ renderGenericReport: function(container, title, desc) {
 
     if (modalContent) {
       modalContent.innerHTML = `
-        <div class="alert alert-dark d-flex justify-content-between align-items-center mb-3">
+        <div class="alert text-white d-flex justify-content-between align-items-center mb-3" style="background-color: #2c3e50 !important;">
           <div>
             <span class="badge badge-warning mr-2">${match.sportName}</span>
             <strong class="text-white">${match.eventName}</strong>
@@ -4797,7 +4797,7 @@ renderGenericReport: function(container, title, desc) {
         <h6 class="font-weight-bold mb-2">Match Odds Market Book</h6>
         <div class="table-responsive mb-3">
           <table class="table table-bordered table-striped">
-            <thead class="bg-dark text-white">
+            <thead>
               <tr>
                 <th>Runner</th>
                 <th class="text-center" style="background:#72bbef; color:#111; width:90px;">Back</th>
@@ -4822,8 +4822,8 @@ renderGenericReport: function(container, title, desc) {
 
         <h6 class="font-weight-bold mb-2">Matched Bets on this Event</h6>
         <div class="table-responsive">
-          <table class="table table-sm table-striped">
-            <thead class="thead-light">
+          <table class="table table-sm table-striped table-bordered">
+            <thead>
               <tr>
                 <th>Bet ID</th>
                 <th>Account</th>

@@ -1086,6 +1086,9 @@ body, .main-content, .page-content {
 .account-list table,
 .list-clients table,
 .bank-panel table,
+.market-analysis-container table,
+.market-analysis-content-detail table,
+.modal-body table,
 table.table-striped.table-bordered {
   width: 100% !important;
   margin-bottom: 0 !important;
@@ -1096,6 +1099,9 @@ table.table-striped.table-bordered {
 .account-list table thead th,
 .list-clients table thead th,
 .bank-panel table thead th,
+.market-analysis-container table thead th,
+.market-analysis-content-detail table thead th,
+.modal-body table thead th,
 table.table-striped.table-bordered thead th {
   background-color: #ececec !important;
   color: #1e1e1e !important;
@@ -1112,6 +1118,9 @@ table.table-striped.table-bordered thead th {
 .account-list table tbody td,
 .list-clients table tbody td,
 .bank-panel table tbody td,
+.market-analysis-container table tbody td,
+.market-analysis-content-detail table tbody td,
+.modal-body table tbody td,
 table.table-striped.table-bordered tbody td {
   color: #1e1e1e !important;
   font-size: 13px !important;
@@ -1125,6 +1134,9 @@ table.table-striped.table-bordered tbody td {
 .account-list table tbody tr:nth-of-type(odd),
 .list-clients table tbody tr:nth-of-type(odd),
 .bank-panel table tbody tr:nth-of-type(odd),
+.market-analysis-container table tbody tr:nth-of-type(odd),
+.market-analysis-content-detail table tbody tr:nth-of-type(odd),
+.modal-body table tbody tr:nth-of-type(odd),
 table.table-striped.table-bordered tbody tr:nth-of-type(odd) {
   background-color: #f9f9f9 !important;
 }
@@ -1133,6 +1145,9 @@ table.table-striped.table-bordered tbody tr:nth-of-type(odd) {
 .account-list table tbody tr:nth-of-type(even),
 .list-clients table tbody tr:nth-of-type(even),
 .bank-panel table tbody tr:nth-of-type(even),
+.market-analysis-container table tbody tr:nth-of-type(even),
+.market-analysis-content-detail table tbody tr:nth-of-type(even),
+.modal-body table tbody tr:nth-of-type(even),
 table.table-striped.table-bordered tbody tr:nth-of-type(even) {
   background-color: #ffffff !important;
 }
@@ -1141,6 +1156,9 @@ table.table-striped.table-bordered tbody tr:nth-of-type(even) {
 .account-list table tbody tr:hover,
 .list-clients table tbody tr:hover,
 .bank-panel table tbody tr:hover,
+.market-analysis-container table tbody tr:hover,
+.market-analysis-content-detail table tbody tr:hover,
+.modal-body table tbody tr:hover,
 table.table-striped.table-bordered tbody tr:hover {
   background-color: #f1f3f7 !important;
 }
@@ -1153,6 +1171,15 @@ table.table-striped.table-bordered tbody tr:hover {
   text-align: center !important;
   padding: 12px !important;
   font-size: 14px !important;
+}
+
+.market-analysis-title {
+  background-color: #2c3e50 !important;
+  color: #ffffff !important;
+  border-radius: 4px 4px 0 0 !important;
+}
+.market-analysis-title a {
+  color: #ffffff !important;
 }
 
 /* 6. Buttons: Reference Blue #0088cc */
