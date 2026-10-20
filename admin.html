@@ -1582,12 +1582,22 @@
     }
 
     /* 5. Tables: Reference Header #ececec, Borders #dee2e6, Alternating rows #ffffff / #f9f9f9 */
-    .dashboard-table {
+    .dashboard-table,
+    .report-table table,
+    .account-list table,
+    .list-clients table,
+    .bank-panel table,
+    table.table-striped.table-bordered {
       width: 100% !important;
       margin-bottom: 0 !important;
       border-collapse: collapse !important;
     }
-    .dashboard-table thead th {
+    .dashboard-table thead th,
+    .report-table table thead th,
+    .account-list table thead th,
+    .list-clients table thead th,
+    .bank-panel table thead th,
+    table.table-striped.table-bordered thead th {
       background-color: #ececec !important;
       color: #1e1e1e !important;
       font-family: 'Roboto Condensed', sans-serif !important;
@@ -1598,7 +1608,12 @@
       padding: 8px 12px !important;
       vertical-align: middle !important;
     }
-    .dashboard-table tbody td {
+    .dashboard-table tbody td,
+    .report-table table tbody td,
+    .account-list table tbody td,
+    .list-clients table tbody td,
+    .bank-panel table tbody td,
+    table.table-striped.table-bordered tbody td {
       color: #1e1e1e !important;
       font-size: 13px !important;
       font-family: 'Roboto Condensed', sans-serif !important;
@@ -1606,14 +1621,39 @@
       padding: 8px 12px !important;
       vertical-align: middle !important;
     }
-    .dashboard-table tbody tr:nth-of-type(odd) {
+    .dashboard-table tbody tr:nth-of-type(odd),
+    .report-table table tbody tr:nth-of-type(odd),
+    .account-list table tbody tr:nth-of-type(odd),
+    .list-clients table tbody tr:nth-of-type(odd),
+    .bank-panel table tbody tr:nth-of-type(odd),
+    table.table-striped.table-bordered tbody tr:nth-of-type(odd) {
       background-color: #f9f9f9 !important;
     }
-    .dashboard-table tbody tr:nth-of-type(even) {
+    .dashboard-table tbody tr:nth-of-type(even),
+    .report-table table tbody tr:nth-of-type(even),
+    .account-list table tbody tr:nth-of-type(even),
+    .list-clients table tbody tr:nth-of-type(even),
+    .bank-panel table tbody tr:nth-of-type(even),
+    table.table-striped.table-bordered tbody tr:nth-of-type(even) {
       background-color: #ffffff !important;
     }
-    .dashboard-table tbody tr:hover {
+    .dashboard-table tbody tr:hover,
+    .report-table table tbody tr:hover,
+    .account-list table tbody tr:hover,
+    .list-clients table tbody tr:hover,
+    .bank-panel table tbody tr:hover,
+    table.table-striped.table-bordered tbody tr:hover {
       background-color: #f1f3f7 !important;
+    }
+    .b-table-empty-row td,
+    .report-table .b-table-empty-row td,
+    .account-list .b-table-empty-row td,
+    .bank-panel .b-table-empty-row td {
+      background-color: #f2f2f2 !important;
+      color: #1e1e1e !important;
+      text-align: center !important;
+      padding: 12px !important;
+      font-size: 14px !important;
     }
 
     /* 6. Buttons: Reference Blue #0088cc */
