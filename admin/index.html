@@ -732,24 +732,26 @@
       background-color: #f1f3f6 !important;
     }
 
-    /* Username Dark Grey Badge Matching Reference */
-    .username-badge {
-      background-color: #343a40 !important;
+    /* Username Dark Grey Badge Matching Reference .wrape-text */
+    .username-badge,
+    .wrape-text {
+      background-color: #444444 !important;
       color: #ffffff !important;
-      padding: 3px 8px;
-      border-radius: 3px;
-      font-weight: 700;
-      font-size: 12px;
-      text-transform: uppercase;
-      display: inline-block;
-      cursor: pointer;
+      padding: 5px 10px !important;
+      border-radius: 3px !important;
+      font-weight: 700 !important;
+      font-size: 13px !important;
+      text-transform: uppercase !important;
+      display: inline-block !important;
+      cursor: pointer !important;
       text-decoration: none !important;
-      letter-spacing: 0.5px;
-      line-height: 1.3;
+      letter-spacing: 0.5px !important;
+      line-height: 1.3 !important;
       transition: background-color 0.15s ease;
     }
-    .username-badge:hover {
-      background-color: #23272b !important;
+    .username-badge:hover,
+    .wrape-text:hover {
+      background-color: #333333 !important;
       color: #ffffff !important;
     }
 
@@ -807,51 +809,60 @@
       min-width: 44px !important;
     }
 
-    /* PDF and Excel Button Styles */
+    /* PDF and Excel Button Styles matching Reference */
+    .buttons-pdf,
     .buttons-pdf.btn-danger {
-      background-color: #a71d2a !important;
-      border-color: #a71d2a !important;
+      background-color: #cb0606 !important;
+      border: 1px solid #cb0606 !important;
       color: #ffffff !important;
-      font-size: 13px !important;
-      font-weight: 700 !important;
-      padding: 4px 10px !important;
-      border-radius: 3px !important;
+      font-size: 14px !important;
+      font-weight: 400 !important;
+      padding: 5.25px 10.5px !important;
+      border-radius: 3.5px !important;
+      box-shadow: 0 5px 6px -6px #000000 !important;
+      margin-right: 6px !important;
     }
+    .buttons-excel,
     .buttons-excel.btn-success {
-      background-color: #1e7e34 !important;
-      border-color: #1e7e34 !important;
+      background-color: #217346 !important;
+      border: 1px solid #217346 !important;
       color: #ffffff !important;
-      font-size: 13px !important;
-      font-weight: 700 !important;
-      padding: 4px 10px !important;
-      border-radius: 3px !important;
+      font-size: 14px !important;
+      font-weight: 400 !important;
+      padding: 5.25px 10.5px !important;
+      border-radius: 3.5px !important;
+      box-shadow: 0 5px 6px -6px #000000 !important;
     }
     .btn-add-account {
       background-color: #0088cc !important;
       border-color: #0088cc !important;
       color: #ffffff !important;
-      font-size: 13px !important;
-      font-weight: 700 !important;
-      padding: 5px 14px !important;
-      border-radius: 3px !important;
+      font-size: 14px !important;
+      font-weight: 400 !important;
+      padding: 6px 12px !important;
+      border-radius: 3.5px !important;
     }
-    #loaddata {
+    #loaddata,
+    .btn-primary.load-btn {
       background-color: #0088cc !important;
-      border-color: #0088cc !important;
+      border: 1px solid #0088cc !important;
       color: #ffffff !important;
-      font-weight: 500 !important;
-      font-size: 13px !important;
-      padding: 4px 14px !important;
-      border-radius: 3px !important;
+      font-weight: 400 !important;
+      font-size: 14px !important;
+      padding: 5.25px 10.5px !important;
+      border-radius: 3.5px !important;
+      margin: 0 0 0 7px !important;
     }
-    #resetdata {
-      background-color: #6c757d !important;
-      border-color: #6c757d !important;
-      color: #ffffff !important;
-      font-weight: 500 !important;
-      font-size: 13px !important;
-      padding: 4px 14px !important;
-      border-radius: 3px !important;
+    #resetdata,
+    .btn-secondary.reset-btn {
+      background-color: #74788d !important;
+      border: 1px solid #74788d !important;
+      color: #eff2f7 !important;
+      font-weight: 400 !important;
+      font-size: 14px !important;
+      padding: 5.25px 10.5px !important;
+      border-radius: 3.5px !important;
+      margin: 0 0 0 7px !important;
     }
     .b-pagination .page-item .page-link {
       color: #6c757d !important;
@@ -1318,13 +1329,17 @@
       margin-bottom: 1rem;
     }
 
-    @media (max-width: 380px) {
+    @media (max-width: 991.98px) {
       #page-topbar .navbar-brand-box {
         display: none !important;
       }
-    }
-    @media (max-width: 991.98px) {
       .top-client-searchbox {
+        display: none !important;
+      }
+      .role-filter-pills,
+      div.role-filter-pills,
+      .role-filter-pills.d-flex,
+      div.role-filter-pills.d-flex {
         display: none !important;
       }
       .navbar-header .user-menu .role-badge {
@@ -1335,17 +1350,18 @@
         flex-wrap: nowrap !important;
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch;
-        max-width: calc(100vw - 145px) !important;
         scrollbar-width: none;
       }
       #page-topbar .main-menu::-webkit-scrollbar {
         display: none;
       }
       #page-topbar .main-menu .nav-link {
-        font-size: 12px !important;
-        padding: 0 7px !important;
-        line-height: 50px !important;
-        height: 50px !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        padding: 0 8px !important;
+        line-height: 52px !important;
+        height: 52px !important;
+        white-space: nowrap !important;
       }
     }
     @media (max-width: 767.98px) {
@@ -1997,11 +2013,6 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/admin/downline-tree" class="nav-link nav-route-link" data-route="/admin/downline-tree" id="navDownlineTree">
-                  Downline Tree
-                </a>
-              </li>
-              <li class="nav-item">
                 <a href="/admin/assign-agent" class="nav-link nav-route-link" data-route="/admin/assign-agent">
                   Assign Agent
                 </a>
@@ -2214,33 +2225,6 @@
                   </li>
 
                 </ul>
-              </li>
-
-              <!-- Quick Navigation Shortcuts -->
-              <li class="mt-3">
-                <a href="/admin/users" class="nav-route-link" data-route="/admin/users">
-                  <span><i class="fas fa-users mr-2 text-primary"></i> Client List</span>
-                </a>
-              </li>
-              <li>
-                <a href="/admin/users/insertuser" class="nav-route-link" data-route="/admin/users/insertuser">
-                  <span><i class="fas fa-user-plus mr-2 text-success"></i> Add Account</span>
-                </a>
-              </li>
-              <li>
-                <a href="/admin/reports/accountstatement" class="nav-route-link" data-route="/admin/reports/accountstatement">
-                  <span><i class="fas fa-file-invoice-dollar mr-2 text-warning"></i> Account Statement</span>
-                </a>
-              </li>
-              <li>
-                <a href="/admin/reports/currentbets" class="nav-route-link" data-route="/admin/reports/currentbets">
-                  <span><i class="fas fa-list-alt mr-2 text-info"></i> Current Bets</span>
-                </a>
-              </li>
-              <li>
-                <a href="/admin/reports/bank" class="nav-route-link" data-route="/admin/reports/bank">
-                  <span><i class="fas fa-university mr-2 text-light"></i> Bank / Settlement</span>
-                </a>
               </li>
             </ul>
           </div>

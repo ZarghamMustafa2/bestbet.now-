@@ -750,14 +750,14 @@ html, body {
     margin-bottom: 1rem;
 }
 
-@media (max-width: 380px) {
+@media (max-width: 991.98px) {
     #page-topbar .navbar-brand-box {
         display: none !important;
     }
-}
-
-@media (max-width: 991.98px) {
     .top-client-searchbox {
+        display: none !important;
+    }
+    .role-filter-pills {
         display: none !important;
     }
     .navbar-header .user-menu .role-badge {
@@ -768,17 +768,18 @@ html, body {
         flex-wrap: nowrap !important;
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch;
-        max-width: calc(100vw - 145px) !important;
         scrollbar-width: none;
     }
     #page-topbar .main-menu::-webkit-scrollbar {
         display: none;
     }
     #page-topbar .main-menu .nav-link {
-        font-size: 12px !important;
-        padding: 0 7px !important;
-        line-height: 50px !important;
-        height: 50px !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        padding: 0 8px !important;
+        line-height: 52px !important;
+        height: 52px !important;
+        white-space: nowrap !important;
     }
     .vertical-menu {
         display: none !important;

@@ -945,9 +945,7 @@
               <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
                 <h4 class="mb-0 font-size-18 font-weight-bold" style="font-family: 'Roboto Condensed', sans-serif; color: #212529;">Dashboard Overview</h4>
                 <div class="page-title-right">
-                  <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link btn-add-account-dash">
-                    <i class="fas fa-plus mr-1"></i> Add Account
-                  </a>
+                  <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link btn-add-account-dash">Add Account</a>
                 </div>
               </div>
             </div>
@@ -1732,7 +1730,7 @@
                 <div class="page-title-right mt-2 mt-sm-0">
                   <button type="button" class="btn btn-outline-secondary btn-sm mr-1" onclick="window.expandAllTreeNodes()"><i class="fas fa-expand-arrows-alt mr-1"></i> Expand All</button>
                   <button type="button" class="btn btn-outline-secondary btn-sm mr-1" onclick="window.collapseAllTreeNodes()"><i class="fas fa-compress-arrows-alt mr-1"></i> Collapse All</button>
-                  <a href="/admin/users/insertuser" class="btn btn-add-account btn-sm nav-route-link" data-route="/admin/users/insertuser"><i class="fas fa-plus mr-1"></i> Add Account</a>
+                  <a href="/admin/users/insertuser" class="btn btn-add-account btn-sm nav-route-link" data-route="/admin/users/insertuser">Add Account</a>
                 </div>
               </div>
             </div>
