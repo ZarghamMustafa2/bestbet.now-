@@ -252,9 +252,9 @@
     }
     .admin-modal .modal-header,
     .modal-header {
-      background-color: #343a40 !important;
-      border-bottom: 0 !important;
-      padding: 12px 18px !important;
+      background-color: #ffffff !important;
+      border-bottom: 1px solid #eff2f7 !important;
+      padding: 14px 18px !important;
       border-radius: 4px 4px 0 0 !important;
       display: flex !important;
       align-items: center !important;
@@ -262,6 +262,9 @@
     }
     .admin-modal .modal-header.bg-primary {
       background-color: #0088cc !important;
+    }
+    .admin-modal .modal-header.bg-secondary {
+      background-color: #2c3e50 !important;
     }
     .admin-modal .modal-header .modal-title,
     .modal-header .modal-title,
@@ -277,12 +280,16 @@
     .modal-header h5,
     .modal-header h6,
     .modal-header span {
-      color: #ffffff !important;
+      color: #1e1e1e !important;
       font-size: 18px !important;
-      font-weight: 500 !important;
+      font-weight: 700 !important;
       line-height: 1.5 !important;
       margin: 0 !important;
-      font-family: 'Roboto Condensed', 'Poppins', sans-serif !important;
+      font-family: 'Roboto Condensed', sans-serif !important;
+    }
+    .admin-modal .modal-header.bg-primary .modal-title,
+    .admin-modal .modal-header.bg-secondary .modal-title {
+      color: #ffffff !important;
     }
     .admin-modal .modal-header .close,
     .modal-header .close {
@@ -2077,6 +2084,11 @@
                 </div>
               </li>
               <li class="nav-item">
+                <a href="/admin/reports/bank" class="nav-link nav-route-link" data-route="/admin/reports/bank">
+                  Bank
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="/admin/createaccount" class="nav-link nav-route-link" data-route="/admin/createaccount">
                   Multi Login
                 </a>
@@ -2253,9 +2265,9 @@
   <div class="admin-modal" id="depositeMDL">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header bg-dark text-white">
+        <div class="modal-header">
           <h4 class="modal-title">Deposit</h4>
-          <button type="button" class="close text-white" onclick="window.closeModal('depositeMDL')">&times;</button>
+          <button type="button" class="close" onclick="window.closeModal('depositeMDL')">&times;</button>
         </div>
         <form id="depositForm" onsubmit="window.handleDepositSubmit(event)">
           <input type="hidden" id="depositUserId">
@@ -2323,9 +2335,9 @@
   <div class="admin-modal" id="withdrwalMDL">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header bg-dark text-white">
+        <div class="modal-header">
           <h4 class="modal-title">Withdraw</h4>
-          <button type="button" class="close text-white" onclick="window.closeModal('withdrwalMDL')">&times;</button>
+          <button type="button" class="close" onclick="window.closeModal('withdrwalMDL')">&times;</button>
         </div>
         <form id="withdrawForm" onsubmit="window.handleWithdrawSubmit(event)">
           <input type="hidden" id="withdrawUserId">
@@ -2393,9 +2405,9 @@
   <div class="admin-modal" id="exposureLimitMDL">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header bg-dark text-white">
+        <div class="modal-header">
           <h5 class="modal-title">Exposure Limit</h5>
-          <button type="button" class="close text-white" onclick="window.closeModal('exposureLimitMDL')">&times;</button>
+          <button type="button" class="close" onclick="window.closeModal('exposureLimitMDL')">&times;</button>
         </div>
         <form id="exposureLimitForm" onsubmit="window.handleExposureLimitSubmit(event)">
           <input type="hidden" id="exposureLimitUserId">
@@ -2438,9 +2450,9 @@
   <div class="admin-modal" id="creditUpdate">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header bg-dark text-white">
+        <div class="modal-header">
           <h5 class="modal-title">Credit</h5>
-          <button type="button" class="close text-white" onclick="window.closeModal('creditUpdate')">&times;</button>
+          <button type="button" class="close" onclick="window.closeModal('creditUpdate')">&times;</button>
         </div>
         <form id="creditUpdateForm" onsubmit="window.handleCreditSubmit(event)">
           <input type="hidden" id="creditUpdateUserId">
@@ -2485,9 +2497,9 @@
   <div class="admin-modal" id="changepwdMDL">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header bg-dark text-white">
+        <div class="modal-header">
           <h4 class="modal-title">Password</h4>
-          <button type="button" class="close text-white" onclick="window.closeModal('changepwdMDL')">&times;</button>
+          <button type="button" class="close" onclick="window.closeModal('changepwdMDL')">&times;</button>
         </div>
         <form id="changePasswordRefForm" onsubmit="window.handlePasswordSubmit(event)">
           <input type="hidden" id="changePwdTargetUser">
@@ -2532,9 +2544,9 @@
   <div class="admin-modal" id="changestatusMDL">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header bg-dark text-white">
+        <div class="modal-header">
           <h4 class="modal-title">Change Status</h4>
-          <button type="button" class="close text-white" onclick="window.closeModal('changestatusMDL')">&times;</button>
+          <button type="button" class="close" onclick="window.closeModal('changestatusMDL')">&times;</button>
         </div>
         <form id="changeStatusRefForm" onsubmit="window.handleStatusSubmit(event)">
           <input type="hidden" id="changeStatusUserId">
@@ -2586,9 +2598,9 @@
   <div class="admin-modal" id="ExtraMDL">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
-        <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title text-white" id="extraModalTitle">Account Profile Details</h5>
-          <button type="button" class="close text-white" onclick="window.closeModal('ExtraMDL')">&times;</button>
+        <div class="modal-header">
+          <h5 class="modal-title" id="extraModalTitle">Account Profile Details</h5>
+          <button type="button" class="close" onclick="window.closeModal('ExtraMDL')">&times;</button>
         </div>
         <div class="modal-body p-3">
           <!-- 5 Tabs Navigation matching Reference ref_app.js -->
@@ -2737,9 +2749,9 @@
   <div class="admin-modal" id="settlementModal">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header bg-dark text-white">
+        <div class="modal-header">
           <h5 class="modal-title">Clear Balance / Execute Settlement</h5>
-          <button type="button" class="close text-white" onclick="window.closeModal('settlementModal')">&times;</button>
+          <button type="button" class="close" onclick="window.closeModal('settlementModal')">&times;</button>
         </div>
         <form id="settlementForm" action="javascript:void(0);" onsubmit="event.preventDefault(); return false;">
           <input type="hidden" id="settlementUserId">
@@ -2783,8 +2795,8 @@
   <div class="admin-modal" id="marketBookModal">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header bg-dark text-white">
-          <h5 class="modal-title" id="marketBookModalTitle">Market Book Details</h5>
+        <div class="modal-header bg-secondary text-white">
+          <h5 class="modal-title text-white" id="marketBookModalTitle">Market Book Details</h5>
           <button type="button" class="close text-white" onclick="window.closeModal('marketBookModal')">&times;</button>
         </div>
         <div class="modal-body" id="marketBookContent">
