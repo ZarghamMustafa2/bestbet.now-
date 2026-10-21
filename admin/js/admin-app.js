@@ -171,7 +171,8 @@
       if (userEl) {
         const role = admin.role || 'company';
         const roleLabel = window.AdminDataStore ? window.AdminDataStore.getRoleLabel(role) : (admin.userLevel || 'Company Account');
-        userEl.innerHTML = `${admin.uname} <span class="role-badge role-badge-${role} ml-1 d-none d-md-inline" style="font-size:10px; vertical-align:middle;">${roleLabel}</span>`;
+        const username = admin.uname || admin.username || 'Newadmin98';
+        userEl.innerHTML = `${username} <span class="role-badge role-badge-${role} ml-1 d-none d-md-inline" style="font-size:10px; vertical-align:middle;">${roleLabel}</span>`;
       }
     },
 
@@ -843,6 +844,12 @@
           link.classList.remove('active');
         }
       });
+
+      if (path === '/admin/market-analysis') {
+        document.body.classList.add('page-market-analysis');
+      } else {
+        document.body.classList.remove('page-market-analysis');
+      }
 
       const container = document.getElementById('adminMainContainer');
       if (!container) return;
@@ -1860,92 +1867,25 @@
     },
 
     renderMarketAnalysis: function(container) {
-      const matches = window.AdminDataStore.getLiveMatches();
-
+      document.body.classList.add('page-market-analysis');
       container.innerHTML = `
-        <div class="listing-grid">
-          <div class="market-analysis">
-            <div class="row">
-              <div class="col-12">
-                <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
-                  <h4 class="mb-0 font-size-18 font-weight-bold">
-                    Market Analysis
-                    <a href="javascript:void(0)" class="text-dark pl-2" title="Refresh Data" onclick="window.AdminApp.handleRouting()">
-                      <i class="fa fa-sync"></i>
-                    </a>
-                  </h4>
-                  <div class="page-title-right">
-                    <input type="text" name="searchMarktetText" value="" placeholder="Search Event" class="form-control form-control-sm" id="searchMarketInput" onkeyup="window.adminFilterMarkets()">
-                  </div>
-                </div>
-              </div>
+        <div class="market-analysis">
+          <div class="market-analysis-bar d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+              <span class="market-analysis-heading">
+                Market Analysis
+                <a href="javascript:void(0)" class="text-dark ml-1" title="Refresh Data" onclick="window.AdminApp.handleRouting()">
+                  <i class="fas fa-sync-alt" style="font-size: 11px;"></i>
+                </a>
+              </span>
             </div>
+            <div class="page-title-right">
+              <input type="text" name="searchMarktetText" value="" placeholder="Search Event" class="search-event-input" id="searchMarketInput" onkeyup="window.adminFilterMarkets()">
+            </div>
+          </div>
 
-            <div class="market-analysis-list">
-              ${matches.map(m => `
-                <div class="market-analysis-container mb-3">
-                  <div class="market-analysis-title p-2 d-flex justify-content-between align-items-center" style="background-color: #2c3e50 !important; color: #ffffff !important; border-radius: 4px 4px 0 0;">
-                    <div>
-                      <span class="badge badge-warning mr-2">${m.sportName}</span>
-                      <a href="javascript:void(0)" onclick="window.openMarketBookModal('${m.id}')" class="ma-link font-weight-bold text-white">${m.eventName}</a>
-                    </div>
-                    <div class="small d-flex align-items-center text-white">
-                      <span class="badge badge-success mr-2">${m.inPlay ? 'IN PLAY' : 'UPCOMING'}</span>
-                      <span class="mr-2 text-white-50">Matched: <strong class="text-white">${this.formatCurrency(m.matchedVolume)}</strong></span>
-                      <button class="btn btn-sm btn-primary py-0 px-2" style="background-color: #0088cc !important; border-color: #0088cc !important;" onclick="window.openMarketBookModal('${m.id}')" title="Open Detailed Market Book">
-                        <i class="fas fa-book-open mr-1"></i> Book
-                      </button>
-                    </div>
-                  </div>
-                  <div class="market-analysis-content mt-2">
-                    <div class="row row5">
-                      <div class="col-lg-6 col-12 mb-3">
-                        <div class="market-analysis-content-detail card shadow-sm">
-                          <table class="table table-bordered table-striped mb-0">
-                            <thead>
-                              <tr>
-                                <th>Match Odds</th>
-                                <th class="text-right">Exposure</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              ${m.runners.map(r => `
-                                <tr>
-                                  <td><strong>${r.name}</strong></td>
-                                  <td class="text-right font-weight-bold ${r.exp >= 0 ? 'text-success' : 'text-danger'}">
-                                    ${r.exp >= 0 ? '+' : ''}${this.formatCurrency(r.exp)}
-                                  </td>
-                                </tr>
-                              `).join('')}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                      <div class="col-lg-6 col-12 mb-3">
-                        <div class="market-analysis-content-detail card shadow-sm">
-                          <table class="table table-bordered table-striped mb-0">
-                            <thead>
-                              <tr>
-                                <th>Bookmaker</th>
-                                <th class="text-right">Exposure</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              ${m.runners.map(r => `
-                                <tr>
-                                  <td><strong>${r.name}</strong></td>
-                                  <td class="text-right font-weight-bold text-success">+0.00</td>
-                                </tr>
-                              `).join('')}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
+          <!-- Clean white background area below grey bar matching reference screenshot -->
+          <div class="market-analysis-content-area" style="background: #ffffff; min-height: calc(100vh - 70px);">
           </div>
         </div>
       `;

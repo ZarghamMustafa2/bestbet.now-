@@ -754,20 +754,34 @@ html, body {
     .mobile-nav-only {
         display: none !important;
     }
+    .logo-all-text {
+        display: none !important;
+    }
+    .menu-row-break {
+        display: none !important;
+    }
 }
 
 @media (max-width: 991.98px) {
     #page-topbar {
         width: 100% !important;
         max-width: 100vw !important;
+        height: auto !important;
+        min-height: 24px !important;
+        background: #0088cc !important;
+        padding: 0 !important;
     }
     .navbar-header {
         display: flex !important;
+        flex-wrap: nowrap !important;
         justify-content: space-between !important;
         align-items: center !important;
         width: 100% !important;
         max-width: 100vw !important;
-        padding: 0 10px 0 0 !important;
+        height: auto !important;
+        min-height: 24px !important;
+        padding: 1px 4px !important;
+        background: #0088cc !important;
         box-sizing: border-box !important;
     }
     .navbar-header .top-nav-left,
@@ -776,14 +790,107 @@ html, body {
         align-items: center !important;
         flex: 1 1 auto !important;
         min-width: 0 !important;
-        overflow: hidden !important;
+        overflow: visible !important;
     }
-    #page-topbar .navbar-brand-box {
+    
+    /* Logo: White ALL on mobile */
+    #page-topbar .navbar-brand-box,
+    .vertical-collpsed .navbar-brand-box,
+    #page-topbar .navbar-brand-box a.logo,
+    #page-topbar .navbar-brand-box .logo-light,
+    .vertical-collpsed .navbar-brand-box a.logo,
+    .vertical-collpsed .navbar-brand-box .logo-light {
+        height: 22px !important;
+        line-height: 22px !important;
+        min-height: 0 !important;
+        max-height: 22px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 2px 0 0 !important;
+        background: transparent !important;
+        flex-shrink: 0 !important;
+    }
+    .logo-all-text {
+        font-family: "Times New Roman", Times, Georgia, serif !important;
+        font-size: 13.5px !important;
+        font-weight: 900 !important;
+        color: #ffffff !important;
+        letter-spacing: 0.5px !important;
+        line-height: 1 !important;
+        text-decoration: none !important;
+        display: inline-block !important;
+        margin-right: 2px !important;
+    }
+    #page-topbar .navbar-brand-box .site-logo {
         display: none !important;
     }
-    .top-client-searchbox {
-        display: none !important;
+
+    /* Hamburger icon beside logo */
+    #verticalMenuBtn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 2px !important;
+        margin: 0 2px 0 0 !important;
+        height: auto !important;
+        background: transparent !important;
+        border: none !important;
+        color: #ffffff !important;
+        font-size: 10px !important;
+        line-height: 1 !important;
+        cursor: pointer !important;
+        flex-shrink: 0 !important;
     }
+
+    /* Main Menu: 2 compact wrapped rows */
+    #page-topbar .main-menu {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        overflow: visible !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        list-style: none !important;
+    }
+    #page-topbar .main-menu .nav-item {
+        display: inline-flex !important;
+        align-items: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+    }
+    #page-topbar .main-menu .nav-link {
+        font-size: 6.8px !important;
+        font-weight: 700 !important;
+        padding: 0 1px !important;
+        line-height: 10px !important;
+        height: auto !important;
+        color: #ffffff !important;
+        white-space: nowrap !important;
+        letter-spacing: -0.2px !important;
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif !important;
+        text-decoration: none !important;
+    }
+    #page-topbar .main-menu .nav-link i.fa-caret-down {
+        font-size: 5.5px !important;
+        margin-left: 1px !important;
+        vertical-align: middle !important;
+    }
+    .menu-row-break {
+        flex-basis: 100% !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        list-style: none !important;
+    }
+
+    /* Right side controls */
     .role-filter-pills {
         display: none !important;
     }
@@ -791,55 +898,212 @@ html, body {
         display: none !important;
     }
     .navbar-header .user-menu {
-        flex-shrink: 0 !important;
-        margin-left: 6px !important;
         display: flex !important;
         align-items: center !important;
+        flex-shrink: 0 !important;
+        margin-left: 2px !important;
+        padding: 0 !important;
     }
-    #page-topbar .main-menu {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        flex: 1 1 auto !important;
-        min-width: 0 !important;
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-        scrollbar-width: none !important;
-        -ms-overflow-style: none !important;
-    }
-    #page-topbar .main-menu::-webkit-scrollbar {
-        display: none !important;
-        width: 0 !important;
-        height: 0 !important;
-    }
-    #page-topbar .main-menu .nav-link {
-        font-size: 13px !important;
+    #userMenuBtn,
+    #userMenuBtn span {
+        color: #ffffff !important;
+        font-size: 7.5px !important;
         font-weight: 700 !important;
-        padding: 0 8px !important;
-        line-height: 52px !important;
-        height: 52px !important;
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif !important;
+        line-height: 1 !important;
         white-space: nowrap !important;
+        padding: 0 !important;
+        margin: 0 !important;
     }
-    
+    #userMenuBtn {
+        padding: 0 2px !important;
+        background: transparent !important;
+        border: none !important;
+    }
+    #userMenuBtn span.mr-1 {
+        margin-right: 1px !important;
+    }
+    #userMenuBtn i.fa-caret-down {
+        font-size: 6.5px !important;
+        margin-left: 2px !important;
+        padding: 0 !important;
+        width: auto !important;
+    }
+    .top-client-searchbox {
+        display: flex !important;
+        align-items: center !important;
+        background: #ffffff !important;
+        border-radius: 2px !important;
+        padding: 1px 3px !important;
+        height: 15px !important;
+        width: 60px !important;
+        margin-left: 2px !important;
+        border: 1px solid rgba(0, 0, 0, 0.15) !important;
+        flex-shrink: 0 !important;
+    }
+    .top-client-searchbox input {
+        border: none !important;
+        outline: none !important;
+        font-size: 7.5px !important;
+        width: 42px !important;
+        background: transparent !important;
+        color: #333333 !important;
+        padding: 0 !important;
+        height: 13px !important;
+        line-height: 13px !important;
+    }
+    .top-client-searchbox button {
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        color: #333333 !important;
+        font-size: 7px !important;
+        cursor: pointer !important;
+        line-height: 1 !important;
+    }
+    .top-client-searchbox button i {
+        font-size: 7px !important;
+    }
+
     /* Topbar dropdown overlay on mobile */
     #adminMainMenu .dropdown-menu {
         position: fixed !important;
-        top: 52px !important;
-        left: 10px !important;
-        right: 10px !important;
-        max-width: calc(100vw - 20px) !important;
+        top: 26px !important;
+        left: 8px !important;
+        right: 8px !important;
+        max-width: calc(100vw - 16px) !important;
         max-height: 75vh !important;
         overflow-y: auto !important;
-        z-index: 1055 !important;
+        z-index: 1060 !important;
         box-shadow: 0 6px 20px rgba(0,0,0,0.25) !important;
         border-radius: 4px !important;
+        background: #ffffff !important;
     }
     #adminMainMenu .dropdown-menu .dropdown-item {
-        padding: 8px 14px !important;
-        font-size: 13.5px !important;
+        padding: 6px 12px !important;
+        font-size: 13px !important;
         border-bottom: 1px solid #f0f0f0 !important;
     }
     #adminMainMenu .dropdown-menu .dropdown-item:last-child {
         border-bottom: none !important;
+    }
+
+    /* Market Analysis styling on mobile */
+    .page-market-analysis .page-content {
+        padding: 0 !important;
+    }
+    .page-market-analysis #adminMainContainer {
+        padding: 0 !important;
+        max-width: 100% !important;
+    }
+    .market-analysis {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+    .market-analysis-bar {
+        background: #f8f8f8 !important;
+        border-bottom: 1px solid #e9ecef !important;
+        height: 32px !important;
+        padding: 0 10px !important;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+    }
+    .market-analysis-bar .market-analysis-heading {
+        font-size: 13.5px !important;
+        font-weight: 500 !important;
+        color: #212529 !important;
+        line-height: 1 !important;
+    }
+    .market-analysis-bar .search-event-input {
+        width: 105px !important;
+        height: 22px !important;
+        background: #ffffff !important;
+        border: 1px solid #ced4da !important;
+        border-radius: 2px !important;
+        padding: 1px 6px !important;
+        font-size: 10px !important;
+        color: #495057 !important;
+        outline: none !important;
+    }
+}
+
+@media (max-width: 420px) {
+    #page-topbar .main-menu .nav-link {
+        font-size: 5.9px !important;
+        letter-spacing: -0.35px !important;
+        padding: 0 0.5px !important;
+    }
+    #page-topbar .main-menu .nav-link i.fa-caret-down {
+        font-size: 5px !important;
+        margin-left: 0.5px !important;
+    }
+    #userMenuBtn,
+    #userMenuBtn span {
+        font-size: 6.8px !important;
+        padding: 0 1px !important;
+    }
+    .top-client-searchbox {
+        width: 48px !important;
+        height: 14px !important;
+        padding: 1px 2px !important;
+    }
+    .top-client-searchbox input {
+        width: 32px !important;
+        font-size: 6.5px !important;
+        height: 12px !important;
+    }
+    .top-client-searchbox button {
+        font-size: 6.5px !important;
+    }
+}
+
+@media (max-width: 340px) {
+    #page-topbar .main-menu .nav-link {
+        font-size: 5.2px !important;
+        letter-spacing: -0.4px !important;
+        padding: 0 0.2px !important;
+    }
+    #userMenuBtn,
+    #userMenuBtn span {
+        font-size: 6.2px !important;
+        padding: 0 !important;
+    }
+    .top-client-searchbox {
+        width: 42px !important;
+    }
+    .top-client-searchbox input {
+        width: 28px !important;
+        font-size: 6px !important;
+    }
+}
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+    .market-analysis-bar .title-text {
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        color: #212529 !important;
+        line-height: 1 !important;
+    }
+    .market-analysis-bar .refresh-btn {
+        color: #333333 !important;
+        font-size: 11px !important;
+        margin-left: 6px !important;
+        text-decoration: none !important;
+    }
+    .market-analysis-bar .search-event-input {
+        width: 105px !important;
+        height: 22px !important;
+        background: #ffffff !important;
+        border: 1px solid #ced4da !important;
+        border-radius: 2px !important;
+        padding: 1px 6px !important;
+        font-size: 10px !important;
+        color: #495057 !important;
+        outline: none !important;
     }
 
     /* Mobile drawer navigation links */

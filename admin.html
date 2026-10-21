@@ -656,6 +656,7 @@
       position: relative;
       display: flex;
       align-items: center;
+      margin-left: 8px;
     }
     .top-client-searchbox input {
       height: 32px;
@@ -683,7 +684,7 @@
     }
 
     /* Topbar User Menu Button */
-    #userMenuBtn, #userMenuBtn span, #userMenuBtn i {
+    #userMenuBtn {
       color: #ffffff !important;
       font-weight: 700 !important;
       font-size: 13px !important;
@@ -692,6 +693,12 @@
       box-shadow: none !important;
       display: inline-flex !important;
       align-items: center !important;
+      padding: 0 10px;
+    }
+    #userMenuBtn span, #userMenuBtn i {
+      color: #ffffff !important;
+      padding: 0;
+      margin: 0;
     }
 
     /* Table Appearance Matching Reference Screenshot 1 - Horizontal Borders Only */
@@ -1330,16 +1337,84 @@
     }
 
     @media (max-width: 991.98px) {
-      #page-topbar .navbar-brand-box {
+      #page-topbar {
+        width: 100% !important;
+        max-width: 100vw !important;
+        height: auto !important;
+        min-height: 24px !important;
+        background: #0088cc !important;
+        padding: 0 !important;
+      }
+      .navbar-header {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        height: auto !important;
+        min-height: 24px !important;
+        padding: 1px 4px !important;
+        background: #0088cc !important;
+        box-sizing: border-box !important;
+      }
+      .navbar-header .top-nav-left {
+        display: flex !important;
+        align-items: center !important;
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        overflow: visible !important;
+      }
+      #page-topbar .navbar-brand-box,
+      .vertical-collpsed .navbar-brand-box,
+      #page-topbar .navbar-brand-box a.logo,
+      #page-topbar .navbar-brand-box .logo-light,
+      .vertical-collpsed .navbar-brand-box a.logo,
+      .vertical-collpsed .navbar-brand-box .logo-light {
+        height: 22px !important;
+        line-height: 22px !important;
+        min-height: 0 !important;
+        max-height: 22px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 2px 0 0 !important;
+        background: transparent !important;
+        flex-shrink: 0 !important;
+      }
+      .logo-all-text {
+        font-family: "Times New Roman", Times, Georgia, serif !important;
+        font-size: 13.5px !important;
+        font-weight: 900 !important;
+        color: #ffffff !important;
+        letter-spacing: 0.5px !important;
+        line-height: 1 !important;
+        text-decoration: none !important;
+        display: inline-block !important;
+        margin-right: 2px !important;
+      }
+      #page-topbar .navbar-brand-box .site-logo {
         display: none !important;
       }
-      .top-client-searchbox {
-        display: none !important;
+      #verticalMenuBtn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 2px !important;
+        margin: 0 2px 0 0 !important;
+        height: auto !important;
+        background: transparent !important;
+        border: none !important;
+        color: #ffffff !important;
+        font-size: 10px !important;
+        line-height: 1 !important;
+        cursor: pointer !important;
+        flex-shrink: 0 !important;
       }
-      .role-filter-pills,
-      div.role-filter-pills,
-      .role-filter-pills.d-flex,
-      div.role-filter-pills.d-flex {
+      .role-filter-pills {
         display: none !important;
       }
       .navbar-header .user-menu .role-badge {
@@ -1347,21 +1422,212 @@
       }
       #page-topbar .main-menu {
         display: flex !important;
-        flex-wrap: nowrap !important;
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        overflow: visible !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        list-style: none !important;
       }
-      #page-topbar .main-menu::-webkit-scrollbar {
-        display: none;
+      #page-topbar .main-menu .nav-item {
+        display: inline-flex !important;
+        align-items: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
       }
       #page-topbar .main-menu .nav-link {
-        font-size: 13px !important;
+        font-size: 6.8px !important;
         font-weight: 700 !important;
-        padding: 0 8px !important;
-        line-height: 52px !important;
-        height: 52px !important;
+        padding: 0 1px !important;
+        line-height: 10px !important;
+        height: auto !important;
+        color: #ffffff !important;
         white-space: nowrap !important;
+        letter-spacing: -0.2px !important;
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif !important;
+        text-decoration: none !important;
+      }
+      #page-topbar .main-menu .nav-link i.fa-caret-down {
+        font-size: 5.5px !important;
+        margin-left: 1px !important;
+        vertical-align: middle !important;
+      }
+      .menu-row-break {
+        flex-basis: 100% !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        list-style: none !important;
+      }
+      .navbar-header .user-menu {
+        display: flex !important;
+        align-items: center !important;
+        flex-shrink: 0 !important;
+        margin-left: 2px !important;
+        padding: 0 !important;
+      }
+      #userMenuBtn,
+      #userMenuBtn span {
+        color: #ffffff !important;
+        font-size: 7.5px !important;
+        font-weight: 700 !important;
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      #userMenuBtn {
+        padding: 0 2px !important;
+        background: transparent !important;
+        border: none !important;
+      }
+      #userMenuBtn span.mr-1 {
+        margin-right: 1px !important;
+      }
+      #userMenuBtn i.fa-caret-down {
+        font-size: 6.5px !important;
+        margin-left: 2px !important;
+        padding: 0 !important;
+        width: auto !important;
+      }
+      .top-client-searchbox {
+        display: flex !important;
+        align-items: center !important;
+        background: #ffffff !important;
+        border-radius: 2px !important;
+        padding: 1px 3px !important;
+        height: 15px !important;
+        width: 60px !important;
+        margin-left: 2px !important;
+        border: 1px solid rgba(0, 0, 0, 0.15) !important;
+        flex-shrink: 0 !important;
+      }
+      .top-client-searchbox input {
+        border: none !important;
+        outline: none !important;
+        font-size: 7.5px !important;
+        width: 42px !important;
+        background: transparent !important;
+        color: #333333 !important;
+        padding: 0 !important;
+        height: 13px !important;
+        line-height: 13px !important;
+      }
+      .top-client-searchbox button {
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        color: #333333 !important;
+        font-size: 7px !important;
+        cursor: pointer !important;
+        line-height: 1 !important;
+      }
+      .top-client-searchbox button i {
+        font-size: 7px !important;
+      }
+      #adminMainMenu .dropdown-menu {
+        position: fixed !important;
+        top: 26px !important;
+        left: 8px !important;
+        right: 8px !important;
+        max-width: calc(100vw - 16px) !important;
+        max-height: 75vh !important;
+        overflow-y: auto !important;
+        z-index: 1060 !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.25) !important;
+        border-radius: 4px !important;
+        background: #ffffff !important;
+      }
+      .page-market-analysis .page-content {
+        padding: 0 !important;
+      }
+      .page-market-analysis #adminMainContainer {
+        padding: 0 !important;
+        max-width: 100% !important;
+      }
+      .market-analysis-bar {
+        background: #f8f8f8 !important;
+        border-bottom: 1px solid #e9ecef !important;
+        height: 32px !important;
+        padding: 0 10px !important;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+      }
+      .market-analysis-bar .market-analysis-heading {
+        font-size: 13.5px !important;
+        font-weight: 500 !important;
+        color: #212529 !important;
+        line-height: 1 !important;
+      }
+      .market-analysis-bar .search-event-input {
+        width: 105px !important;
+        height: 22px !important;
+        background: #ffffff !important;
+        border: 1px solid #ced4da !important;
+        border-radius: 2px !important;
+        padding: 1px 6px !important;
+        font-size: 10px !important;
+        color: #495057 !important;
+        outline: none !important;
+      }
+      .market-analysis {
+        margin: 0 !important;
+        width: 100% !important;
+      }
+    }
+    @media (max-width: 420px) {
+      #page-topbar .main-menu .nav-link {
+        font-size: 5.9px !important;
+        letter-spacing: -0.35px !important;
+        padding: 0 0.5px !important;
+      }
+      #page-topbar .main-menu .nav-link i.fa-caret-down {
+        font-size: 5px !important;
+        margin-left: 0.5px !important;
+      }
+      #userMenuBtn,
+      #userMenuBtn span {
+        font-size: 6.8px !important;
+        padding: 0 1px !important;
+      }
+      .top-client-searchbox {
+        width: 48px !important;
+        height: 14px !important;
+        padding: 1px 2px !important;
+      }
+      .top-client-searchbox input {
+        width: 32px !important;
+        font-size: 6.5px !important;
+        height: 12px !important;
+      }
+      .top-client-searchbox button {
+        font-size: 6.5px !important;
+      }
+    }
+    @media (max-width: 340px) {
+      #page-topbar .main-menu .nav-link {
+        font-size: 5.2px !important;
+        letter-spacing: -0.4px !important;
+        padding: 0 0.2px !important;
+      }
+      #userMenuBtn,
+      #userMenuBtn span {
+        font-size: 6.2px !important;
+        padding: 0 !important;
+      }
+      .top-client-searchbox {
+        width: 42px !important;
+      }
+      .top-client-searchbox input {
+        width: 28px !important;
+        font-size: 6px !important;
       }
     }
     @media (max-width: 767.98px) {
@@ -1993,16 +2259,17 @@
       <header id="page-topbar">
         <div class="navbar-header">
           <div class="d-flex align-items-center top-nav-left">
-            <div class="navbar-brand-box mr-2">
+            <div class="navbar-brand-box mr-1">
               <a href="/admin/users" class="logo logo-light nav-route-link" data-route="/admin/users">
-                <span class="logo-lg">
+                <span class="logo-all-text d-inline-block d-lg-none">ALL</span>
+                <span class="logo-lg d-none d-lg-inline-block">
                   <img src="/admin/images/logo.png" onerror="this.src='https://sitethemedata.com/sitethemes/allpanelexch.com/front/logo.png'" alt="ALLPANELEXCH" class="site-logo">
                 </span>
               </a>
             </div>
 
-            <button id="verticalMenuBtn" type="button" class="btn btn-sm px-3 font-size-16 header-item mr-2">
-              <i class="fa fa-fw fa-bars"></i>
+            <button id="verticalMenuBtn" type="button" class="btn btn-sm header-item">
+              <i class="fa fa-bars"></i>
             </button>
 
             <!-- Main Menu Links matching Reference Vue router -->
@@ -2073,6 +2340,7 @@
                   <a href="/admin/vcasino/trio" class="dropdown-item nav-route-link" data-route="/admin/vcasino/trio"><span>Trio</span></a>
                 </div>
               </li>
+              <li class="menu-row-break d-lg-none"></li>
               <li class="nav-item dropdown">
                 <a data-toggle="dropdown" href="javascript:void(0)" role="button" aria-expanded="false" class="nav-link dropdown-toggle" id="reportsDropdown">
                   Reports <i class="fa fa-caret-down ml-1"></i>
@@ -2088,16 +2356,12 @@
                   <a href="/admin/settings/userlock" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/settings/userlock">General Lock</a>
                   <a href="/admin/reports/userhistory" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/userhistory">User History</a>
                   <a href="/admin/reports/turnover" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/turnover">Turnover</a>
+                  <a href="/admin/reports/bank" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/bank">Bank</a>
                   <a href="/admin/reports/authlist" class="side-nav-link-ref dropdown-item d-none nav-route-link" data-route="/admin/reports/authlist">User Authentication</a>
                   <a href="/admin/reports/userregisterdetail" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/userregisterdetail">User Register Detail</a>
                   <a href="/admin/reports/totalprofitloss" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/totalprofitloss">Total Profit Loss</a>
                   <a href="/admin/reports/userwinloss" class="side-nav-link-ref dropdown-item nav-route-link" data-route="/admin/reports/userwinloss">User Win Loss</a>
                 </div>
-              </li>
-              <li class="nav-item">
-                <a href="/admin/reports/bank" class="nav-link nav-route-link" data-route="/admin/reports/bank">
-                  Bank
-                </a>
               </li>
               <li class="nav-item">
                 <a href="/admin/createaccount" class="nav-link nav-route-link" data-route="/admin/createaccount">
@@ -2110,7 +2374,7 @@
           <!-- Top Right: User Menu matching Reference Screenshot 1 -->
           <div class="d-flex align-items-center user-menu">
             <div class="dropdown b-dropdown btn-group" id="__BVID__72">
-              <button aria-haspopup="menu" aria-expanded="false" type="button" class="btn dropdown-toggle header-item text-white" id="userMenuBtn" data-toggle="dropdown" style="background: transparent !important; border: 0 !important; font-weight: 700; font-size: 13px; padding: 0 10px;">
+              <button aria-haspopup="menu" aria-expanded="false" type="button" class="btn dropdown-toggle header-item text-white" id="userMenuBtn" data-toggle="dropdown" style="background: transparent !important; border: 0 !important; font-weight: 700;">
                 <span class="mr-1" id="topAdminUsername">Newadmin98</span> <i class="fa fa-caret-down"></i>
               </button>
               <ul role="menu" tabindex="-1" class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenuBtn">
@@ -2128,10 +2392,10 @@
             </div>
 
             <!-- Top Right Client Quick Search matching Reference -->
-            <div class="top-client-searchbox ml-2 d-none d-lg-flex">
+            <div class="top-client-searchbox">
               <input type="text" id="topClientSearchInput" placeholder="All Client" onkeyup="if(event.key==='Enter')window.adminFilterUsers(this.value)">
               <button type="button" id="topClientSearchBtn" onclick="window.adminFilterUsers(document.getElementById('topClientSearchInput').value)" title="Search Client">
-                <i class="fas fa-search" style="font-size: 13px;"></i>
+                <i class="fas fa-search"></i>
               </button>
             </div>
           </div>
