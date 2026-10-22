@@ -1537,10 +1537,36 @@
         max-width: calc(100vw - 16px) !important;
         max-height: 75vh !important;
         overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
         z-index: 1060 !important;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.25) !important;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25) !important;
         border-radius: 4px !important;
         background: #ffffff !important;
+        border: 1px solid #ced4da !important;
+        padding: 4px 0 !important;
+      }
+      #adminMainMenu .dropdown-menu .dropdown-item,
+      #adminMainMenu .dropdown-menu .dropdown-item span,
+      #adminMainMenu .dropdown-menu a {
+        color: #212529 !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        padding: 8px 14px !important;
+        border-bottom: 1px solid #f0f0f0 !important;
+        background-color: transparent !important;
+        display: block !important;
+        white-space: normal !important;
+        line-height: 1.4 !important;
+        text-decoration: none !important;
+      }
+      #adminMainMenu .dropdown-menu .dropdown-item:hover,
+      #adminMainMenu .dropdown-menu .dropdown-item:focus,
+      #adminMainMenu .dropdown-menu .dropdown-item:active {
+        background-color: #f4f6f9 !important;
+        color: #0088cc !important;
+      }
+      #adminMainMenu .dropdown-menu .dropdown-item:last-child {
+        border-bottom: none !important;
       }
       .page-market-analysis .page-content {
         padding: 0 !important;

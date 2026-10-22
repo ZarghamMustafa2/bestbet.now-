@@ -628,6 +628,20 @@
         }
       });
 
+      // Helper to close all open Bootstrap dropdown menus
+      function closeAllDropdowns() {
+        document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+        document.querySelectorAll('.dropdown.show, .nav-item.show').forEach(d => d.classList.remove('show'));
+        document.querySelectorAll('[data-toggle="dropdown"][aria-expanded="true"]').forEach(btn => btn.setAttribute('aria-expanded', 'false'));
+      }
+
+      // Close dropdowns on outside click
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown') && !e.target.closest('[data-toggle="dropdown"]')) {
+          closeAllDropdowns();
+        }
+      });
+
       // 4. SPA Route Navigation Interceptor
       document.addEventListener('click', function(e) {
         const link = e.target.closest('a.nav-route-link');
@@ -635,6 +649,7 @@
           const href = link.getAttribute('href');
           if (href.startsWith('/admin')) {
             e.preventDefault();
+            closeAllDropdowns();
             self.navigate(href);
             // On mobile, close sidebar after clicking
             if (window.innerWidth < 992) {
@@ -1868,6 +1883,10 @@
 
     renderMarketAnalysis: function(container) {
       document.body.classList.add('page-market-analysis');
+      const matches = (window.AdminDataStore && typeof window.AdminDataStore.getLiveMatches === 'function')
+        ? window.AdminDataStore.getLiveMatches()
+        : [];
+
       container.innerHTML = `
         <div class="market-analysis">
           <div class="market-analysis-bar d-flex align-items-center justify-content-between">
@@ -1884,8 +1903,77 @@
             </div>
           </div>
 
-          <!-- Clean white background area below grey bar matching reference screenshot -->
-          <div class="market-analysis-content-area" style="background: #ffffff; min-height: calc(100vh - 70px);">
+          <div class="market-analysis-content-area" style="background: #ffffff; min-height: calc(100vh - 70px); padding: 15px 12px;">
+            <div class="market-analysis-list">
+              ${matches.length === 0 ? `
+                <div class="text-center py-5 text-muted">
+                  <i class="fas fa-chart-line fa-3x mb-3 text-secondary" style="opacity: 0.4;"></i>
+                  <p class="font-size-14">No active markets available at the moment.</p>
+                </div>
+              ` : matches.map(m => `
+                <div class="market-analysis-container mb-3" data-event="${(m.eventName || '').toLowerCase()}">
+                  <div class="market-analysis-title p-2 d-flex justify-content-between align-items-center" style="background-color: #2c3e50 !important; color: #ffffff !important; border-radius: 4px 4px 0 0;">
+                    <div>
+                      <span class="badge badge-warning mr-2">${m.sportName || 'Cricket'}</span>
+                      <a href="javascript:void(0)" onclick="window.openMarketBookModal('${m.id}')" class="ma-link font-weight-bold text-white">${m.eventName}</a>
+                    </div>
+                    <div class="small d-flex align-items-center text-white">
+                      <span class="badge badge-success mr-2">${m.inPlay ? 'IN PLAY' : 'UPCOMING'}</span>
+                      <span class="mr-2 text-white-50">Matched: <strong class="text-white">${this.formatCurrency(m.matchedVolume)}</strong></span>
+                      <button class="btn btn-sm btn-primary py-0 px-2" style="background-color: #0088cc !important; border-color: #0088cc !important;" onclick="window.openMarketBookModal('${m.id}')" title="Open Detailed Market Book">
+                        <i class="fas fa-book-open mr-1"></i> Book
+                      </button>
+                    </div>
+                  </div>
+                  <div class="market-analysis-content mt-2">
+                    <div class="row row5">
+                      <div class="col-lg-6 col-12 mb-3">
+                        <div class="market-analysis-content-detail card shadow-sm">
+                          <table class="table table-bordered table-striped mb-0">
+                            <thead>
+                              <tr>
+                                <th>Match Odds</th>
+                                <th class="text-right">Exposure</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              ${(m.runners || []).map(r => `
+                                <tr>
+                                  <td><strong>${r.name}</strong></td>
+                                  <td class="text-right font-weight-bold ${(r.exp || 0) >= 0 ? 'text-success' : 'text-danger'}">
+                                    ${(r.exp || 0) >= 0 ? '+' : ''}${this.formatCurrency(r.exp || 0)}
+                                  </td>
+                                </tr>
+                              `).join('')}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-12 mb-3">
+                        <div class="market-analysis-content-detail card shadow-sm">
+                          <table class="table table-bordered table-striped mb-0">
+                            <thead>
+                              <tr>
+                                <th>Bookmaker</th>
+                                <th class="text-right">Exposure</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              ${(m.runners || []).map(r => `
+                                <tr>
+                                  <td><strong>${r.name}</strong></td>
+                                  <td class="text-right font-weight-bold text-success">+0.00</td>
+                                </tr>
+                              `).join('')}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
           </div>
         </div>
       `;
