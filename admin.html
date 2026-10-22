@@ -1336,6 +1336,58 @@
       margin-bottom: 1rem;
     }
 
+    /* Market Analysis Bar (Desktop) */
+    .market-analysis-bar {
+      background: #f8f8f8;
+      border-bottom: 1px solid #e9ecef;
+      height: 42px;
+      padding: 0 16px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .market-analysis-bar .market-analysis-heading {
+      font-size: 16px;
+      font-weight: 600;
+      color: #212529;
+      line-height: 1;
+      margin: 0;
+    }
+    .market-analysis-bar .search-event-input {
+      width: 180px;
+      height: 28px;
+      background: #ffffff;
+      border: 1px solid #ced4da;
+      border-radius: 3px;
+      padding: 3px 8px;
+      font-size: 12px;
+      color: #495057;
+      outline: none;
+    }
+    .market-analysis-bar {
+      margin: 0 !important;
+      margin-bottom: 0 !important;
+      box-shadow: none !important;
+    }
+    .market-analysis-container:empty {
+      display: none !important;
+      box-shadow: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+    }
+    #marketAnalysisContainer {
+      background: #ffffff;
+      box-shadow: none !important;
+      border: none !important;
+      min-height: calc(100vh - 120px);
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
     @media (max-width: 991.98px) {
       #page-topbar {
         width: 100% !important;
@@ -1606,6 +1658,27 @@
       .market-analysis {
         margin: 0 !important;
         width: 100% !important;
+      }
+      .market-analysis-bar {
+        margin: 0 !important;
+        margin-bottom: 0 !important;
+        box-shadow: none !important;
+      }
+      .market-analysis-container:empty {
+        display: none !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+      }
+      #marketAnalysisContainer {
+        background: #ffffff !important;
+        box-shadow: none !important;
+        border: none !important;
+        min-height: calc(100vh - 56px) !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
       }
     }
     @media (max-width: 420px) {

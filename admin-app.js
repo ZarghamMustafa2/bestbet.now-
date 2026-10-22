@@ -1883,97 +1883,26 @@
 
     renderMarketAnalysis: function(container) {
       document.body.classList.add('page-market-analysis');
-      const matches = (window.AdminDataStore && typeof window.AdminDataStore.getLiveMatches === 'function')
-        ? window.AdminDataStore.getLiveMatches()
-        : [];
 
       container.innerHTML = `
         <div class="market-analysis">
-          <div class="market-analysis-bar d-flex align-items-center justify-content-between">
+          <div class="market-analysis-bar page-title-box d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
-              <span class="market-analysis-heading">
+              <h4 class="market-analysis-heading mb-0">
                 Market Analysis
-                <a href="javascript:void(0)" class="text-dark ml-1" title="Refresh Data" onclick="window.AdminApp.handleRouting()">
-                  <i class="fas fa-sync-alt" style="font-size: 11px;"></i>
+                <a href="javascript:void(0)" class="text-dark ml-1" title="Refresh Data" id="refreshMarketBtn" onclick="window.adminRefreshMarkets()">
+                  <i class="fas fa-sync-alt" id="refreshMarketIcon" style="font-size: 11px;"></i>
                 </a>
-              </span>
+              </h4>
             </div>
             <div class="page-title-right">
-              <input type="text" name="searchMarktetText" value="" placeholder="Search Event" class="search-event-input" id="searchMarketInput" onkeyup="window.adminFilterMarkets()">
+              <input type="text" name="searchMarktetText" value="" placeholder="Search Event" class="search-event-input form-control" id="searchMarketInput" onkeyup="window.adminFilterMarkets()">
             </div>
           </div>
 
-          <div class="market-analysis-content-area" style="background: #ffffff; min-height: calc(100vh - 70px); padding: 15px 12px;">
-            <div class="market-analysis-list">
-              ${matches.length === 0 ? `
-                <div class="text-center py-5 text-muted">
-                  <i class="fas fa-chart-line fa-3x mb-3 text-secondary" style="opacity: 0.4;"></i>
-                  <p class="font-size-14">No active markets available at the moment.</p>
-                </div>
-              ` : matches.map(m => `
-                <div class="market-analysis-container mb-3" data-event="${(m.eventName || '').toLowerCase()}">
-                  <div class="market-analysis-title p-2 d-flex justify-content-between align-items-center" style="background-color: #2c3e50 !important; color: #ffffff !important; border-radius: 4px 4px 0 0;">
-                    <div>
-                      <span class="badge badge-warning mr-2">${m.sportName || 'Cricket'}</span>
-                      <a href="javascript:void(0)" onclick="window.openMarketBookModal('${m.id}')" class="ma-link font-weight-bold text-white">${m.eventName}</a>
-                    </div>
-                    <div class="small d-flex align-items-center text-white">
-                      <span class="badge badge-success mr-2">${m.inPlay ? 'IN PLAY' : 'UPCOMING'}</span>
-                      <span class="mr-2 text-white-50">Matched: <strong class="text-white">${this.formatCurrency(m.matchedVolume)}</strong></span>
-                      <button class="btn btn-sm btn-primary py-0 px-2" style="background-color: #0088cc !important; border-color: #0088cc !important;" onclick="window.openMarketBookModal('${m.id}')" title="Open Detailed Market Book">
-                        <i class="fas fa-book-open mr-1"></i> Book
-                      </button>
-                    </div>
-                  </div>
-                  <div class="market-analysis-content mt-2">
-                    <div class="row row5">
-                      <div class="col-lg-6 col-12 mb-3">
-                        <div class="market-analysis-content-detail card shadow-sm">
-                          <table class="table table-bordered table-striped mb-0">
-                            <thead>
-                              <tr>
-                                <th>Match Odds</th>
-                                <th class="text-right">Exposure</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              ${(m.runners || []).map(r => `
-                                <tr>
-                                  <td><strong>${r.name}</strong></td>
-                                  <td class="text-right font-weight-bold ${(r.exp || 0) >= 0 ? 'text-success' : 'text-danger'}">
-                                    ${(r.exp || 0) >= 0 ? '+' : ''}${this.formatCurrency(r.exp || 0)}
-                                  </td>
-                                </tr>
-                              `).join('')}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                      <div class="col-lg-6 col-12 mb-3">
-                        <div class="market-analysis-content-detail card shadow-sm">
-                          <table class="table table-bordered table-striped mb-0">
-                            <thead>
-                              <tr>
-                                <th>Bookmaker</th>
-                                <th class="text-right">Exposure</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              ${(m.runners || []).map(r => `
-                                <tr>
-                                  <td><strong>${r.name}</strong></td>
-                                  <td class="text-right font-weight-bold text-success">+0.00</td>
-                                </tr>
-                              `).join('')}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
+          <!-- Pure clean white background below grey bar matching reference screenshot -->
+          <div class="market-analysis-container" id="marketAnalysisContainer" style="background: #ffffff; min-height: calc(100vh - 60px); width: 100%;">
+            <!-- Clean white area matching reference state. Populates dynamically when event is searched or selected from sports tree -->
           </div>
         </div>
       `;
@@ -4988,10 +4917,113 @@ renderGenericReport: function(container, title, desc) {
   };
 
   window.adminFilterMarkets = function() {
-    const q = (document.getElementById('searchMarketInput')?.value || '').toLowerCase();
-    document.querySelectorAll('.market-analysis-container').forEach(el => {
-      el.style.display = el.innerText.toLowerCase().includes(q) ? '' : 'none';
-    });
+    const input = document.getElementById('searchMarketInput');
+    const q = (input ? input.value : '').trim().toLowerCase();
+    const container = document.getElementById('marketAnalysisContainer');
+    if (!container) return;
+
+    if (!q) {
+      container.innerHTML = '';
+      return;
+    }
+
+    const matches = (window.AdminDataStore && typeof window.AdminDataStore.getLiveMatches === 'function')
+      ? window.AdminDataStore.getLiveMatches()
+      : [];
+
+    const filtered = matches.filter(m =>
+      (m.eventName || '').toLowerCase().includes(q) ||
+      (m.sportName || '').toLowerCase().includes(q)
+    );
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="text-center py-4 text-muted font-size-13">
+          No events found matching "${q.replace(/</g, '&lt;')}"
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="market-analysis-list p-2">
+        ${filtered.map(m => `
+          <div class="market-analysis-card card mb-3 shadow-sm" data-event="${(m.eventName || '').toLowerCase()}">
+            <div class="market-analysis-title p-2 d-flex justify-content-between align-items-center" style="background-color: #2c3e50 !important; color: #ffffff !important; border-radius: 4px 4px 0 0;">
+              <div>
+                <span class="badge badge-warning mr-2">${m.sportName || 'Cricket'}</span>
+                <a href="javascript:void(0)" onclick="window.openMarketBookModal('${m.id}')" class="ma-link font-weight-bold text-white">${m.eventName}</a>
+              </div>
+              <div class="small d-flex align-items-center text-white">
+                <span class="badge badge-success mr-2">${m.inPlay ? 'IN PLAY' : 'UPCOMING'}</span>
+                <span class="mr-2 text-white-50">Matched: <strong class="text-white">${window.AdminApp ? window.AdminApp.formatCurrency(m.matchedVolume) : m.matchedVolume}</strong></span>
+                <button class="btn btn-sm btn-primary py-0 px-2" style="background-color: #0088cc !important; border-color: #0088cc !important;" onclick="window.openMarketBookModal('${m.id}')" title="Open Detailed Market Book">
+                  <i class="fas fa-book-open mr-1"></i> Book
+                </button>
+              </div>
+            </div>
+            <div class="market-analysis-content p-2">
+              <div class="row row5">
+                <div class="col-lg-6 col-12 mb-2">
+                  <div class="market-analysis-content-detail card mb-0">
+                    <table class="table table-bordered table-striped mb-0">
+                      <thead>
+                        <tr>
+                          <th>Match Odds</th>
+                          <th class="text-right">Exposure</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${(m.runners || []).map(r => `
+                          <tr>
+                            <td><strong>${r.name}</strong></td>
+                            <td class="text-right font-weight-bold ${(r.exp || 0) >= 0 ? 'text-success' : 'text-danger'}">
+                              ${(r.exp || 0) >= 0 ? '+' : ''}${window.AdminApp ? window.AdminApp.formatCurrency(r.exp || 0) : r.exp}
+                            </td>
+                          </tr>
+                        `).join('')}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-12 mb-2">
+                  <div class="market-analysis-content-detail card mb-0">
+                    <table class="table table-bordered table-striped mb-0">
+                      <thead>
+                        <tr>
+                          <th>Bookmaker</th>
+                          <th class="text-right">Exposure</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${(m.runners || []).map(r => `
+                          <tr>
+                            <td><strong>${r.name}</strong></td>
+                            <td class="text-right font-weight-bold text-success">+0.00</td>
+                          </tr>
+                        `).join('')}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  };
+
+  window.adminRefreshMarkets = function() {
+    const icon = document.getElementById('refreshMarketIcon');
+    if (icon) {
+      icon.classList.add('fa-spin');
+      setTimeout(() => icon.classList.remove('fa-spin'), 600);
+    }
+    const input = document.getElementById('searchMarketInput');
+    if (input && input.value) {
+      window.adminFilterMarkets();
+    }
   };
 
   window.adminFilterStatement = function() {
