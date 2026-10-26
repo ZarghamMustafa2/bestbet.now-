@@ -923,35 +923,42 @@
     body.vertical-collpsed.sidebar-enable .vertical-menu {
       display: block !important;
       position: fixed !important;
-      z-index: 1060 !important;
-      width: 280px !important;
-      max-width: 80vw !important;
-      top: 0 !important;
+      z-index: 1045 !important;
+      width: 145px !important;
+      max-width: 38vw !important;
+      top: 24px !important;
       bottom: 0 !important;
       left: 0 !important;
-      background: #f9f9f9 !important;
-      box-shadow: 2px 0 14px rgba(0, 0, 0, 0.25) !important;
+      background: #ffffff !important;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2) !important;
       overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch !important;
     }
     @media (min-width: 992px) {
       body.sidebar-enable .vertical-menu,
       body.vertical-collpsed.sidebar-enable .vertical-menu {
         top: 50px !important;
-        width: 300px !important;
+        width: 260px !important;
+        max-width: 280px !important;
       }
     }
     .sidebar-backdrop {
       display: none;
       position: fixed !important;
-      top: 0 !important;
+      top: 24px !important;
       left: 0 !important;
       right: 0 !important;
       bottom: 0 !important;
-      background: rgba(0, 0, 0, 0.45) !important;
-      z-index: 1055 !important;
+      background: rgba(0, 0, 0, 0.2) !important;
+      z-index: 1040 !important;
     }
     body.sidebar-enable .sidebar-backdrop {
       display: block !important;
+    }
+    @media (min-width: 992px) {
+      .sidebar-backdrop {
+        top: 50px !important;
+      }
     }
     #sidebar-menu {
       background: transparent !important;
@@ -983,8 +990,8 @@
     }
     #sidebar-menu #event-tree > a span,
     body.vertical-collpsed .vertical-menu #sidebar-menu #event-tree > a span {
-      font-size: 26px !important;
-      font-weight: 500 !important;
+      font-size: 14px !important;
+      font-weight: 700 !important;
       color: #303030 !important;
       display: inline-block !important;
       background: transparent !important;
@@ -1581,44 +1588,62 @@
       .top-client-searchbox button i {
         font-size: 7px !important;
       }
+      #adminMainMenu .dropdown {
+        position: relative !important;
+      }
       #adminMainMenu .dropdown-menu {
-        position: fixed !important;
-        top: 26px !important;
-        left: 8px !important;
-        right: 8px !important;
-        max-width: calc(100vw - 16px) !important;
-        max-height: 75vh !important;
+        display: none;
+        position: absolute !important;
+        top: 100% !important;
+        left: 0 !important;
+        background: #0088cc !important;
+        border: none !important;
+        border-radius: 0 0 3px 3px !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+        padding: 4px 0 !important;
+        width: 140px !important;
+        min-width: 140px !important;
+        max-width: 155px !important;
+        max-height: 80vh !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;
         z-index: 1060 !important;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25) !important;
-        border-radius: 4px !important;
-        background: #ffffff !important;
-        border: 1px solid #ced4da !important;
-        padding: 4px 0 !important;
+      }
+      #adminMainMenu .dropdown-menu.show,
+      #adminMainMenu .dropdown.show > .dropdown-menu {
+        display: block !important;
+      }
+      #adminMainMenu li:nth-child(5) .dropdown-menu {
+        left: auto !important;
+        right: 0 !important;
       }
       #adminMainMenu .dropdown-menu .dropdown-item,
       #adminMainMenu .dropdown-menu .dropdown-item span,
       #adminMainMenu .dropdown-menu a {
-        color: #212529 !important;
-        font-size: 13px !important;
-        font-weight: 500 !important;
-        padding: 8px 14px !important;
-        border-bottom: 1px solid #f0f0f0 !important;
+        color: #ffffff !important;
+        font-size: 10.5px !important;
+        font-weight: 400 !important;
+        padding: 4px 10px !important;
+        border-bottom: none !important;
         background-color: transparent !important;
         display: block !important;
-        white-space: normal !important;
-        line-height: 1.4 !important;
+        white-space: nowrap !important;
+        text-overflow: ellipsis !important;
+        overflow: hidden !important;
+        line-height: 1.35 !important;
         text-decoration: none !important;
       }
       #adminMainMenu .dropdown-menu .dropdown-item:hover,
       #adminMainMenu .dropdown-menu .dropdown-item:focus,
       #adminMainMenu .dropdown-menu .dropdown-item:active {
-        background-color: #f4f6f9 !important;
-        color: #0088cc !important;
+        background-color: #0077b3 !important;
+        color: #ffffff !important;
       }
-      #adminMainMenu .dropdown-menu .dropdown-item:last-child {
-        border-bottom: none !important;
+      #adminMainMenu .nav-link.active,
+      #adminMainMenu .nav-link.router-link-exact-active,
+      #adminMainMenu .nav-link.router-link-active {
+        background-color: #005c8a !important;
+        border-radius: 2px !important;
       }
       .page-market-analysis .page-content {
         padding: 0 !important;
@@ -2501,224 +2526,260 @@
         </div>
       </header>
 
+      <!-- Sub-header Collapse Bar matching Reference Screen Recording -->
+      <div class="header-collapse-bar d-flex justify-content-center align-items-center" id="headerCollapseBar" style="background: #273746; height: 18px; cursor: pointer; border-top: 1px solid rgba(0,0,0,0.15);" onclick="window.toggleSubHeaderCollapse && window.toggleSubHeaderCollapse()">
+        <i class="fa fa-chevron-circle-down text-white" style="font-size: 11px; opacity: 0.85;"></i>
+      </div>
+
       <!-- SIDEBAR MENU matching Reference SideBar Component -->
       <div class="vertical-menu" id="adminSidebar">
         <div class="h-100" style="overflow-y:auto;">
           <div id="sidebar-menu">
-            <ul class="metismenu list-unstyled" id="side-menu">
+            <ul class="metismenu list-unstyled" id="side-menu" style="padding: 0; margin: 0;">
               
-              <!-- Mobile Drawer Header with Logo & Close Button (Mobile Only) -->
-              <li class="mobile-nav-only sidebar-mobile-header" style="padding: 12px 15px; border-bottom: 1px solid #e9ecef; display: flex; align-items: center; justify-content: space-between;">
-                <img src="/admin/images/logo.png" onerror="this.src='https://sitethemedata.com/sitethemes/allpanelexch.com/front/logo.png'" alt="ALLPANELEXCH" style="height: 30px; max-width: 140px; object-fit: contain;">
-                <button type="button" class="btn btn-sm text-secondary" style="background: none; border: none; font-size: 18px; padding: 0 5px;" onclick="document.body.classList.remove('sidebar-enable');">
-                  <i class="fa fa-times"></i>
-                </button>
-              </li>
-
-              <!-- Mobile Admin Navigation Section (Visible only on mobile max-width: 991.98px) -->
-              <li class="menu-title mobile-nav-only" style="padding: 10px 15px 4px; font-size: 11px; text-transform: uppercase; color: #74788d; font-weight: 700; letter-spacing: .5px;">Main Navigation</li>
-              
-              <li class="mobile-nav-only">
-                <a href="/admin/users" class="nav-route-link" data-route="/admin/users" onclick="document.body.classList.remove('sidebar-enable');">
-                  <i class="fas fa-users mr-2 text-primary" style="width: 18px; text-align: center;"></i>
-                  <span>List of Clients</span>
-                </a>
-              </li>
-              
-              <li class="mobile-nav-only">
-                <a href="/admin/assign-agent" class="nav-route-link" data-route="/admin/assign-agent" onclick="document.body.classList.remove('sidebar-enable');">
-                  <i class="fas fa-user-check mr-2 text-primary" style="width: 18px; text-align: center;"></i>
-                  <span>Assign Agent</span>
-                </a>
-              </li>
-              
-              <li class="mobile-nav-only">
-                <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');">
-                  <i class="fas fa-chart-line mr-2 text-primary" style="width: 18px; text-align: center;"></i>
-                  <span>Market Analysis</span>
-                </a>
-              </li>
-              
-              <!-- Live Market Accordion -->
-              <li class="mobile-nav-only">
-                <a href="javascript:void(0);" onclick="window.toggleMobileNavAccordion('mobNavLiveMarket', this)">
-                  <i class="fas fa-dice mr-2 text-primary" style="width: 18px; text-align: center;"></i>
-                  <span>Live Market</span>
-                  <i class="fa fa-caret-down float-right mt-1 accordion-arrow"></i>
-                </a>
-                <ul class="sub-menu list-unstyled pl-4 py-1" id="mobNavLiveMarket" style="display: none; background: #fff; border-left: 2px solid #0088cc; margin-left: 15px;">
-                  <li><a href="/admin/casino/premium-casino" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/premium-casino" onclick="document.body.classList.remove('sidebar-enable');">Premium Casino</a></li>
-                  <li><a href="/admin/casino/tembo-casino" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/tembo-casino" onclick="document.body.classList.remove('sidebar-enable');">Tembo Casino</a></li>
-                  <li><a href="/admin/casino/vip" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/vip" onclick="document.body.classList.remove('sidebar-enable');">Vip Casino</a></li>
-                  <li><a href="/admin/casino/lucky5" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/lucky5" onclick="document.body.classList.remove('sidebar-enable');">Lucky 6</a></li>
-                  <li><a href="/admin/casino/mogambo" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/mogambo" onclick="document.body.classList.remove('sidebar-enable');">Mogambo</a></li>
-                  <li><a href="/admin/casino/teenunique" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/teenunique" onclick="document.body.classList.remove('sidebar-enable');">Unique Teenpatti</a></li>
-                  <li><a href="/admin/casino/roulettelist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/roulettelist" onclick="document.body.classList.remove('sidebar-enable');">Roulette</a></li>
-                  <li><a href="/admin/casino/superover2" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/superover2" onclick="document.body.classList.remove('sidebar-enable');">Super Over2</a></li>
-                  <li><a href="/admin/casino/lucky15" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/lucky15" onclick="document.body.classList.remove('sidebar-enable');">Lucky15</a></li>
-                  <li><a href="/admin/casino/goal" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/goal" onclick="document.body.classList.remove('sidebar-enable');">Goal</a></li>
-                  <li><a href="/admin/casino/goal2" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/goal2" onclick="document.body.classList.remove('sidebar-enable');">Goal2</a></li>
-                  <li><a href="/admin/users" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/users" onclick="document.body.classList.remove('sidebar-enable');">Binary</a></li>
-                  <li><a href="/admin/casino/race20" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/race20" onclick="document.body.classList.remove('sidebar-enable');">Race 20-20</a></li>
-                  <li><a href="/admin/casino/queen" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/queen" onclick="document.body.classList.remove('sidebar-enable');">Queen</a></li>
-                  <li><a href="/admin/casino/baccaratlist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/baccaratlist" onclick="document.body.classList.remove('sidebar-enable');">Baccarat</a></li>
-                  <li><a href="/admin/casino/sportscasinolist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/sportscasinolist" onclick="document.body.classList.remove('sidebar-enable');">Sport Casino</a></li>
-                  <li><a href="/admin/casino/war" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/war" onclick="document.body.classList.remove('sidebar-enable');">Casino War</a></li>
-                  <li><a href="/admin/casino/worlilist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/worlilist" onclick="document.body.classList.remove('sidebar-enable');">Worli</a></li>
-                  <li><a href="/admin/casino/3cardj" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/3cardj" onclick="document.body.classList.remove('sidebar-enable');">3 Card Judgement</a></li>
-                  <li><a href="/admin/casino/cards32list" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/cards32list" onclick="document.body.classList.remove('sidebar-enable');">32 Card Casino</a></li>
-                  <li><a href="/admin/casino/liveteenpattilist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/liveteenpattilist" onclick="document.body.classList.remove('sidebar-enable');">Live Teenpatti</a></li>
-                  <li><a href="/admin/casino/teenpatti2list" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/teenpatti2list" onclick="document.body.classList.remove('sidebar-enable');">Teenpatti 2.0</a></li>
-                  <li><a href="/admin/casino/livepokerlist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/livepokerlist" onclick="document.body.classList.remove('sidebar-enable');">Live Poker</a></li>
-                  <li><a href="/admin/casino/andarbaharlist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/andarbaharlist" onclick="document.body.classList.remove('sidebar-enable');">Andar Bahar</a></li>
-                  <li><a href="/admin/casino/lucky7list" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/lucky7list" onclick="document.body.classList.remove('sidebar-enable');">Lucky 7</a></li>
-                  <li><a href="/admin/casino/dragontigerlist" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/dragontigerlist" onclick="document.body.classList.remove('sidebar-enable');">Dragon Tiger</a></li>
-                  <li><a href="/admin/casino/bollywood-casino" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/bollywood-casino" onclick="document.body.classList.remove('sidebar-enable');">Bollywood Casino</a></li>
-                  <li><a href="/admin/casino/other-casino" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/casino/other-casino" onclick="document.body.classList.remove('sidebar-enable');">Others</a></li>
-                </ul>
-              </li>
-              
-              <!-- Live Virtual Market Accordion -->
-              <li class="mobile-nav-only">
-                <a href="javascript:void(0);" onclick="window.toggleMobileNavAccordion('mobNavLiveVirtualMarket', this)">
-                  <i class="fas fa-gamepad mr-2 text-primary" style="width: 18px; text-align: center;"></i>
-                  <span>Live Virtual Market</span>
-                  <i class="fa fa-caret-down float-right mt-1 accordion-arrow"></i>
-                </a>
-                <ul class="sub-menu list-unstyled pl-4 py-1" id="mobNavLiveVirtualMarket" style="display: none; background: #fff; border-left: 2px solid #0088cc; margin-left: 15px;">
-                  <li><a href="/admin/vcasino/dtl20" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/dtl20" onclick="document.body.classList.remove('sidebar-enable');">20-20 DTL</a></li>
-                  <li><a href="/admin/vcasino/aaa" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/aaa" onclick="document.body.classList.remove('sidebar-enable');">Amar Akbar Anthony</a></li>
-                  <li><a href="/admin/vcasino/teenmuf" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/teenmuf" onclick="document.body.classList.remove('sidebar-enable');">Muflis Teenpatti</a></li>
-                  <li><a href="/admin/vcasino/teen" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/teen" onclick="document.body.classList.remove('sidebar-enable');">1 Day Teenpatti</a></li>
-                  <li><a href="/admin/vcasino/dt6" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/dt6" onclick="document.body.classList.remove('sidebar-enable');">1 Day Dragon Tiger</a></li>
-                  <li><a href="/admin/vcasino/lucky7" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/lucky7" onclick="document.body.classList.remove('sidebar-enable');">Lucky 7</a></li>
-                  <li><a href="/admin/vcasino/btable" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/btable" onclick="document.body.classList.remove('sidebar-enable');">Bollywood Casino</a></li>
-                  <li><a href="/admin/vcasino/teen20" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/teen20" onclick="document.body.classList.remove('sidebar-enable');">20-20 Teenpatti</a></li>
-                  <li><a href="/admin/vcasino/trio" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/vcasino/trio" onclick="document.body.classList.remove('sidebar-enable');">Trio</a></li>
-                </ul>
-              </li>
-              
-              <!-- Reports Accordion -->
-              <li class="mobile-nav-only">
-                <a href="javascript:void(0);" onclick="window.toggleMobileNavAccordion('mobNavReports', this)">
-                  <i class="fas fa-file-alt mr-2 text-primary" style="width: 18px; text-align: center;"></i>
-                  <span>Reports</span>
-                  <i class="fa fa-caret-down float-right mt-1 accordion-arrow"></i>
-                </a>
-                <ul class="sub-menu list-unstyled pl-4 py-1" id="mobNavReports" style="display: none; background: #fff; border-left: 2px solid #0088cc; margin-left: 15px;">
-                  <li><a href="/admin/reports/accountstatement" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/accountstatement" onclick="document.body.classList.remove('sidebar-enable');">Account Statement</a></li>
-                  <li><a href="/admin/reports/currentbets" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/currentbets" onclick="document.body.classList.remove('sidebar-enable');">Current Bets</a></li>
-                  <li><a href="/admin/reports/generalreport" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/generalreport" onclick="document.body.classList.remove('sidebar-enable');">General Report</a></li>
-                  <li><a href="/admin/reports/gamereport" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/gamereport" onclick="document.body.classList.remove('sidebar-enable');">Game Report</a></li>
-                  <li><a href="/admin/reports/livecasinoreport" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/livecasinoreport" onclick="document.body.classList.remove('sidebar-enable');">Casino Report</a></li>
-                  <li><a href="/admin/reports/profitloss" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/profitloss" onclick="document.body.classList.remove('sidebar-enable');">Profit And Loss</a></li>
-                  <li><a href="/admin/reports/casinoresult" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/casinoresult" onclick="document.body.classList.remove('sidebar-enable');">Casino Result Report</a></li>
-                  <li><a href="/admin/settings/userlock" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/settings/userlock" onclick="document.body.classList.remove('sidebar-enable');">General Lock</a></li>
-                  <li><a href="/admin/reports/userhistory" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/userhistory" onclick="document.body.classList.remove('sidebar-enable');">User History</a></li>
-                  <li><a href="/admin/reports/turnover" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/turnover" onclick="document.body.classList.remove('sidebar-enable');">Turnover</a></li>
-                  <li><a href="/admin/reports/userregisterdetail" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/userregisterdetail" onclick="document.body.classList.remove('sidebar-enable');">User Register Detail</a></li>
-                  <li><a href="/admin/reports/totalprofitloss" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/totalprofitloss" onclick="document.body.classList.remove('sidebar-enable');">Total Profit Loss</a></li>
-                  <li><a href="/admin/reports/userwinloss" class="nav-route-link py-1 d-block font-size-13" data-route="/admin/reports/userwinloss" onclick="document.body.classList.remove('sidebar-enable');">User Win Loss</a></li>
-                </ul>
-              </li>
-              
-              <li class="mobile-nav-only">
-                <a href="/admin/reports/bank" class="nav-route-link" data-route="/admin/reports/bank" onclick="document.body.classList.remove('sidebar-enable');">
-                  <i class="fas fa-university mr-2 text-primary" style="width: 18px; text-align: center;"></i>
-                  <span>Bank</span>
-                </a>
-              </li>
-              
-              <li class="mobile-nav-only">
-                <a href="/admin/createaccount" class="nav-route-link" data-route="/admin/createaccount" onclick="document.body.classList.remove('sidebar-enable');">
-                  <i class="fas fa-users-cog mr-2 text-primary" style="width: 18px; text-align: center;"></i>
-                  <span>Multi Login</span>
-                </a>
-              </li>
-              
-              <li class="mobile-nav-only" style="border-bottom: 1px solid #e2e8f0; margin: 6px 0;"></li>
-              <li class="menu-title mobile-nav-only" style="padding: 6px 15px 4px; font-size: 11px; text-transform: uppercase; color: #74788d; font-weight: 700; letter-spacing: .5px;">Sports & Markets</li>
-
-              <!-- Sports Tree Header -->
-              <li class="menu-box" id="event-tree">
-                <a href="javascript:void(0);" onclick="window.toggleSidebarSportsTree()">
+              <!-- Sports Drawer Header matching Reference 00:05-00:07 / frame_06_5s.png -->
+              <li class="menu-box" id="event-tree" style="list-style: none;">
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; font-weight: 700; font-size: 14px; color: #333; border-bottom: 1px solid #e9ecef; background: #fff;">
                   <span>Sports</span>
-                  <i class="fa fa-times float-right" id="closeSidebarIcon" onclick="event.stopPropagation(); document.body.classList.remove('sidebar-enable');"></i>
-                </a>
-                
-                <!-- Collapsible Sports Sub-Menu -->
-                <ul class="sub-menu mm-collapse mm-show" id="sidebarSportsTreeUl">
-                  
-                  <!-- Cricket Category -->
-                  <li>
-                    <span class="tree-sport-item" onclick="window.toggleSportSubTree('treeCricket')">
-                      <span><i class="fas fa-baseball-ball mr-2 text-warning"></i> Cricket</span>
-                      <b class="ml-1" id="arrowCricket">-</b>
-                    </span>
-                    <ul class="sub-menu" id="treeCricket" style="display:block;">
-                      <li>
-                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                          South Africa v Pakistan
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                          India v Australia
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                          England v New Zealand
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
+                  <i class="fa fa-times" id="closeSidebarIcon" onclick="document.body.classList.remove('sidebar-enable');" style="cursor: pointer; font-size: 14px; color: #333;" title="Close"></i>
+                </div>
 
-                  <!-- Soccer Category -->
-                  <li>
-                    <span class="tree-sport-item" onclick="window.toggleSportSubTree('treeSoccer')">
-                      <span><i class="fas fa-futbol mr-2 text-info"></i> Soccer</span>
-                      <b class="ml-1" id="arrowSoccer">+</b>
-                    </span>
-                    <ul class="sub-menu" id="treeSoccer" style="display:none;">
-                      <li>
-                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                          Manchester City v Arsenal
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                          Real Madrid v Barcelona
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                          Bayern Munich v Dortmund
-                        </a>
-                      </li>
-                    </ul>
+                <!-- 39-Sports Tree List matching Reference Screen Recording -->
+                <ul class="sub-menu mm-collapse mm-show list-unstyled" id="sidebarSportsTreeUl" style="padding: 0; margin: 0; background: #fff;">
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Football</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
                   </li>
-
-                  <!-- Tennis Category -->
-                  <li>
-                    <span class="tree-sport-item" onclick="window.toggleSportSubTree('treeTennis')">
-                      <span><i class="fas fa-table-tennis mr-2 text-success"></i> Tennis</span>
-                      <b class="ml-1" id="arrowTennis">+</b>
-                    </span>
-                    <ul class="sub-menu" id="treeTennis" style="display:none;">
-                      <li>
-                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                          Novak Djokovic v Carlos Alcaraz
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/admin/market-analysis" class="nav-route-link" data-route="/admin/market-analysis">
-                          Jannik Sinner v Daniil Medvedev
-                        </a>
-                      </li>
-                    </ul>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Tennis</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
                   </li>
-
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Mixed Martial Arts</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Cricket</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Golf</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Boxing</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Beach Volleyball</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Table Tennis</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Futsal</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Horse Racing</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>E Games</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Basketball</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>MotoGP</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Chess</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Volleyball</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Ice Hockey</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Badminton</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Cycling</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Motorbikes</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Athletics</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Basketball 3X3</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Sumo</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Virtual sports</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Handball</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Politics</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Motor Sports</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Baseball</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Rugby Union</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Rugby League</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Darts</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>American Football</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Snooker</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Soccer</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Esports</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Greyhound Racing</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Kabaddi</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Boat Racing</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Esoccer</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
+                  <li style="border-bottom: 1px solid #f5f5f5;">
+                    <a href="/admin/market-analysis" class="tree-sport-item nav-route-link" data-route="/admin/market-analysis" onclick="document.body.classList.remove('sidebar-enable');" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #333; text-decoration: none;">
+                      <span>Wrestling</span>
+                      <b style="font-weight: 400; color: #666; font-size: 12px;">+</b>
+                    </a>
+                  </li>
                 </ul>
               </li>
             </ul>

@@ -577,6 +577,16 @@
         });
       }
 
+      // Helper to close all open Bootstrap dropdown menus
+      function closeAllDropdowns() {
+        document.querySelectorAll('.dropdown-menu').forEach(m => {
+          m.classList.remove('show');
+          m.style.display = 'none';
+        });
+        document.querySelectorAll('.dropdown.show, .nav-item.show').forEach(d => d.classList.remove('show'));
+        document.querySelectorAll('[data-toggle="dropdown"][aria-expanded="true"]').forEach(btn => btn.setAttribute('aria-expanded', 'false'));
+      }
+
       // 3. Dropdown Toggle and Click Outside Handler
       document.addEventListener('click', function(e) {
         const toggleBtn = e.target.closest('[data-toggle="dropdown"], .dropdown-toggle');
@@ -590,18 +600,13 @@
           const menu = parentDropdown.querySelector('.dropdown-menu');
           const wasOpen = menu && (menu.classList.contains('show') || menu.style.display === 'block');
           
-          // Close other open dropdowns
-          document.querySelectorAll('.dropdown-menu.show').forEach(m => {
-            m.classList.remove('show');
-            m.style.display = '';
-            const p = m.closest('.dropdown');
-            if (p) p.classList.remove('show');
-          });
+          closeAllDropdowns();
           
           if (!wasOpen && menu) {
             parentDropdown.classList.add('show');
             menu.classList.add('show');
             menu.style.display = 'block';
+            toggleBtn.setAttribute('aria-expanded', 'true');
           }
           return;
         }
@@ -609,31 +614,14 @@
         // Close dropdown when clicking a dropdown-item
         const item = e.target.closest('.dropdown-item');
         if (item) {
-          document.querySelectorAll('.dropdown-menu.show').forEach(m => {
-            m.classList.remove('show');
-            m.style.display = '';
-            const p = m.closest('.dropdown');
-            if (p) p.classList.remove('show');
-          });
+          closeAllDropdowns();
         }
 
         // Close when clicking anywhere outside
         if (!e.target.closest('.dropdown-menu') && !e.target.closest('.dropdown')) {
-          document.querySelectorAll('.dropdown-menu.show').forEach(m => {
-            m.classList.remove('show');
-            m.style.display = '';
-            const p = m.closest('.dropdown');
-            if (p) p.classList.remove('show');
-          });
+          closeAllDropdowns();
         }
       });
-
-      // Helper to close all open Bootstrap dropdown menus
-      function closeAllDropdowns() {
-        document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
-        document.querySelectorAll('.dropdown.show, .nav-item.show').forEach(d => d.classList.remove('show'));
-        document.querySelectorAll('[data-toggle="dropdown"][aria-expanded="true"]').forEach(btn => btn.setAttribute('aria-expanded', 'false'));
-      }
 
       // Close dropdowns on outside click
       document.addEventListener('click', function(e) {
@@ -804,6 +792,13 @@
 
       this.currentPath = path;
 
+      // Close any open dropdowns when navigating to a new route
+      document.querySelectorAll('.dropdown-menu').forEach(m => {
+        m.classList.remove('show');
+        m.style.display = 'none';
+      });
+      document.querySelectorAll('.dropdown.show, .nav-item.show').forEach(d => d.classList.remove('show'));
+
       // Route handlers for unauthenticated workflow screens
       if (path.startsWith('/admin/change-password-success')) {
         const parts = path.split('/');
@@ -850,13 +845,36 @@
         this.showDashboard();
       }
 
-      // Update active nav link
+      // Update active nav link with exact pill matching reference recording
+      document.querySelectorAll('#adminMainMenu .nav-link, #adminMainMenu .dropdown-item, .nav-route-link').forEach(link => {
+        link.classList.remove('active');
+      });
+
+      const isClientsRoute = (path === '/admin' || path === '/admin/users' || path === '/admin/users/all' || path === '/admin/home' || path === '/admin/dashboard');
+      if (isClientsRoute) {
+        document.querySelectorAll('#adminMainMenu a[data-route="/admin/users"], #adminMainMenu a[href="/admin/users"]').forEach(el => el.classList.add('active'));
+      } else if (path === '/admin/assign-agent') {
+        document.querySelectorAll('#adminMainMenu a[data-route="/admin/assign-agent"], #adminMainMenu a[href="/admin/assign-agent"]').forEach(el => el.classList.add('active'));
+      } else if (path === '/admin/market-analysis') {
+        document.querySelectorAll('#adminMainMenu a[data-route="/admin/market-analysis"], #adminMainMenu a[href="/admin/market-analysis"]').forEach(el => el.classList.add('active'));
+      } else if (path === '/admin/createaccount') {
+        document.querySelectorAll('#adminMainMenu a[data-route="/admin/createaccount"], #adminMainMenu a[href="/admin/createaccount"]').forEach(el => el.classList.add('active'));
+      } else if (path.startsWith('/admin/casino')) {
+        const liveMktToggle = document.querySelector('#adminMainMenu li:nth-child(4) > a.dropdown-toggle');
+        if (liveMktToggle) liveMktToggle.classList.add('active');
+      } else if (path.startsWith('/admin/vcasino')) {
+        const liveVirtToggle = document.querySelector('#adminMainMenu li:nth-child(5) > a.dropdown-toggle');
+        if (liveVirtToggle) liveVirtToggle.classList.add('active');
+      } else if (path.startsWith('/admin/reports') || path.startsWith('/admin/settings')) {
+        const repToggle = document.querySelector('#reportsDropdown');
+        if (repToggle) repToggle.classList.add('active');
+      }
+
+      // Also highlight specific route link
       document.querySelectorAll('.nav-route-link').forEach(link => {
         const route = link.getAttribute('data-route') || link.getAttribute('href');
         if (route === path) {
           link.classList.add('active');
-        } else {
-          link.classList.remove('active');
         }
       });
 
@@ -1114,12 +1132,26 @@
       `;
     },
 
+    switchUserStatusTab: function(status) {
+      this.userStatusTab = status;
+      this.currentPage = 1;
+      this.handleRouting();
+    },
+
     renderUsers: function(container, filter, guid) {
       const store = window.AdminDataStore;
       const actor = this.adminUser || (store ? store.state.currentAdmin : null);
       const actorRole = actor ? store.normalizeRole(actor.role || actor.userType) : 'company';
 
       let users = store.getUsers();
+
+      // Tab filter: Active vs Deactive
+      const isDeactiveTab = this.userStatusTab === 'deactive';
+      if (isDeactiveTab) {
+        users = users.filter(u => u.userActive === false || u.status === 'Inactive');
+      } else {
+        users = users.filter(u => u.userActive !== false && u.status !== 'Inactive');
+      }
 
       if (filter && filter !== 'all') {
         if (filter === 'child' && guid) {
@@ -1141,184 +1173,161 @@
 
       const totalCount = users.length;
       const totalCR = users.reduce((acc, u) => acc + (Number(u.creditRef) || 0), 0);
+      const totalPL = users.reduce((acc, u) => acc + (Number(u.clientPL) || (u.creditRef ? -Number(u.creditRef) : 0)), 0);
       const perPage = this.perPage || 25;
       const currentPage = this.currentPage || 1;
       const startIdx = (currentPage - 1) * perPage;
       const pagedUsers = users.slice(startIdx, startIdx + perPage);
       const totalPages = Math.ceil(totalCount / perPage) || 1;
 
-      const canSeeSuperAdmin = actorRole === 'company';
-      const canSeeAdmin = ['company', 'super_admin'].includes(actorRole);
-      const canSeeSuperMaster = ['company', 'super_admin', 'admin'].includes(actorRole);
-      const canSeeMaster = ['company', 'super_admin', 'admin', 'super_master'].includes(actorRole);
-      const activeFilter = filter || 'all';
-
-      const filterPillsHtml = `
-        <div class="role-filter-pills mb-3 d-flex flex-wrap align-items-center">
-          <span class="mr-2 font-weight-bold font-size-13 text-muted"><i class="fas fa-filter mr-1"></i> Filter by Role:</span>
-          <button type="button" class="btn btn-sm ${activeFilter === 'all' ? 'btn-primary font-weight-bold' : 'btn-outline-primary'} mr-1 mb-1" onclick="window.AdminApp.filterByRole('all')">All</button>
-          ${canSeeSuperAdmin ? `<button type="button" class="btn btn-sm ${activeFilter === 'super_admin' ? 'btn-primary font-weight-bold' : 'btn-outline-primary'} mr-1 mb-1" onclick="window.AdminApp.filterByRole('super_admin')">Super Admin</button>` : ''}
-          ${canSeeAdmin ? `<button type="button" class="btn btn-sm ${activeFilter === 'admin' ? 'btn-primary font-weight-bold' : 'btn-outline-primary'} mr-1 mb-1" onclick="window.AdminApp.filterByRole('admin')">Admin</button>` : ''}
-          ${canSeeSuperMaster ? `<button type="button" class="btn btn-sm ${activeFilter === 'super_master' ? 'btn-primary font-weight-bold' : 'btn-outline-primary'} mr-1 mb-1" onclick="window.AdminApp.filterByRole('super_master')">Super Master</button>` : ''}
-          ${canSeeMaster ? `<button type="button" class="btn btn-sm ${activeFilter === 'master' ? 'btn-primary font-weight-bold' : 'btn-outline-primary'} mr-1 mb-1" onclick="window.AdminApp.filterByRole('master')">Master</button>` : ''}
-          <button type="button" class="btn btn-sm ${activeFilter === 'user' ? 'btn-primary font-weight-bold' : 'btn-outline-primary'} mr-1 mb-1" onclick="window.AdminApp.filterByRole('user')">Users</button>
-        </div>
-      `;
-
       container.innerHTML = `
         <div class="listing-grid">
-          <div class="row">
-            <div class="col-12">
-              <div class="page-title-box d-flex align-items-center justify-content-between">
-                <h4 class="mb-0 font-size-18">Account List</h4>
-                <div class="page-title-right">
-                  <div class="d-inline-block">
-                    <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link" data-route="/admin/users/insertuser"> Add Account</a>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <h4 class="mb-0" style="font-size: 16px; font-weight: 700; color: #333;">Account List</h4>
+            <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link" data-route="/admin/users/insertuser" style="background:#0088cc; border-color:#0088cc; font-size:12px; padding: 4px 12px; border-radius: 4px;">Add Account</a>
           </div>
-          <div class="row account-list">
-            <div class="col-12">
-              <div class="card">
-                <div class="card-body">
-                  ${filterPillsHtml}
-                  <div class="row row5">
-                    <div class="col-md-6 mb-2 search-form">
-                      <div class="d-inline-block mr-2">
-                        <button type="button" class="btn buttons-pdf btn-danger" onclick="window.adminExportPdf()"><i class="far fa-file-pdf mr-1"></i>PDF</button>
-                        <div class="d-inline-block"><button type="button" class="btn buttons-excel btn-success" onclick="window.adminExportExcel()"><i class="far fa-file-excel mr-1"></i>Excel</button></div>
-                      </div>
-                    </div>
-                    <div class="col-md-6 text-right mb-2"></div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-12 col-md-6">
-                      <div id="tickets-table_length" class="dataTables_length">
-                        <label class="d-inline-flex align-items-center">
-                          Show&nbsp;
-                          <select class="custom-select custom-select-sm" id="userPerPageSelect">
-                            <option value="25" ${perPage === 25 ? 'selected' : ''}>25</option>
-                            <option value="50" ${perPage === 50 ? 'selected' : ''}>50</option>
-                            <option value="100" ${perPage === 100 ? 'selected' : ''}>100</option>
-                            <option value="250" ${perPage === 250 ? 'selected' : ''}>250</option>
-                            <option value="500" ${perPage === 500 ? 'selected' : ''}>500</option>
-                            <option value="750" ${perPage === 750 ? 'selected' : ''}>750</option>
-                            <option value="1000" ${perPage === 1000 ? 'selected' : ''}>1000</option>
-                          </select>&nbsp;entries
-                        </label>
-                      </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6">
-                      <div id="tickets-table_filter" class="dataTables_filter text-md-right">
-                        <label class="d-inline-flex align-items-center">
-                          Search:
-                          <input name="searchuser" type="search" placeholder="Search..." class="form-control form-control-sm ml-2 form-control" id="searchUserInput" onkeyup="if(event.key==='Enter')window.adminFilterUsers()">
-                          <button type="submit" id="loaddata" class="btn btn-primary ml-2" onclick="window.adminFilterUsers()">Load</button>
-                          <button type="button" id="resetdata" class="btn btn-secondary ml-2" onclick="window.adminResetUsers()">Reset</button>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="table-responsive mb-0">
-                    <div class="table no-footer list-clients table-responsive-sm">
-                      <table id="eventsListTbl" role="table" aria-busy="false" aria-colcount="8" class="table b-table table-striped table-bordered list-clients">
-                        <thead role="rowgroup">
-                          <tr role="row">
-                            <th role="columnheader" scope="col" tabindex="0" aria-colindex="1" aria-sort="none" class="position-relative cp" onclick="window.adminSortUsers('uname')"><div>User Name</div></th>
-                            <th role="columnheader" scope="col" tabindex="0" aria-colindex="2" aria-sort="none" class="position-relative text-right cp" onclick="window.adminSortUsers('creditRef')"><div>CR</div></th>
-                            <th role="columnheader" scope="col" aria-colindex="3" class="text-center"><div>U<br>st</div></th>
-                            <th role="columnheader" scope="col" aria-colindex="4" class="text-center"><div>B<br>st</div></th>
-                            <th role="columnheader" scope="col" aria-colindex="5" class="text-center"><div>Exposure Limit</div></th>
-                            <th role="columnheader" scope="col" aria-colindex="6" class="text-center"><div>Deafult (%)</div></th>
-                            <th role="columnheader" scope="col" aria-colindex="7" class="text-center"><div>Account Type</div></th>
-                            <th role="columnheader" scope="col" aria-colindex="8" class="text-left"><div>Action</div></th>
-                          </tr>
-                        </thead>
-                        <tbody role="rowgroup">
-                          <tr role="row" class="font-weight-bold" style="background-color: #f8f9fa;">
-                            <td role="cell"></td>
-                            <td role="cell" class="text-right"><b>${totalCR}</b></td>
-                            <td role="cell"></td>
-                            <td role="cell"></td>
-                            <td role="cell"></td>
-                            <td role="cell"></td>
-                            <td role="cell"></td>
-                            <td role="cell"></td>
-                          </tr>
-                          ${pagedUsers.length === 0 ? `
-                            <tr role="row" class="b-table-empty-row"><td colspan="8" role="cell"><div role="alert" aria-live="polite"><div class="text-center my-2">There are no records to show</div></div></td></tr>
-                          ` : pagedUsers.map(u => {
-                            const uRole = store.normalizeRole(u.role || u.userType);
-                            const roleLabel = store.getRoleLabel(uRole);
-                            return `
-                            <tr role="row" id="row-user-${u.id}">
-                              <td role="cell">
-                                <span class="username-badge cp" onclick="${uRole !== 'user' ? `window.AdminApp.handleRoute('/admin/child/${u.uname}')` : `window.openExtraModal('${u.id}')`}" title="Click to view details">${u.uname}</span>
-                              </td>
-                              <td role="cell" class="text-right">
-                                <span class="cp font-weight-normal text-dark" onclick="window.openCreditRefModal('${u.id}')" title="Click to update Credit">${u.creditRef != null ? u.creditRef : 0}</span>
-                              </td>
-                              <td role="cell" class="text-center">
-                                <div class="checkbox-black-box ${u.userActive !== false ? '' : 'inactive'}">${u.userActive !== false ? '✔' : ''}</div>
-                              </td>
-                              <td role="cell" class="text-center">
-                                <div class="checkbox-black-box ${u.betActive !== false ? '' : 'inactive'}">${u.betActive !== false ? '✔' : ''}</div>
-                              </td>
-                              <td role="cell" class="text-center">
-                                <span>${u.exposureLimit != null ? u.exposureLimit : (u.exposure || 0)}</span>
-                              </td>
-                              <td role="cell" class="text-center">
-                                <span>${u.defaultPercent != null ? u.defaultPercent : 0}</span>
-                              </td>
-                              <td role="cell" class="text-center">
-                                <span class="role-badge role-badge-${uRole}">${roleLabel}</span>
-                              </td>
-                              <td role="cell" class="text-left nowrap">
-                                <button type="button" class="btn action-button" onclick="window.openDepositModal('${u.id}')" title="Deposit">D</button>
-                                <button type="button" class="btn action-button" onclick="window.openWithdrawModal('${u.id}')" title="Withdraw">W</button>
-                                <button type="button" class="btn action-button" onclick="window.openExposureLimitModal('${u.id}')" title="Exposure Limit">L</button>
-                                <button type="button" class="btn action-button" onclick="window.openCreditRefModal('${u.id}')" title="Credit Reference">C</button>
-                                <button type="button" class="btn action-button" onclick="window.openChangePasswordModal('${u.uname}')" title="Change Password">P</button>
-                                <button type="button" class="btn action-button" onclick="window.openStatusModal('${u.id}')" title="Status Lock">S</button>
-                                <button type="button" class="btn action-button btn-more" onclick="window.openExtraModal('${u.id}')" title="More Details">MORE</button>
-                              </td>
-                            </tr>
-                          `}).join('')}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div class="row pt-3">
-                    <div class="col">
-                      <div class="dataTables_paginate paging_simple_numbers float-right">
-                        <ul class="pagination pagination-rounded mb-0">
-                          <ul role="menubar" aria-disabled="false" aria-label="Pagination" class="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end">
-                            <li role="presentation" class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
-                              <button role="menuitem" class="page-link" onclick="if(${currentPage} > 1){ window.AdminApp.currentPage = ${currentPage - 1}; window.AdminApp.handleRouting(); }">«</button>
-                            </li>
-                            <li role="presentation" class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
-                              <button role="menuitem" class="page-link" onclick="if(${currentPage} > 1){ window.AdminApp.currentPage = ${currentPage - 1}; window.AdminApp.handleRouting(); }">‹</button>
-                            </li>
-                            ${Array.from({ length: totalPages }, (_, i) => i + 1).map(p => `
-                              <li role="presentation" class="page-item ${p === currentPage ? 'active' : ''}">
-                                <button role="menuitemradio" type="button" aria-checked="${p === currentPage}" class="page-link" onclick="window.AdminApp.currentPage = ${p}; window.AdminApp.handleRouting();">${p}</button>
-                              </li>
-                            `).join('')}
-                            <li role="presentation" class="page-item ${currentPage >= totalPages ? 'disabled' : ''}">
-                              <button role="menuitem" class="page-link" onclick="if(${currentPage} < ${totalPages}){ window.AdminApp.currentPage = ${currentPage + 1}; window.AdminApp.handleRouting(); }">›</button>
-                            </li>
-                            <li role="presentation" class="page-item ${currentPage >= totalPages ? 'disabled' : ''}">
-                              <button role="menuitem" class="page-link" onclick="if(${currentPage} < ${totalPages}){ window.AdminApp.currentPage = ${totalPages}; window.AdminApp.handleRouting(); }">»</button>
-                            </li>
-                          </ul>
-                        </ul>
-                      </div>
-                    </div>
+
+          <div class="card mb-3" style="border: 1px solid #e9ecef; border-radius: 4px; box-shadow: none;">
+            <div class="card-body p-2 p-md-3">
+              
+              <!-- Top controls: Show entries & Search matching reference frame_01_0s.png -->
+              <div class="row align-items-center mb-2">
+                <div class="col-sm-6 mb-1 mb-sm-0">
+                  <label class="d-inline-flex align-items-center mb-0" style="font-size: 11px; color: #333; font-weight: normal;">
+                    Show&nbsp;
+                    <select class="custom-select custom-select-sm" id="userPerPageSelect" style="width: auto; height: 26px; padding: 2px 20px 2px 6px; font-size: 11px; display: inline-block;">
+                      <option value="25" ${perPage === 25 ? 'selected' : ''}>25</option>
+                      <option value="50" ${perPage === 50 ? 'selected' : ''}>50</option>
+                      <option value="100" ${perPage === 100 ? 'selected' : ''}>100</option>
+                    </select>&nbsp;entries
+                  </label>
+                </div>
+                <div class="col-sm-6 text-sm-right">
+                  <div class="d-inline-flex align-items-center" style="font-size: 11px;">
+                    <span class="mr-1">Search:</span>
+                    <input type="search" placeholder="Search..." class="form-control form-control-sm mr-1" id="searchUserInput" style="height: 26px; font-size: 11px; padding: 2px 6px; width: 140px; display: inline-block; border: 1px solid #ced4da; border-radius: 2px;" onkeyup="if(event.key==='Enter')window.adminFilterUsers()">
+                    <button type="button" id="loaddata" class="btn btn-primary btn-sm mr-1" style="background:#0088cc; border-color:#0088cc; font-size: 11px; padding: 2px 10px; height: 26px; border-radius: 2px;" onclick="window.adminFilterUsers()">Load</button>
+                    <button type="button" id="resetdata" class="btn btn-secondary btn-sm" style="background:#6c757d; border-color:#6c757d; font-size: 11px; padding: 2px 10px; height: 26px; border-radius: 2px;" onclick="window.adminResetUsers()">Reset</button>
                   </div>
                 </div>
               </div>
+
+              <!-- Active Users / Deactive Users Tabs matching frame_01_0s.png -->
+              <ul class="nav nav-tabs mb-2" style="border-bottom: 1px solid #dee2e6;">
+                <li class="nav-item">
+                  <a class="nav-link ${!isDeactiveTab ? 'active' : ''}" href="javascript:void(0)" onclick="window.AdminApp.switchUserStatusTab('active')" style="padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer; ${!isDeactiveTab ? 'background: #fff; border-color: #dee2e6 #dee2e6 #fff; color: #333;' : 'color: #0088cc; border: none; background: transparent;'}">Active Users</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link ${isDeactiveTab ? 'active' : ''}" href="javascript:void(0)" onclick="window.AdminApp.switchUserStatusTab('deactive')" style="padding: 6px 14px; font-size: 12px; cursor: pointer; ${isDeactiveTab ? 'background: #fff; border-color: #dee2e6 #dee2e6 #fff; font-weight: 600; color: #333;' : 'color: #0088cc; border: none; background: transparent;'}">Deactive Users</a>
+                </li>
+              </ul>
+
+              <!-- PDF / Excel Export Buttons matching frame_01_0s.png -->
+              <div class="mb-2">
+                <button type="button" class="btn buttons-pdf" style="background:#cb0606; border-color:#cb0606; color:#fff; font-size:11px; padding: 3px 8px; border-radius: 2px; margin-right: 4px;" onclick="window.adminExportPdf()"><i class="far fa-file-pdf mr-1"></i> PDF</button>
+                <button type="button" class="btn buttons-excel" style="background:#217346; border-color:#217346; color:#fff; font-size:11px; padding: 3px 8px; border-radius: 2px;" onclick="window.adminExportExcel()"><i class="far fa-file-excel mr-1"></i> Excel</button>
+              </div>
+
+              <!-- 12-Column Horizontally Scrollable Table matching frame_01_0s.png -->
+              <div class="table-responsive mb-0" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+                <table id="eventsListTbl" class="table table-bordered table-hover mb-0" style="font-size: 11px; min-width: 900px;">
+                  <thead style="background: #f8f9fa;">
+                    <tr>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px;">User Name</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: right;">CR</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: right;">Balance</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: right;">Client(P/L)</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: right;">Exposure</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: right;">Available Balance</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 4px; text-align: center;">U st</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 4px; text-align: center;">B st</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: center;">Exposure Limit</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: center;">Default(%)</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: center;">Account Type</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: center;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Summary Row matching frame_01_0s.png -->
+                    <tr style="background-color: #f1f3f5; font-weight: bold;">
+                      <td></td>
+                      <td class="text-right">${totalCR}</td>
+                      <td class="text-right">0</td>
+                      <td class="text-right text-danger">${totalPL}</td>
+                      <td class="text-right">0</td>
+                      <td class="text-right">0</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    ${pagedUsers.length === 0 ? `
+                      <tr role="row" class="b-table-empty-row"><td colspan="12" role="cell" class="text-center py-3">There are no records to show</td></tr>
+                    ` : pagedUsers.map(u => {
+                      const uCR = u.creditRef != null ? u.creditRef : 0;
+                      const uBal = u.balance != null ? u.balance : 0;
+                      const uPL = u.clientPL != null ? u.clientPL : (uCR > 0 ? -uCR : 0);
+                      const uExp = u.exposure != null ? u.exposure : 0;
+                      const uAvail = u.availBalance != null ? u.availBalance : 0;
+                      const uRoleLabel = u.userLevel || (u.role === 'master' ? 'Master' : u.role === 'agent' ? 'Agent' : u.role === 'user' ? 'User' : 'Master');
+                      return `
+                      <tr id="row-user-${u.id}">
+                        <td style="padding: 5px 8px; vertical-align: middle;">
+                          <span style="background: #343a40; color: #ffffff; padding: 2px 7px; border-radius: 2px; font-weight: bold; font-size: 10px; display: inline-block; cursor: pointer;" onclick="window.AdminApp.handleRoute('/admin/child/${u.uname}')">${u.uname}</span>
+                        </td>
+                        <td class="text-right" style="padding: 5px 8px; vertical-align: middle;">${uCR}</td>
+                        <td class="text-right" style="padding: 5px 8px; vertical-align: middle;">${uBal}</td>
+                        <td class="text-right ${uPL < 0 ? 'text-danger' : ''}" style="padding: 5px 8px; vertical-align: middle;">${uPL}</td>
+                        <td class="text-right" style="padding: 5px 8px; vertical-align: middle;">${uExp}</td>
+                        <td class="text-right" style="padding: 5px 8px; vertical-align: middle;">${uAvail}</td>
+                        <td class="text-center" style="padding: 5px 4px; vertical-align: middle;">
+                          <span style="display:inline-block; width:15px; height:15px; background:#000; color:#fff; border-radius:2px; font-size:10px; line-height:15px; text-align:center; font-weight:bold;">${u.userActive !== false ? '✔' : ''}</span>
+                        </td>
+                        <td class="text-center" style="padding: 5px 4px; vertical-align: middle;">
+                          <span style="display:inline-block; width:15px; height:15px; background:#000; color:#fff; border-radius:2px; font-size:10px; line-height:15px; text-align:center; font-weight:bold;">${u.betActive !== false ? '✔' : ''}</span>
+                        </td>
+                        <td class="text-center" style="padding: 5px 8px; vertical-align: middle;">${u.exposureLimit || 0}</td>
+                        <td class="text-center" style="padding: 5px 8px; vertical-align: middle;">${u.defaultPercent || 0}</td>
+                        <td class="text-center" style="padding: 5px 8px; vertical-align: middle;">${uRoleLabel}</td>
+                        <td class="text-center nowrap" style="padding: 5px 6px; vertical-align: middle;">
+                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openDepositModal('${u.id}')" title="Deposit">D</button>
+                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openWithdrawModal('${u.id}')" title="Withdraw">W</button>
+                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openExposureLimitModal('${u.id}')" title="Exposure Limit">L</button>
+                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openCreditRefModal('${u.id}')" title="Credit Reference">C</button>
+                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openChangePasswordModal('${u.uname}')" title="Change Password">P</button>
+                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openStatusModal('${u.id}')" title="Status Lock">S</button>
+                        </td>
+                      </tr>
+                    `}).join('')}
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Pagination matching frame_01_0s.png -->
+              <div class="d-flex justify-content-end align-items-center mt-2">
+                <ul class="pagination pagination-sm mb-0">
+                  <li class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
+                    <button class="page-link" onclick="if(${currentPage} > 1){ window.AdminApp.currentPage = 1; window.AdminApp.handleRouting(); }" style="padding: 2px 8px; font-size: 11px;">«</button>
+                  </li>
+                  <li class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
+                    <button class="page-link" onclick="if(${currentPage} > 1){ window.AdminApp.currentPage = ${currentPage - 1}; window.AdminApp.handleRouting(); }" style="padding: 2px 8px; font-size: 11px;">‹</button>
+                  </li>
+                  ${Array.from({ length: totalPages }, (_, i) => i + 1).map(p => `
+                    <li class="page-item ${p === currentPage ? 'active' : ''}">
+                      <button class="page-link" onclick="window.AdminApp.currentPage = ${p}; window.AdminApp.handleRouting();" style="padding: 2px 8px; font-size: 11px; ${p === currentPage ? 'background-color: #0088cc; border-color: #0088cc;' : ''}">${p}</button>
+                    </li>
+                  `).join('')}
+                  <li class="page-item ${currentPage >= totalPages ? 'disabled' : ''}">
+                    <button class="page-link" onclick="if(${currentPage} < ${totalPages}){ window.AdminApp.currentPage = ${currentPage + 1}; window.AdminApp.handleRouting(); }" style="padding: 2px 8px; font-size: 11px;">›</button>
+                  </li>
+                  <li class="page-item ${currentPage >= totalPages ? 'disabled' : ''}">
+                    <button class="page-link" onclick="if(${currentPage} < ${totalPages}){ window.AdminApp.currentPage = ${totalPages}; window.AdminApp.handleRouting(); }" style="padding: 2px 8px; font-size: 11px;">»</button>
+                  </li>
+                </ul>
+              </div>
+
             </div>
           </div>
         </div>
@@ -1858,25 +1867,19 @@
             </div>
           </div>
         </div>
-        <div class="row mt-4">
-          <div class="col-12">
-            <h4 class="mb-3 font-size-18">User Creation</h4>
-            <div class="card">
-              <div class="card-body">
-                <form class="form-inline" onsubmit="event.preventDefault(); window.AdminApp.downloadUserCreationCsv();">
-                  <div class="form-group mr-3 mb-2">
-                    <label class="mr-2 font-weight-normal">From Date:</label>
-                    <input type="text" name="date" class="form-control form-control-sm" value="${fromDateStr}" id="userCreationFromDate">
-                  </div>
-                  <div class="form-group mr-3 mb-2">
-                    <label class="mr-2 font-weight-normal">To Date:</label>
-                    <input type="text" name="date" class="form-control form-control-sm" value="${toDateStr}" id="userCreationToDate">
-                  </div>
-                  <button type="submit" class="btn btn-primary btn-sm mb-2" style="background-color: #0088cc; border-color: #0088cc;">Download CSV</button>
-                </form>
-              </div>
+        <div class="mt-4">
+          <h4 class="mb-3" style="font-size: 16px; font-weight: 700; color: #333;">User Creation</h4>
+          <form class="form-inline d-flex flex-wrap align-items-center" onsubmit="event.preventDefault(); window.AdminApp.downloadUserCreationCsv();">
+            <div class="form-group mr-3 mb-2">
+              <label class="mr-2" style="font-size: 11px; font-weight: normal; color: #333;">From Date:</label>
+              <input type="text" name="date" class="form-control form-control-sm" value="${fromDateStr}" id="userCreationFromDate" style="height: 28px; font-size: 11px; border: 1px solid #ced4da; border-radius: 2px;">
             </div>
-          </div>
+            <div class="form-group mr-3 mb-2">
+              <label class="mr-2" style="font-size: 11px; font-weight: normal; color: #333;">To Date:</label>
+              <input type="text" name="date" class="form-control form-control-sm" value="${toDateStr}" id="userCreationToDate" style="height: 28px; font-size: 11px; border: 1px solid #ced4da; border-radius: 2px;">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm mb-2" style="background-color: #0088cc; border-color: #0088cc; font-size: 11px; height: 28px; padding: 2px 14px; border-radius: 2px;">Download CSV</button>
+          </form>
         </div>
       `;
     },
@@ -3892,163 +3895,228 @@
       `;
     },
 
+    toggleAllPrivileges: function(checked) {
+      document.querySelectorAll('.priv-item').forEach(el => {
+        el.checked = checked;
+      });
+    },
+
+    handleCreateMultiLogin: function() {
+      const client = document.getElementById('subClientId')?.value;
+      const pass = document.getElementById('subPassword')?.value;
+      const cpass = document.getElementById('subConfirmPassword')?.value;
+      if (pass !== cpass) {
+        alert('Password and Confirm Password do not match');
+        return;
+      }
+      window.AdminApp.showToast('Sub-account ' + (client || '') + ' created successfully.', 'success');
+      document.getElementById('createSubAccountForm')?.reset();
+    },
+
     renderCreateAccount: function(container) {
-      const self = this;
-      const subAccounts = [
-        { guid: 'sub_1', uname: 'Faazan_Operator1', fullname: 'Operations Shift A', plist: 'dashboard,ma,ulist,reportcb', isact: true, created: '2026-09-01' },
-        { guid: 'sub_2', uname: 'Faazan_AuditOfficer', fullname: 'Compliance Desk', plist: 'dashboard,raccst,reportuh,reportpl,totpl', isact: true, created: '2026-09-10' }
-      ];
-
       container.innerHTML = `
-        <div class="listing-grid">
-          <div class="row">
-            <div class="col-12">
-              <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
-                <h4 class="mb-0 font-size-18 font-weight-bold">Multi Login Account</h4>
-                <div class="page-title-right">
-                  <ol class="breadcrumb m-0 font-size-12">
-                    <li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Home</a></li>
-                    <li class="breadcrumb-item active">Multi Login Account</li>
-                  </ol>
-                </div>
-              </div>
-            </div>
+        <div class="row">
+          <div class="col-12">
+            <h4 class="mb-3" style="font-size: 16px; font-weight: 700; color: #333;">Multi Login Account</h4>
           </div>
+        </div>
 
-          <div class="row">
-            <div class="col-12">
-              <div class="card mb-4">
-                <div class="card-header bg-light">
-                  <h6 class="mb-0 font-weight-bold text-dark"><i class="fas fa-user-plus mr-1 text-primary"></i> Create New Multi Login Sub-Account</h6>
+        <div class="card mb-4" style="border: 1px solid #e9ecef; border-radius: 4px; box-shadow: none;">
+          <div class="card-body p-3">
+            <form id="createSubAccountForm" onsubmit="event.preventDefault(); window.AdminApp.handleCreateMultiLogin();">
+              
+              <!-- Personal Information Section matching frame_18_0s.png -->
+              <h6 class="mb-2" style="font-size: 12px; font-weight: 600; color: #495057;">Personal Information</h6>
+              <div class="row mb-3">
+                <div class="col-3 px-1 mb-2">
+                  <label class="mb-1" style="font-size: 9.5px; color: #495057;">Client ID</label>
+                  <input type="text" class="form-control form-control-sm" id="subClientId" required style="height: 26px; font-size: 10px; border: 1px solid #ced4da; border-radius: 2px;">
                 </div>
-                <div class="card-body">
-                  <form id="createSubAccountForm" onsubmit="event.preventDefault(); window.AdminApp.showToast('Sub-account created successfully with assigned permissions.', 'success'); document.getElementById('createSubAccountForm').reset();">
-                    <div class="row">
-                      <div class="col-md-3 mb-3">
-                        <label class="font-weight-bold small">User Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control form-control-sm" placeholder="Enter username..." required id="subUname">
-                      </div>
-                      <div class="col-md-3 mb-3">
-                        <label class="font-weight-bold small">Full Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control form-control-sm" placeholder="Enter full name..." required id="subFullname">
-                      </div>
-                      <div class="col-md-3 mb-3">
-                        <label class="font-weight-bold small">Password <span class="text-danger">*</span></label>
-                        <input type="password" class="form-control form-control-sm" placeholder="Enter password..." required id="subPass">
-                      </div>
-                      <div class="col-md-3 mb-3">
-                        <label class="font-weight-bold small">Confirm Password <span class="text-danger">*</span></label>
-                        <input type="password" class="form-control form-control-sm" placeholder="Confirm password..." required id="subCpass">
-                      </div>
-                    </div>
-
-                    <div class="form-group mt-2">
-                      <label class="font-weight-bold small mb-2 d-block">Module Permissions Access:</label>
-                      <div class="row">
-                        <div class="col-md-3 col-sm-6 mb-2">
-                          <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="perm_dash" checked>
-                            <label class="custom-control-label small" for="perm_dash">Dashboard Overview</label>
-                          </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 mb-2">
-                          <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="perm_ma" checked>
-                            <label class="custom-control-label small" for="perm_ma">Market Analysis</label>
-                          </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 mb-2">
-                          <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="perm_ulist" checked>
-                            <label class="custom-control-label small" for="perm_ulist">Client List & Downline</label>
-                          </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 mb-2">
-                          <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="perm_reports" checked>
-                            <label class="custom-control-label small" for="perm_reports">Reports & Statements</label>
-                          </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 mb-2">
-                          <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="perm_bank">
-                            <label class="custom-control-label small" for="perm_bank">Bank & Chip Transfer</label>
-                          </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 mb-2">
-                          <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="perm_lock">
-                            <label class="custom-control-label small" for="perm_lock">General Lock Controls</label>
-                          </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 mb-2">
-                          <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="perm_casino" checked>
-                            <label class="custom-control-label small" for="perm_casino">Live & Virtual Casino</label>
-                          </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 mb-2">
-                          <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="perm_btn">
-                            <label class="custom-control-label small" for="perm_btn">Set Bet Buttons</label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row align-items-center mt-3 pt-2 border-top">
-                      <div class="col-md-4 mb-2">
-                        <label class="font-weight-bold small">Master Password <span class="text-danger">*</span></label>
-                        <input type="password" class="form-control form-control-sm" placeholder="Enter Master password..." required id="subMasterPass">
-                      </div>
-                      <div class="col-md-8 mb-2 text-right pt-3">
-                        <button type="submit" class="btn btn-primary btn-sm px-4" style="background-color: #0088cc; border-color: #0088cc;">Create Account</button>
-                        <button type="reset" class="btn btn-light btn-sm px-3 ml-2">Reset</button>
-                      </div>
-                    </div>
-                  </form>
+                <div class="col-3 px-1 mb-2">
+                  <label class="mb-1" style="font-size: 9.5px; color: #495057;">Full Name</label>
+                  <input type="text" class="form-control form-control-sm" id="subFullName" required style="height: 26px; font-size: 10px; border: 1px solid #ced4da; border-radius: 2px;">
+                </div>
+                <div class="col-3 px-1 mb-2">
+                  <label class="mb-1" style="font-size: 9.5px; color: #495057;">Password</label>
+                  <input type="password" class="form-control form-control-sm" id="subPassword" required style="height: 26px; font-size: 10px; border: 1px solid #ced4da; border-radius: 2px;">
+                </div>
+                <div class="col-3 px-1 mb-2">
+                  <label class="mb-1" style="font-size: 9.5px; color: #495057;">Confirm Password</label>
+                  <input type="password" class="form-control form-control-sm" id="subConfirmPassword" required style="height: 26px; font-size: 10px; border: 1px solid #ced4da; border-radius: 2px;">
                 </div>
               </div>
 
-              <!-- Existing Sub-accounts list -->
-              <div class="card">
-                <div class="card-header bg-light">
-                  <h6 class="mb-0 font-weight-bold text-dark"><i class="fas fa-users-cog mr-1 text-primary"></i> Configured Multi Login Accounts</h6>
-                </div>
-                <div class="card-body">
-                  <div class="table-responsive mb-0 report-table">
-                    <table class="table b-table table-striped table-bordered table-hover mb-0">
-                      <thead>
-                        <tr>
-                          <th>User Name</th>
-                          <th>Full Name</th>
-                          <th>Assigned Modules</th>
-                          <th>Created Date</th>
-                          <th>Status</th>
-                          <th class="text-center">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        ${subAccounts.map(a => `
-                          <tr>
-                            <td><strong class="text-primary">${a.uname}</strong></td>
-                            <td>${a.fullname}</td>
-                            <td><code>${a.plist}</code></td>
-                            <td class="small text-muted">${a.created}</td>
-                            <td><span class="badge ${a.isact ? 'badge-success' : 'badge-danger'}">${a.isact ? 'Active' : 'Locked'}</span></td>
-                            <td class="text-center">
-                              <button class="btn btn-sm btn-outline-info mr-1" onclick="window.AdminApp.showToast('Sub-account configuration opened.', 'info');"><i class="fas fa-edit mr-1"></i> Edit</button>
-                              <button class="btn btn-sm btn-outline-warning" onclick="window.AdminApp.showToast('Account access toggled.', 'warning');"><i class="fas fa-lock mr-1"></i> Lock</button>
-                            </td>
-                          </tr>
-                        `).join('')}
-                      </tbody>
-                    </table>
+              <!-- Privileges Section matching frame_18_0s.png -->
+              <h6 class="mb-2" style="font-size: 12px; font-weight: 600; color: #495057;">Privileges</h6>
+              <div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 3px; padding: 10px 6px; margin-bottom: 12px;">
+                <div class="row no-gutters">
+                  <!-- Col 1 -->
+                  <div class="col-3 px-1">
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1" id="priv_all" onchange="window.AdminApp.toggleAllPrivileges(this.checked)" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_all">All</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_insert_user" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_insert_user">Insert User</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_gen_lock" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_gen_lock">General Lock</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_events" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_events">Events</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_deposit" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_deposit">Deposit</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_user_lock" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_user_lock">User Lock</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_user_reg_rep" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_user_reg_rep">User Register Report</label>
+                    </div>
+                  </div>
+
+                  <!-- Col 2 -->
+                  <div class="col-3 px-1">
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_dashboard" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_dashboard">DashBoard</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_acc_stmt" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_acc_stmt">Account Statement</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_cas_res" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_cas_res">Casino Result</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_mkt_search" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_mkt_search">Market Search Analysis</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_cred_ref" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_cred_ref">Credit Reference</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_bet_lock" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_bet_lock">Bet Lock</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_tot_pl" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_tot_pl">Total Profitloss</label>
+                    </div>
+                  </div>
+
+                  <!-- Col 3 -->
+                  <div class="col-3 px-1">
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_mkt_analysis" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_mkt_analysis">Market Analysis</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_party_wl" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_party_wl">Party Win Loss</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_live_cas_res" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_live_cas_res">Live Casino Result</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_login_u_create" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_login_u_create">Login User creation</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_u_info" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_u_info">User Info</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_active_u" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_active_u">active user</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_u_winloss" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_u_winloss">User Winloss</label>
+                    </div>
+                  </div>
+
+                  <!-- Col 4 -->
+                  <div class="col-3 px-1">
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_u_list" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_u_list">User List</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_curr_bets" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_curr_bets">Current Bets</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_our_casino" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_our_casino">Our Casino</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_withdraw" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_withdraw">Withdraw</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_u_pass_change" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_u_pass_change">User Password Change</label>
+                    </div>
+                    <div class="form-check mb-2" style="font-size: 8.5px; display: flex; align-items: center; white-space: nowrap;">
+                      <input type="checkbox" class="form-check-input mr-1 priv-item" id="priv_agent_assign" style="width: 12px; height: 12px; accent-color: #000; margin-top: 0;">
+                      <label class="form-check-label mb-0" for="priv_agent_assign">Agent Assign</label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+
+              <!-- Form Footer Controls matching frame_18_0s.png -->
+              <div class="d-flex justify-content-end align-items-center">
+                <input type="password" placeholder="Transaction Code" class="form-control form-control-sm mr-2" id="subTransactionCode" required style="width: 140px; height: 28px; font-size: 11px; border: 1px solid #ced4da; border-radius: 2px;">
+                <button type="submit" class="btn btn-success btn-sm mr-2" style="background-color: #28a745; border-color: #28a745; font-size: 11px; height: 28px; padding: 2px 14px; border-radius: 2px;">Submit</button>
+                <button type="reset" class="btn btn-secondary btn-sm" style="background-color: #f8f9fa; border: 1px solid #ced4da; color: #333; font-size: 11px; height: 28px; padding: 2px 14px; border-radius: 2px;">Reset</button>
+              </div>
+
+            </form>
           </div>
+        </div>
+
+        <!-- Configured Multi Login Accounts Table matching frame_18_0s.png -->
+        <div class="table-responsive mb-0" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+          <table class="table table-bordered table-striped" style="font-size: 11px; min-width: 900px;">
+            <thead style="background: #f8f9fa;">
+              <tr>
+                <th style="font-weight: 600; color: #333;">Action</th>
+                <th style="font-weight: 600; color: #333;">Username</th>
+                <th style="font-weight: 600; color: #333;">IsAuth</th>
+                <th style="font-weight: 600; color: #333;">Full Name</th>
+                <th style="font-weight: 600; color: #333;">DashBoard</th>
+                <th style="font-weight: 600; color: #333;">Market Analysis</th>
+                <th style="font-weight: 600; color: #333;">User List</th>
+                <th style="font-weight: 600; color: #333;">Insert User</th>
+                <th style="font-weight: 600; color: #333;">Account Statement</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><button type="button" class="btn btn-dark btn-sm" style="padding: 1px 6px; font-size: 10px;">Edit</button></td>
+                <td><strong>operator1</strong></td>
+                <td><span style="display:inline-block; width:14px; height:14px; background:#000; color:#fff; border-radius:2px; font-size:9px; line-height:14px; text-align:center;">✔</span></td>
+                <td>Shift Manager</td>
+                <td><span style="display:inline-block; width:14px; height:14px; background:#000; color:#fff; border-radius:2px; font-size:9px; line-height:14px; text-align:center;">✔</span></td>
+                <td><span style="display:inline-block; width:14px; height:14px; background:#000; color:#fff; border-radius:2px; font-size:9px; line-height:14px; text-align:center;">✔</span></td>
+                <td><span style="display:inline-block; width:14px; height:14px; background:#000; color:#fff; border-radius:2px; font-size:9px; line-height:14px; text-align:center;">✔</span></td>
+                <td><span style="display:inline-block; width:14px; height:14px; background:#000; color:#fff; border-radius:2px; font-size:9px; line-height:14px; text-align:center;">✔</span></td>
+                <td><span style="display:inline-block; width:14px; height:14px; background:#000; color:#fff; border-radius:2px; font-size:9px; line-height:14px; text-align:center;">✔</span></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       `;
     },
