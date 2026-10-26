@@ -884,6 +884,20 @@
         document.body.classList.remove('page-market-analysis');
       }
 
+      if (isClientsRoute) {
+        document.body.classList.add('page-users');
+        const collapseBar = document.getElementById('headerCollapseBar');
+        if (collapseBar && window.innerWidth < 992) {
+          collapseBar.style.display = 'flex';
+        }
+      } else {
+        document.body.classList.remove('page-users');
+        const collapseBar = document.getElementById('headerCollapseBar');
+        if (collapseBar) {
+          collapseBar.style.display = 'none';
+        }
+      }
+
       const container = document.getElementById('adminMainContainer');
       if (!container) return;
 

@@ -926,7 +926,7 @@
       z-index: 1045 !important;
       width: 145px !important;
       max-width: 38vw !important;
-      top: 24px !important;
+      top: 35px !important;
       bottom: 0 !important;
       left: 0 !important;
       background: #ffffff !important;
@@ -945,7 +945,7 @@
     .sidebar-backdrop {
       display: none;
       position: fixed !important;
-      top: 24px !important;
+      top: 35px !important;
       left: 0 !important;
       right: 0 !important;
       bottom: 0 !important;
@@ -1395,14 +1395,26 @@
       padding: 0;
     }
 
+    /* Collapse Bar Default (Hidden Globally on Desktop) */
+    #headerCollapseBar {
+      display: none !important;
+      background: #273746 !important;
+      height: 18px !important;
+      cursor: pointer !important;
+      border-top: 1px solid rgba(0,0,0,0.15) !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
     @media (max-width: 991.98px) {
       #page-topbar {
         width: 100% !important;
         max-width: 100vw !important;
         height: auto !important;
-        min-height: 24px !important;
+        min-height: 34px !important;
         background: #0088cc !important;
         padding: 0 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
       }
       .navbar-header {
         display: flex !important;
@@ -1412,8 +1424,8 @@
         width: 100% !important;
         max-width: 100vw !important;
         height: auto !important;
-        min-height: 24px !important;
-        padding: 1px 4px !important;
+        min-height: 34px !important;
+        padding: 2px 3px !important;
         background: #0088cc !important;
         box-sizing: border-box !important;
       }
@@ -1430,10 +1442,9 @@
       #page-topbar .navbar-brand-box .logo-light,
       .vertical-collpsed .navbar-brand-box a.logo,
       .vertical-collpsed .navbar-brand-box .logo-light {
-        height: 22px !important;
-        line-height: 22px !important;
+        height: auto !important;
+        line-height: 1 !important;
         min-height: 0 !important;
-        max-height: 22px !important;
         display: inline-flex !important;
         align-items: center !important;
         width: auto !important;
@@ -1446,14 +1457,13 @@
       }
       .logo-all-text {
         font-family: "Times New Roman", Times, Georgia, serif !important;
-        font-size: 13.5px !important;
+        font-size: 11px !important;
         font-weight: 900 !important;
         color: #ffffff !important;
         letter-spacing: 0.5px !important;
         line-height: 1 !important;
         text-decoration: none !important;
         display: inline-block !important;
-        margin-right: 2px !important;
       }
       #page-topbar .navbar-brand-box .site-logo {
         display: none !important;
@@ -1462,13 +1472,13 @@
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        padding: 0 2px !important;
-        margin: 0 2px 0 0 !important;
+        padding: 0 1px !important;
+        margin: 0 3px 0 0 !important;
         height: auto !important;
         background: transparent !important;
         border: none !important;
         color: #ffffff !important;
-        font-size: 10px !important;
+        font-size: 9px !important;
         line-height: 1 !important;
         cursor: pointer !important;
         flex-shrink: 0 !important;
@@ -1489,29 +1499,35 @@
         margin: 0 !important;
         padding: 0 !important;
         list-style: none !important;
+        row-gap: 2px !important;
       }
       #page-topbar .main-menu .nav-item {
         display: inline-flex !important;
         align-items: center !important;
-        margin: 0 !important;
+        margin: 0 clamp(3px, 1vw, 6px) 0 0 !important;
         padding: 0 !important;
         height: auto !important;
+        flex-shrink: 0 !important;
       }
       #page-topbar .main-menu .nav-link {
-        font-size: 6.8px !important;
+        font-size: clamp(6.8px, 1.75vw, 7.8px) !important;
         font-weight: 700 !important;
-        padding: 0 1px !important;
-        line-height: 10px !important;
+        padding: 1px 1.5px !important;
+        line-height: 11px !important;
         height: auto !important;
         color: #ffffff !important;
         white-space: nowrap !important;
-        letter-spacing: -0.2px !important;
+        letter-spacing: -0.1px !important;
         font-family: Arial, "Helvetica Neue", Helvetica, sans-serif !important;
         text-decoration: none !important;
+        border-radius: 2px !important;
+        display: inline-flex !important;
+        align-items: center !important;
       }
       #page-topbar .main-menu .nav-link i.fa-caret-down {
-        font-size: 5.5px !important;
-        margin-left: 1px !important;
+        font-size: 5px !important;
+        margin-left: 1.5px !important;
+        line-height: 1 !important;
         vertical-align: middle !important;
       }
       .menu-row-break {
@@ -1519,7 +1535,6 @@
         height: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
-        list-style: none !important;
       }
       .navbar-header .user-menu {
         display: flex !important;
@@ -1531,7 +1546,7 @@
       #userMenuBtn,
       #userMenuBtn span {
         color: #ffffff !important;
-        font-size: 7.5px !important;
+        font-size: clamp(6.8px, 1.7vw, 7.8px) !important;
         font-weight: 700 !important;
         font-family: Arial, "Helvetica Neue", Helvetica, sans-serif !important;
         line-height: 1 !important;
@@ -1540,16 +1555,18 @@
         margin: 0 !important;
       }
       #userMenuBtn {
-        padding: 0 2px !important;
+        padding: 0 1.5px !important;
         background: transparent !important;
         border: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
       }
       #userMenuBtn span.mr-1 {
         margin-right: 1px !important;
       }
       #userMenuBtn i.fa-caret-down {
-        font-size: 6.5px !important;
-        margin-left: 2px !important;
+        font-size: 5px !important;
+        margin-left: 1px !important;
         padding: 0 !important;
         width: auto !important;
       }
@@ -1558,9 +1575,9 @@
         align-items: center !important;
         background: #ffffff !important;
         border-radius: 2px !important;
-        padding: 1px 3px !important;
+        padding: 1px 2px !important;
         height: 15px !important;
-        width: 60px !important;
+        width: 48px !important;
         margin-left: 2px !important;
         border: 1px solid rgba(0, 0, 0, 0.15) !important;
         flex-shrink: 0 !important;
@@ -1568,8 +1585,8 @@
       .top-client-searchbox input {
         border: none !important;
         outline: none !important;
-        font-size: 7.5px !important;
-        width: 42px !important;
+        font-size: 6.8px !important;
+        width: 34px !important;
         background: transparent !important;
         color: #333333 !important;
         padding: 0 !important;
@@ -1581,12 +1598,15 @@
         background: transparent !important;
         padding: 0 !important;
         color: #333333 !important;
-        font-size: 7px !important;
+        font-size: 6.5px !important;
         cursor: pointer !important;
         line-height: 1 !important;
       }
       .top-client-searchbox button i {
-        font-size: 7px !important;
+        font-size: 6.5px !important;
+      }
+      body.page-users #headerCollapseBar {
+        display: flex !important;
       }
       #adminMainMenu .dropdown {
         position: relative !important;
@@ -1706,54 +1726,7 @@
         margin: 0 !important;
       }
     }
-    @media (max-width: 420px) {
-      #page-topbar .main-menu .nav-link {
-        font-size: 5.9px !important;
-        letter-spacing: -0.35px !important;
-        padding: 0 0.5px !important;
-      }
-      #page-topbar .main-menu .nav-link i.fa-caret-down {
-        font-size: 5px !important;
-        margin-left: 0.5px !important;
-      }
-      #userMenuBtn,
-      #userMenuBtn span {
-        font-size: 6.8px !important;
-        padding: 0 1px !important;
-      }
-      .top-client-searchbox {
-        width: 48px !important;
-        height: 14px !important;
-        padding: 1px 2px !important;
-      }
-      .top-client-searchbox input {
-        width: 32px !important;
-        font-size: 6.5px !important;
-        height: 12px !important;
-      }
-      .top-client-searchbox button {
-        font-size: 6.5px !important;
-      }
-    }
-    @media (max-width: 340px) {
-      #page-topbar .main-menu .nav-link {
-        font-size: 5.2px !important;
-        letter-spacing: -0.4px !important;
-        padding: 0 0.2px !important;
-      }
-      #userMenuBtn,
-      #userMenuBtn span {
-        font-size: 6.2px !important;
-        padding: 0 !important;
-      }
-      .top-client-searchbox {
-        width: 42px !important;
-      }
-      .top-client-searchbox input {
-        width: 28px !important;
-        font-size: 6px !important;
-      }
-    }
+
     @media (max-width: 767.98px) {
       .page-content {
         padding: 12px 8px !important;
@@ -2527,7 +2500,7 @@
       </header>
 
       <!-- Sub-header Collapse Bar matching Reference Screen Recording -->
-      <div class="header-collapse-bar d-flex justify-content-center align-items-center" id="headerCollapseBar" style="background: #273746; height: 18px; cursor: pointer; border-top: 1px solid rgba(0,0,0,0.15);" onclick="window.toggleSubHeaderCollapse && window.toggleSubHeaderCollapse()">
+      <div class="header-collapse-bar justify-content-center align-items-center" id="headerCollapseBar" style="background: #273746; height: 18px; cursor: pointer; border-top: 1px solid rgba(0,0,0,0.15);" onclick="window.toggleSubHeaderCollapse && window.toggleSubHeaderCollapse()">
         <i class="fa fa-chevron-circle-down text-white" style="font-size: 11px; opacity: 0.85;"></i>
       </div>
 
