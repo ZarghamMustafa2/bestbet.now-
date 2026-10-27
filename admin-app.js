@@ -1809,91 +1809,126 @@
     },
 
     renderAssignAgent: function(container) {
-      const now = new Date();
-      const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-      const pad = n => String(n).padStart(2, '0');
-      const formatDate = d => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
-      const fromDateStr = formatDate(oneWeekAgo);
-      const toDateStr = formatDate(now);
+      const store = window.AdminDataStore;
+      const allUsers = store ? store.getUsers() : [];
+      const users = allUsers.length > 0 ? allUsers : [
+        { id: '1', uname: 'ZARGHAM', creditRef: 79, userActive: true, betActive: true, exposureLimit: 0, defaultPercent: 0, userLevel: 'Master' },
+        { id: '2', uname: 'ZARGHAM1', creditRef: 2, userActive: true, betActive: true, exposureLimit: 0, defaultPercent: 0, userLevel: 'Agent' },
+        { id: '3', uname: 'ZARGHAM2', creditRef: 2, userActive: true, betActive: true, exposureLimit: 0, defaultPercent: 0, userLevel: 'User' },
+        { id: '4', uname: 'ZARGHAM3', creditRef: 76, userActive: true, betActive: true, exposureLimit: 0, defaultPercent: 0, userLevel: 'Master' }
+      ];
+
+      const perPage = this.perPage || 25;
+      const currentPage = this.currentPage || 1;
+      const startIdx = (currentPage - 1) * perPage;
+      const pagedUsers = users.slice(startIdx, startIdx + perPage);
 
       container.innerHTML = `
-        <div class="row">
-          <div class="col-12">
-            <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
-              <h4 class="mb-0 font-size-18">Assign Agent List</h4>
-              <div class="page-title-right"></div>
-            </div>
+        <div class="listing-grid">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <h4 class="mb-0" style="font-size: 16px; font-weight: 700; color: #333;">Account List</h4>
+            <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link" data-route="/admin/users/insertuser" style="background:#0088cc; border-color:#0088cc; font-size:12px; padding: 4px 12px; border-radius: 4px;">Add Account</a>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
-                <div class="row mb-2">
-                  <div class="col-sm-12 col-md-6">
-                    <div id="tickets-table_length" class="dataTables_length">
-                      <label class="d-inline-flex align-items-center font-weight-normal">
-                        Show&nbsp;
-                        <select class="custom-select custom-select-sm" style="width:auto; display:inline-block;" id="assignAgentPerPage">
-                          <option value="25" selected>25</option>
-                          <option value="50">50</option>
-                          <option value="75">75</option>
-                          <option value="100">100</option>
-                          <option value="125">125</option>
-                          <option value="150">150</option>
-                        </select>&nbsp;entries
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 col-md-6">
-                    <div id="tickets-table_filter" class="dataTables_filter text-md-right">
-                      <label class="d-inline-flex align-items-center font-weight-normal">
-                        Search:
-                        <input type="search" placeholder="Search..." class="form-control form-control-sm ml-2" style="width:auto; display:inline-block;" id="assignAgentSearchInput">
-                      </label>
-                    </div>
-                  </div>
+
+          <div class="card mb-3" style="border: 1px solid #e9ecef; border-radius: 4px; box-shadow: none;">
+            <div class="card-body p-2 p-md-3">
+              
+              <!-- PDF / Excel Export Buttons matching reference frame_08_5s.png -->
+              <div class="mb-2">
+                <button type="button" class="btn buttons-pdf" style="background:#cb0606; border-color:#cb0606; color:#fff; font-size:11px; padding: 3px 8px; border-radius: 2px; margin-right: 4px;" onclick="window.adminExportPdf()"><i class="far fa-file-pdf mr-1"></i> PDF</button>
+                <button type="button" class="btn buttons-excel" style="background:#217346; border-color:#217346; color:#fff; font-size:11px; padding: 3px 8px; border-radius: 2px;" onclick="window.adminExportExcel()"><i class="far fa-file-excel mr-1"></i> Excel</button>
+              </div>
+
+              <!-- Top controls: Show entries & Search matching reference frame_08_5s.png -->
+              <div class="row align-items-center mb-2">
+                <div class="col-sm-6 mb-1 mb-sm-0">
+                  <label class="d-inline-flex align-items-center mb-0" style="font-size: 11px; color: #333; font-weight: normal;">
+                    Show&nbsp;
+                    <select class="custom-select custom-select-sm" id="assignAgentPerPage" style="width: auto; height: 26px; padding: 2px 20px 2px 6px; font-size: 11px; display: inline-block;">
+                      <option value="25" selected>25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>&nbsp;entries
+                  </label>
                 </div>
-                <div class="table-responsive mb-0">
-                  <div class="table no-footer table-responsive-sm">
-                    <table id="eventsListTbl" role="table" aria-busy="false" aria-colcount="6" class="table b-table table-striped table-bordered mb-0">
-                      <thead role="rowgroup">
-                        <tr role="row">
-                          <th role="columnheader" scope="col"><div>S.No.</div></th>
-                          <th role="columnheader" scope="col"><div>User Name</div></th>
-                          <th role="columnheader" scope="col"><div>Assign Agent Settings</div></th>
-                          <th role="columnheader" scope="col"><div>Mobile Number</div></th>
-                          <th role="columnheader" scope="col"><div>Depo Mobile Number</div></th>
-                          <th role="columnheader" scope="col"><div>First Bonus Status</div></th>
-                        </tr>
-                      </thead>
-                      <tbody role="rowgroup" id="assignAgentTableBody">
-                        <tr role="row" class="b-table-empty-row">
-                          <td colspan="6" role="cell" class="text-center py-2">
-                            There are no records to show
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                <div class="col-sm-6 text-sm-right">
+                  <div class="d-inline-flex align-items-center" style="font-size: 11px;">
+                    <span class="mr-1">Search:</span>
+                    <input type="search" placeholder="Search..." class="form-control form-control-sm mr-1" id="assignAgentSearchInput" style="height: 26px; font-size: 11px; padding: 2px 6px; width: 140px; display: inline-block; border: 1px solid #ced4da; border-radius: 2px;">
+                    <button type="button" id="loaddata" class="btn btn-primary btn-sm mr-1" style="background:#0088cc; border-color:#0088cc; font-size: 11px; padding: 2px 10px; height: 26px; border-radius: 2px;">Load</button>
+                    <button type="button" id="resetdata" class="btn btn-secondary btn-sm" style="background:#6c757d; border-color:#6c757d; font-size: 11px; padding: 2px 10px; height: 26px; border-radius: 2px;">Reset</button>
                   </div>
                 </div>
               </div>
+
+              <!-- 8-Column Horizontally Scrollable Table matching reference frame_08_5s.png and clean_ref_users.html -->
+              <div class="table-responsive mb-0" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+                <table id="eventsListTbl" class="table table-bordered table-hover mb-0" style="font-size: 11px; min-width: 700px;">
+                  <thead style="background: #f8f9fa;">
+                    <tr>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px;">User Name</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: right;">CR</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 4px; text-align: center;">U st</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 4px; text-align: center;">B st</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: center;">Exposure Limit</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: center;">Deafult (%)</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: center;">Account Type</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: center;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${pagedUsers.length === 0 ? `
+                      <tr role="row" class="b-table-empty-row"><td colspan="8" role="cell" class="text-center py-3">There are no records to show</td></tr>
+                    ` : pagedUsers.map(u => {
+                      const uCR = u.creditRef != null ? u.creditRef : 0;
+                      const uRoleLabel = u.userLevel || (u.role === 'master' ? 'Master' : u.role === 'agent' ? 'Agent' : u.role === 'user' ? 'User' : 'Master');
+                      return `
+                      <tr id="row-assign-user-${u.id}">
+                        <td style="padding: 5px 8px; vertical-align: middle;">
+                          <span style="background: #343a40; color: #ffffff; padding: 2px 7px; border-radius: 2px; font-weight: bold; font-size: 10px; display: inline-block; cursor: pointer;" onclick="window.AdminApp.handleRoute('/admin/child/${u.uname}')">${u.uname}</span>
+                        </td>
+                        <td class="text-right" style="padding: 5px 8px; vertical-align: middle;">${uCR}</td>
+                        <td class="text-center" style="padding: 5px 4px; vertical-align: middle;">
+                          <span style="display:inline-block; width:15px; height:15px; background:#000; color:#fff; border-radius:2px; font-size:10px; line-height:15px; text-align:center; font-weight:bold;">${u.userActive !== false ? '✔' : ''}</span>
+                        </td>
+                        <td class="text-center" style="padding: 5px 4px; vertical-align: middle;">
+                          <span style="display:inline-block; width:15px; height:15px; background:#000; color:#fff; border-radius:2px; font-size:10px; line-height:15px; text-align:center; font-weight:bold;">${u.betActive !== false ? '✔' : ''}</span>
+                        </td>
+                        <td class="text-center" style="padding: 5px 8px; vertical-align: middle;">${u.exposureLimit || 0}</td>
+                        <td class="text-center" style="padding: 5px 8px; vertical-align: middle;">${u.defaultPercent || 0}</td>
+                        <td class="text-center" style="padding: 5px 8px; vertical-align: middle;">${uRoleLabel}</td>
+                        <td class="text-center nowrap" style="padding: 5px 6px; vertical-align: middle;">
+                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openDepositModal('${u.id}')" title="Deposit">D</button>
+                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openWithdrawModal('${u.id}')" title="Withdraw">W</button>
+                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openCreditRefModal('${u.id}')" title="Credit Reference">L</button>
+                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openChangeStatusModal('${u.id}')" title="Change Status">C</button>
+                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openChangePasswordModal('${u.uname}')" title="Change Password">P</button>
+                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openStatementModal('${u.id}')" title="Statement">S</button>
+                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openExtraModal('${u.id}')" title="More">MORE</button>
+                        </td>
+                      </tr>`;
+                    }).join('')}
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Pagination matching reference frame_08_5s.png -->
+              <div class="row pt-3">
+                <div class="col">
+                  <div class="float-right">
+                    <ul class="pagination pagination-rounded mb-0" style="font-size: 11px;">
+                      <li class="page-item disabled"><span class="page-link" style="padding: 3px 8px;">«</span></li>
+                      <li class="page-item disabled"><span class="page-link" style="padding: 3px 8px;">‹</span></li>
+                      <li class="page-item active"><button type="button" class="page-link" style="padding: 3px 8px; background-color: #0088cc; border-color: #0088cc; color:#fff;">1</button></li>
+                      <li class="page-item disabled"><span class="page-link" style="padding: 3px 8px;">›</span></li>
+                      <li class="page-item disabled"><span class="page-link" style="padding: 3px 8px;">»</span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
-        </div>
-        <div class="mt-4">
-          <h4 class="mb-3" style="font-size: 16px; font-weight: 700; color: #333;">User Creation</h4>
-          <form class="form-inline d-flex flex-wrap align-items-center" onsubmit="event.preventDefault(); window.AdminApp.downloadUserCreationCsv();">
-            <div class="form-group mr-3 mb-2">
-              <label class="mr-2" style="font-size: 11px; font-weight: normal; color: #333;">From Date:</label>
-              <input type="text" name="date" class="form-control form-control-sm" value="${fromDateStr}" id="userCreationFromDate" style="height: 28px; font-size: 11px; border: 1px solid #ced4da; border-radius: 2px;">
-            </div>
-            <div class="form-group mr-3 mb-2">
-              <label class="mr-2" style="font-size: 11px; font-weight: normal; color: #333;">To Date:</label>
-              <input type="text" name="date" class="form-control form-control-sm" value="${toDateStr}" id="userCreationToDate" style="height: 28px; font-size: 11px; border: 1px solid #ced4da; border-radius: 2px;">
-            </div>
-            <button type="submit" class="btn btn-primary btn-sm mb-2" style="background-color: #0088cc; border-color: #0088cc; font-size: 11px; height: 28px; padding: 2px 14px; border-radius: 2px;">Download CSV</button>
-          </form>
         </div>
       `;
     },
