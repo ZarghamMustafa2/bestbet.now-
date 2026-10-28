@@ -111,12 +111,12 @@ const DEFAULT_USERS = {
     lname: 'Master',
     role: 'master',
     userType: '5',
-    userLevel: 'Master Account',
-    pcode: 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
-    parentId: '78859',
-    createdBy: 'Newadmin98',
+    userLevel: 'Master',
+    pcode: 'dashboard,ma,ulist,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+    parentId: '78861',
+    createdBy: 'Admin_Alpha',
     companyRootId: '78859',
-    ancestors: ['newadmin98'],
+    ancestors: ['newadmin98', 'faazan50', 'admin_alpha'],
     gen: 500000,
     exp: 0,
     cbal: 1000000,
@@ -142,6 +142,70 @@ const DEFAULT_USERS = {
     login: true,
     firstLogin: false,
     createdAt: '2026-10-14 13:01:18'
+  },
+  'admin_alpha': {
+    id: '78861',
+    uname: 'Admin_Alpha',
+    fname: 'Admin',
+    lname: 'Alpha',
+    role: 'admin',
+    userType: '3',
+    userLevel: 'Admin',
+    pcode: 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+    parentId: '78860',
+    createdBy: 'Faazan50',
+    companyRootId: '78859',
+    ancestors: ['newadmin98', 'faazan50'],
+    gen: 500000,
+    exp: 0,
+    cbal: 500000,
+    creditRef: 500000,
+    balance: 500000,
+    passHash: '76b256187086a15a19e1c90a8a5e3feeab3fa2c797d4b806f134993a80333315',
+    altHashes: [
+      'f22ee14ae1618b358483826350eec7471da9e5a575e89eab2d81e4db60a19da8',
+      '2e072457f1a28f58ae8aab2fbf011213806f6aac9a86ef271035a54089f16d8d'
+    ],
+    tranCode: '130367',
+    auth: 0,
+    status: 'Active',
+    betActive: true,
+    userActive: true,
+    login: true,
+    firstLogin: false,
+    createdAt: '2026-09-01 00:00:00'
+  },
+  'sm_beta': {
+    id: '78862',
+    uname: 'Sm_Beta',
+    fname: 'Super',
+    lname: 'Master Beta',
+    role: 'super_master',
+    userType: '4',
+    userLevel: 'Super Master',
+    pcode: 'dashboard,ma,ulist,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+    parentId: '78861',
+    createdBy: 'Admin_Alpha',
+    companyRootId: '78859',
+    ancestors: ['newadmin98', 'faazan50', 'admin_alpha'],
+    gen: 200000,
+    exp: 0,
+    cbal: 200000,
+    creditRef: 200000,
+    balance: 200000,
+    passHash: '76b256187086a15a19e1c90a8a5e3feeab3fa2c797d4b806f134993a80333315',
+    altHashes: [
+      'f22ee14ae1618b358483826350eec7471da9e5a575e89eab2d81e4db60a19da8',
+      '2e072457f1a28f58ae8aab2fbf011213806f6aac9a86ef271035a54089f16d8d'
+    ],
+    tranCode: '130367',
+    auth: 0,
+    status: 'Active',
+    betActive: true,
+    userActive: true,
+    login: true,
+    firstLogin: false,
+    createdAt: '2026-09-01 00:00:00'
   }
 };
 
@@ -281,15 +345,43 @@ function loadUsers() {
       continue;
     }
 
+    if (k === 'admin_alpha') {
+      if (!u.id) u.id = '78861';
+      u.role = 'admin';
+      u.userType = '3';
+      u.userLevel = 'Admin';
+      u.parentId = '78860';
+      u.createdBy = 'Faazan50';
+      u.companyRootId = '78859';
+      u.ancestors = ['newadmin98', 'faazan50'];
+      u.login = true;
+      u.firstLogin = false;
+      continue;
+    }
+
+    if (k === 'sm_beta') {
+      if (!u.id) u.id = '78862';
+      u.role = 'super_master';
+      u.userType = '4';
+      u.userLevel = 'Super Master';
+      u.parentId = '78861';
+      u.createdBy = 'Admin_Alpha';
+      u.companyRootId = '78859';
+      u.ancestors = ['newadmin98', 'faazan50', 'admin_alpha'];
+      u.login = true;
+      u.firstLogin = false;
+      continue;
+    }
+
     if (k === 'malik2') {
       if (!u.id) u.id = '78904';
       u.role = 'master';
       u.userType = '5';
-      u.userLevel = 'Master Account';
-      u.parentId = '78859';
-      u.createdBy = 'Newadmin98';
+      u.userLevel = 'Master';
+      u.parentId = '78861';
+      u.createdBy = 'Admin_Alpha';
       u.companyRootId = '78859';
-      u.ancestors = ['newadmin98'];
+      u.ancestors = ['newadmin98', 'faazan50', 'admin_alpha'];
       u.login = true;
       u.firstLogin = false;
       continue;
@@ -512,6 +604,15 @@ function createUser(userData, uplineAdmin) {
   const requestedRoleInput = userData.role || userData.newlvlno || userData.userType;
   const targetRole = hierarchy.normalizeRole(requestedRoleInput);
 
+  // Singleton Company Account rule: Ordinary creation of a Company Account is strictly prohibited
+  if (targetRole === 'company') {
+    return {
+      success: false,
+      status: 403,
+      error: 'Forbidden: Creation of Company Accounts through account creation is strictly prohibited. The system permits exactly one primary Company Account.'
+    };
+  }
+
   // Check Backend Permission Matrix
   if (!hierarchy.canCreateRole(actorRole, targetRole)) {
     const actorLabel = hierarchy.getRoleLabel(actorRole);
@@ -549,8 +650,8 @@ function createUser(userData, uplineAdmin) {
     'company': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss,api_mgmt,payments',
     'super_admin': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss,payments',
     'admin': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
-    'super_master': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
-    'master': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+    'super_master': 'dashboard,ma,ulist,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+    'master': 'dashboard,ma,ulist,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
     'user': ''
   };
 
@@ -595,9 +696,9 @@ function createUser(userData, uplineAdmin) {
     password: password,
     tranCode: '130367',
     auth: 0,
-    login: false,
-    firstLogin: true,
-    mustChangePassword: true,
+    login: userData.login !== undefined ? userData.login : true,
+    firstLogin: userData.firstLogin !== undefined ? userData.firstLogin : false,
+    mustChangePassword: !!userData.mustChangePassword,
     createdAt: new Date().toISOString().replace('T', ' ').substring(0, 19)
   };
 

@@ -57,17 +57,17 @@
     super_admin: 'Super Admin',
     admin: 'Admin',
     super_master: 'Super Master',
-    master: 'Master Account',
+    master: 'Master',
     user: 'Normal User'
   };
 
-  // Creation Permission Matrix
+  // Strict 5-Level Creation Permission Matrix
   const CREATION_PERMISSIONS = {
-    company: ['super_admin', 'admin', 'super_master', 'master', 'user'],
-    super_admin: ['admin', 'user'],
-    admin: ['super_master', 'user'],
-    super_master: ['master', 'user'],
-    master: ['user'],
+    company: ['super_admin', 'admin', 'super_master', 'master'],
+    super_admin: ['admin', 'super_master', 'master'],
+    admin: ['super_master', 'master'],
+    super_master: [],
+    master: [],
     user: []
   };
 
@@ -371,6 +371,7 @@
     canCreateRole(actorRole, targetRole) {
       const a = normalizeRole(actorRole);
       const t = normalizeRole(targetRole);
+      if (t === 'company') return false; // Singleton Company Account
       return (CREATION_PERMISSIONS[a] || []).includes(t);
     }
 
@@ -393,7 +394,7 @@
       if (!actor || !target) return false;
       const actorUname = (actor.uname || actor.username || '').toLowerCase();
       const targetUname = (target.uname || target.username || '').toLowerCase();
-      if (actorUname === targetUname) return true;
+      if (actorUname === targetUname) return false;
 
       const actorRole = normalizeRole(actor.role || actor.userType || actor.userLevel);
       if (actorRole === 'company') return true;
@@ -433,6 +434,10 @@
     }
 
     canViewAccount(actor, target) {
+      if (!actor || !target) return false;
+      const actorUname = (actor.uname || actor.username || '').toLowerCase();
+      const targetUname = (target.uname || target.username || '').toLowerCase();
+      if (actorUname === targetUname) return true;
       return this.isDescendant(actor, target);
     }
 
@@ -528,6 +533,13 @@
       const userType = ROLE_TO_NUMERIC[canonicalRole] || '1';
       const userLevel = ROLE_LABELS[canonicalRole] || 'Company Account';
 
+      const prevUname = (this.state.currentAdmin?.uname || '').toLowerCase();
+      const newUname = (admin.uname || '').toLowerCase();
+      if (prevUname !== newUname) {
+        // Clear cached downlines when switching accounts to ensure zero cross-account data leakage
+        this.state.users = [];
+      }
+
       this.state.currentAdmin = {
         id: admin.id || '78859',
         uname: admin.uname,
@@ -547,9 +559,30 @@
         balance: Number(admin.balance != null ? admin.balance : (admin.cbal || admin.gen || 500000)),
         exposure: Number(admin.exposure != null ? admin.exposure : (admin.exp || 0)),
         share: Number(admin.share || 85),
-        pcode: admin.pcode || 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss'
+        pcode: admin.pcode || 'dashboard,ma,ulist,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss'
       };
       this.saveState();
+    }
+
+    async syncUsersFromServer(token) {
+      try {
+        const authToken = token || localStorage.getItem('admin_token');
+        if (!authToken) return [];
+        const res = await fetch('/api/admin/insertuser?action=users', {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.success && Array.isArray(data.users)) {
+            this.state.users = data.users;
+            this.saveState();
+            return data.users;
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to sync users from server:', e);
+      }
+      return this.state.users || [];
     }
 
     getAuthUsers() {
@@ -589,8 +622,8 @@
           passHash: u.passHash,
           password: u.password,
           status: u.status,
-          login: u.login !== undefined ? u.login : false,
-          firstLogin: u.firstLogin !== undefined ? u.firstLogin : true,
+          login: u.login !== undefined ? u.login : true,
+          firstLogin: u.firstLogin !== undefined ? u.firstLogin : false,
           tranCode: u.tranCode || '130367'
         });
       }
@@ -603,9 +636,14 @@
     getUsers(filterType) {
       const current = this.state.currentAdmin;
       const allUsers = this.state.users || [];
+      const currentUname = (current?.uname || '').toLowerCase();
 
-      // Downline / Branch Authorization Filter
-      let scopedUsers = allUsers.filter(u => this.canViewAccount(current, u));
+      // Downline / Branch Authorization Filter - exclude self from client list
+      let scopedUsers = allUsers.filter(u => {
+        if (!u || !u.uname) return false;
+        if (u.uname.toLowerCase() === currentUname) return false;
+        return this.isDescendant(current, u);
+      });
 
       if (!filterType || filterType === 'all') {
         return scopedUsers;
@@ -780,8 +818,8 @@
         userActive: true,
         passHash: userData.passHash || '',
         password: userData.password || '',
-        login: userData.login !== undefined ? userData.login : false,
-        firstLogin: userData.firstLogin !== undefined ? userData.firstLogin : true,
+        login: userData.login !== undefined ? userData.login : true,
+        firstLogin: userData.firstLogin !== undefined ? userData.firstLogin : false,
         tranCode: userData.tranCode || '130367',
         createdAt: new Date().toISOString().replace('T', ' ').substring(0, 19)
       };

@@ -41,6 +41,13 @@
       }
 
       if (this.adminUser && this.adminUser.uname) {
+        if (window.AdminDataStore) {
+          window.AdminDataStore.setCurrentAdmin(this.adminUser);
+          const token = localStorage.getItem('admin_token');
+          if (token) {
+            window.AdminDataStore.syncUsersFromServer(token);
+          }
+        }
         if (this.adminUser.login === false) {
           this.showLogin();
           this.showLoginStep('changePassword', this.adminUser.uname);
@@ -293,6 +300,9 @@
 
               if (window.AdminDataStore) {
                 window.AdminDataStore.setCurrentAdmin(adminData);
+                if (adminData.token) {
+                  window.AdminDataStore.syncUsersFromServer(adminData.token);
+                }
               }
 
               self.showDashboard();
@@ -512,9 +522,10 @@
               const adminData = {
                 uname: 'Faazan50',
                 fname: 'Faazan',
-                lname: 'Master',
-                userType: '4',
-                userLevel: 'Master',
+                lname: 'Super Admin',
+                userType: '2',
+                userLevel: 'Super Admin',
+                role: 'super_admin',
                 pcode: 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
                 gen: 500000,
                 exp: 12500,
@@ -983,10 +994,15 @@
     // ==================== VIEW RENDERERS ====================
 
     renderHome: function(container) {
-      const admin = window.AdminDataStore.getAdminUser();
-      const users = window.AdminDataStore.getUsers();
-      const liveMatches = window.AdminDataStore.getLiveMatches();
-      const bets = window.AdminDataStore.getCurrentBets();
+      const store = window.AdminDataStore;
+      const admin = store.getAdminUser();
+      const users = store.getUsers();
+      const liveMatches = store.getLiveMatches();
+      const bets = store.getCurrentBets();
+      const actorRole = admin ? store.normalizeRole(admin.role || admin.userType) : 'company';
+      const allowedRoles = store ? store.getAllowedCreationRoles(actorRole) : [];
+      const canCreate = allowedRoles.length > 0;
+      const addAccountDashHtml = canCreate ? `<div class="page-title-right"><a href="/admin/users/insertuser" class="btn btn-primary nav-route-link btn-add-account-dash">Add Account</a></div>` : '';
 
       const totalCredit = users.reduce((acc, u) => acc + (u.creditRef || 0), 0);
       const totalBalance = users.reduce((acc, u) => acc + (u.balance || 0), 0);
@@ -998,9 +1014,7 @@
             <div class="col-12">
               <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
                 <h4 class="mb-0 font-size-18 font-weight-bold" style="font-family: 'Roboto Condensed', sans-serif; color: #212529;">Dashboard Overview</h4>
-                <div class="page-title-right">
-                  <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link btn-add-account-dash">Add Account</a>
-                </div>
+                ${addAccountDashHtml}
               </div>
             </div>
           </div>
@@ -1194,11 +1208,15 @@
       const pagedUsers = users.slice(startIdx, startIdx + perPage);
       const totalPages = Math.ceil(totalCount / perPage) || 1;
 
+      const allowedRoles = store ? store.getAllowedCreationRoles(actorRole) : [];
+      const canCreate = allowedRoles.length > 0;
+      const addAccountBtnHtml = canCreate ? `<a href="/admin/users/insertuser" class="btn btn-primary nav-route-link" data-route="/admin/users/insertuser" style="background:#0088cc; border-color:#0088cc; font-size:12px; padding: 4px 12px; border-radius: 4px;">Add Account</a>` : '';
+
       container.innerHTML = `
         <div class="listing-grid">
           <div class="d-flex align-items-center justify-content-between mb-2">
             <h4 class="mb-0" style="font-size: 16px; font-weight: 700; color: #333;">Account List</h4>
-            <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link" data-route="/admin/users/insertuser" style="background:#0088cc; border-color:#0088cc; font-size:12px; padding: 4px 12px; border-radius: 4px;">Add Account</a>
+            ${addAccountBtnHtml}
           </div>
 
           <div class="card mb-3" style="border: 1px solid #e9ecef; border-radius: 4px; box-shadow: none;">
@@ -1364,8 +1382,10 @@
       const store = window.AdminDataStore;
       const currentAdmin = store ? store.getAdminUser() : null;
       const actorRole = store ? store.normalizeRole(currentAdmin?.role || currentAdmin?.userType) : 'user';
+      const allowedRoles = store ? store.getAllowedCreationRoles(actorRole) : [];
 
-      if (actorRole === 'user') {
+      if (actorRole === 'user' || allowedRoles.length === 0) {
+        const roleLabel = store ? store.getRoleLabel(actorRole) : actorRole;
         container.innerHTML = `
           <div class="listing-grid">
             <div class="row">
@@ -1373,7 +1393,7 @@
                 <div class="alert alert-danger font-weight-bold p-4 text-center">
                   <i class="fas fa-ban fa-2x mb-2 d-block"></i>
                   <h5>Access Denied</h5>
-                  <p class="mb-0">Normal User accounts are not authorized to create or manage accounts.</p>
+                  <p class="mb-0">Your account level (${roleLabel}) is not authorized to create or manage accounts.</p>
                 </div>
               </div>
             </div>
@@ -1381,8 +1401,6 @@
         `;
         return;
       }
-
-      const allowedRoles = store ? store.getAllowedCreationRoles(actorRole) : [];
       const optionsHtml = allowedRoles.map(r => {
         const num = store.ROLE_TO_NUMERIC[r] || '6';
         const label = store.getRoleLabel(r);
@@ -1651,7 +1669,7 @@
               role: createdUser.role || targetRole,
               userType: createdUser.userType || newlvlno,
               userLevel: createdUser.userLevel || roleLabel,
-              pcode: createdUser.pcode || (['company', 'super_admin', 'admin', 'super_master', 'master'].includes(targetRole) ? 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss' : ''),
+              pcode: createdUser.pcode || (['company', 'super_admin', 'admin'].includes(targetRole) ? 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss' : 'dashboard,ma,ulist,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss'),
               parentId: createdUser.parentId || parentId,
               createdBy: createdUser.createdBy || parentUname,
               companyRootId: createdUser.companyRootId || compRootId,
@@ -1663,8 +1681,8 @@
               passHash: createdUser.passHash || '',
               password: password,
               upline: parentUname,
-              login: false,
-              firstLogin: true,
+              login: true,
+              firstLogin: false,
               tranCode: createdUser.tranCode || '130367',
               status: 'Active'
             });
@@ -1763,6 +1781,10 @@
         `;
       }
 
+      const allowedRoles = store ? store.getAllowedCreationRoles(actorRole) : [];
+      const canCreate = allowedRoles.length > 0;
+      const addAccountTreeHtml = canCreate ? `<a href="/admin/users/insertuser" class="btn btn-add-account btn-sm nav-route-link" data-route="/admin/users/insertuser">Add Account</a>` : '';
+
       container.innerHTML = `
         <div class="listing-grid">
           <div class="row">
@@ -1775,7 +1797,7 @@
                 <div class="page-title-right mt-2 mt-sm-0">
                   <button type="button" class="btn btn-outline-secondary btn-sm mr-1" onclick="window.expandAllTreeNodes()"><i class="fas fa-expand-arrows-alt mr-1"></i> Expand All</button>
                   <button type="button" class="btn btn-outline-secondary btn-sm mr-1" onclick="window.collapseAllTreeNodes()"><i class="fas fa-compress-arrows-alt mr-1"></i> Collapse All</button>
-                  <a href="/admin/users/insertuser" class="btn btn-add-account btn-sm nav-route-link" data-route="/admin/users/insertuser">Add Account</a>
+                  ${addAccountTreeHtml}
                 </div>
               </div>
             </div>
@@ -1823,11 +1845,15 @@
       const startIdx = (currentPage - 1) * perPage;
       const pagedUsers = users.slice(startIdx, startIdx + perPage);
 
+      const allowedRoles = store ? store.getAllowedCreationRoles(actorRole) : [];
+      const canCreate = allowedRoles.length > 0;
+      const addAccountBtnHtml = canCreate ? `<a href="/admin/users/insertuser" class="btn btn-primary nav-route-link" data-route="/admin/users/insertuser" style="background:#0088cc; border-color:#0088cc; font-size:12px; padding: 4px 12px; border-radius: 4px;">Add Account</a>` : '';
+
       container.innerHTML = `
         <div class="listing-grid">
           <div class="d-flex align-items-center justify-content-between mb-2">
             <h4 class="mb-0" style="font-size: 16px; font-weight: 700; color: #333;">Account List</h4>
-            <a href="/admin/users/insertuser" class="btn btn-primary nav-route-link" data-route="/admin/users/insertuser" style="background:#0088cc; border-color:#0088cc; font-size:12px; padding: 4px 12px; border-radius: 4px;">Add Account</a>
+            ${addAccountBtnHtml}
           </div>
 
           <div class="card mb-3" style="border: 1px solid #e9ecef; border-radius: 4px; box-shadow: none;">

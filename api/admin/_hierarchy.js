@@ -53,20 +53,21 @@ const ROLE_LABELS = {
   super_admin: 'Super Admin',
   admin: 'Admin',
   super_master: 'Super Master',
-  master: 'Master Account',
+  master: 'Master',
   user: 'Normal User'
 };
 
-// Strict Creation Permission Matrix
-// Main rule: Each management role can create its immediate next lower management role.
-// Additionally: ALL management roles can create Normal Users.
-// Company Account (ROOT) can create ANY lower role.
+// Strict 5-Level Creation Permission Matrix
+// Rule 1: Company Account -> Super Admin, Admin, Super Master, Master
+// Rule 2: Super Admin -> Admin, Super Master, Master (CANNOT create Company or Super Admin)
+// Rule 3: Admin -> Super Master, Master (CANNOT create Company, Super Admin, or Admin)
+// Rule 4: Super Master & Master -> No account creation authority
 const CREATION_PERMISSIONS = {
-  company: ['super_admin', 'admin', 'super_master', 'master', 'user'],
-  super_admin: ['admin', 'user'],
-  admin: ['super_master', 'user'],
-  super_master: ['master', 'user'],
-  master: ['user'],
+  company: ['super_admin', 'admin', 'super_master', 'master'],
+  super_admin: ['admin', 'super_master', 'master'],
+  admin: ['super_master', 'master'],
+  super_master: [],
+  master: [],
   user: []
 };
 
@@ -79,7 +80,7 @@ const FEATURE_PERMISSIONS = {
   paymentsManagement: ['company', 'super_admin'],
   depositWithdraw: ['company', 'super_admin', 'admin', 'super_master', 'master'],
   viewDownlineTree: ['company', 'super_admin', 'admin', 'super_master', 'master'],
-  createAccount: ['company', 'super_admin', 'admin', 'super_master', 'master'],
+  createAccount: ['company', 'super_admin', 'admin'],
   editAccount: ['company', 'super_admin', 'admin', 'super_master', 'master'],
   statusLock: ['company', 'super_admin', 'admin', 'super_master', 'master']
 };
@@ -100,11 +101,13 @@ function normalizeRole(roleOrType) {
 }
 
 /**
- * Check if actor role is allowed to create target role
+ * Check if actor role is allowed to create target role.
+ * Enforces singleton Company Account rule: NO ONE can create a Company Account.
  */
 function canCreateRole(actorRole, targetRole) {
-  const actor = normalizeRole(actorRole);
   const target = normalizeRole(targetRole);
+  if (target === 'company') return false; // Singleton Company Account: ordinary creation strictly forbidden
+  const actor = normalizeRole(actorRole);
   const allowed = CREATION_PERMISSIONS[actor] || [];
   return allowed.includes(target);
 }
@@ -134,18 +137,18 @@ function getRoleLabel(role) {
 }
 
 /**
- * Check if actor can view target account (downline / branch scoping)
+ * Check if target account is a descendant in actor's downline tree
  */
 function isDescendant(actor, target, allUsersMap) {
   if (!actor || !target) return false;
   const actorUname = (actor.uname || actor.username || '').trim().toLowerCase();
   const targetUname = (target.uname || target.username || '').trim().toLowerCase();
 
-  // An account can always view itself
-  if (actorUname === targetUname) return true;
+  // An account is not its own descendant
+  if (actorUname === targetUname) return false;
 
   const actorRole = normalizeRole(actor.role || actor.userType || actor.userLevel);
-  // Company Account is root and sees entire tree
+  // Company Account is root and sees all downline accounts
   if (actorRole === 'company') return true;
 
   // Normal Users have no downline and cannot view other accounts
@@ -200,6 +203,10 @@ function isDescendant(actor, target, allUsersMap) {
 }
 
 function canViewAccount(actor, target, allUsersMap) {
+  if (!actor || !target) return false;
+  const actorUname = (actor.uname || actor.username || '').trim().toLowerCase();
+  const targetUname = (target.uname || target.username || '').trim().toLowerCase();
+  if (actorUname === targetUname) return true;
   return isDescendant(actor, target, allUsersMap);
 }
 
@@ -240,19 +247,31 @@ function hasFeaturePermission(actorRole, feature) {
 }
 
 /**
- * Filter a list of accounts to only those visible to the actor
+ * Filter a list of accounts to only downline accounts visible to the actor
  */
 function filterVisibleAccounts(actor, accountsList) {
   if (!actor || !Array.isArray(accountsList)) return [];
   const actorRole = normalizeRole(actor.role || actor.userType || actor.userLevel);
-  if (actorRole === 'company') {
-    return accountsList;
-  }
+  const actorUname = (actor.uname || actor.username || '').trim().toLowerCase();
+
   const usersMap = {};
   for (const u of accountsList) {
     if (u && u.uname) usersMap[u.uname.toLowerCase()] = u;
   }
-  return accountsList.filter(target => canViewAccount(actor, target, usersMap));
+
+  return accountsList.filter(target => {
+    if (!target || !target.uname) return false;
+    const targetUname = target.uname.trim().toLowerCase();
+    // Exclude self from client/downline list
+    if (targetUname === actorUname) return false;
+    // Exclude internal legacy placeholder account
+    if (targetUname === 'company') return false;
+
+    if (actorRole === 'company') {
+      return true;
+    }
+    return isDescendant(actor, target, usersMap);
+  });
 }
 
 /**
