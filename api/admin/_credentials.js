@@ -773,7 +773,21 @@ function registerClientUser(userData) {
   }
 
   const existing = users[key] || {};
-  const isSystemAccount = ['faazan50', 'newadmin98', 'malik2', 'company'].includes(key);
+  const defaultPcodeMap = {
+    'company': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss,api_mgmt,payments',
+    'super_admin': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss,payments',
+    'admin': 'dashboard,ma,ulist,uinsert,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+    'super_master': 'dashboard,ma,ulist,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+    'master': 'dashboard,ma,ulist,agassign,casinolist,reportcb,raccst,reportuh,reportpl,casinores,lcasinores,turnover,authlist,bank,gamereport,generalreport,ulock,loginuc,setbutton,uregrpt,totpl,uwinloss',
+    'user': ''
+  };
+
+  const isSystemAccount = ['faazan50', 'newadmin98', 'admin_alpha', 'sm_beta', 'malik2', 'company'].includes(key);
+
+  let userPcode = existing.pcode || userData.pcode || defaultPcodeMap[targetRole] || '';
+  if (['super_master', 'master'].includes(targetRole) && userPcode) {
+    userPcode = userPcode.replace(',uinsert', '').replace('uinsert,', '').replace('uinsert', '');
+  }
 
   const mergedUser = {
     id: existing.id || userData.id || String(Date.now()).slice(-5),
@@ -785,11 +799,11 @@ function registerClientUser(userData) {
     role: existing.role || targetRole,
     userType: existing.userType || userType,
     userLevel: existing.userLevel || userLevel,
-    pcode: existing.pcode || userData.pcode || '',
+    pcode: userPcode,
     parentId: existing.parentId || userData.parentId || '78859',
     createdBy: existing.createdBy || userData.createdBy || userData.upline || 'Newadmin98',
     companyRootId: existing.companyRootId || userData.companyRootId || '78859',
-    ancestors: existing.ancestors || userData.ancestors || ['newadmin98'],
+    ancestors: existing.ancestors || userData.ancestors || (userData.createdBy ? [userData.createdBy.toLowerCase()] : ['newadmin98']),
     upline: userData.upline || existing.upline || 'Newadmin98',
     creditRef: Number(userData.creditRef != null ? userData.creditRef : (existing.creditRef || 500000)),
     balance: Number(userData.balance != null ? userData.balance : (existing.balance || 500000)),
