@@ -743,8 +743,8 @@ function createUser(userData, uplineAdmin) {
       userActive: newUser.userActive,
       passHash: newUser.passHash,
       password: newUser.password,
-      login: false,
-      firstLogin: true,
+      login: newUser.login !== undefined ? newUser.login : true,
+      firstLogin: newUser.firstLogin !== undefined ? newUser.firstLogin : false,
       tranCode: newUser.tranCode,
       createdAt: newUser.createdAt
     }
@@ -825,8 +825,8 @@ function registerClientUser(userData) {
     tranCode: userData.tranCode || existing.tranCode || '130367',
     password: userData.password || existing.password || '',
     auth: 0,
-    login: isSystemAccount ? true : ((userData.login !== undefined) ? !!userData.login : (existing.login !== undefined ? existing.login : (userData.firstLogin ? false : true))),
-    firstLogin: isSystemAccount ? false : ((userData.firstLogin !== undefined) ? !!userData.firstLogin : (existing.firstLogin !== undefined ? existing.firstLogin : (userData.login === false ? true : false))),
+    login: isSystemAccount ? true : ((userData.login !== undefined) ? !!userData.login : (existing.login !== undefined ? existing.login : true)),
+    firstLogin: isSystemAccount ? false : ((userData.firstLogin !== undefined) ? !!userData.firstLogin : (existing.firstLogin !== undefined ? existing.firstLogin : false)),
     createdAt: existing.createdAt || userData.createdAt || new Date().toISOString().replace('T', ' ').substring(0, 19)
   };
 
