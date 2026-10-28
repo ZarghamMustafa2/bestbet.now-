@@ -7,7 +7,7 @@
   'use strict';
 
   const App = {
-    currentPath: '/admin',
+    currentPath: '/admin/users',
     adminUser: null,
 
     init: function() {
@@ -306,8 +306,11 @@
               }
 
               self.showDashboard();
-              const redirectRoute = sessionStorage.getItem('admin_redirect') || '/admin/users';
+              let redirectRoute = sessionStorage.getItem('admin_redirect') || '/admin/users';
               sessionStorage.removeItem('admin_redirect');
+              if (redirectRoute === '/admin' || redirectRoute === '/admin/' || redirectRoute === '/admin/home' || redirectRoute === '/admin/dashboard') {
+                redirectRoute = '/admin/users';
+              }
               self.navigate(redirectRoute);
               self.showToast('Logged in successfully.', 'success');
             } else {
@@ -789,6 +792,9 @@
     },
 
     navigate: function(path) {
+      if (path === '/admin' || path === '/admin/' || path === '/admin/home' || path === '/admin/dashboard') {
+        path = '/admin/users';
+      }
       if (window.location.pathname !== path) {
         window.history.pushState(null, '', path);
       }
@@ -800,8 +806,6 @@
       if (!path.startsWith('/admin')) {
         path = '/admin';
       }
-
-      this.currentPath = path;
 
       // Close any open dropdowns when navigating to a new route
       document.querySelectorAll('.dropdown-menu').forEach(m => {
@@ -855,6 +859,14 @@
       } else {
         this.showDashboard();
       }
+
+      // Normalize root admin, home, or dashboard routes to /admin/users (Account List is the reference root view)
+      if (path === '/admin' || path === '/admin/' || path === '/admin/home' || path === '/admin/dashboard') {
+        window.history.replaceState(null, '', '/admin/users');
+        path = '/admin/users';
+      }
+
+      this.currentPath = path;
 
       // Update active nav link with exact pill matching reference recording
       document.querySelectorAll('#adminMainMenu .nav-link, #adminMainMenu .dropdown-item, .nav-route-link').forEach(link => {
@@ -913,9 +925,7 @@
       if (!container) return;
 
       // Match and Render Views
-      if (path === '/admin' || path === '/admin/home' || path === '/admin/dashboard') {
-        this.renderHome(container);
-      } else if (path === '/admin/users' || path === '/admin/users/all') {
+      if (path === '/admin/users' || path === '/admin/users/all' || path === '/admin' || path === '/admin/' || path === '/admin/home' || path === '/admin/dashboard') {
         this.renderUsers(container, 'all');
       } else if (path === '/admin/users/super_admin') {
         this.renderUsers(container, 'super_admin');
@@ -985,180 +995,14 @@
       } else if (path.startsWith('/admin/game-detail') || path.startsWith('/admin/match/')) {
         this.renderGameDetailView(container, path);
       } else {
-        this.renderHome(container);
+        window.history.replaceState(null, '', '/admin/users');
+        this.renderUsers(container, 'all');
       }
 
       window.scrollTo(0, 0);
     },
 
     // ==================== VIEW RENDERERS ====================
-
-    renderHome: function(container) {
-      const store = window.AdminDataStore;
-      const admin = store.getAdminUser();
-      const users = store.getUsers();
-      const liveMatches = store.getLiveMatches();
-      const bets = store.getCurrentBets();
-      const actorRole = admin ? store.normalizeRole(admin.role || admin.userType) : 'company';
-      const allowedRoles = store ? store.getAllowedCreationRoles(actorRole) : [];
-      const canCreate = allowedRoles.length > 0;
-      const addAccountDashHtml = canCreate ? `<div class="page-title-right"><a href="/admin/users/insertuser" class="btn btn-primary nav-route-link btn-add-account-dash">Add Account</a></div>` : '';
-
-      const totalCredit = users.reduce((acc, u) => acc + (u.creditRef || 0), 0);
-      const totalBalance = users.reduce((acc, u) => acc + (u.balance || 0), 0);
-      const totalExposure = users.reduce((acc, u) => acc + (u.exposure || 0), 0);
-
-      container.innerHTML = `
-        <div class="dashboard-overview-container">
-          <div class="row">
-            <div class="col-12">
-              <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
-                <h4 class="mb-0 font-size-18 font-weight-bold" style="font-family: 'Roboto Condensed', sans-serif; color: #212529;">Dashboard Overview</h4>
-                ${addAccountDashHtml}
-              </div>
-            </div>
-          </div>
-
-          <!-- Metric Cards Row -->
-          <div class="row">
-            <div class="col-md-3 col-sm-6 mb-3">
-              <div class="card dashboard-metric-card h-100">
-                <div class="card-body p-3">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                      <h6 class="metric-label mb-1">Admin Balance</h6>
-                      <h4 class="metric-value mb-0">${this.formatCurrency(admin.balance)}</h4>
-                    </div>
-                    <div class="metric-icon">
-                      <i class="fas fa-wallet"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 mb-3">
-              <div class="card dashboard-metric-card h-100">
-                <div class="card-body p-3">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                      <h6 class="metric-label mb-1">Downline Balance</h6>
-                      <h4 class="metric-value mb-0">${this.formatCurrency(totalBalance)}</h4>
-                    </div>
-                    <div class="metric-icon">
-                      <i class="fas fa-users"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 mb-3">
-              <div class="card dashboard-metric-card h-100">
-                <div class="card-body p-3">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                      <h6 class="metric-label mb-1">Total Exposure</h6>
-                      <h4 class="metric-value mb-0">${this.formatCurrency(totalExposure)}</h4>
-                    </div>
-                    <div class="metric-icon">
-                      <i class="fas fa-chart-line"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 mb-3">
-              <div class="card dashboard-metric-card h-100">
-                <div class="card-body p-3">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                      <h6 class="metric-label mb-1">Credit Allocated</h6>
-                      <h4 class="metric-value mb-0">${this.formatCurrency(totalCredit)}</h4>
-                    </div>
-                    <div class="metric-icon">
-                      <i class="fas fa-credit-card"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Live Featured Markets & Recent Bets Placed Row -->
-          <div class="row mt-2">
-            <div class="col-lg-8 col-12 mb-3">
-              <div class="card dashboard-panel-card mb-0 h-100">
-                <div class="card-header dashboard-section-header d-flex justify-content-between align-items-center py-2 px-3">
-                  <h6 class="mb-0 text-white font-weight-bold d-flex align-items-center">
-                    <i class="fas fa-circle mr-2" style="color: #f46a6a; font-size: 9px; vertical-align: middle;"></i> Live Featured Markets
-                  </h6>
-                  <a href="/admin/market-analysis" class="btn btn-sm btn-analysis-header nav-route-link">View Full Analysis</a>
-                </div>
-                <div class="card-body p-0">
-                  <div class="table-responsive">
-                    <table class="table table-striped table-bordered dashboard-table mb-0">
-                      <thead>
-                        <tr>
-                          <th style="width: 100px;">Sport</th>
-                          <th>Event</th>
-                          <th style="width: 110px; text-align: center;">Status</th>
-                          <th style="width: 140px;">Volume</th>
-                          <th style="width: 110px; text-align: right;">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        ${liveMatches.map(m => `
-                          <tr>
-                            <td><span class="badge badge-sport">${m.sportName}</span></td>
-                            <td><strong class="text-dark">${m.eventName}</strong></td>
-                            <td class="text-center">${m.inPlay ? '<span class="badge badge-inplay">IN PLAY</span>' : '<span class="badge badge-upcoming">UPCOMING</span>'}</td>
-                            <td class="text-dark font-weight-500">${this.formatCurrency(m.matchedVolume)}</td>
-                            <td class="text-right">
-                              <a href="/admin/market-analysis" class="btn btn-sm btn-open-book nav-route-link">Open Book</a>
-                            </td>
-                          </tr>
-                        `).join('')}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-12 mb-3">
-              <div class="card dashboard-panel-card mb-0 h-100">
-                <div class="card-header dashboard-section-header py-2 px-3">
-                  <h6 class="mb-0 text-white font-weight-bold d-flex align-items-center">
-                    <i class="fas fa-bell mr-2" style="color: #f1b44c;"></i> Recent Bets Placed
-                  </h6>
-                </div>
-                <div class="card-body p-0">
-                  <ul class="list-group list-group-flush recent-bets-list">
-                    ${bets.slice(0, 4).map(b => `
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                          <div class="d-flex align-items-center">
-                            <strong class="recent-bet-user">${b.user}</strong>
-                            <span class="badge ${b.type === 'Back' ? 'badge-bet-back' : 'badge-bet-lay'} ml-1">${b.type} @ ${b.odds}</span>
-                          </div>
-                          <div class="recent-bet-subtext">${b.event} (${b.runner})</div>
-                        </div>
-                        <span class="recent-bet-amount font-weight-bold">${this.formatCurrency(b.stake)}</span>
-                      </li>
-                    `).join('')}
-                  </ul>
-                </div>
-                <div class="card-footer recent-bets-footer text-center py-2">
-                  <a href="/admin/reports/currentbets" class="btn-view-all-bets nav-route-link">View All Bets</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    },
 
     switchUserStatusTab: function(status) {
       this.userStatusTab = status;
@@ -1832,6 +1676,8 @@
 
     renderAssignAgent: function(container) {
       const store = window.AdminDataStore;
+      const actor = this.adminUser || (store ? store.state.currentAdmin : null);
+      const actorRole = actor ? store.normalizeRole(actor.role || actor.userType) : 'company';
       const allUsers = store ? store.getUsers() : [];
       const users = allUsers.length > 0 ? allUsers : [
         { id: '1', uname: 'ZARGHAM', creditRef: 79, userActive: true, betActive: true, exposureLimit: 0, defaultPercent: 0, userLevel: 'Master' },
