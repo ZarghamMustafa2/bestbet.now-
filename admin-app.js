@@ -595,7 +595,7 @@
       function closeAllDropdowns() {
         document.querySelectorAll('.dropdown-menu').forEach(m => {
           m.classList.remove('show');
-          m.style.display = 'none';
+          m.style.display = '';
         });
         document.querySelectorAll('.dropdown.show, .nav-item.show').forEach(d => d.classList.remove('show'));
         document.querySelectorAll('[data-toggle="dropdown"][aria-expanded="true"]').forEach(btn => btn.setAttribute('aria-expanded', 'false'));
@@ -810,7 +810,7 @@
       // Close any open dropdowns when navigating to a new route
       document.querySelectorAll('.dropdown-menu').forEach(m => {
         m.classList.remove('show');
-        m.style.display = 'none';
+        m.style.display = '';
       });
       document.querySelectorAll('.dropdown.show, .nav-item.show').forEach(d => d.classList.remove('show'));
 
@@ -4044,87 +4044,483 @@
 
     renderCasinoLobby: function(container, mode, slug) {
       const self = this;
-      const gameCatalog = [
-        { id: 'teen20', title: '20-20 Teenpatti', category: 'teenpatti', img: 'https://sitethemedata.com/casino_icons/twenty_twenty_teenpatti.jpg', min: 100, max: 200000, live: true },
-        { id: 'teen1day', title: '1 Day Teenpatti', category: 'teenpatti', img: 'https://sitethemedata.com/casino_icons/oneday_teenpatti.jpg', min: 100, max: 100000, live: true },
-        { id: 'roulette', title: 'European Roulette', category: 'roulette', img: 'https://sitethemedata.com/casino_icons/roulette.jpg', min: 50, max: 50000, live: true },
-        { id: 'dt6', title: '1 Day Dragon Tiger', category: 'dragontiger', img: 'https://sitethemedata.com/casino_icons/oneday_dragontiger.jpg', min: 100, max: 150000, live: true },
-        { id: 'lucky7', title: 'Lucky 7 European', category: 'lucky7', img: 'https://sitethemedata.com/casino_icons/lucky7.jpg', min: 100, max: 100000, live: true },
-        { id: 'baccarat', title: 'Live Speed Baccarat', category: 'baccarat', img: 'https://sitethemedata.com/casino_icons/baccarat.jpg', min: 200, max: 300000, live: true },
-        { id: 'andarbahar', title: 'Andar Bahar Live', category: 'andarbahar', img: 'https://sitethemedata.com/casino_icons/andar_bahar.jpg', min: 100, max: 100000, live: true },
-        { id: 'cards32', title: '32 Cards Casino', category: 'cards', img: 'https://sitethemedata.com/casino_icons/32cards.jpg', min: 100, max: 150000, live: true },
-        { id: 'race20', title: 'Race 20-20', category: 'cards', img: 'https://sitethemedata.com/casino_icons/race20.jpg', min: 100, max: 100000, live: true },
-        { id: 'queen', title: 'Queen Casino', category: 'cards', img: 'https://sitethemedata.com/casino_icons/queen.jpg', min: 100, max: 100000, live: true },
-        { id: 'aaa', title: 'Amar Akbar Anthony', category: 'virtual', img: 'https://sitethemedata.com/casino_icons/aaa.jpg', min: 50, max: 100000, live: true },
-        { id: 'trio', title: 'Trio Virtual Table', category: 'virtual', img: 'https://sitethemedata.com/casino_icons/trio.jpg', min: 100, max: 50000, live: true }
-      ];
+      const cdnBase = 'https://cdn.926assets.com/g3ver/v106/static/admin/img/banners/';
 
-      const currentTitle = slug ? slug.replace(/-/g, ' ').toUpperCase() : (mode === 'live' ? 'LIVE CASINO' : 'VIRTUAL CASINO');
+      // 16 Exact Diamond Casino Category Lobbies extracted directly from Reference Vue Bundle
+      const CATEGORIES = {
+        'premium-casino': {
+          title: 'Premium Casino',
+          games: [
+            { name: 'Premium Teenpatti 1 Day', target: 'pteen', banner: 'pteen.jpg' },
+            { name: 'Premium Teenpatti 20-20', target: 'pteen20', banner: 'pteen20.jpg' },
+            { name: 'Premium Dragon Tiger 20-20', target: 'pdt20', banner: 'pdt20.jpg' },
+            { name: 'Premium Dragon Tiger 1 Day', target: 'pdt6', banner: 'pdt6.jpg' },
+            { name: 'Premium Lucky 7', target: 'plucky7', banner: 'plucky7.jpg' },
+            { name: 'Premium 32 Cards', target: 'pcard32', banner: 'pcard32.jpg' },
+            { name: 'Premium Baccarat', target: 'pbaccarat', banner: 'pbaccarat.jpg' }
+          ]
+        },
+        'tembo-casino': {
+          title: 'Tembo Casino',
+          games: [
+            { name: 'Tembo Teenpatti 1 Day', target: 'tteen', banner: 'tteen.jpg' },
+            { name: 'Tembo Teenpatti 20-20', target: 'tteen20', banner: 'tteen20.jpg' },
+            { name: 'Tembo Dragon Tiger 20-20', target: 'tdt20', banner: 'tdt20.jpg' },
+            { name: 'Tembo Dragon Tiger 1 Day', target: 'tdt6', banner: 'tdt6.jpg' },
+            { name: 'Tembo Lucky 7', target: 'tlucky7', banner: 'tlucky7.jpg' },
+            { name: 'Tembo 32 Cards', target: 'tcard32', banner: 'tcard32.jpg' },
+            { name: 'Tembo Baccarat', target: 'tbaccarat', banner: 'tbaccarat.jpg' }
+          ]
+        },
+        'vip': {
+          title: 'Vip Casino',
+          games: [
+            { name: 'VIP Teenpatti 20-20', target: 'vipTeenpattiT20', banner: 'teen20v1_admin.gif' }
+          ]
+        },
+        'roulettelist': {
+          title: 'Roulette',
+          games: [
+            { name: 'Our European Roulette', target: 'ourroullete', banner: 'ourroullete.jpg' },
+            { name: 'Roulette 11', target: 'roulette11', banner: 'roulette11.jpg' },
+            { name: 'Roulette 12', target: 'roulette12', banner: 'roulette12.jpg' },
+            { name: 'Roulette 13', target: 'roulette13', banner: 'roulette13.jpg' }
+          ]
+        },
+        'baccaratlist': {
+          title: 'Baccarat',
+          games: [
+            { name: 'Baccarat 2', target: 'baccarat2', banner: 'baccarat2.jpg' },
+            { name: 'Live Speed Baccarat', target: 'baccarat', banner: 'baccarat.jpg' },
+            { name: 'Khal 29', target: 'teensin', banner: 'teensin.jpg' }
+          ]
+        },
+        'sportscasinolist': {
+          title: 'Sport Casino',
+          games: [
+            { name: 'Super Over 3', target: 'superover3', banner: 'superover3.jpg' },
+            { name: 'Super Over 2', target: 'superover2', banner: 'superover2.jpg' },
+            { name: 'Super Over', target: 'superover', banner: 'superover.jpg' },
+            { name: 'Cricket V3', target: 'cricketv3', banner: 'cricketv3.jpg' },
+            { name: 'Cricket Match 20', target: 'cmatch20', banner: 'cc-20.jpg' },
+            { name: 'Casino Meter', target: 'cmeter', banner: 'cmeter.jpg' },
+            { name: 'Casino Meter 1', target: 'cmeter1', banner: 'cmeter1.jpg' }
+          ]
+        },
+        'worlilist': {
+          title: 'Worli',
+          games: [
+            { name: 'Worli Matka', target: 'worli', banner: 'worli.jpg' },
+            { name: 'Worli Matka 2', target: 'worli2', banner: 'worli2.jpg' },
+            { name: 'Instant Worli', target: 'worli3', banner: 'worli3.gif' }
+          ]
+        },
+        'cards32list': {
+          title: '32 Card Casino',
+          games: [
+            { name: '32 Cards A', target: 'card32', banner: 'card32.jpg' },
+            { name: '32 Cards B', target: 'card32eu', banner: 'card32eu.jpg' }
+          ]
+        },
+        'liveteenpattilist': {
+          title: 'Live Teenpatti',
+          games: [
+            { name: 'Teenpatti 20-20', target: 'teen20', banner: 'teen20.jpg' },
+            { name: 'Teenpatti 1 Day', target: 'teen', banner: 'teen.jpg' },
+            { name: 'Teenpatti Test', target: 'teen9', banner: 'teen9.jpg' },
+            { name: 'Teenpatti Open', target: 'teen8', banner: 'teen8.jpg' },
+            { name: 'Teenpatti Instant 3', target: 'teen33', banner: 'teen33.jpg' },
+            { name: 'Teenpatti Instant 1', target: 'teen3', banner: 'teen3.jpg' },
+            { name: 'Teenpatti Instant 2', target: 'teen32', banner: 'teen32.jpg' },
+            { name: 'Teenpatti 20-20 B', target: 'teen20b', banner: 'teen20b.jpg' },
+            { name: 'Teenpatti Muflis', target: 'teenmuf', banner: 'teenmuf.jpg' }
+          ]
+        },
+        'teenpatti2list': {
+          title: 'Teenpatti 2.0',
+          games: [
+            { name: 'Teenpatti 2.0', target: 'teen6', banner: 'teen6.jpg' }
+          ]
+        },
+        'livepokerlist': {
+          title: 'Live Poker',
+          games: [
+            { name: 'Poker 20-20', target: 'poker20', banner: 'poker20.jpg' },
+            { name: 'Poker 1 Day', target: 'poker', banner: 'poker.jpg' },
+            { name: 'Poker 6 Player', target: 'poker6', banner: 'poker6.jpg' }
+          ]
+        },
+        'andarbaharlist': {
+          title: 'Andar Bahar',
+          games: [
+            { name: 'Andar Bahar 2', target: 'andarbahar2', banner: 'andar-bahar2.jpg' },
+            { name: 'Andar Bahar 1', target: 'andarbahar', banner: 'andar-bahar.jpg' },
+            { name: 'Andar Bahar 3', target: 'ab3', banner: 'ab3.jpg' },
+            { name: 'Andar Bahar 4', target: 'ab4', banner: 'ab4.jpg' }
+          ]
+        },
+        'lucky7list': {
+          title: 'Lucky 7',
+          games: [
+            { name: 'Lucky 7 A', target: 'lucky7', banner: 'lucky7.jpg' },
+            { name: 'Lucky 7 European', target: 'lucky7eu', banner: 'lucky7eu.jpg' },
+            { name: 'Lucky 7 European 2', target: 'lucky7eu2', banner: 'lucky7eu2.jpg' }
+          ]
+        },
+        'dragontigerlist': {
+          title: 'Dragon Tiger',
+          games: [
+            { name: 'Dragon Tiger 20-20 2', target: 'dt202', banner: 'dt202.jpg' },
+            { name: 'Dragon Tiger Lion 20-20', target: 'dtl20', banner: 'dtl20.jpg' },
+            { name: 'Dragon Tiger 20-20', target: 'dt20', banner: 'dt20.jpg' },
+            { name: 'Dragon Tiger 1 Day', target: 'dt6', banner: 'dt6.jpg' }
+          ]
+        },
+        'bollywood-casino': {
+          title: 'Bollywood Casino',
+          games: [
+            { name: 'Amar Akbar Anthony', target: 'aaa', banner: 'aaa.jpg' },
+            { name: 'Bollywood Table', target: 'btable', banner: 'btable.jpg' },
+            { name: 'Amar Akbar Anthony 2', target: 'aaa2', banner: 'aaa2.jpg' },
+            { name: 'Bollywood Table 2', target: 'btable2', banner: 'btable2.jpg' },
+            { name: 'Lottery', target: 'lottery', banner: 'lottery.jpg' },
+            { name: 'Race 2', target: 'race2', banner: 'race2.jpg' },
+            { name: 'Race 17', target: 'race17', banner: 'race17.jpg' }
+          ]
+        },
+        'other-casino': {
+          title: 'Others',
+          games: [
+            { name: 'Lottery', target: 'lottery', banner: 'lottery.jpg' },
+            { name: 'Race 2', target: 'race2', banner: 'race2.jpg' },
+            { name: 'Race 17', target: 'race17', banner: 'race17.jpg' },
+            { name: 'Sic Bo', target: 'sicbo', banner: 'sicbo.jpg' },
+            { name: 'Dum 10', target: 'dum10', banner: 'dum10.jpg' },
+            { name: 'Teenpatti 1 1 Day', target: 'teen1', banner: 'teen1.jpg' },
+            { name: 'Teenpatti 1 20-20', target: 'teen120', banner: 'teen120.jpg' },
+            { name: 'Ball By Ball', target: 'ballbyball', banner: 'ballbyball.jpg' },
+            { name: 'KBC Game', target: 'kbc', banner: 'kbc.jpg' }
+          ]
+        }
+      };
+
+      const key = (slug || '').toLowerCase();
+      const category = CATEGORIES[key];
+
+      if (category) {
+        // Render Category Lobby matching Reference Diamond Casino Grid
+        container.innerHTML = `
+          <div class="col-md-12 featured-box" style="padding-top: 10px;">
+            <div class="page-title-box d-flex align-items-center justify-content-between mb-3" style="border-bottom: 1px solid #e9ecef; padding-bottom: 10px;">
+              <h4 class="mb-0 font-size-18 font-weight-bold" style="color: #2c3e50; font-family: 'Roboto Condensed', sans-serif;">${category.title}</h4>
+              <div class="page-title-right">
+                <ol class="breadcrumb m-0 font-size-12" style="background: transparent; padding: 0;">
+                  <li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link" style="color: #0088cc;">Home</a></li>
+                  <li class="breadcrumb-item"><a href="javascript:void(0);" style="color: #6c757d;">Live Market</a></li>
+                  <li class="breadcrumb-item active" style="color: #2c3e50; font-weight: 700;">${category.title}</li>
+                </ol>
+              </div>
+            </div>
+
+            <div>
+              <div class="row diamond-casino-container mt-3">
+                ${category.games.map(g => `
+                  <div class="casino-box">
+                    <a href="/admin/casino/${g.target}" class="nav-route-link" data-route="/admin/casino/${g.target}" title="${g.name}">
+                      <div class="casino-icons">
+                        <img class="img-fluid" src="${cdnBase}${g.banner}" onerror="this.src='/admin/images/logo.png'" alt="${g.name}">
+                      </div>
+                    </a>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      // If not a category lobby, render individual interactive live game table
+      this.renderCasinoGameTable(container, slug, mode);
+    },
+
+    renderCasinoGameTable: function(container, slug, mode) {
+      const self = this;
+      const key = (slug || 'game').toLowerCase();
+      
+      const GAME_NAMES = {
+        'lucky5': 'Lucky 6',
+        'mogambo': 'Mogambo',
+        'teenunique': 'Unique Teenpatti',
+        'superover2': 'Super Over 2',
+        'superover': 'Super Over',
+        'superover3': 'Super Over 3',
+        'lucky15': 'Lucky 15',
+        'goal': 'Goal',
+        'goal2': 'Goal 2',
+        'race20': 'Race 20-20',
+        'queen': 'Queen',
+        'war': 'Casino War',
+        '3cardj': '3 Card Judgement',
+        'threecardjudgement': '3 Card Judgement',
+        'binary': 'Binary',
+        'dtl20': '20-20 Dragon Tiger Lion',
+        'vdtl20': '20-20 DTL',
+        'aaa': 'Amar Akbar Anthony',
+        'vaaa': 'Amar Akbar Anthony',
+        'teenmuf': 'Muflis Teenpatti',
+        'vteenmuf': 'Muflis Teenpatti',
+        'teen': '1 Day Teenpatti',
+        'vteen': '1 Day Teenpatti',
+        'teen20': '20-20 Teenpatti',
+        'vteen20': '20-20 Teenpatti',
+        'dt6': '1 Day Dragon Tiger',
+        'vdt6': '1 Day Dragon Tiger',
+        'lucky7': 'Lucky 7',
+        'vlucky7': 'Lucky 7',
+        'btable': 'Bollywood Casino',
+        'vbtable': 'Bollywood Casino',
+        'trio': 'Trio Virtual Table',
+        'vtrio': 'Trio',
+        'ourroullete': 'European Roulette',
+        'roulette11': 'Roulette 11',
+        'roulette12': 'Roulette 12',
+        'roulette13': 'Roulette 13',
+        'baccarat': 'Live Speed Baccarat',
+        'baccarat2': 'Baccarat 2',
+        'teensin': 'Khal 29',
+        'card32': '32 Cards A',
+        'card32eu': '32 Cards B',
+        'andarbahar': 'Andar Bahar Live',
+        'andarbahar2': 'Andar Bahar 2',
+        'ab3': 'Andar Bahar 3',
+        'ab4': 'Andar Bahar 4',
+        'poker20': 'Poker 20-20',
+        'poker': 'Poker 1 Day',
+        'poker6': 'Poker 6 Player',
+        'worli': 'Worli Matka',
+        'worli2': 'Worli Matka 2',
+        'worli3': 'Instant Worli',
+        'pteen': 'Premium Teenpatti 1 Day',
+        'pteen20': 'Premium Teenpatti 20-20',
+        'pdt20': 'Premium Dragon Tiger 20-20',
+        'pdt6': 'Premium Dragon Tiger 1 Day',
+        'plucky7': 'Premium Lucky 7',
+        'pcard32': 'Premium 32 Cards',
+        'pbaccarat': 'Premium Baccarat',
+        'tteen': 'Tembo Teenpatti 1 Day',
+        'tteen20': 'Tembo Teenpatti 20-20',
+        'tdt20': 'Tembo Dragon Tiger 20-20',
+        'tdt6': 'Tembo Dragon Tiger 1 Day',
+        'tlucky7': 'Tembo Lucky 7',
+        'tcard32': 'Tembo 32 Cards',
+        'tbaccarat': 'Tembo Baccarat',
+        'teen20v1_admin': 'VIP Teenpatti 20-20',
+        'vipteenpattit20': 'VIP Teenpatti 20-20'
+      };
+
+      const title = GAME_NAMES[key] || (slug ? slug.replace(/-/g, ' ').toUpperCase() : 'LIVE CASINO TABLE');
+      const isVirtual = (mode === 'vcasino' || key.startsWith('v'));
+      const marketLabel = isVirtual ? 'Live Virtual Market' : 'Live Market';
+      const roundId = '82' + Math.floor(10000000 + Math.random() * 89999999);
+
+      // Select runners according to game type
+      let runners = ['Player A', 'Player B'];
+      if (key.includes('dt') || key.includes('dragontiger')) {
+        runners = ['Dragon', 'Tiger', 'Tie'];
+      } else if (key.includes('lucky7')) {
+        runners = ['7 Up (8-14)', '7 Down (1-6)', 'Exact 7'];
+      } else if (key.includes('lucky5') || key.includes('lucky6')) {
+        runners = ['Low (1-3)', 'High (4-6)', 'Tie / Exact'];
+      } else if (key.includes('baccarat')) {
+        runners = ['Player', 'Banker', 'Tie'];
+      } else if (key.includes('aaa')) {
+        runners = ['Amar', 'Akbar', 'Anthony'];
+      } else if (key.includes('roulette')) {
+        runners = ['Red', 'Black', 'Even', 'Odd'];
+      } else if (key.includes('andar')) {
+        runners = ['Andar', 'Bahar'];
+      } else if (key.includes('worli')) {
+        runners = ['Single', 'Panna', 'Jodi'];
+      } else if (key.includes('card32')) {
+        runners = ['Player 8', 'Player 9', 'Player 10', 'Player 11'];
+      } else if (key.includes('superover') || key.includes('cricket')) {
+        runners = ['Over Runs (18.5)', 'Under Runs (18.5)'];
+      } else if (key.includes('goal')) {
+        runners = ['Goal (Yes)', 'No Goal'];
+      } else if (key.includes('queen')) {
+        runners = ['Queen', 'No Queen'];
+      } else if (key.includes('war')) {
+        runners = ['Dealer', 'Player', 'War Tie'];
+      }
 
       container.innerHTML = `
-        <div class="listing-grid">
-          <div class="row">
-            <div class="col-12">
-              <div class="page-title-box d-flex align-items-center justify-content-between mb-3">
-                <h4 class="mb-0 font-size-18 font-weight-bold">${currentTitle}</h4>
-                <div class="page-title-right">
-                  <ol class="breadcrumb m-0 font-size-12">
-                    <li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link">Home</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">${mode === 'live' ? 'Live Market' : 'Virtual Market'}</a></li>
-                    <li class="breadcrumb-item active">${currentTitle}</li>
-                  </ol>
+        <div class="col-md-12 detail-page-container" style="padding-top: 10px;">
+          <!-- Top Title & Breadcrumbs -->
+          <div class="page-title-box d-flex align-items-center justify-content-between mb-3" style="border-bottom: 1px solid #e9ecef; padding-bottom: 10px;">
+            <h4 class="mb-0 font-size-18 font-weight-bold" style="color: #2c3e50; font-family: 'Roboto Condensed', sans-serif;">${title}</h4>
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0 font-size-12" style="background: transparent; padding: 0;">
+                <li class="breadcrumb-item"><a href="/admin/users" class="nav-route-link" style="color: #0088cc;">Home</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0);" style="color: #6c757d;">${marketLabel}</a></li>
+                <li class="breadcrumb-item active" style="color: #2c3e50; font-weight: 700;">${title}</li>
+              </ol>
+            </div>
+          </div>
+
+          <!-- Round Header Bar -->
+          <div class="card mb-3 shadow-sm border-0" style="background: #2c3e50; color: #ffffff; border-radius: 4px;">
+            <div class="card-body p-2 d-flex align-items-center justify-content-between flex-wrap">
+              <div class="d-flex align-items-center">
+                <span class="badge badge-success px-2 py-1 mr-2" style="font-size: 11px;"><i class="fas fa-circle font-size-8 mr-1 text-white"></i> ACTIVE</span>
+                <span style="font-size: 13px; font-weight: 700;">Round ID: <span class="text-warning">#${roundId}</span></span>
+              </div>
+              <div class="d-flex align-items-center mt-1 mt-md-0">
+                <span class="mr-3 font-weight-bold" style="font-size: 13px;">Time Remaining: <span class="badge badge-warning text-dark font-weight-bold" id="liveTimerSeconds" style="font-size: 13px; min-width: 35px;">18s</span></span>
+                <div class="last-results d-flex align-items-center">
+                  <span class="small mr-1 font-weight-bold text-white-50">Last Results:</span>
+                  ${['A', 'B', 'A', 'A', 'T', 'B', 'A', 'B', 'A', 'B'].map((res, i) => `
+                    <span class="badge mr-1" style="width: 20px; height: 20px; line-height: 14px; padding: 3px 0; text-align: center; border-radius: 50%; font-size: 10px; background-color: ${res === 'A' ? '#0088cc' : res === 'B' ? '#e74c3c' : '#27ae60'}; color: #fff;">${res}</span>
+                  `).join('')}
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="row mb-3">
-            <div class="col-12">
-              <div class="card p-2 bg-light border-0">
-                <div class="d-flex align-items-center justify-content-between flex-wrap">
-                  <div class="btn-group btn-group-sm mb-1" role="group">
-                    <button type="button" class="btn btn-primary" style="background-color: #0088cc; border-color: #0088cc;">All Tables</button>
-                    <button type="button" class="btn btn-outline-dark">Teenpatti</button>
-                    <button type="button" class="btn btn-outline-dark">Roulette</button>
-                    <button type="button" class="btn btn-outline-dark">Dragon Tiger</button>
-                    <button type="button" class="btn btn-outline-dark">Baccarat</button>
-                    <button type="button" class="btn btn-outline-dark">Lucky 7</button>
+          <!-- Main Center Content & Sidebar -->
+          <div class="row">
+            <!-- Center Arena & Odds Table -->
+            <div class="col-lg-8 mb-4">
+              <!-- Live Video / Game Canvas Stream Area -->
+              <div class="card shadow-sm mb-3 border-0" style="border-radius: 4px; overflow: hidden; background: #111;">
+                <div style="height: 280px; position: relative; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, #1e3c72 0%, #0c1a30 100%);">
+                  <div class="text-center text-white" style="z-index: 2;">
+                    <i class="fas fa-play-circle fa-3x mb-2 text-warning" style="opacity: 0.9;"></i>
+                    <h5 class="font-weight-bold mb-1">${title}</h5>
+                    <p class="small text-white-50 mb-0">High-Definition Low-Latency Admin Feed</p>
+                    <span class="badge badge-primary mt-2 px-3 py-1" style="background-color: #0088cc;">Dealer Connected</span>
                   </div>
-                  <span class="badge badge-success px-3 py-2 font-size-12 mb-1"><i class="fas fa-signal mr-1"></i> Live Stream Connected (Ultra-Low Latency)</span>
+                  <div style="position: absolute; bottom: 8px; right: 10px; z-index: 3;">
+                    <button class="btn btn-sm btn-dark" style="opacity: 0.8; font-size: 11px;"><i class="fas fa-volume-up"></i></button>
+                    <button class="btn btn-sm btn-dark" style="opacity: 0.8; font-size: 11px;"><i class="fas fa-expand"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Odds Table matching Reference -->
+              <div class="card shadow-sm border" style="border-radius: 4px;">
+                <div class="card-header py-2 text-white d-flex justify-content-between align-items-center" style="background-color: #0088cc !important;">
+                  <h6 class="mb-0 font-weight-bold" style="font-size: 13px;"><i class="fas fa-coins mr-2"></i> ${title} - Live Odds</h6>
+                  <span class="badge badge-light font-weight-bold text-dark" style="font-size: 11px;">Min: 100 | Max: 200,000</span>
+                </div>
+                <div class="card-body p-0">
+                  <div class="table-responsive">
+                    <table class="table table-bordered mb-0 text-center" style="font-size: 13px;">
+                      <thead style="background-color: #f8f9fa;">
+                        <tr>
+                          <th class="text-left" style="width: 45%;">Selection / Runner</th>
+                          <th style="width: 27%; background-color: #72bbef; color: #111; font-weight: 700;">Back</th>
+                          <th style="width: 28%; background-color: #faa9ba; color: #111; font-weight: 700;">Lay</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${runners.map((r, idx) => `
+                          <tr>
+                            <td class="text-left align-middle" style="font-weight: 700; color: #2c3e50;">
+                              <div>${r}</div>
+                              <small class="text-muted font-weight-normal">Book: <span class="${idx === 0 ? 'text-success' : 'text-danger'} font-weight-bold">${idx === 0 ? '+0.00' : '0.00'}</span></small>
+                            </td>
+                            <td class="align-middle cp" style="background-color: #edf7ff; cursor: pointer; transition: background 0.15s;" onmouseover="this.style.background='#d0ebff'" onmouseout="this.style.background='#edf7ff'" onclick="window.AdminApp && window.AdminApp.showToast ? window.AdminApp.showToast('Selected Back for ${r} @ ${(1.95 + idx * 0.03).toFixed(2)}', 'info') : alert('Selected Back for ${r}')">
+                              <span class="d-block font-weight-bold text-dark" style="font-size: 15px;">${(1.95 + idx * 0.03).toFixed(2)}</span>
+                              <small class="text-muted font-size-11">250.5k</small>
+                            </td>
+                            <td class="align-middle cp" style="background-color: #fff0f3; cursor: pointer; transition: background 0.15s;" onmouseover="this.style.background='#ffd6de'" onmouseout="this.style.background='#fff0f3'" onclick="window.AdminApp && window.AdminApp.showToast ? window.AdminApp.showToast('Selected Lay for ${r} @ ${(1.98 + idx * 0.03).toFixed(2)}', 'info') : alert('Selected Lay for ${r}')">
+                              <span class="d-block font-weight-bold text-dark" style="font-size: 15px;">${(1.98 + idx * 0.03).toFixed(2)}</span>
+                              <small class="text-muted font-size-11">120.0k</small>
+                            </td>
+                          </tr>
+                        `).join('')}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- Casino Tables Grid -->
-          <div class="row">
-            ${gameCatalog.map(g => `
-              <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-                <div class="card h-100 shadow-sm border" style="border-radius: 6px; overflow: hidden;">
-                  <div style="position: relative; height: 160px; background: #111; display:flex; align-items:center; justify-content:center; overflow:hidden;">
-                    <img src="${g.img}" onerror="this.src='/admin/images/logo.png'" alt="${g.title}" style="width:100%; height:100%; object-fit: cover;">
-                    <span class="badge badge-danger" style="position: absolute; top: 10px; right: 10px; font-size: 11px; padding: 4px 8px;">
-                      <i class="fas fa-circle font-size-8 mr-1 text-white"></i> LIVE
-                    </span>
-                  </div>
-                  <div class="card-body p-3 d-flex flex-column justify-content-between">
-                    <div>
-                      <h5 class="card-title font-size-15 font-weight-bold mb-1 text-dark">${g.title}</h5>
-                      <div class="small text-muted mb-2">Min: ${self.formatCurrency(g.min)} | Max: ${self.formatCurrency(g.max)}</div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
-                      <span class="small font-weight-bold text-success">● Open for Betting</span>
-                      <button class="btn btn-sm btn-primary px-3 font-weight-bold" style="background-color: #0088cc; border-color: #0088cc;" onclick="window.openCasinoTableViewer('${g.id}', '${g.title}')">
-                        <i class="fas fa-play mr-1"></i> Open Table
-                      </button>
-                    </div>
+            <!-- Right Sidebar: Matched Bets & Book Analysis -->
+            <div class="col-lg-4 mb-4">
+              <div class="card shadow-sm border mb-3" style="border-radius: 4px;">
+                <div class="card-header py-2 text-white" style="background-color: #2c3e50 !important;">
+                  <h6 class="mb-0 font-weight-bold" style="font-size: 13px;"><i class="fas fa-list mr-2"></i> Live Matched Bets</h6>
+                </div>
+                <div class="card-body p-0">
+                  <div class="table-responsive">
+                    <table class="table table-sm table-striped mb-0 text-center" style="font-size: 12px;">
+                      <thead style="background-color: #f8f9fa;">
+                        <tr>
+                          <th>User</th>
+                          <th>Runner</th>
+                          <th>Odds</th>
+                          <th>Stake</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="font-weight-bold text-primary">client101</td>
+                          <td>${runners[0]}</td>
+                          <td><span class="badge badge-info">1.95</span></td>
+                          <td>5,000</td>
+                        </tr>
+                        <tr>
+                          <td class="font-weight-bold text-primary">master_ar</td>
+                          <td>${runners[1] || runners[0]}</td>
+                          <td><span class="badge badge-danger">1.98</span></td>
+                          <td>2,500</td>
+                        </tr>
+                        <tr>
+                          <td class="font-weight-bold text-primary">super_pro</td>
+                          <td>${runners[0]}</td>
+                          <td><span class="badge badge-info">1.95</span></td>
+                          <td>10,000</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
-            `).join('')}
+
+              <div class="card shadow-sm border" style="border-radius: 4px;">
+                <div class="card-header py-2 text-white" style="background-color: #34495e !important;">
+                  <h6 class="mb-0 font-weight-bold" style="font-size: 13px;"><i class="fas fa-book mr-2"></i> Downline Exposure Book</h6>
+                </div>
+                <div class="card-body p-3" style="font-size: 13px;">
+                  <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Total Matched Stake:</span>
+                    <span class="font-weight-bold text-dark">17,500</span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Total Exposure:</span>
+                    <span class="font-weight-bold text-danger">-12,250</span>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span class="text-muted">Max Potential Win:</span>
+                    <span class="font-weight-bold text-success">+9,500</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       `;
+
+      // Start countdown simulation
+      let t = 18;
+      if (window._casinoTimerInterval) clearInterval(window._casinoTimerInterval);
+      window._casinoTimerInterval = setInterval(() => {
+        t = t > 1 ? t - 1 : 25;
+        const el = document.getElementById('liveTimerSeconds');
+        if (el) el.textContent = t + 's';
+      }, 1000);
     },
 
     renderGameDetailView: function(container, path) {
