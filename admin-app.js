@@ -833,7 +833,17 @@
         return;
       }
 
-      // Auth guard: redirect unauthenticated requests to /admin while preserving target route
+      // Auth guard: reload adminUser from storage if not in memory
+      if (!this.adminUser) {
+        const stored = localStorage.getItem('admin_user') || sessionStorage.getItem('admin_user');
+        if (stored) {
+          try { this.adminUser = JSON.parse(stored); } catch(e) {}
+        }
+        if (!this.adminUser && window.AdminDataStore && window.AdminDataStore.state && window.AdminDataStore.state.currentAdmin) {
+          this.adminUser = window.AdminDataStore.state.currentAdmin;
+        }
+      }
+
       if (!this.adminUser) {
         if (window.location.pathname !== '/admin') {
           sessionStorage.setItem('admin_redirect', window.location.pathname);
@@ -991,6 +1001,12 @@
         this.renderUserWinLoss(container);
       } else if (path === '/admin/createaccount') {
         this.renderCreateAccount(container);
+      } else if (path === '/admin/casino' || path === '/admin/casino/') {
+        window.history.replaceState(null, '', '/admin/casino/premium-casino');
+        this.renderCasinoLobby(container, 'casino', 'premium-casino');
+      } else if (path === '/admin/casino/binary') {
+        window.history.replaceState(null, '', '/admin/users');
+        this.renderUsers(container, 'all');
       } else if (path.startsWith('/admin/casino/') || path.startsWith('/admin/vcasino/')) {
         const parts = path.split('/');
         const mode = parts[2];
@@ -4275,6 +4291,7 @@
       const key = (slug || 'game').toLowerCase();
       
       const GAME_NAMES = {
+        // Direct Live Market menu items
         'lucky5': 'Lucky 6',
         'mogambo': 'Mogambo',
         'teenunique': 'Unique Teenpatti',
@@ -4290,43 +4307,101 @@
         '3cardj': '3 Card Judgement',
         'threecardjudgement': '3 Card Judgement',
         'binary': 'Binary',
+
+        // Multi-table Lobbies & Sub-games
         'dtl20': '20-20 Dragon Tiger Lion',
         'vdtl20': '20-20 DTL',
         'aaa': 'Amar Akbar Anthony',
+        'aaa2': 'Amar Akbar Anthony 2',
         'vaaa': 'Amar Akbar Anthony',
-        'teenmuf': 'Muflis Teenpatti',
-        'vteenmuf': 'Muflis Teenpatti',
+        'btable': 'Bollywood Casino',
+        'btable2': 'Bollywood Table 2',
+        'vbtable': 'Bollywood Casino',
+        'lottery': 'Lottery',
+        'race2': 'Race 2',
+        'race17': 'Race 17',
+        'sicbo': 'Sic Bo',
+        'sicbo2': 'Sic Bo 2',
+        'dum10': 'Dum 10',
+        'ballbyball': 'Ball By Ball',
+        'kbc': 'KBC Game',
+        'trap': 'Trap',
+        'notenum': 'Note Number',
+        'cricketv3': 'Cricket V3',
+        'cmatch20': 'Cricket Match 20',
+        'cmeter': 'Casino Meter',
+        'cmeter1': 'Casino Meter 1',
+
+        // Teenpatti Variants
         'teen': '1 Day Teenpatti',
         'vteen': '1 Day Teenpatti',
         'teen20': '20-20 Teenpatti',
         'vteen20': '20-20 Teenpatti',
+        'teen20b': '20-20 Teenpatti B',
+        'teen9': 'Teenpatti Test',
+        'teen8': 'Teenpatti Open',
+        'teen33': 'Teenpatti Instant 3',
+        'teen3': 'Teenpatti Instant 1',
+        'teen32': 'Teenpatti Instant 2',
+        'teenmuf': 'Muflis Teenpatti',
+        'vteenmuf': 'Muflis Teenpatti',
+        'teen6': 'Teenpatti 2.0',
+        'teen1': '1 Card 1 Day',
+        'teen120': '1 Card 20-20',
+
+        // Dragon Tiger Variants
+        'dt20': 'Dragon Tiger 20-20',
+        'dt202': 'Dragon Tiger 20-20 2',
         'dt6': '1 Day Dragon Tiger',
         'vdt6': '1 Day Dragon Tiger',
+        'dragontigert20': 'Dragon Tiger 20-20',
+        'dragontigert202': 'Dragon Tiger 20-20 2',
+        'dragontigeroneday': 'Dragon Tiger 1 Day',
+        'dragontigerliont20': '20-20 Dragon Tiger Lion',
+
+        // Lucky 7 Variants
         'lucky7': 'Lucky 7',
         'vlucky7': 'Lucky 7',
-        'btable': 'Bollywood Casino',
-        'vbtable': 'Bollywood Casino',
-        'trio': 'Trio Virtual Table',
-        'vtrio': 'Trio',
+        'lucky7eu': 'Lucky 7 European',
+        'lucky7eu2': 'Lucky 7 European 2',
+
+        // Roulette Variants
         'ourroullete': 'European Roulette',
         'roulette11': 'Roulette 11',
         'roulette12': 'Roulette 12',
         'roulette13': 'Roulette 13',
+
+        // Baccarat Variants
         'baccarat': 'Live Speed Baccarat',
         'baccarat2': 'Baccarat 2',
-        'teensin': 'Khal 29',
+        'teensin': 'Khal 29 (29 Card Baccarat)',
+        'khal29': 'Khal 29 (29 Card Baccarat)',
+
+        // Cards & Worli
         'card32': '32 Cards A',
+        'card32a': '32 Cards A',
         'card32eu': '32 Cards B',
-        'andarbahar': 'Andar Bahar Live',
-        'andarbahar2': 'Andar Bahar 2',
-        'ab3': 'Andar Bahar 3',
-        'ab4': 'Andar Bahar 4',
-        'poker20': 'Poker 20-20',
-        'poker': 'Poker 1 Day',
-        'poker6': 'Poker 6 Player',
+        'card32b': '32 Cards B',
         'worli': 'Worli Matka',
         'worli2': 'Worli Matka 2',
         'worli3': 'Instant Worli',
+
+        // Andar Bahar Variants
+        'andarbahar': 'Andar Bahar Live',
+        'andar-bahar': 'Andar Bahar Live',
+        'andarbahar2': 'Andar Bahar 2',
+        'andar-bahar2': 'Andar Bahar 2',
+        'ab3': 'Andar Bahar 3',
+        'ab4': 'Andar Bahar 4',
+
+        // Poker Variants
+        'poker20': 'Poker 20-20',
+        'poker': 'Poker 1 Day',
+        'pokeroneday': 'Poker 1 Day',
+        'poker6': 'Poker 6 Player',
+        'poker6player': 'Poker 6 Player',
+
+        // Premium Series
         'pteen': 'Premium Teenpatti 1 Day',
         'pteen20': 'Premium Teenpatti 20-20',
         'pdt20': 'Premium Dragon Tiger 20-20',
@@ -4334,6 +4409,8 @@
         'plucky7': 'Premium Lucky 7',
         'pcard32': 'Premium 32 Cards',
         'pbaccarat': 'Premium Baccarat',
+
+        // Tembo Series
         'tteen': 'Tembo Teenpatti 1 Day',
         'tteen20': 'Tembo Teenpatti 20-20',
         'tdt20': 'Tembo Dragon Tiger 20-20',
@@ -4341,8 +4418,14 @@
         'tlucky7': 'Tembo Lucky 7',
         'tcard32': 'Tembo 32 Cards',
         'tbaccarat': 'Tembo Baccarat',
+
+        // VIP Series
         'teen20v1_admin': 'VIP Teenpatti 20-20',
-        'vipteenpattit20': 'VIP Teenpatti 20-20'
+        'vipteenpattit20': 'VIP Teenpatti 20-20',
+
+        // Virtual Games
+        'trio': 'Trio Virtual Table',
+        'vtrio': 'Trio'
       };
 
       const title = GAME_NAMES[key] || (slug ? slug.replace(/-/g, ' ').toUpperCase() : 'LIVE CASINO TABLE');
@@ -4350,34 +4433,82 @@
       const marketLabel = isVirtual ? 'Live Virtual Market' : 'Live Market';
       const roundId = '82' + Math.floor(10000000 + Math.random() * 89999999);
 
-      // Select runners according to game type
+      // Select authentic runners and market odds according to reference Vue module specification
       let runners = ['Player A', 'Player B'];
-      if (key.includes('dt') || key.includes('dragontiger')) {
-        runners = ['Dragon', 'Tiger', 'Tie'];
-      } else if (key.includes('lucky7')) {
-        runners = ['7 Up (8-14)', '7 Down (1-6)', 'Exact 7'];
-      } else if (key.includes('lucky5') || key.includes('lucky6')) {
-        runners = ['Low (1-3)', 'High (4-6)', 'Tie / Exact'];
-      } else if (key.includes('baccarat')) {
-        runners = ['Player', 'Banker', 'Tie'];
-      } else if (key.includes('aaa')) {
-        runners = ['Amar', 'Akbar', 'Anthony'];
-      } else if (key.includes('roulette')) {
-        runners = ['Red', 'Black', 'Even', 'Odd'];
-      } else if (key.includes('andar')) {
-        runners = ['Andar', 'Bahar'];
-      } else if (key.includes('worli')) {
-        runners = ['Single', 'Panna', 'Jodi'];
-      } else if (key.includes('card32')) {
-        runners = ['Player 8', 'Player 9', 'Player 10', 'Player 11'];
-      } else if (key.includes('superover') || key.includes('cricket')) {
-        runners = ['Over Runs (18.5)', 'Under Runs (18.5)'];
+      let lastResultBadges = ['A', 'B', 'A', 'A', 'T', 'B', 'A', 'B', 'A', 'B'];
+
+      if (key === 'lucky15') {
+        runners = ['Runs 0', 'Runs 1', 'Runs 2', 'Runs 4', 'Runs 6', 'Wicket'];
+        lastResultBadges = ['0', '1', '4', '2', '6', '1', '0', 'W', '4', '2'];
       } else if (key.includes('goal')) {
-        runners = ['Goal (Yes)', 'No Goal'];
+        runners = ['Goal Next (Team A)', 'Goal Next (Team B)', 'Method: Header', 'Method: Direct Kick'];
+        lastResultBadges = ['A', 'B', 'A', 'A', 'B', 'A', 'B', 'B', 'A', 'B'];
+      } else if (key.includes('superover') || key.includes('cricket')) {
+        runners = ['Over 18.5 Runs', 'Under 18.5 Runs', 'Team 1 Match Winner', 'Team 2 Match Winner'];
+        lastResultBadges = ['O', 'U', 'O', 'O', 'U', 'O', 'U', 'O', 'O', 'U'];
+      } else if (key.includes('race')) {
+        runners = ['Horse 1 (Thunder)', 'Horse 2 (Blaze)', 'Horse 3 (Shadow)', 'Horse 4 (Storm)'];
+        lastResultBadges = ['1', '2', '4', '1', '3', '2', '1', '4', '2', '3'];
       } else if (key.includes('queen')) {
-        runners = ['Queen', 'No Queen'];
+        runners = ['Queen (Yes)', 'No Queen', 'Red Queen', 'Black Queen'];
+        lastResultBadges = ['Q', 'NQ', 'Q', 'NQ', 'NQ', 'Q', 'NQ', 'Q', 'NQ', 'Q'];
       } else if (key.includes('war')) {
         runners = ['Dealer', 'Player', 'War Tie'];
+        lastResultBadges = ['D', 'P', 'D', 'W', 'P', 'D', 'P', 'D', 'P', 'P'];
+      } else if (key.includes('3cardj') || key.includes('threecard')) {
+        runners = ['Player A', 'Player B'];
+        lastResultBadges = ['A', 'B', 'A', 'A', 'B', 'B', 'A', 'B', 'A', 'B'];
+      } else if (key.includes('lucky5') || key.includes('lucky6')) {
+        runners = ['Low (1-3)', 'High (4-6)', 'Exact 6'];
+        lastResultBadges = ['L', 'H', 'L', 'H', '6', 'L', 'H', 'H', 'L', 'H'];
+      } else if (key.includes('mogambo')) {
+        runners = ['Mogambo (A)', 'Mogambo (B)', 'Total Over 10.5', 'Total Under 10.5'];
+        lastResultBadges = ['A', 'B', 'A', 'A', 'B', 'A', 'B', 'B', 'A', 'B'];
+      } else if (key.includes('teenunique')) {
+        runners = ['Player A', 'Player B', 'Color Plus', 'Pair Plus'];
+        lastResultBadges = ['A', 'B', 'A', 'A', 'B', 'A', 'B', 'B', 'A', 'B'];
+      } else if (key.includes('dt') || key.includes('dragontiger')) {
+        runners = ['Dragon', 'Tiger', 'Tie'];
+        lastResultBadges = ['D', 'T', 'D', 'D', 'Tie', 'T', 'D', 'T', 'D', 'T'];
+      } else if (key.includes('lucky7')) {
+        runners = ['7 Up (8-14)', '7 Down (1-6)', 'Exact 7'];
+        lastResultBadges = ['U', 'D', 'U', '7', 'D', 'U', 'D', 'U', 'D', '7'];
+      } else if (key.includes('baccarat')) {
+        runners = ['Player', 'Banker', 'Tie'];
+        lastResultBadges = ['P', 'B', 'P', 'P', 'T', 'B', 'P', 'B', 'P', 'B'];
+      } else if (key.includes('aaa')) {
+        runners = ['Amar', 'Akbar', 'Anthony'];
+        lastResultBadges = ['Am', 'Ak', 'An', 'Am', 'Ak', 'Am', 'An', 'Ak', 'Am', 'An'];
+      } else if (key.includes('roulette') || key.includes('roullete')) {
+        runners = ['Red', 'Black', 'Even', 'Odd'];
+        lastResultBadges = ['7', '18', '22', '0', '31', '14', '9', '26', '3', '15'];
+      } else if (key.includes('andar')) {
+        runners = ['Andar', 'Bahar'];
+        lastResultBadges = ['A', 'B', 'A', 'A', 'B', 'A', 'B', 'B', 'A', 'B'];
+      } else if (key.includes('worli')) {
+        runners = ['Single', 'Panna', 'Jodi'];
+        lastResultBadges = ['S', 'P', 'J', 'S', 'S', 'P', 'J', 'S', 'P', 'J'];
+      } else if (key.includes('card32')) {
+        runners = ['Player 8', 'Player 9', 'Player 10', 'Player 11'];
+        lastResultBadges = ['8', '9', '11', '10', '8', '9', '10', '8', '11', '9'];
+      } else if (key.includes('sicbo')) {
+        runners = ['Small (4-10)', 'Big (11-17)', 'Any Triple'];
+        lastResultBadges = ['S', 'B', 'S', 'S', 'B', 'S', 'B', 'T', 'S', 'B'];
+      } else if (key.includes('dum10')) {
+        runners = ['High (6-10)', 'Low (1-5)'];
+        lastResultBadges = ['H', 'L', 'H', 'H', 'L', 'H', 'L', 'L', 'H', 'L'];
+      } else if (key.includes('ballbyball')) {
+        runners = ['Runs 0-1', 'Runs 2-3', 'Runs 4-6', 'Boundary', 'Wicket'];
+        lastResultBadges = ['0', '2', '4', '1', 'W', '6', '2', '4', '1', '0'];
+      } else if (key.includes('kbc')) {
+        runners = ['Option A', 'Option B', 'Option C', 'Option D'];
+        lastResultBadges = ['A', 'B', 'C', 'A', 'D', 'B', 'A', 'C', 'D', 'B'];
+      } else if (key.includes('cmeter')) {
+        runners = ['Meter Low (0-49)', 'Meter High (50-100)'];
+        lastResultBadges = ['L', 'H', 'L', 'L', 'H', 'L', 'H', 'H', 'L', 'H'];
+      } else if (key.includes('lottery')) {
+        runners = ['Card 1', 'Card 2', 'Card 3', 'Card 4', 'Card 5'];
+        lastResultBadges = ['1', '2', '5', '3', '4', '1', '2', '3', '5', '4'];
       }
 
       container.innerHTML = `
