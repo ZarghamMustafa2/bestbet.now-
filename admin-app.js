@@ -911,7 +911,7 @@
         document.body.classList.add('page-users');
         const collapseBar = document.getElementById('headerCollapseBar');
         if (collapseBar && window.innerWidth < 992) {
-          collapseBar.style.display = 'flex';
+          collapseBar.style.display = 'block';
         }
       } else {
         document.body.classList.remove('page-users');
