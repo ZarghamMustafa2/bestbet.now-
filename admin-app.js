@@ -567,27 +567,31 @@
       }
 
       // 2. Logout Handler
+      self.logout = async function() {
+        try {
+          await fetch('/api/admin/logout', { method: 'POST' });
+        } catch (e) {}
+
+        localStorage.removeItem('admin_user');
+        localStorage.removeItem('admin_token');
+        localStorage.removeItem('vuejs__admin_user');
+        sessionStorage.clear();
+        self.adminUser = null;
+        self.pendingFirstTimeUser = null;
+        const uField = document.getElementById('input-1');
+        const pField = document.getElementById('input-2');
+        if (uField) uField.value = '';
+        if (pField) pField.value = '';
+        self.showToast('You have been logged out successfully.', 'info');
+        self.showLoginStep('signIn');
+        window.history.replaceState(null, '', '/admin');
+      };
+
       const logoutBtn = document.getElementById('adminLogoutBtn');
       if (logoutBtn) {
-        logoutBtn.addEventListener('click', async function(e) {
+        logoutBtn.addEventListener('click', function(e) {
           e.preventDefault();
-          try {
-            await fetch('/api/admin/logout', { method: 'POST' });
-          } catch (e) {}
-
-          localStorage.removeItem('admin_user');
-          localStorage.removeItem('admin_token');
-          localStorage.removeItem('vuejs__admin_user');
-          sessionStorage.clear();
-          self.adminUser = null;
-          self.pendingFirstTimeUser = null;
-          const uField = document.getElementById('input-1');
-          const pField = document.getElementById('input-2');
-          if (uField) uField.value = '';
-          if (pField) pField.value = '';
-          self.showToast('You have been logged out successfully.', 'info');
-          self.showLoginStep('signIn');
-          window.history.replaceState(null, '', '/admin');
+          self.logout();
         });
       }
 
