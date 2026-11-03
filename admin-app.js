@@ -1168,12 +1168,15 @@
                         <td class="text-center" style="padding: 5px 8px; vertical-align: middle;">${u.defaultPercent || 0}</td>
                         <td class="text-center" style="padding: 5px 8px; vertical-align: middle;">${uRoleLabel}</td>
                         <td class="text-center nowrap" style="padding: 5px 6px; vertical-align: middle;">
-                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openDepositModal('${u.id}')" title="Deposit">D</button>
-                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openWithdrawModal('${u.id}')" title="Withdraw">W</button>
-                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openExposureLimitModal('${u.id}')" title="Exposure Limit">L</button>
-                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openCreditRefModal('${u.id}')" title="Credit Reference">C</button>
-                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openChangePasswordModal('${u.uname}')" title="Change Password">P</button>
-                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openStatusModal('${u.id}')" title="Status Lock">S</button>
+                          <div class="btn-group btn-group-sm">
+                            <button type="button" class="action-button" onclick="window.openDepositModal('${u.id || u.guid || u.uname}')" title="Deposit">D</button>
+                            <button type="button" class="action-button" onclick="window.openWithdrawModal('${u.id || u.guid || u.uname}')" title="Withdraw">W</button>
+                            <button type="button" class="action-button" onclick="window.openExposureLimitModal('${u.id || u.guid || u.uname}')" title="Exposure Limit">L</button>
+                            <button type="button" class="action-button" onclick="window.openCreditRefModal('${u.id || u.guid || u.uname}')" title="Credit Reference">C</button>
+                            <button type="button" class="action-button" onclick="window.openChangePasswordModal('${u.uname}')" title="Change Password">P</button>
+                            <button type="button" class="action-button" onclick="window.openStatusModal('${u.id || u.guid || u.uname}')" title="Change Status">S</button>
+                            <button type="button" class="action-button" onclick="window.openExtraModal('${u.id || u.guid || u.uname}')" title="More">More</button>
+                          </div>
                         </td>
                       </tr>
                     `}).join('')}
@@ -1677,114 +1680,133 @@
     renderAssignAgent: function(container) {
       const store = window.AdminDataStore;
       const actor = this.adminUser || (store ? store.state.currentAdmin : null);
-      const actorRole = actor ? store.normalizeRole(actor.role || actor.userType) : 'company';
       const allUsers = store ? store.getUsers() : [];
-      const users = allUsers.length > 0 ? allUsers : [
-        { id: '1', uname: 'ZARGHAM', creditRef: 79, userActive: true, betActive: true, exposureLimit: 0, defaultPercent: 0, userLevel: 'Master' },
-        { id: '2', uname: 'ZARGHAM1', creditRef: 2, userActive: true, betActive: true, exposureLimit: 0, defaultPercent: 0, userLevel: 'Agent' },
-        { id: '3', uname: 'ZARGHAM2', creditRef: 2, userActive: true, betActive: true, exposureLimit: 0, defaultPercent: 0, userLevel: 'User' },
-        { id: '4', uname: 'ZARGHAM3', creditRef: 76, userActive: true, betActive: true, exposureLimit: 0, defaultPercent: 0, userLevel: 'Master' }
-      ];
+
+      // Load agents from store or fallback
+      let agents = allUsers.filter(u => {
+        const r = store ? store.normalizeRole(u.role || u.userType) : '';
+        return r === 'master' || r === 'super_master' || r === 'admin' || r === 'agent';
+      });
+
+      if (agents.length === 0) {
+        agents = [
+          { id: '1', unqid: '1', uname: 'ZARGHAM', isact: 1, mob: '923001234567', mob1: '<i class="fab fa-whatsapp"></i>https://wa.me/+923001234567', isfbo: 1, boamt: 500, bosdt: '2026-01-01 00:00:00' },
+          { id: '2', unqid: '2', uname: 'ZARGHAM1', isact: 1, mob: '923009876543', mob1: '<i class="fab fa-telegram"></i>+92 300 9876543', isfbo: 0, boamt: 0, bosdt: '' },
+          { id: '3', unqid: '3', uname: 'ZARGHAM3', isact: 1, mob: '923123456789', mob1: '<i class="fab fa-whatsapp"></i>+92 312 3456789', isfbo: 1, boamt: 1000, bosdt: '2026-02-01 00:00:00' }
+        ];
+      }
+
+      this._currentAgents = agents;
 
       const perPage = this.perPage || 25;
       const currentPage = this.currentPage || 1;
       const startIdx = (currentPage - 1) * perPage;
-      const pagedUsers = users.slice(startIdx, startIdx + perPage);
-
-      const allowedRoles = store ? store.getAllowedCreationRoles(actorRole) : [];
-      const canCreate = allowedRoles.length > 0;
-      const addAccountBtnHtml = canCreate ? `<a href="/admin/users/insertuser" class="btn btn-primary nav-route-link" data-route="/admin/users/insertuser" style="background:#0088cc; border-color:#0088cc; font-size:12px; padding: 4px 12px; border-radius: 4px;">Add Account</a>` : '';
+      const pagedAgents = agents.slice(startIdx, startIdx + perPage);
 
       container.innerHTML = `
         <div class="listing-grid">
-          <div class="d-flex align-items-center justify-content-between mb-2">
-            <h4 class="mb-0" style="font-size: 16px; font-weight: 700; color: #333;">Account List</h4>
-            ${addAccountBtnHtml}
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between mb-2">
+                <h4 class="mb-0 font-size-18 font-weight-bold" style="color: #333;">Assign Agent List</h4>
+                <div class="page-title-right">
+                  <ol class="breadcrumb m-0" style="background:transparent; font-size:12px;">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)" onclick="window.AdminApp.handleRoute('/admin/users')">Home</a></li>
+                    <li class="breadcrumb-item active">Assign Agent List</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="card mb-3" style="border: 1px solid #e9ecef; border-radius: 4px; box-shadow: none;">
             <div class="card-body p-2 p-md-3">
               
-              <!-- PDF / Excel Export Buttons matching reference frame_08_5s.png -->
-              <div class="mb-2">
-                <button type="button" class="btn buttons-pdf" style="background:#cb0606; border-color:#cb0606; color:#fff; font-size:11px; padding: 3px 8px; border-radius: 2px; margin-right: 4px;" onclick="window.adminExportPdf()"><i class="far fa-file-pdf mr-1"></i> PDF</button>
-                <button type="button" class="btn buttons-excel" style="background:#217346; border-color:#217346; color:#fff; font-size:11px; padding: 3px 8px; border-radius: 2px;" onclick="window.adminExportExcel()"><i class="far fa-file-excel mr-1"></i> Excel</button>
-              </div>
-
-              <!-- Top controls: Show entries & Search matching reference frame_08_5s.png -->
+              <!-- Top controls: Show entries & Search matching reference module 555 -->
               <div class="row align-items-center mb-2">
-                <div class="col-sm-6 mb-1 mb-sm-0">
-                  <label class="d-inline-flex align-items-center mb-0" style="font-size: 11px; color: #333; font-weight: normal;">
-                    Show&nbsp;
-                    <select class="custom-select custom-select-sm" id="assignAgentPerPage" style="width: auto; height: 26px; padding: 2px 20px 2px 6px; font-size: 11px; display: inline-block;">
-                      <option value="25" selected>25</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                    </select>&nbsp;entries
-                  </label>
+                <div class="col-sm-12 col-md-6 mb-2 mb-md-0">
+                  <div id="tickets-table_length" class="dataTables_length">
+                    <label class="d-inline-flex align-items-center mb-0" style="font-size: 11px; color: #333; font-weight: normal;">
+                      Show&nbsp;
+                      <select class="custom-select custom-select-sm" id="agentPerPageSelect" style="width: auto; height: 26px; padding: 2px 20px 2px 6px; font-size: 11px; display: inline-block;">
+                        <option value="25" selected>25</option>
+                        <option value="50">50</option>
+                        <option value="75">75</option>
+                        <option value="100">100</option>
+                        <option value="125">125</option>
+                        <option value="150">150</option>
+                      </select>&nbsp;entries
+                    </label>
+                  </div>
                 </div>
-                <div class="col-sm-6 text-sm-right">
-                  <div class="d-inline-flex align-items-center" style="font-size: 11px;">
-                    <span class="mr-1">Search:</span>
-                    <input type="search" placeholder="Search..." class="form-control form-control-sm mr-1" id="assignAgentSearchInput" style="height: 26px; font-size: 11px; padding: 2px 6px; width: 140px; display: inline-block; border: 1px solid #ced4da; border-radius: 2px;">
-                    <button type="button" id="loaddata" class="btn btn-primary btn-sm mr-1" style="background:#0088cc; border-color:#0088cc; font-size: 11px; padding: 2px 10px; height: 26px; border-radius: 2px;">Load</button>
-                    <button type="button" id="resetdata" class="btn btn-secondary btn-sm" style="background:#6c757d; border-color:#6c757d; font-size: 11px; padding: 2px 10px; height: 26px; border-radius: 2px;">Reset</button>
+                <div class="col-sm-12 col-md-6 text-md-right">
+                  <div id="tickets-table_filter" class="dataTables_filter">
+                    <label class="d-inline-flex align-items-center mb-0" style="font-size: 11px;">
+                      Search:
+                      <input type="search" placeholder="Search..." class="form-control form-control-sm ml-2" id="searchAgentInput" style="height: 26px; font-size: 11px; padding: 2px 6px; width: 160px; display: inline-block; border: 1px solid #ced4da; border-radius: 2px;" onkeyup="if(event.key==='Enter')window.adminFilterAgents()">
+                      <button type="button" id="loadAgentData" class="btn btn-primary btn-sm ml-2" style="background:#0088cc; border-color:#0088cc; font-size: 11px; padding: 2px 10px; height: 26px; border-radius: 2px;" onclick="window.adminFilterAgents()">Load</button>
+                      <button type="button" id="resetAgentData" class="btn btn-secondary btn-sm ml-2" style="background:#6c757d; border-color:#6c757d; font-size: 11px; padding: 2px 10px; height: 26px; border-radius: 2px;" onclick="window.adminResetAgents()">Reset</button>
+                    </label>
                   </div>
                 </div>
               </div>
 
-              <!-- 8-Column Horizontally Scrollable Table matching reference frame_08_5s.png and clean_ref_users.html -->
+              <!-- 6-Column Horizontally Scrollable Table matching reference module 555 -->
               <div class="table-responsive mb-0" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
-                <table id="eventsListTbl" class="table table-bordered table-hover mb-0" style="font-size: 11px; min-width: 700px;">
+                <table id="eventsListTbl" class="table table-bordered table-hover mb-0" style="font-size: 11px;">
                   <thead style="background: #f8f9fa;">
                     <tr>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; width: 60px;">S.No.</th>
                       <th style="font-weight: 600; color: #333; padding: 6px 8px;">User Name</th>
-                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: right;">CR</th>
-                      <th style="font-weight: 600; color: #333; padding: 6px 4px; text-align: center;">U st</th>
-                      <th style="font-weight: 600; color: #333; padding: 6px 4px; text-align: center;">B st</th>
-                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: center;">Exposure Limit</th>
-                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: center;">Deafult (%)</th>
-                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: center;">Account Type</th>
-                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: center;">Action</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: center;">Assign Agent Settings</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px;">Mobile Number</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px;">Depo Mobile Number</th>
+                      <th style="font-weight: 600; color: #333; padding: 6px 8px; text-align: center;">First Bonus Status</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    ${pagedUsers.length === 0 ? `
-                      <tr role="row" class="b-table-empty-row"><td colspan="8" role="cell" class="text-center py-3">There are no records to show</td></tr>
-                    ` : pagedUsers.map(u => {
-                      const uCR = u.creditRef != null ? u.creditRef : 0;
-                      const uRoleLabel = u.userLevel || (u.role === 'master' ? 'Master' : u.role === 'agent' ? 'Agent' : u.role === 'user' ? 'User' : 'Master');
+                  <tbody id="assignAgentTableBody">
+                    ${pagedAgents.length === 0 ? `
+                      <tr><td colspan="6" class="text-center py-3">There are no records to show</td></tr>
+                    ` : pagedAgents.map((ag, idx) => {
+                      const sno = startIdx + idx + 1;
+                      const isAct = ag.isact === 1 || ag.isact === true || ag.userActive !== false;
+                      const isFbo = ag.isfbo === 1 || ag.isfbo === true;
                       return `
-                      <tr id="row-assign-user-${u.id}">
-                        <td style="padding: 5px 8px; vertical-align: middle;">
-                          <span style="background: #343a40; color: #ffffff; padding: 2px 7px; border-radius: 2px; font-weight: bold; font-size: 10px; display: inline-block; cursor: pointer;" onclick="window.AdminApp.handleRoute('/admin/child/${u.uname}')">${u.uname}</span>
-                        </td>
-                        <td class="text-right" style="padding: 5px 8px; vertical-align: middle;">${uCR}</td>
-                        <td class="text-center" style="padding: 5px 4px; vertical-align: middle;">
-                          <span style="display:inline-block; width:15px; height:15px; background:#000; color:#fff; border-radius:2px; font-size:10px; line-height:15px; text-align:center; font-weight:bold;">${u.userActive !== false ? '✔' : ''}</span>
-                        </td>
-                        <td class="text-center" style="padding: 5px 4px; vertical-align: middle;">
-                          <span style="display:inline-block; width:15px; height:15px; background:#000; color:#fff; border-radius:2px; font-size:10px; line-height:15px; text-align:center; font-weight:bold;">${u.betActive !== false ? '✔' : ''}</span>
-                        </td>
-                        <td class="text-center" style="padding: 5px 8px; vertical-align: middle;">${u.exposureLimit || 0}</td>
-                        <td class="text-center" style="padding: 5px 8px; vertical-align: middle;">${u.defaultPercent || 0}</td>
-                        <td class="text-center" style="padding: 5px 8px; vertical-align: middle;">${uRoleLabel}</td>
-                        <td class="text-center nowrap" style="padding: 5px 6px; vertical-align: middle;">
-                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openDepositModal('${u.id}')" title="Deposit">D</button>
-                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openWithdrawModal('${u.id}')" title="Withdraw">W</button>
-                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openCreditRefModal('${u.id}')" title="Credit Reference">L</button>
-                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openChangeStatusModal('${u.id}')" title="Change Status">C</button>
-                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openChangePasswordModal('${u.uname}')" title="Change Password">P</button>
-                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openStatementModal('${u.id}')" title="Statement">S</button>
-                          <button type="button" class="btn btn-dark btn-sm" style="background:#343a40; color:#fff; border:none; padding:2px 5px; font-size:10px; line-height:1.2; border-radius:2px; margin-right:2px; font-weight:bold;" onclick="window.openExtraModal('${u.id}')" title="More">MORE</button>
-                        </td>
-                      </tr>`;
+                        <tr id="row-agent-${ag.id || ag.unqid}">
+                          <td style="padding: 6px 8px; vertical-align: middle;">${sno}</td>
+                          <td style="padding: 6px 8px; vertical-align: middle; font-weight: 600;">
+                            <span class="badge badge-dark" style="background:#343a40; color:#fff; padding:3px 6px; border-radius:2px;">${ag.uname}</span>
+                          </td>
+                          <td class="text-center" style="padding: 6px 8px; vertical-align: middle;">
+                            <a href="javascript:void(0)" class="btn btn-sm ${isAct ? 'btn-success' : 'btn-danger'}" style="font-size:10px; padding:2px 8px; border-radius:3px;" onclick="window.adminChangeAgentStatus('${ag.id || ag.unqid}')" title="Change Status">
+                              <span>${isAct ? 'Active' : 'Disabled'}</span>
+                            </a>
+                          </td>
+                          <td style="padding: 6px 8px; vertical-align: middle;">
+                            <span>${ag.mob || '923001234567'}</span>
+                            <a href="javascript:void(0)" class="text-primary ml-1" title="Update Mobile Number" onclick="window.openUpdateMobileModal('${ag.id || ag.unqid}')">
+                              <i class="fas fa-edit ml-1"></i>
+                            </a>
+                          </td>
+                          <td style="padding: 6px 8px; vertical-align: middle;">
+                            <span>${ag.mob1 || '<i class="fab fa-whatsapp"></i>https://wa.me/+923001234567'}</span>
+                            <a href="javascript:void(0)" class="text-primary ml-1" title="Update Deposit Mobile Number" onclick="window.openUpdateDepoMobileModal('${ag.id || ag.unqid}')">
+                              <i class="fas fa-edit ml-1"></i>
+                            </a>
+                          </td>
+                          <td class="text-center" style="padding: 6px 8px; vertical-align: middle;">
+                            <a href="javascript:void(0)" class="btn btn-sm ${isFbo ? 'btn-success' : 'btn-danger'}" style="font-size:10px; padding:2px 8px; border-radius:3px;" onclick="window.openUpdateBonusModal('${ag.id || ag.unqid}')" title="First Time Bonus Status">
+                              <span>${isFbo ? 'Active' : 'Disabled'}</span>
+                            </a>
+                          </td>
+                        </tr>
+                      `;
                     }).join('')}
                   </tbody>
                 </table>
               </div>
 
-              <!-- Pagination matching reference frame_08_5s.png -->
+              <!-- Pagination matching reference module 555 -->
               <div class="row pt-3">
                 <div class="col">
                   <div class="float-right">
@@ -5603,3 +5625,126 @@ renderGenericReport: function(container, title, desc) {
 
 })(window, document);
 
+
+
+  // Assign Agent Handler Functions (ref: module 555)
+  window.openUpdateMobileModal = function(agentId) {
+    const ag = (window.AdminApp._currentAgents || []).find(a => (a.id == agentId || a.unqid == agentId)) || { id: agentId, mob: '923001234567' };
+    const idEl = document.getElementById('updateMobileAgentId');
+    const mobEl = document.getElementById('agentMobileInput');
+    if (idEl) idEl.value = ag.id || ag.unqid;
+    if (mobEl) mobEl.value = ag.mob || '';
+    window.openModal('mobileMDL');
+  };
+
+  window.handleUpdateMobileSubmit = function(e) {
+    e.preventDefault();
+    const id = document.getElementById('updateMobileAgentId')?.value;
+    const mob = document.getElementById('agentMobileInput')?.value;
+    const ag = (window.AdminApp._currentAgents || []).find(a => (a.id == id || a.unqid == id));
+    if (ag) ag.mob = mob;
+    window.closeModal('mobileMDL');
+    window.AdminApp.showToast('Mobile number updated successfully!', 'success');
+    window.AdminApp.handleRouting();
+  };
+
+  window.openUpdateDepoMobileModal = function(agentId) {
+    const ag = (window.AdminApp._currentAgents || []).find(a => (a.id == agentId || a.unqid == agentId)) || { id: agentId, mob1: '<i class="fab fa-whatsapp"></i>https://wa.me/+923001234567' };
+    const idEl = document.getElementById('updateDepoMobileAgentId');
+    const mob1El = document.getElementById('agentDepoMobileInput');
+    if (idEl) idEl.value = ag.id || ag.unqid;
+    if (mob1El) mob1El.value = ag.mob1 || '';
+    window.openModal('depoMobileMDL');
+  };
+
+  window.handleUpdateDepoMobileSubmit = function(e) {
+    e.preventDefault();
+    const id = document.getElementById('updateDepoMobileAgentId')?.value;
+    const mob1 = document.getElementById('agentDepoMobileInput')?.value;
+    const ag = (window.AdminApp._currentAgents || []).find(a => (a.id == id || a.unqid == id));
+    if (ag) ag.mob1 = mob1;
+    window.closeModal('depoMobileMDL');
+    window.AdminApp.showToast('Deposit mobile information updated successfully!', 'success');
+    window.AdminApp.handleRouting();
+  };
+
+  window.openUpdateBonusModal = function(agentId) {
+    const ag = (window.AdminApp._currentAgents || []).find(a => (a.id == agentId || a.unqid == agentId)) || { id: agentId, isfbo: 1, boamt: 500, bosdt: '2026-01-01 00:00:00' };
+    const idEl = document.getElementById('updateBonusAgentId');
+    const switchEl = document.getElementById('switchFirstBonus');
+    const amtEl = document.getElementById('bonusAmountInput');
+    const dateEl = document.getElementById('bonusStartDateInput');
+    if (idEl) idEl.value = ag.id || ag.unqid;
+    if (switchEl) switchEl.checked = !!ag.isfbo;
+    if (amtEl) amtEl.value = ag.boamt || 500;
+    if (dateEl) dateEl.value = ag.bosdt ? ag.bosdt.replace(' ', 'T') : '';
+    window.toggleBonusAmountField(!!ag.isfbo);
+    window.openModal('updateBonusMDL');
+  };
+
+  window.toggleBonusAmountField = function(isChecked) {
+    const container = document.getElementById('bonusFieldsContainer');
+    if (container) container.style.display = isChecked ? 'block' : 'none';
+  };
+
+  window.handleUpdateBonusSubmit = function(e) {
+    e.preventDefault();
+    const id = document.getElementById('updateBonusAgentId')?.value;
+    const isfbo = document.getElementById('switchFirstBonus')?.checked ? 1 : 0;
+    const boamt = parseFloat(document.getElementById('bonusAmountInput')?.value) || 0;
+    const bosdt = document.getElementById('bonusStartDateInput')?.value || '';
+    const ag = (window.AdminApp._currentAgents || []).find(a => (a.id == id || a.unqid == id));
+    if (ag) {
+      ag.isfbo = isfbo;
+      ag.boamt = boamt;
+      ag.bosdt = bosdt.replace('T', ' ');
+    }
+    window.closeModal('updateBonusMDL');
+    window.AdminApp.showToast('Bonus settings updated successfully!', 'success');
+    window.AdminApp.handleRouting();
+  };
+
+  window.adminChangeAgentStatus = function(agentId) {
+    const ag = (window.AdminApp._currentAgents || []).find(a => (a.id == agentId || a.unqid == agentId));
+    if (ag) {
+      ag.isact = (ag.isact === 1 || ag.isact === true) ? 0 : 1;
+      window.AdminApp.showToast(`Agent status changed to ${ag.isact === 1 ? 'Active' : 'Disabled'}!`, 'success');
+      window.AdminApp.handleRouting();
+    }
+  };
+
+  window.copySocialIcon = function(text) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        window.AdminApp.showToast('Copied icon code to clipboard!', 'success');
+      }).catch(() => {
+        window.AdminApp.showToast('Copied icon code!', 'info');
+      });
+    }
+  };
+
+  window.adminFilterAgents = function() {
+    const q = (document.getElementById('searchAgentInput')?.value || '').toLowerCase().trim();
+    const rows = document.querySelectorAll('#assignAgentTableBody tr');
+    rows.forEach(r => {
+      const txt = r.textContent.toLowerCase();
+      r.style.display = (!q || txt.includes(q)) ? '' : 'none';
+    });
+  };
+
+  window.adminResetAgents = function() {
+    const inp = document.getElementById('searchAgentInput');
+    if (inp) inp.value = '';
+    const rows = document.querySelectorAll('#assignAgentTableBody tr');
+    rows.forEach(r => r.style.display = '');
+  };
+
+  // Global Action Aliases matching Reference Vue method signatures
+  window.openMoreModal = window.openExtraModal;
+  window.openUserExtraMDL = window.openExtraModal;
+  window.openUserdepositeMDL = window.openDepositModal;
+  window.openUserwithdrwalMDL = window.openWithdrawModal;
+  window.openExposureLimitMDL = window.openExposureLimitModal;
+  window.openUserCreditUpdateMdl = window.openCreditRefModal;
+  window.openUserChangePwdMdl = window.openChangePasswordModal;
+  window.openUserChangeStatusMdl = window.openStatusModal;

@@ -3162,6 +3162,155 @@
     </div>
   </div>
 
+    <!-- Modal: Update Mobile (ref: mobileMDL) -->
+  <div class="admin-modal" id="mobileMDL" style="display:none;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-uppercase font-weight-bold" style="font-size:16px;">Update Mobile</h4>
+          <button type="button" class="close text-white" onclick="window.closeModal('mobileMDL')">&times;</button>
+        </div>
+        <form id="updateMobileForm" onsubmit="window.handleUpdateMobileSubmit(event)">
+          <input type="hidden" id="updateMobileAgentId">
+          <div class="modal-body p-3">
+            <div class="form-group row mb-3">
+              <label class="col-form-label col-4 font-weight-bold">Mobile Number</label>
+              <div class="col-8">
+                <input type="text" id="agentMobileInput" class="form-control text-right" placeholder="Mobile Number" required>
+              </div>
+            </div>
+            <div class="form-group row mb-0">
+              <div class="col-12 text-right">
+                <button type="submit" class="btn btn-primary" style="background:#0088cc; border-color:#0088cc;">
+                  submit <i class="fas fa-sign-in-alt ml-1"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Update Deposit Mobile (ref: depoMobileMDL) -->
+  <div class="admin-modal" id="depoMobileMDL" style="display:none;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-uppercase font-weight-bold" style="font-size:16px;">Update Deposit Mobile</h5>
+          <button type="button" class="close text-white" onclick="window.closeModal('depoMobileMDL')">&times;</button>
+        </div>
+        <form id="updateDepoMobileForm" onsubmit="window.handleUpdateDepoMobileSubmit(event)">
+          <input type="hidden" id="updateDepoMobileAgentId">
+          <div class="modal-body p-3">
+            <div class="form-group row mb-3">
+              <div class="col-12">
+                <textarea id="agentDepoMobileInput" class="form-control" rows="8" placeholder="Deposit Mobile Number"></textarea>
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <div class="col-12 text-right">
+                <button type="submit" class="btn btn-primary" style="background:#0088cc; border-color:#0088cc;">
+                  submit <i class="fas fa-sign-in-alt ml-1"></i>
+                </button>
+              </div>
+            </div>
+            <!-- Dual English / Hindi Guidance Cards matching reference template -->
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <div class="card p-3" style="border:1px solid #dee2e6; border-radius:4px; font-size:12px; background:#f8f9fa;">
+                  <b class="text-danger d-block mb-1">You can now add multiple support links or phone numbers in the Deposit &rarr; Mobile Number field.</b>
+                  <b class="mt-1 d-block">How to use</b>
+                  <ul class="pl-3 mb-2">
+                    <li>Separate each item with a comma (,)</li>
+                    <li>You can enter links or numbers, with or without symbols/icons</li>
+                  </ul>
+                  <b class="mt-2 d-block">Available icon codes (Click to copy)</b>
+                  <div class="d-flex flex-wrap gap-2 mt-1">
+                    <span class="badge badge-light border p-2 cp mr-1 mb-1" onclick="window.copySocialIcon('<i class=\'fab fa-whatsapp\'></i>')"><i class="fab fa-whatsapp text-success mr-1"></i> Whatsapp</span>
+                    <span class="badge badge-light border p-2 cp mr-1 mb-1" onclick="window.copySocialIcon('<i class=\'fab fa-telegram\'></i>')"><i class="fab fa-telegram text-info mr-1"></i> Telegram</span>
+                    <span class="badge badge-light border p-2 cp mr-1 mb-1" onclick="window.copySocialIcon('<i class=\'fab fa-viber\'></i>')"><i class="fab fa-viber text-primary mr-1"></i> Viber</span>
+                    <span class="badge badge-light border p-2 cp mr-1 mb-1" onclick="window.copySocialIcon('<i class=\'far fa-comment\'></i>')"><i class="far fa-comment text-secondary mr-1"></i> Signal</span>
+                    <span class="badge badge-light border p-2 cp mr-1 mb-1" onclick="window.copySocialIcon('<i class=\'fab fa-instagram\'></i>')"><i class="fab fa-instagram text-danger mr-1"></i> Instagram</span>
+                  </div>
+                  <p class="mt-2 mb-0 font-weight-bold">Example:</p>
+                  <code style="font-size:11px;">&lt;i class="fab fa-whatsapp"&gt;&lt;/i&gt;https://wa.me/+1XXXXXXXXXX,<br>&lt;i class="fab fa-telegram"&gt;&lt;/i&gt;+1 XX-XX-XXXX-XX</code>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <div class="card p-3" style="border:1px solid #dee2e6; border-radius:4px; font-size:12px; background:#f8f9fa;">
+                  <b class="text-danger d-block mb-1">आप अब Deposit &rarr; Mobile Number फ़ील्ड में एक से ज़्यादा Support लिंक या नंबर जोड़ सकते हैं।</b>
+                  <b class="mt-1 d-block">कैसे इस्तेमाल करें</b>
+                  <ul class="pl-3 mb-2">
+                    <li>हर लिंक/नंबर को comma ( , ) से अलग करें</li>
+                    <li>आप लिंक या नंबर, icon के साथ या बिना icon—दोनों तरह से डाल सकते हैं</li>
+                  </ul>
+                  <b class="mt-2 d-block">Icon codes (symbol text)</b>
+                  <div class="d-flex flex-wrap gap-2 mt-1">
+                    <span class="badge badge-light border p-2 cp mr-1 mb-1" onclick="window.copySocialIcon('<i class=\'fab fa-whatsapp\'></i>')"><i class="fab fa-whatsapp text-success mr-1"></i> Whatsapp</span>
+                    <span class="badge badge-light border p-2 cp mr-1 mb-1" onclick="window.copySocialIcon('<i class=\'fab fa-telegram\'></i>')"><i class="fab fa-telegram text-info mr-1"></i> Telegram</span>
+                    <span class="badge badge-light border p-2 cp mr-1 mb-1" onclick="window.copySocialIcon('<i class=\'fab fa-viber\'></i>')"><i class="fab fa-viber text-primary mr-1"></i> Viber</span>
+                    <span class="badge badge-light border p-2 cp mr-1 mb-1" onclick="window.copySocialIcon('<i class=\'far fa-comment\'></i>')"><i class="far fa-comment text-secondary mr-1"></i> Signal</span>
+                    <span class="badge badge-light border p-2 cp mr-1 mb-1" onclick="window.copySocialIcon('<i class=\'fab fa-instagram\'></i>')"><i class="fab fa-instagram text-danger mr-1"></i> Instagram</span>
+                  </div>
+                  <p class="mt-2 mb-0 font-weight-bold">उदाहरण:</p>
+                  <code style="font-size:11px;">&lt;i class="fab fa-whatsapp"&gt;&lt;/i&gt;https://wa.me/+1XXXXXXXXXX,<br>&lt;i class="fab fa-telegram"&gt;&lt;/i&gt;+1 XX-XX-XXXX-XX</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Update First Time Bonus (ref: updateBonusMDL) -->
+  <div class="admin-modal" id="updateBonusMDL" style="display:none;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-uppercase font-weight-bold" style="font-size:16px;">Update First Time Bonus</h5>
+          <button type="button" class="close text-white" onclick="window.closeModal('updateBonusMDL')">&times;</button>
+        </div>
+        <form id="updateBonusForm" onsubmit="window.handleUpdateBonusSubmit(event)">
+          <input type="hidden" id="updateBonusAgentId">
+          <div class="modal-body p-3">
+            <div class="form-group row align-items-center mb-3">
+              <label class="col-form-label col-5 font-weight-bold">First Time Bonus</label>
+              <div class="col-7">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="switchFirstBonus" onchange="window.toggleBonusAmountField(this.checked)">
+                  <label class="custom-control-label" for="switchFirstBonus"></label>
+                </div>
+              </div>
+            </div>
+            <div id="bonusFieldsContainer">
+              <div class="form-group row mb-3">
+                <label class="col-form-label col-5 font-weight-bold">Bonus Amount</label>
+                <div class="col-7">
+                  <input type="number" id="bonusAmountInput" class="form-control" placeholder="Enter Amount" min="1" value="500">
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-form-label col-5 font-weight-bold">Bonus Start Date</label>
+                <div class="col-7">
+                  <input type="datetime-local" id="bonusStartDateInput" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="form-group row mb-0">
+              <div class="col-12 text-right">
+                <button type="submit" class="btn btn-primary" style="background:#0088cc; border-color:#0088cc;">
+                  submit <i class="fas fa-sign-in-alt ml-1"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Legacy Aliases Support -->
   <div id="bankingModal" style="display:none;"></div>
   <div id="statusModal" style="display:none;"></div>
